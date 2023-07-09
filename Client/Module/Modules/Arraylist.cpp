@@ -110,7 +110,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		auto sideRect = Vec4(xOffset - 2, yOffset, xOffset - 1, yOffset + textPadding * 2 + textHeight);
 
 		if (alpha > 0) {
-			DrawUtils::fillRectangle(rectPos, ClientColors::arraylistBackgroundColor, alpha);
+			DrawUtils::fillRectangle(rectPos, MC_Color(0, 0, 0), alpha);
 			DrawUtils::fillRectangle(sideRect, arrayColor, 1.f);
 		}
 		if (!GameData::canUseMoveKeys() && rectPos.contains(&mousePos) && clickToggle) {

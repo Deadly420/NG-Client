@@ -12,12 +12,12 @@
 #include <thread>
 #include <unordered_map>
 
-#include "../Horion/Command/CommandMgr.h"
-#include "../Horion/Config/ConfigManager.h"
-#include "../Horion/DrawUtils.h"
-#include "../Horion/ImmediateGui.h"
-#include "../Horion/Menu/ClickGui.h"
-#include "../Horion/Module/ModuleManager.h"
+#include "../Client/Command/CommandMgr.h"
+#include "../Client/Config/ConfigManager.h"
+#include "../Client/DrawUtils.h"
+#include "../Client/ImmediateGui.h"
+#include "../Client/Menu/ClickGui.h"
+#include "../Client/Module/ModuleManager.h"
 #include "../SDK/BlockLegacy.h"
 #include "../SDK/Camera.h"
 #include "../SDK/ChestBlockActor.h"

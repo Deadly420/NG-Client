@@ -8,8 +8,8 @@
 #include <glm/mat4x4.hpp>         // mat4
 #include <glm/trigonometric.hpp>  // radians
 
-#include "../Horion/Loader.h"
-#include "../Horion/Menu/TabGui.h"
+#include "../Client/Loader.h"
+#include "../Client/Menu/TabGui.h"
 #include "../SDK/Tag.h"
 #include "../Utils/ClientColors.h"
 #include "../Utils/ColorUtil.h"
