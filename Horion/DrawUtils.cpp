@@ -750,6 +750,12 @@ void DrawUtils::fillRectangle(const Vec4& pos, const MC_Color& col, float alpha)
 	DrawUtils::setColor(col.r, col.g, col.b, alpha);
 	DrawUtils::drawQuad({pos.x, pos.w}, {pos.z, pos.w}, {pos.z, pos.y}, {pos.x, pos.y});
 }
+
+void DrawUtils::drawBoxBottom(const Vec4& pos, const MC_Color& col, float alpha, float thickness) {
+	DrawUtils::setColor(col.r, col.g, col.b, alpha);
+	DrawUtils::drawLine({pos.z, pos.y}, {pos.x, pos.y}, thickness);
+}
+
 inline void DrawUtils::tess__begin(Tessellator* tess, int vertexFormat, int numVerticesReserved) {
 	__int64 tessellator = reinterpret_cast<__int64>(tess);
 

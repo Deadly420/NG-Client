@@ -1,11 +1,9 @@
 #include "ClickGui.h"
 
 #include "../Module/Modules/ClickGuiMod.h"
-
+#include "../../Utils/Json.hpp"
 #include "../../Utils/Logger.h"
 #include <Windows.h>
-#include "../../Utils/Json.hpp"
-#include "../../Utils/ClientColors.h"
 
 bool resetStartPos = true;
 bool initialised = false;
@@ -28,23 +26,19 @@ unsigned int focusedElement = -1;
 bool isFocused = false;
 static constexpr float textPaddingX = 2.0f;
 static constexpr float textPaddingY = 1.0f;
-static constexpr float textSize = 0.9f;
-static constexpr float textHeight = textSize * 9.0f;
+
+static constexpr float textSize = 0.75f;
+static constexpr float textHeight = textSize * 10.0f;
 static constexpr float categoryMargin = 0.5f;
 static constexpr float paddingRight = 13.5f;
 static constexpr float crossSize = textHeight / 2.f;
-static constexpr float crossWidth = 0.25f;
-static constexpr float backgroundAlpha = 1;
+static constexpr float crossWidth = 0.3f;
+static constexpr float backgroundAlpha = 0.40f;
 
-static const MC_Color whiteColor = MC_Color(255,255,255);
-static const MC_Color moduleColor = MC_Color(18, 18, 18); // background
-static const MC_Color selectedModuleColor = moduleColor.lerp(whiteColor, 0.08f);  // 30, 110, 200
-static const MC_Color enabledModuleColor = moduleColor.lerp(whiteColor, 0.04f);  
-static const MC_Color brightModuleBlendColor = moduleColor.lerp(whiteColor, 0.2f); // tooltip border & category divider
-static const MC_Color selectedSettingColor1 = MC_Color(85, 85, 85);
-static const MC_Color selectedSettingColor2 = MC_Color(85, 85, 85);
-static const MC_Color SettingColor1 = MC_Color(12, 12, 12);
-static const MC_Color SettingColor2 = MC_Color(12, 12, 12);
+static const MC_Color whiteColor = MC_Color(255, 255, 255);
+static const MC_Color moduleColor = MC_Color(0, 0, 0); // background
+
+static const MC_Color enabledModuleColor = moduleColor.lerp(whiteColor, 0.04f);
 
 float currentYOffset = 0;
 float currentXOffset = 0;
@@ -114,9 +108,16 @@ void ClickGui::renderTooltip(std::string* text) {
 		currentTooltipPos.y - 2.f,
 		currentTooltipPos.x + (textPaddingX * 2) + textWidth + 2.f,
 		currentTooltipPos.y + textHeight + 2.f);
-	DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiTooltipFillColor, 1.0f);
-	DrawUtils::drawRectangle(rectPos, ClientColors::clickGuiTooltipOutlineColor, 1.f, 0.5f);
-	DrawUtils::drawText(textPos, text, whiteColor, textSize);
+
+	Vec4 rectPosbottom = Vec4(
+		currentTooltipPos.x - 2.f,
+		currentTooltipPos.y + 10.f,
+		currentTooltipPos.x + (textPaddingX * 2) + textWidth + 2.f,
+		currentTooltipPos.y + textHeight + 2.f);
+
+	DrawUtils::fillRectangle(rectPos, moduleColor, backgroundAlpha);		  // tooltips
+	DrawUtils::drawBoxBottom(rectPosbottom, MC_Color(184, 0, 255), 1, 0.5);  // tooltips
+	DrawUtils::drawText(textPos, text, MC_Color(0, 246, 255), textSize);    // tooltips
 }
 
 void ClickGui::renderCategory(Category category) {
@@ -126,29 +127,32 @@ void ClickGui::renderCategory(Category category) {
 
 	// Reset Windows to pre-set positions to avoid confusion
 	if (resetStartPos && ourWindow->pos.x <= 0) {
-		float yot = Game.getGuiData()->windowSize.x;
+		float windowSize = Game.getGuiData()->windowSize.x;
 		ourWindow->pos.y = 4;
+		float categoryPosition = windowSize / 7.f;
 		switch (category) {
 		case Category::COMBAT:
-			ourWindow->pos.x = 10.f;
+			ourWindow->pos.x = categoryPosition * 1;
 			break;
 		case Category::VISUAL:
-			ourWindow->pos.x = yot / 7.f;
+			ourWindow->pos.x = categoryPosition * 2;
 			break;
 		case Category::MOVEMENT:
-			ourWindow->pos.x = yot / 7.f * 2.f;
+			ourWindow->pos.x = categoryPosition * 3;
 			break;
 		case Category::PLAYER:
-			ourWindow->pos.x = yot / 7.f * 3.f;
+			ourWindow->pos.x = categoryPosition * 4;
 			break;
 		case Category::WORLD:
-			ourWindow->pos.x = yot / 7.f * 4.f;
+			ourWindow->pos.x = categoryPosition * 5;
 			break;
 		case Category::MISC:
-			ourWindow->pos.x = yot / 7.f * 5.f;
+			ourWindow->pos.x = categoryPosition * 6;
 			break;
 		case Category::CLIENT:
-			ourWindow->pos.x = yot / 7.f * 6.f;
+			ourWindow->pos.x = categoryPosition * 7;
+			break;
+		default:
 			break;
 		}
 	}
@@ -243,7 +247,7 @@ void ClickGui::renderCategory(Category category) {
 			// Background
 			if (allowRender) {
 				if (!ourWindow->isInAnimation && !isDragging && rectPos.contains(&mousePos)) {  // Is the Mouse hovering above us?
-					DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiHoveredModuleColor, backgroundAlpha);
+					DrawUtils::fillRectangle(rectPos, MC_Color(50, 50, 50), backgroundAlpha);
 					std::string tooltip = mod->getTooltip();
 					static auto clickGuiMod = moduleMgr->getModule<ClickGuiMod>();
 					if (clickGuiMod->showTooltips && !tooltip.empty())
@@ -253,14 +257,14 @@ void ClickGui::renderCategory(Category category) {
 						DrawUtils::shouldToggleLeftClick = false;
 					}
 				} else {
-					DrawUtils::fillRectangle(rectPos, mod->isEnabled() ? ClientColors::clickGuiEnabledModuleColor : ClientColors::clickGuiModuleColor, backgroundAlpha);
+					DrawUtils::fillRectangle(rectPos, mod->isEnabled() ? MC_Color(30, 30, 30) : MC_Color(18, 18, 18), backgroundAlpha);
 				
 				}
 			}
 
 			// Text
 			if (allowRender)
-				DrawUtils::drawText(textPos, &textStr, mod->isEnabled() ? whiteColor : MC_Color(200, 200, 200), textSize);
+				DrawUtils::drawText(textPos, &textStr, mod->isEnabled() ? MC_Color(0, 246, 255) : whiteColor, textSize);
 
 			// Settings
 			{
@@ -305,7 +309,7 @@ void ClickGui::renderCategory(Category category) {
 							case ValueType::BOOL_T: {
 								rectPos.w = currentYOffset + textHeight + (textPaddingY * 2);
 								// Background of bool setting
-								DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+								DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 								Vec4 selectableSurface = Vec4(
 									textPos.x + textPaddingX,
 									textPos.y + textPaddingY,
@@ -372,13 +376,13 @@ void ClickGui::renderCategory(Category category) {
 									// Background of enum setting
 									
 									if (rectPos.contains(&mousePos)) {
-										DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiHoveredModuleColor, backgroundAlpha);
+										DrawUtils::fillRectangle(rectPos, MC_Color(50, 50, 50), backgroundAlpha);
 										if (DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
 											DrawUtils::shouldToggleRightClick = false;
 											setting->minValue->_bool = !setting->minValue->_bool;
 										}
 									}else 
-										DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+										DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 									
 									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
 									GuiUtils::drawCrossLine(Vec2(
@@ -418,11 +422,11 @@ void ClickGui::renderCategory(Category category) {
 											rectPos.w);
 										MC_Color col;
 										if (setting->value->_int == e || (selectableSurface.contains(&mousePos) && !ourWindow->isInAnimation)) 
-											col = ClientColors::clickGuiHoveredModuleColor;
+											col = MC_Color(50, 50, 50);
 										else
-											col = ClientColors::clickGuiModuleColor;
+											col = MC_Color(18, 18, 18);
 										// Background of individual enum
-										DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+										DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 										DrawUtils::fillRectangle(selectableSurface, col, backgroundAlpha);
 										DrawUtils::drawText(textPos, &elTexto, whiteColor);
 										// logic
@@ -450,7 +454,7 @@ void ClickGui::renderCategory(Category category) {
 									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
 									currentYOffset += textPaddingY + textHeight;
 									rectPos.w = currentYOffset;
-									DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+									DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 								}
 
 								if ((currentYOffset - ourWindow->pos.y) > cutoffHeight) {
@@ -472,7 +476,7 @@ void ClickGui::renderCategory(Category category) {
 										// Background
 										const bool areWeFocused = rect.contains(&mousePos);
 										
-										DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);  // Background
+										DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);  // Background
 										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);  // Slider background
 
 										const float minValue = setting->minValue->_float;
@@ -501,7 +505,7 @@ void ClickGui::renderCategory(Category category) {
 										// Draw Progress
 										{
 											rect.z = rect.x + value;
-											DrawUtils::fillRectangle(rect, ClientColors::clickGuiHoveredModuleColor, (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
+											DrawUtils::fillRectangle(rect, MC_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
 										}
 
 										// Drag Logic
@@ -532,7 +536,6 @@ void ClickGui::renderCategory(Category category) {
 							} break;
 							case ValueType::INT_T: {
 
-								
 								// Text and background
 								{
 									// Convert first letter to uppercase for more friendlieness
@@ -546,7 +549,7 @@ void ClickGui::renderCategory(Category category) {
 									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
 									currentYOffset += textPaddingY + textHeight;
 									rectPos.w = currentYOffset;
-									DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+									DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 								}
 								if ((currentYOffset - ourWindow->pos.y) > (Game.getGuiData()->heightGame * 0.75)) {
 									overflowing = true;
@@ -566,7 +569,7 @@ void ClickGui::renderCategory(Category category) {
 										rectPos.w += textHeight + (textPaddingY * 2);
 										// Background
 										const bool areWeFocused = rect.contains(&mousePos);
-										DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleColor, backgroundAlpha);
+										DrawUtils::fillRectangle(rectPos, MC_Color(18, 18, 18), backgroundAlpha);
 										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);  // Slider background
 
 										const float minValue = (float)setting->minValue->_int;
@@ -578,24 +581,10 @@ void ClickGui::renderCategory(Category category) {
 										const float endXlol = (xEnd - textPaddingX) - (currentXOffset + textPaddingX + 5);
 										value *= endXlol;  // Value is now pixel diff between start of bar and end of progress
 
-										// Draw Int
-										{
-											Vec2 mid = Vec2(
-												rect.x + ((rect.z - rect.x) / 2),
-												rect.y - 0.2f  // Hardcoded ghetto
-											);
-											char str[10];
-											sprintf_s(str, 10, "%i", setting->value->_int);
-											std::string text = str;
-											mid.x -= DrawUtils::getTextWidth(&text, textSize) / 2;
-
-											DrawUtils::drawText(mid, &text, whiteColor, textSize);
-										}
-
 										// Draw Progress
 										{
 											rect.z = rect.x + value;
-											DrawUtils::fillRectangle(rect, ClientColors::clickGuiHoveredModuleColor, (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
+											DrawUtils::fillRectangle(rect, MC_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
 										}
 
 										// Drag Logic
@@ -720,8 +709,8 @@ void ClickGui::renderCategory(Category category) {
 			// Draw Text
 			std::string textStr = categoryName;
 			DrawUtils::drawText(textPos, &textStr, whiteColor, textSize);
-			DrawUtils::fillRectangle(rectPos, ClientColors::clickGuiModuleTabsBackgroundColor, 1.f);
-			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), ClientColors::clickGuiModuleTabsOutlineColor, 1 - ourWindow->animation);
+			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
+			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), MC_Color(184, 0, 255), 1 - ourWindow->animation);
 			
 			// Draw Dash
 			GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !ourWindow->isExtended);

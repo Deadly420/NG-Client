@@ -108,6 +108,7 @@ public:
 	static void drawCircle(Vec2 pos, Vec2 radius, MC_Color color, double quality);
 	static void drawCircleFilled(Vec2 pos, Vec2 radius, MC_Color color, double quality);
 	static void fillRectangle(const Vec4& pos, const MC_Color& col, float alpha);
+	static void drawBoxBottom(const Vec4& pos, const MC_Color& col, float alpha, float thickness);
 	static inline void fillRectangle(const Vec2& start, const Vec2& end) {
 		DrawUtils::drawQuad({start.x, end.y}, {end.x, end.y}, {end.x, start.y}, {start.x, start.y});
 	}

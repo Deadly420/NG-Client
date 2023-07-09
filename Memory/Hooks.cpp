@@ -873,22 +873,24 @@ int Hooks::BlockLegacy_getRenderLayer(BlockLegacy* a1) {
 	static auto xrayMod = moduleMgr->getModule<Xray>();
 	if (xrayMod->isEnabled()) {
 		char* text = a1->name.getText();
-		if (strstr(text, "ore") == NULL)
-			if (strcmp(text, "lava") != NULL)
-				if (strcmp(text, "water") != NULL)
-					if (strcmp(text, "portal") != NULL)
-						if (strcmp(text, "amethyst_block") != NULL)
-							if (strcmp(text, "ancient_debris") != NULL)
-								if (strcmp(text, "command_block") != NULL)
-									if (strcmp(text, "repeating_command_block") != NULL)
-										if (strcmp(text, "chain_command_block") != NULL)
-											if (strcmp(text, "structure_block") != NULL)
-												if (strcmp(text, "deny") != NULL)
-													if (strcmp(text, "allow") != NULL)
-														if (strcmp(text, "bedrock") != NULL)
-															if (strcmp(text, "border_block") != NULL)
-																return 10;
+		if (strstr(text, "ore") == NULL &&
+			strcmp(text, "lava") != NULL &&
+			strcmp(text, "water") != NULL &&
+			strcmp(text, "portal") != NULL &&
+			strcmp(text, "amethyst_block") != NULL &&
+			strcmp(text, "ancient_debris") != NULL &&
+			strcmp(text, "command_block") != NULL &&
+			strcmp(text, "repeating_command_block") != NULL &&
+			strcmp(text, "chain_command_block") != NULL &&
+			strcmp(text, "structure_block") != NULL &&
+			strcmp(text, "deny") != NULL &&
+			strcmp(text, "allow") != NULL &&
+			strcmp(text, "bedrock") != NULL &&
+			strcmp(text, "border_block") != NULL) {
+			return 10;
+		}
 	}
+
 	return oFunc(a1);
 }
 
