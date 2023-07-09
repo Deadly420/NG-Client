@@ -430,65 +430,37 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 		{
 			// Main Menu
 			std::string screenName(g_Hooks.currentScreenName);
-			if (strcmp(screenName.c_str(), "start_screen") == 0) {
-				// Draw BIG epic horion watermark
-				{
-					std::string text = "H O R I O N";
-					Vec2 textPos = Vec2(wid.x / 2.f - DrawUtils::getTextWidth(&text, 8.f) / 2.f, wid.y / 9.5f);
-					Vec4 rectPos = Vec4(textPos.x - 55.f, textPos.y - 15.f, textPos.x + DrawUtils::getTextWidth(&text, 8.f) + 55.f, textPos.y + 75.f);
-					DrawUtils::fillRectangle(rectPos, ClientColors::menuBackgroundColor, 1.f);
-					DrawUtils::drawRectangle(rectPos, color, 1.f, 2.f);
-					DrawUtils::drawText(textPos, &text, MC_Color(255, 255, 255, 1), 8.f);
-				}
-			} else {
-				shouldRenderTabGui = hudModule->tabgui && hudModule->isEnabled();
-				shouldRenderArrayList = hudModule->arraylist && hudModule->isEnabled();
-				shouldRenderWatermark = hudModule->watermark && hudModule->isEnabled();
+			Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
-				if (clickGuiModule->isEnabled()) {
-					ClickGui::render();
-					shouldPostRender = false;
-					shouldRenderArrayList = false;
-					shouldRenderTabGui = false;
-					shouldRenderWatermark = false;
-				}
+			if (screenName == "start_screen") {
+				Vec2 text(1.0f, 5.0f);
+				Vec2 outline(1.0f, 5.5f);
 
-				if (shouldRenderTabGui) TabGui::render();
+				MC_Color white(255, 255, 255);
+				std::string string;
 
-				{
-					Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+				string = "NG Client";
+				DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
 
-					// Draw Horion logo
-					if (shouldRenderWatermark) {
-						constexpr float nameTextSize = 1.5f;
-						constexpr float versionTextSize = 0.7f;
-						static const float textHeight = (nameTextSize + versionTextSize * 0.7f /* We don't quite want the version string in its own line, just a bit below the name */) * DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight();
-						constexpr float borderPadding = 1;
-						constexpr float margin = 5;
-
-						static std::string name = "Horion";
-#ifdef _DEBUG
-						static std::string version = "dev";
-#elif defined _BETA
-						static std::string version = "beta";
-#else
-						static std::string version = "public";
-#endif
-
-						float nameLength = DrawUtils::getTextWidth(&name, nameTextSize);
-						float fullTextLength = nameLength + DrawUtils::getTextWidth(&version, versionTextSize);
-						Vec4 rect = Vec4(
-							windowSize.x - margin - fullTextLength - borderPadding * 2,
-							windowSize.y - margin - textHeight,
-							windowSize.x - margin + borderPadding,
-							windowSize.y - margin);
-
-						DrawUtils::drawRectangle(rect, MC_Color(color), 1.f, 2.f);
-						DrawUtils::fillRectangle(rect, ClientColors::watermarkBackgroundColor, 1.f);
-						DrawUtils::drawText(Vec2(rect.x + borderPadding, rect.y), &name, MC_Color(color), nameTextSize);
-						DrawUtils::drawText(Vec2(rect.x + borderPadding + nameLength, rect.w - 7), &version, MC_Color(color), versionTextSize);
-					}
-				}
+				text.y += 18.0f;
+				string = "Version: 1.18.31.4";
+				DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
+				text.y += 15.0f;
+				string =
+					// Changelogs
+					"Changelogs: \n"
+					"[+] New ClickGui \n"
+					"[*] Clean Up  \n\n"
+					// Credits
+					"Credits: \n"
+					"DeadtrosGaming \n"
+					"Sentinel \n"
+					"Founder \n";
+					"Intop \n"
+					"2474 \n"
+					"NRG \n"
+					"deq \n";
+				DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 			}
 		}
 
