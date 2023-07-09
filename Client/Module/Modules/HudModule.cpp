@@ -59,14 +59,13 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	float f = 10.f * scale;
 	std::string tempStr("Movement");
 	float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
-	float startY = tabgui ? 7 * f : 0.f;
+	float startY = 0.f;
 	
 	{  // FPS
 		if (!(Game.getLocalPlayer() == nullptr || !fps)) {
 			std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 15.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
-			DrawUtils::fillRectangle(rectPos, ClientColors::fpsBackgroundColor, 1.f);
 			DrawUtils::drawText(textPos, &fpsText, MC_Color(200, 200, 200), scale);
 
 			startY += f;
@@ -78,7 +77,6 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 15.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
-			DrawUtils::fillRectangle(rectPos, ClientColors::cpsBackgroundColor, 1.f);
 			DrawUtils::drawText(textPos, &cpsText, MC_Color(200, 200, 200), scale);
 
 			startY += f;
@@ -93,7 +91,6 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 35.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
 			
-			DrawUtils::fillRectangle(rectPos, ClientColors::coordinatesBackgroundColor, 1.f);
 			DrawUtils::drawText(textPos, &coords, MC_Color(200, 200, 200), scale);
 		}
 	}

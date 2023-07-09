@@ -430,37 +430,52 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 		{
 			// Main Menu
 			std::string screenName(g_Hooks.currentScreenName);
-			Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+			if (strcmp(screenName.c_str(), "start_screen") == 0) {
+				// Main Menu
+				std::string screenName(g_Hooks.currentScreenName);
+				Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
-			if (screenName == "start_screen") {
-				Vec2 text(1.0f, 5.0f);
-				Vec2 outline(1.0f, 5.5f);
+				if (screenName == "start_screen") {
+					Vec2 text(1.0f, 5.0f);
+					Vec2 outline(1.0f, 5.5f);
 
-				MC_Color white(255, 255, 255);
-				std::string string;
+					MC_Color white(255, 255, 255);
+					std::string string;
 
-				string = "NG Client";
-				DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
+					string = "NG Client";
+					DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
 
-				text.y += 18.0f;
-				string = "Version: 1.18.31.4";
-				DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
-				text.y += 15.0f;
-				string =
-					// Changelogs
-					"Changelogs: \n"
-					"[+] New ClickGui \n"
-					"[*] Clean Up  \n\n"
-					// Credits
-					"Credits: \n"
-					"DeadtrosGaming \n"
-					"Sentinel \n"
-					"Founder \n";
-					"Intop \n"
-					"2474 \n"
-					"NRG \n"
-					"deq \n";
-				DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
+					text.y += 18.0f;
+					string = "Version: 1.18.31.4";
+					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
+					text.y += 15.0f;
+					string =
+						// Changelogs
+						"Changelogs: \n"
+						"[+] New ClickGui \n"
+						"[*] Clean Up  \n\n"
+						// Credits
+						"Credits: \n"
+						"DeadtrosGaming \n"
+						"Sentinel \n"
+						"Founder \n"
+						"Intop \n"
+						"2474 \n"
+						"NRG \n"
+						"deq \n";
+					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
+				}
+			} else {
+				shouldRenderArrayList = hudModule->arraylist && hudModule->isEnabled();
+				shouldRenderWatermark = hudModule->watermark && hudModule->isEnabled();
+
+				if (clickGuiModule->isEnabled()) {
+					ClickGui::render();
+					shouldPostRender = false;
+					shouldRenderArrayList = false;
+					shouldRenderTabGui = false;
+					shouldRenderWatermark = false;
+				}
 			}
 		}
 
