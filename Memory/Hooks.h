@@ -14,7 +14,7 @@
 
 #include "../Client/Command/CommandMgr.h"
 #include "../Client/Config/ConfigManager.h"
-#include "../Client/DrawUtils.h"
+#include "../Utils/DrawUtils.h"
 #include "../Client/ImmediateGui.h"
 #include "../Client/Menu/ClickGui.h"
 #include "../Client/Module/ModuleManager.h"

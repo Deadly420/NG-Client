@@ -1,7 +1,7 @@
 #include "Scaffold.h"
 
 #include "../../../Utils/Logger.h"
-#include "../../DrawUtils.h"
+#include "../../../Utils/DrawUtils.h"
 #include "../../Module/ModuleManager.h"
 
 Scaffold::Scaffold() : IModule(VK_NUMPAD1, Category::WORLD, "Automatically build blocks beneath you") {

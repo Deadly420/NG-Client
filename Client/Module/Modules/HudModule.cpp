@@ -1,6 +1,7 @@
 #include "HudModule.h"
-#include "../../DrawUtils.h"
 #include "../ModuleManager.h"
+
+#include "../../../Utils/DrawUtils.h"
 #include "../../../Utils/ClientColors.h"
 
 HudModule::HudModule() : IModule(0, Category::CLIENT, "Displays things like the ArrayList/TabGUI.") {

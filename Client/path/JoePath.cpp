@@ -1,5 +1,5 @@
 #include "JoePath.h"
-#include "../DrawUtils.h"
+#include "../../Utils/DrawUtils.h"
 #include "../../Utils/Logger.h"
 JoePath::JoePath(const std::vector<JoeSegment>& segments, bool isIncomplete) : segments(segments), isIncomplete(isIncomplete) {
 

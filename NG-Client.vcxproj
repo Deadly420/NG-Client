@@ -204,7 +204,7 @@
     <ClCompile Include="Client\Command\Commands\WaypointCommand.cpp" />
     <ClCompile Include="Client\Command\Commands\XpCommand.cpp" />
     <ClCompile Include="Client\Config\ConfigManager.cpp" />
-    <ClCompile Include="Client\DrawUtils.cpp" />
+    <ClCompile Include="Utils\DrawUtils.cpp" />
     <ClCompile Include="Client\FriendList\FriendsManager.cpp" />
     <ClCompile Include="Client\GuiUtils.cpp" />
     <ClCompile Include="Client\ImmediateGui.cpp" />
@@ -373,7 +373,7 @@
     <ClInclude Include="Client\Command\Commands\WaypointCommand.h" />
     <ClInclude Include="Client\Command\Commands\XpCommand.h" />
     <ClInclude Include="Client\Config\ConfigManager.h" />
-    <ClInclude Include="Client\DrawUtils.h" />
+    <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />
     <ClInclude Include="Client\GuiUtils.h" />
     <ClInclude Include="Client\ImmediateGui.h" />

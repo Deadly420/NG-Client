@@ -1,6 +1,6 @@
 ﻿#include "DrawUtils.h"
 
-#include "Module/ModuleManager.h"
+#include "../Client/Module/ModuleManager.h"
 #include <Windows.h>
 #include "../Utils/Logger.h"
 #include "../Utils/ClientColors.h"
