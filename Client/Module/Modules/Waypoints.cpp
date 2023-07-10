@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-Waypoints::Waypoints() : IModule(0, Category::VISUAL, "Shows holograms for user-defined coordinates.") {
+Waypoints::Waypoints() : Module(0, Category::VISUAL, "Shows holograms for user-defined coordinates.") {
 	registerFloatSetting("Size", &size, size, 0.3f, 1.6f);
 	registerBoolSetting("Interdimensional", &interdimensional, interdimensional);
 	registerBoolSetting("Show Coordinates", &showCoordinates, showCoordinates);
@@ -110,7 +110,7 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			if (showCoordinates) 
 				rectPos.w += textHeight * 0.75f + 1.f * size;
 
-			MC_Color color(0, 0, 0);
+			Mc_Color color(0, 0, 0);
 			if (currentDimension == 0 && wpDimension == 1) 
 				color.r = 0.2f;
 			
@@ -118,11 +118,11 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 				color.b = 0.2f;
 
 			DrawUtils::fillRectangle(rectPos, color, alpha * 0.5f);
-			DrawUtils::drawText(textPos, &txt, MC_Color(255, 255, 255), size, alpha);
+			DrawUtils::drawText(textPos, &txt, Mc_Color(255, 255, 255), size, alpha);
 			if (showCoordinates) {
 				textPos.y += textHeight + 1.f * size;
 				
-				DrawUtils::drawText(textPos, &coordText, MC_Color(255, 255, 255), size * 0.75f, alpha);
+				DrawUtils::drawText(textPos, &coordText, Mc_Color(255, 255, 255), size * 0.75f, alpha);
 			}
 		}
 		DrawUtils::flush();
@@ -132,7 +132,7 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 using json = nlohmann::json;
 void Waypoints::onLoadConfig(void* confVoid) {
-	IModule::onLoadConfig(confVoid);  // retain keybinds & enabled state
+	Module::onLoadConfig(confVoid);  // retain keybinds & enabled state
 	waypoints->clear();
 	json* conf = reinterpret_cast<json*>(confVoid);
 	std::string modName = getRawModuleName();
@@ -176,7 +176,7 @@ void Waypoints::onLoadConfig(void* confVoid) {
 }
 
 void Waypoints::onSaveConfig(void* confVoid) {
-	IModule::onSaveConfig(confVoid);  // retain keybinds & enabled state
+	Module::onSaveConfig(confVoid);  // retain keybinds & enabled state
 	json* conf = reinterpret_cast<json*>(confVoid);
 
 	std::string modName = getRawModuleName();

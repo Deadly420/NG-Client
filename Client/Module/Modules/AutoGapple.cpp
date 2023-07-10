@@ -1,6 +1,6 @@
 #include "AutoGapple.h"
 
-AutoGapple::AutoGapple() : IModule(0, Category::MOVEMENT, "Auto eat gapples if you're at low health.") {
+AutoGapple::AutoGapple() : Module(0, Category::MOVEMENT, "Auto eat gapples if you're at low health.") {
 	registerIntSetting("Health", &health, 10, 1, 20);
 }
 

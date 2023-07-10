@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Nbt : public IModule {
+class Nbt : public Module {
 private:
 	std::string lastCopy;
 

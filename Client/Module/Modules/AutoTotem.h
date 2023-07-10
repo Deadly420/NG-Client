@@ -2,12 +2,12 @@
 
 #include "Module.h"
 
-class AutoTotem : public IModule {
+class AutoTotem : public Module {
 public:
 	AutoTotem();
 	~AutoTotem();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

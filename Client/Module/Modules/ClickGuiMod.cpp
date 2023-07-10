@@ -1,7 +1,7 @@
 #include "ClickGuiMod.h"
 #include "../../Menu/ClickGui.h"
 
-ClickGuiMod::ClickGuiMod() : IModule(VK_INSERT, Category::CLIENT, "The clickgui - toggle everything just by clicking on it!") {
+ClickGuiMod::ClickGuiMod() : Module(VK_INSERT, Category::CLIENT, "The clickgui - toggle everything just by clicking on it!") {
 	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
 }
 
@@ -29,10 +29,10 @@ void ClickGuiMod::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		Game.getClientInstance()->releaseMouse();
 }
 void ClickGuiMod::onLoadConfig(void* conf) {
-	IModule::onLoadConfig(conf);
+	Module::onLoadConfig(conf);
 	ClickGui::onLoadConfig(conf);
 }
 void ClickGuiMod::onSaveConfig(void* conf) {
-	IModule::onSaveConfig(conf);
+	Module::onSaveConfig(conf);
 	ClickGui::onSaveConfig(conf);
 }

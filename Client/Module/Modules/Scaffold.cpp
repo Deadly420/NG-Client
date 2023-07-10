@@ -4,7 +4,7 @@
 #include "../../../Utils/DrawUtils.h"
 #include "../../Module/ModuleManager.h"
 
-Scaffold::Scaffold() : IModule(VK_NUMPAD1, Category::WORLD, "Automatically build blocks beneath you") {
+Scaffold::Scaffold() : Module(VK_NUMPAD1, Category::WORLD, "Automatically build blocks beneath you") {
 	registerBoolSetting("AutoSelect", &autoSelect, autoSelect);
 	registerBoolSetting("Down", &down, down);
 	registerBoolSetting("Highlight", &highlight, highlight);

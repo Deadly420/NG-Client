@@ -1,6 +1,6 @@
 #include "NoFall.h"
 
-NoFall::NoFall() : IModule(VK_NUMPAD3, Category::PLAYER, "Prevents you from taking falldamage") {
+NoFall::NoFall() : Module(VK_NUMPAD3, Category::PLAYER, "Prevents you from taking falldamage") {
 	mode.addEntry(EnumEntry("Vanilla", 0))
 		.addEntry(EnumEntry("Mineplex", 1))
 		.addEntry(EnumEntry("CubeCraft", 2))

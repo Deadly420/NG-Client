@@ -3,10 +3,10 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class FastStop : public IModule {
+class FastStop : public Module {
 public:
 
-	FastStop() : IModule(0x0, Category::MOVEMENT, "Stop. but fast!") {};
+	FastStop() : Module(0x0, Category::MOVEMENT, "Stop. but fast!") {};
 	~FastStop(){};
 
 	virtual const char* getModuleName() override { return "FastStop"; }

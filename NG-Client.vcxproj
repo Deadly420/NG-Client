@@ -210,7 +210,6 @@
     <ClCompile Include="Client\ImmediateGui.cpp" />
     <ClCompile Include="Client\Loader.cpp" />
     <ClCompile Include="Client\Menu\ClickGui.cpp" />
-    <ClCompile Include="Client\Menu\TabGui.cpp" />
     <ClCompile Include="Client\Module\ModuleManager.cpp" />
     <ClCompile Include="Client\Module\Modules\Aimbot.cpp" />
     <ClCompile Include="Client\Module\Modules\AirJump.cpp" />
@@ -234,7 +233,6 @@
     <ClCompile Include="Client\Module\Modules\StorageESP.cpp" />
     <ClCompile Include="Client\Module\Modules\ChestStealer.cpp" />
     <ClCompile Include="Client\Module\Modules\ClickGuiMod.cpp" />
-    <ClCompile Include="Client\Module\Modules\ClientTheme.cpp" />
     <ClCompile Include="Client\Module\Modules\Compass.cpp" />
     <ClCompile Include="Client\Module\Modules\Crasher.cpp" />
     <!--    <ClCompile Include="Horion\Module\Modules\Criticals.cpp" /> -->
@@ -327,7 +325,6 @@
     <ClCompile Include="SDK\MatrixStack.cpp" />
     <ClCompile Include="SDK\Tag.cpp" />
     <ClCompile Include="SDK\Tessellator.cpp" />
-    <ClCompile Include="Utils\ClientColors.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
     <ClCompile Include="Utils\SkinUtil.cpp" />
     <ClCompile Include="Utils\Target.cpp" />
@@ -379,7 +376,6 @@
     <ClInclude Include="Client\ImmediateGui.h" />
     <ClInclude Include="Client\Loader.h" />
     <ClInclude Include="Client\Menu\ClickGui.h" />
-    <ClInclude Include="Client\Menu\TabGui.h" />
     <ClInclude Include="Client\Module\ModuleManager.h" />
     <ClInclude Include="Client\Module\Modules\Aimbot.h" />
     <ClInclude Include="Client\Module\Modules\AirJump.h" />
@@ -401,7 +397,6 @@
     <ClInclude Include="Horion\Module\Modules\ChestESP.h" />
     <ClInclude Include="Client\Module\Modules\ChestStealer.h" />
     <ClInclude Include="Client\Module\Modules\ClickGuiMod.h" />
-    <ClInclude Include="Client\Module\Modules\ClientTheme.h" />
     <ClInclude Include="Client\Module\Modules\Compass.h" />
     <ClInclude Include="Client\Module\Modules\Crasher.h" />
     <ClInclude Include="Client\Module\Modules\Criticals.h" />
@@ -534,7 +529,6 @@
     <ClInclude Include="SDK\TextHolder.h" />
     <ClInclude Include="SDK\Weather.h" />
     <ClInclude Include="Utils\ChakraHelper.h" />
-    <ClInclude Include="Utils\ClientColors.h" />
     <ClInclude Include="Utils\ColorUtil.h" />
     <ClInclude Include="Utils\DllHelper.h" />
     <ClInclude Include="Utils\HMath.h" />

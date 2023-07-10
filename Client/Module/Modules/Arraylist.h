@@ -1,23 +1,23 @@
 #pragma once
-
-#include "..\ModuleManager.h"
 #include "Module.h"
 
-class Arraylist : public IModule {
-
+class Arraylist : public Module {
 public:
-	bool clickToggle = true;
-	float cycleSpeed = 2.f;
-	float saturation = 0.5f;
-	float alpha = 1.f;
+	SettingEnum mode = SettingEnum(this);
+	SettingEnum Mode = SettingEnum(this);
+	SettingEnum animation = SettingEnum(this);
 
-	// I will make do this another time
-	SettingEnum style = SettingEnum(this);
+	int X = static_cast<int>(Game.getClientInstance()->getGuiData()->windowSize.x);
+	int Y = 1;
+	float opacity = 0.6f;
+	bool bottom = false;
+	bool keybinds = false;
+	bool modes = true;
 
 	Arraylist();
 	~Arraylist();
 
-	// Inherited via IModule
-	virtual const char* getModuleName();
-	virtual void onPostRender(MinecraftUIRenderContext* renderCtx);
+	// Inherited via Module
+	virtual const char* getModuleName() override;
+	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 };

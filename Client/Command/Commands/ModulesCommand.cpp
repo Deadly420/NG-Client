@@ -12,7 +12,7 @@ ModulesCommand::~ModulesCommand() {
 
 bool ModulesCommand::execute(std::vector<std::string>* args) {
 	auto lock = moduleMgr->lockModuleList();
-	std::vector<std::shared_ptr<IModule>>* modules = moduleMgr->getModuleList();
+	std::vector<std::shared_ptr<Module>>* modules = moduleMgr->getModuleList();
 	clientMessageF("==========");
 	clientMessageF("Modules (%i):", modules->size());
 	for (auto it = modules->begin(); it != modules->end(); ++it) {

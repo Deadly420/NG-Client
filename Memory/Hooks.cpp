@@ -9,9 +9,7 @@
 #include <glm/trigonometric.hpp>  // radians
 
 #include "../Client/Loader.h"
-#include "../Client/Menu/TabGui.h"
 #include "../SDK/Tag.h"
-#include "../Utils/ClientColors.h"
 #include "../Utils/ColorUtil.h"
 
 Hooks g_Hooks;
@@ -362,7 +360,6 @@ void Hooks::KeyMapHookCallback(unsigned char key, bool isDown) {
 
 	moduleMgr->onKey((int)key, isDown, shouldCancel);
 	moduleMgr->onKeyUpdate((int)key, (isDown && GameData::canUseMoveKeys()));
-	TabGui::onKeyUpdate((int)key, isDown);
 	ClickGui::onKeyUpdate((int)key, isDown);
 
 	if (shouldCancel) return;
@@ -406,7 +403,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 		static auto hudModule = moduleMgr->getModule<HudModule>();
 		static auto clickGuiModule = moduleMgr->getModule<ClickGuiMod>();
-		static auto clientThemeModule = moduleMgr->getModule<ClientTheme>();
 
 		HorionGui.startFrame();
 
@@ -416,7 +412,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 		// Call PreRender() functions
 		moduleMgr->onPreRender(renderCtx);
-		clientThemeModule->onRender(renderCtx);
 		DrawUtils::flush();
 
 		__int64 retval = oText(a1, renderCtx);
@@ -425,7 +420,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 		bool shouldRenderArrayList = true;
 		bool shouldRenderTabGui = true;
 		bool shouldRenderWatermark = true;
-		MC_Color color = ColorUtil::getRainbowColor(3, 0.5f, 1, 1);
+		Mc_Color color = ColorUtil::getRainbowColor(3, 0.5f, 1, 1);
 
 		{
 			// Main Menu
@@ -439,7 +434,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					Vec2 text(1.0f, 5.0f);
 					Vec2 outline(1.0f, 5.5f);
 
-					MC_Color white(255, 255, 255);
+					Mc_Color white(255, 255, 255);
 					std::string string;
 
 					string = "NG Client";
@@ -523,10 +518,10 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					bottomRight.y - paddingVert,
 					bottomRight.x + paddingHoriz + std::max(titleWidth, msgWidth) / 2,
 					bottomRight.y + paddingVert * 2 + titleTextHeight + messageHeight * lines);
-				DrawUtils::fillRectangle(rectPos, MC_Color(12, 12, 12), box->fadeVal);
+				DrawUtils::fillRectangle(rectPos, Mc_Color(12, 12, 12), box->fadeVal);
 				DrawUtils::drawRectangle(rectPos, color, box->fadeVal, 2.f);
-				DrawUtils::drawText(textPos, &box->title, MC_Color(), titleTextSize, box->fadeVal);
-				DrawUtils::drawText(msgPos, &box->message, MC_Color(), messageTextSize, box->fadeVal);
+				DrawUtils::drawText(textPos, &box->title, Mc_Color(), titleTextSize, box->fadeVal);
+				DrawUtils::drawText(msgPos, &box->message, Mc_Color(), messageTextSize, box->fadeVal);
 
 				// Animate the box's upward movement when it opens
 				if (box->isOpen) {
@@ -543,7 +538,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, float a4) {
 	static auto oGetFogColor = g_Hooks.Dimension_getFogColorHook->GetFastcall<float*, Dimension*, float*, __int64, float>();
-	MC_Color rColor = ColorUtil::getRainbowColor(3, 0.5f, 1, 1);
+	Mc_Color rColor = ColorUtil::getRainbowColor(3, 0.5f, 1, 1);
 	static auto nightMod = moduleMgr->getModule<NightMode>();
 	if (nightMod->isEnabled()) {
 		color[0] = 0.f;

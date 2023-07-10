@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "../../../SDK/Camera.h"
 
-class Freecam : public IModule {
+class Freecam : public Module {
 public:
 	float speed = 0.325f;
 	float yaw = 0;
@@ -14,7 +14,7 @@ public:
 	Freecam();
 	~Freecam();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPreRender(MinecraftUIRenderContext* rcx) override;
 	virtual void onEnable() override;

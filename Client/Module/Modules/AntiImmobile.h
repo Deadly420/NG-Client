@@ -2,11 +2,11 @@
 
 #include "Module.h"
 
-class AntiImmobile : public IModule {
+class AntiImmobile : public Module {
 public:
 	AntiImmobile();
 	~AntiImmobile();
 
-	// Inherited via IModule
+	// Inherited via Module
 	const char* getModuleName() override;
 };

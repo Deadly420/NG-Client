@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Xray : public IModule {
+class Xray : public Module {
 public:
 	bool* smoothLightningSetting = nullptr;
 	bool gotSmoothInfo = false;
@@ -11,7 +11,7 @@ public:
 	Xray();
 	~Xray();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 	virtual void onDisable() override;

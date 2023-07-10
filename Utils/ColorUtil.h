@@ -13,11 +13,11 @@ private:
 	}
 
 public:
-	inline static MC_Color getRainbowColor(float seconds, float saturation, float brightness, long index) {
+	inline static Mc_Color getRainbowColor(float seconds, float saturation, float brightness, long index) {
 		float currentHue = (((getCurrentMs() + index) % (int)(seconds * 1000)) / (float)(seconds * 1000));
 		float red, green, blue = 0.0f;
 		Utils::ColorConvertHSVtoRGB(currentHue, saturation, brightness, red, green, blue);
 
-		return MC_Color(red, green, blue);
+		return Mc_Color(red, green, blue);
 	}
 };

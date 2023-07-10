@@ -1,6 +1,6 @@
 #include "Speed.h"
 
-Speed::Speed() : IModule(VK_NUMPAD2, Category::MOVEMENT, "Speed up!") {
+Speed::Speed() : Module(VK_NUMPAD2, Category::MOVEMENT, "Speed up!") {
 	registerFloatSetting("Speed", &speed, 1, 0.01f, 3.f);
 }
 

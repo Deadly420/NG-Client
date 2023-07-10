@@ -2,12 +2,12 @@
 
 #include "Module.h"
 
-class NoWeb : public IModule {
+class NoWeb : public Module {
 public:
 	NoWeb();
 	~NoWeb();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

@@ -1,12 +1,12 @@
 #pragma once
 #include "Module.h"
 
-class FontChanger : public IModule {
+class FontChanger : public Module {
 public:
 	SettingEnum Fonts = SettingEnum(this);
 	FontChanger();
 	~FontChanger();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

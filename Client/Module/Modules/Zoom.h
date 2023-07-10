@@ -3,11 +3,11 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class Zoom : public IModule {
+class Zoom : public Module {
 public:
 	float strength = 0.5f;
 
-	Zoom() : IModule(0x0, Category::VISUAL, "Zoom in or out!") {
+	Zoom() : Module(0x0, Category::VISUAL, "Zoom in or out!") {
 		registerFloatSetting("Strength", &strength, strength, 0.f, 1.f);
 	};
 	~Zoom(){};

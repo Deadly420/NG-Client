@@ -3,7 +3,7 @@
 #include "..\ModuleManager.h"
 #include "Module.h"
 
-class Bhop : public IModule {
+class Bhop : public Module {
 private:
 	float speed = 0.325f;
 	bool hive = false;
@@ -13,7 +13,7 @@ public:
 	Bhop();
 	~Bhop();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onMove(MoveInputHandler* input) override;
 	virtual void onEnable() {

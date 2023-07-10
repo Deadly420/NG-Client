@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class AntiBot : public IModule {
+class AntiBot : public Module {
 private:
 	bool hitboxCheck = true;
 	bool nameCheck = false;
@@ -34,6 +34,6 @@ public:
 		return extraCheck && isEnabled();
 	}
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

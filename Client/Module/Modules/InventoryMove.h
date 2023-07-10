@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class InventoryMove : public IModule {
+class InventoryMove : public Module {
 private:
 	bool keyPressed = false;
 
@@ -10,7 +10,7 @@ public:
 	InventoryMove();
 	~InventoryMove();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

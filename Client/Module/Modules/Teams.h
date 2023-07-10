@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Teams : public IModule {
+class Teams : public Module {
 private:
 	bool alliedCheck = false;
 	bool colorCheck = true;
@@ -14,6 +14,6 @@ public:
 	bool isAlliedCheckEnabled() { return isEnabled() && alliedCheck; };
 	bool isColorCheckEnabled() { return isEnabled() && colorCheck; };
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

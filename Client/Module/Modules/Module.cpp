@@ -19,14 +19,14 @@ unsigned char EnumEntry::GetValue() {
 }
 #pragma endregion
 #pragma region SettingEnum
-SettingEnum::SettingEnum(std::vector<EnumEntry> entr, IModule* mod) {
+SettingEnum::SettingEnum(std::vector<EnumEntry> entr, Module* mod) {
 	Entrys = entr;
 	owner = mod;
 	std::sort(Entrys.begin(), Entrys.end(), [](EnumEntry rhs, EnumEntry lhs) {
 		return rhs.GetValue() < lhs.GetValue();
 	});
 }
-SettingEnum::SettingEnum(IModule* mod) {
+SettingEnum::SettingEnum(Module* mod) {
 	owner = mod;
 }
 
@@ -44,18 +44,37 @@ SettingEnum& SettingEnum::addEntry(EnumEntry entr) {
 	}
 	return *this;
 }
+
+SettingEnum& SettingEnum::addEntry(const char* name, int value) {
+	auto etr = EnumEntry(name, value);
+	bool SameVal = false;
+	for (auto it : Entrys)
+		SameVal |= it.GetValue() == etr.GetValue();
+
+	if (!SameVal) {
+		Entrys.push_back(etr);
+		std::sort(Entrys.begin(), Entrys.end(), [](EnumEntry rhs, EnumEntry lhs) {
+			return rhs.GetValue() < lhs.GetValue();
+		});
+	}
+	return *this;
+}
+
 EnumEntry& SettingEnum::GetEntry(int ind) {
 	return Entrys.at(ind);
 }
 EnumEntry& SettingEnum::GetSelectedEntry() {
 	return GetEntry(selected);
 }
+int SettingEnum::getSelectedValue() {
+	return GetEntry(selected).GetValue();
+}
 int SettingEnum::GetCount() {
 	return (int)Entrys.size();
 }
 #pragma endregion
 
-IModule::IModule(int key, Category c, const char* tooltip) {
+Module::Module(int key, Category c, const char* tooltip) {
 	this->keybind = key;
 	this->category = c;
 	this->tooltip = tooltip;
@@ -64,14 +83,14 @@ IModule::IModule(int key, Category c, const char* tooltip) {
 	this->ModulePos = Vec2(0.f, 0.f);
 }
 
-void IModule::registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue) {
+void Module::registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue) {
 #ifdef DEBUG
 	if (minValue > maxValue)
 		__debugbreak();  // Minimum value is bigger than maximum value
 #endif
 
 	SettingEntry* setting = new SettingEntry();
-	setting->valueType = ValueType::FLOAT_T;
+	setting->valueType = ValueType::FLOAT;
 
 	setting->value = reinterpret_cast<SettingValue*>(floatPtr);
 
@@ -95,14 +114,14 @@ void IModule::registerFloatSetting(std::string name, float* floatPtr, float defa
 	settings.push_back(setting);  // Add to list
 }
 
-void IModule::registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue) {
+void Module::registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue) {
 #ifdef DEBUG
 	if (minValue > maxValue)
 		__debugbreak();  // Minimum value is bigger than maximum value
 #endif
 
 	SettingEntry* setting = new SettingEntry();
-	setting->valueType = ValueType::INT_T;
+	setting->valueType = ValueType::INT;
 	setting->value = reinterpret_cast<SettingValue*>(intPtr);  // Actual Value
 
 	// Default Value
@@ -126,9 +145,9 @@ void IModule::registerIntSetting(std::string name, int* intPtr, int defaultValue
 	settings.push_back(setting);  // Add to list
 }
 
-void IModule::registerEnumSetting(std::string name, SettingEnum* ptr, int defaultValue) {
+void Module::registerEnumSetting(std::string name, SettingEnum* ptr, int defaultValue) {
 	SettingEntry* setting = new SettingEntry();
-	setting->valueType = ValueType::ENUM_T;
+	setting->valueType = ValueType::ENUM;
 	if (defaultValue < 0 || defaultValue >= ptr->GetCount())
 		defaultValue = 0;
 
@@ -153,9 +172,9 @@ void IModule::registerEnumSetting(std::string name, SettingEnum* ptr, int defaul
 	settings.push_back(setting);
 }
 
-void IModule::registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue) {
+void Module::registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue) {
 	SettingEntry* setting = new SettingEntry();
-	setting->valueType = ValueType::BOOL_T;
+	setting->valueType = ValueType::BOOL;
 
 	setting->value = reinterpret_cast<SettingValue*>(boolPtr);  // Actual value
 
@@ -168,37 +187,37 @@ void IModule::registerBoolSetting(std::string name, bool* boolPtr, bool defaultV
 	settings.push_back(setting);  // Add to list
 }
 
-IModule::~IModule() {
+Module::~Module() {
 	for (auto it = this->settings.begin(); it != this->settings.end(); it++) {
 		delete *it;
 	}
 	this->settings.clear();
 }
 
-const char* IModule::getModuleName() {
+const char* Module::getModuleName() {
 	return "Module";
 }
 
-const char* IModule::getRawModuleName() {
+const char* Module::getRawModuleName() {
 	return getModuleName();
 }
 
-int IModule::getKeybind() {
+int Module::getKeybind() {
 	return this->keybind;
 }
 
-void IModule::setKeybind(int key) {
+void Module::setKeybind(int key) {
 	this->keybind = key;
 }
 
-bool IModule::allowAutoStart() {
+bool Module::allowAutoStart() {
 	return true;
 }
 
-void IModule::onTick(GameMode*) {
+void Module::onTick(GameMode*) {
 }
 
-void IModule::onKeyUpdate(int key, bool isDown) {
+void Module::onKeyUpdate(int key, bool isDown) {
 	if (key == getKeybind()) {
 		if (isFlashMode())
 			setEnabled(isDown);
@@ -207,31 +226,31 @@ void IModule::onKeyUpdate(int key, bool isDown) {
 	}
 }
 
-void IModule::onKey(int key, bool isDown, bool& shouldCancel) {
+void Module::onKey(int key, bool isDown, bool& shouldCancel) {
 }
 
-void IModule::onEnable() {
+void Module::onEnable() {
 }
 
-void IModule::onDisable() {
+void Module::onDisable() {
 }
 
-void IModule::onPreRender(MinecraftUIRenderContext* renderCtx) {
+void Module::onPreRender(MinecraftUIRenderContext* renderCtx) {
 }
 
-void IModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
+void Module::onPostRender(MinecraftUIRenderContext* renderCtx) {
 }
 
-void IModule::onSendPacket(Packet*) {
+void Module::onSendPacket(Packet*) {
 }
 
-void IModule::onSendClientPacket(Packet*) {
+void Module::onSendClientPacket(Packet*) {
 }
 
-void IModule::onWorldTick(GameMode*) {
+void Module::onWorldTick(GameMode*) {
 }
 
-void IModule::onLoadConfig(void* confVoid) {
+void Module::onLoadConfig(void* confVoid) {
 	json* conf = reinterpret_cast<json*>(confVoid);
 	if (conf->contains(this->getRawModuleName())) {
 		auto obj = conf->at(this->getRawModuleName());
@@ -245,25 +264,25 @@ void IModule::onLoadConfig(void* confVoid) {
 					continue;
 				try {
 					switch (sett->valueType) {
-					case ValueType::FLOAT_T:
+					case ValueType::FLOAT:
 						sett->value->_float = value.get<float>();
 						break;
-					case ValueType::DOUBLE_T:
+					case ValueType::DOUBLE:
 						sett->value->_double = value.get<double>();
 						break;
-					case ValueType::INT64_T:
+					case ValueType::INT64:
 						sett->value->int64 = value.get<__int64>();
 						break;
-					case ValueType::INT_T:
+					case ValueType::INT:
 						sett->value->_int = value.get<int>();
 						break;
-					case ValueType::BOOL_T:
+					case ValueType::BOOL:
 						sett->value->_bool = value.get<bool>();
 						break;
-					case ValueType::TEXT_T:
+					case ValueType::TEXT:
 						sett->value->text = new std::string(value.get<std::string>());
 						break;
-					case ValueType::ENUM_T:
+					case ValueType::ENUM:
 						try {
 							sett->value->_int = value.get<int>();
 						} catch (const std::exception& e) {
@@ -285,7 +304,7 @@ void IModule::onLoadConfig(void* confVoid) {
 
 #pragma warning(push)
 #pragma warning(disable : 26444)
-void IModule::onSaveConfig(void* confVoid) {
+void Module::onSaveConfig(void* confVoid) {
 	json* conf = reinterpret_cast<json*>(confVoid);
 	std::string modName = getRawModuleName();
 	if (conf->contains(modName.c_str()))
@@ -295,25 +314,25 @@ void IModule::onSaveConfig(void* confVoid) {
 	//auto obj = conf->at(modName);
 	for (auto sett : this->settings) {
 		switch (sett->valueType) {
-		case ValueType::FLOAT_T:
+		case ValueType::FLOAT:
 			obj.emplace(sett->name, sett->value->_float);
 			break;
-		case ValueType::DOUBLE_T:
+		case ValueType::DOUBLE:
 			obj.emplace(sett->name, sett->value->_double);
 			break;
-		case ValueType::INT64_T:
+		case ValueType::INT64:
 			obj.emplace(sett->name, sett->value->int64);
 			break;
-		case ValueType::INT_T:
+		case ValueType::INT:
 			obj.emplace(sett->name, sett->value->_int);
 			break;
-		case ValueType::BOOL_T:
+		case ValueType::BOOL:
 			obj.emplace(sett->name, sett->value->_bool);
 			break;
-		case ValueType::TEXT_T:
+		case ValueType::TEXT:
 			obj.emplace(sett->name, *sett->value->text);
 			break;
-		case ValueType::ENUM_T:
+		case ValueType::ENUM:
 			obj.emplace(sett->name, sett->value->_int);
 			break;
 		}
@@ -324,11 +343,11 @@ void IModule::onSaveConfig(void* confVoid) {
 
 #pragma warning(pop)
 
-bool IModule::isFlashMode() {
+bool Module::isFlashMode() {
 	return false;
 }
 
-void IModule::setEnabled(bool enabled) {
+void Module::setEnabled(bool enabled) {
 	if (this->enabled != enabled) {
 		this->enabled = enabled;
 #ifndef _DEBUG
@@ -343,29 +362,29 @@ void IModule::setEnabled(bool enabled) {
 	}
 }
 
-void IModule::toggle() {
+void Module::toggle() {
 	setEnabled(!this->enabled);
 }
 
-bool IModule::isEnabled() {
+bool Module::isEnabled() {
 	return this->enabled;
 }
 
-const char* IModule::getTooltip() {
+const char* Module::getTooltip() {
 	return this->tooltip;
 }
-void IModule::onAttack(Entity*) {
+void Module::onAttack(Entity*) {
 }
-bool IModule::callWhenDisabled() {
+bool Module::callWhenDisabled() {
 	return false;
 }
-void IModule::onMove(MoveInputHandler*) {
+void Module::onMove(MoveInputHandler*) {
 }
-void IModule::onPlayerTick(Player* player) {
+void Module::onPlayerTick(Player* player) {
 }
-void IModule::onLevelRender() {
+void Module::onLevelRender() {
 }
-void IModule::clientMessageF(const char* fmt, ...) {
+void Module::clientMessageF(const char* fmt, ...) {
 	va_list arg;
 	va_start(arg, fmt);
 
@@ -379,24 +398,24 @@ void IModule::clientMessageF(const char* fmt, ...) {
 
 void SettingEntry::makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt() {
 	switch (valueType) {
-		case ValueType::ENUM_T: 
+		case ValueType::ENUM: 
 			value->_int = std::max(0, std::min(reinterpret_cast<SettingEnum*>(extraData)->GetCount()-1, value->_int));
 			break;
-		case ValueType::BOOL_T:
+		case ValueType::BOOL:
 			break;
-		case ValueType::INT64_T:
+		case ValueType::INT64:
 			value->int64 = std::max(minValue->int64, std::min(maxValue->int64, value->int64));
 			break;
-		case ValueType::DOUBLE_T:
+		case ValueType::DOUBLE:
 			value->_double = std::max(minValue->_double, std::min(maxValue->_double, value->_double));
 			break;
-		case ValueType::FLOAT_T:
+		case ValueType::FLOAT:
 			value->_float = std::max(minValue->_float, std::min(maxValue->_float, value->_float));
 			break;
-		case ValueType::INT_T:
+		case ValueType::INT:
 			value->_int = std::max(minValue->_int, std::min(maxValue->_int, value->_int));
 			break;
-		case ValueType::TEXT_T:
+		case ValueType::TEXT:
 			//break;
 		default:
 			logF("unrecognized value %i", valueType);

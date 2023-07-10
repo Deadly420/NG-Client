@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class NoHurtcam : public IModule{
+class NoHurtcam : public Module{
 public:
 	NoHurtcam();
 	~NoHurtcam();

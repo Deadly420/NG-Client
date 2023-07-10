@@ -3,7 +3,7 @@
 #include "Module.h"
 #include <set>
 
-class NameTags : public IModule {
+class NameTags : public Module {
 public:
 	std::set<std::string> nameTags;
 	bool displayArmor = true;
@@ -16,7 +16,7 @@ public:
 	bool lastSetting = true;
 	bool gotPrevSetting = false;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onDisable() override;

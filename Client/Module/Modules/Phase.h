@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Phase : public IModule {
+class Phase : public Module {
 public:
 	Phase();
 	~Phase();

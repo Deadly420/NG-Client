@@ -1,6 +1,6 @@
 #include "Killaura.h"
 
-Killaura::Killaura() : IModule('P', Category::COMBAT, "Attacks entities around you automatically.") {
+Killaura::Killaura() : Module('P', Category::COMBAT, "Attacks entities around you automatically.") {
 	registerBoolSetting("MultiAura", &isMulti, isMulti);
 	registerBoolSetting("MobAura", &isMobAura, isMobAura);
 	registerFloatSetting("Range", &range, range, 2.f, 20.f);

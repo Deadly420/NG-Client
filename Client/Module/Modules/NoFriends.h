@@ -2,11 +2,11 @@
 
 #include "Module.h"
 
-class NoFriends : public IModule {
+class NoFriends : public Module {
 public:
 	NoFriends();
 	~NoFriends();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

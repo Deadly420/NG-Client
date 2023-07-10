@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class ViewModel : public IModule {
+class ViewModel : public Module {
 private:
 	int delay = 0;
 
@@ -23,7 +23,7 @@ public:
 	ViewModel();
 	~ViewModel();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

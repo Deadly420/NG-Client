@@ -2,11 +2,11 @@
 
 #include "Module.h"
 
-class RainbowSky : public IModule {
+class RainbowSky : public Module {
 public:
 	RainbowSky();
 	~RainbowSky();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

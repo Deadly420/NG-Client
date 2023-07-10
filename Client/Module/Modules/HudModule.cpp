@@ -2,9 +2,8 @@
 #include "../ModuleManager.h"
 
 #include "../../../Utils/DrawUtils.h"
-#include "../../../Utils/ClientColors.h"
 
-HudModule::HudModule() : IModule(0, Category::CLIENT, "Displays things like the ArrayList/TabGUI.") {
+HudModule::HudModule() : Module(0, Category::CLIENT, "Displays things like the ArrayList/TabGUI.") {
 	registerBoolSetting("TabGui", &tabgui, tabgui);
 	registerBoolSetting("ClickToggle", &clickToggle, clickToggle);
 	registerBoolSetting("Watermark", &watermark, watermark);
@@ -25,36 +24,6 @@ const char* HudModule::getModuleName() {
 	return ("HUD");
 }
 
-void HudModule::drawKeystroke(char key, const Vec2& pos) {
-	std::string keyString = Utils::getKeybindName(key);
-	GameSettingsInput* input = Game.getClientInstance()->getGameSettingsInput();
-	if (key == *input->spaceBarKey) {
-		keyString = "-";
-		Vec4 rectPos(pos.x, pos.y, pos.x + 64.f, pos.y + 15.f);
-		Vec2 textPos((rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f), rectPos.y + 7.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
-		
-		DrawUtils::fillRectangle(rectPos, GameData::isKeyDown(key) ? ClientColors::keyStrokeDownColor : ClientColors::keyStrokeUpColor, 1.f);		
-		DrawUtils::drawText(textPos, &keyString, MC_Color(255, 255, 255), 1.f, 1.f);
-	} else {
-		Vec4 rectPos(pos.x, pos.y, pos.x + ((key == *input->spaceBarKey) ? 64.f : 20.f), pos.y + ((key == *input->spaceBarKey) ? 15.f : 20.f));
-		Vec2 textPos((rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f), rectPos.y + 10.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
-
-		DrawUtils::fillRectangle(rectPos, GameData::isKeyDown(key) ? ClientColors::keyStrokeDownColor : ClientColors::keyStrokeUpColor, 1.f);
-		DrawUtils::drawText(textPos, &keyString, MC_Color(255, 255, 255), 1.f, 1.f);
-	}
-}
-
-void HudModule::drawMouseKeystroke(Vec2 pos, std::string keyString) {
-	Vec4 rectPos(pos.x, pos.y + 2, pos.x + 31.f, pos.y + 22.f);
-	if (keyString == "LMB")
-		DrawUtils::fillRectangle(rectPos, GameData::isLeftClickDown() ? ClientColors::keyStrokeDownColor : ClientColors::keyStrokeUpColor, 1.f);
-	else if (keyString == "RMB") 
-		DrawUtils::fillRectangle(rectPos, GameData::isRightClickDown() ? ClientColors::keyStrokeDownColor : ClientColors::keyStrokeUpColor, 1.f);
-	
-	Vec2 textPos((rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f), rectPos.y + 10.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
-	DrawUtils::drawText(textPos, &keyString, MC_Color(255, 255, 255), 1.f, 1.f);
-}
-
 void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 	float f = 10.f * scale;
@@ -67,7 +36,7 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 15.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
-			DrawUtils::drawText(textPos, &fpsText, MC_Color(200, 200, 200), scale);
+			DrawUtils::drawText(textPos, &fpsText, Mc_Color(200, 200, 200), scale);
 
 			startY += f;
 		}
@@ -78,7 +47,7 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 15.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
-			DrawUtils::drawText(textPos, &cpsText, MC_Color(200, 200, 200), scale);
+			DrawUtils::drawText(textPos, &cpsText, Mc_Color(200, 200, 200), scale);
 
 			startY += f;
 		}
@@ -92,7 +61,7 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 35.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);
 			
-			DrawUtils::drawText(textPos, &coords, MC_Color(200, 200, 200), scale);
+			DrawUtils::drawText(textPos, &coords, Mc_Color(200, 200, 200), scale);
 		}
 	}
 	
@@ -116,19 +85,6 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			ItemStack* item = supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
 			if (item->isValid())
 				DrawUtils::drawItem(item, Vec2(x, y), opacity, scale, item->isEnchanted());
-		}
-	}
-	
-	{  // Keystrokes
-		if (!(Game.getLocalPlayer() == nullptr || !keystrokes || !GameData::canUseMoveKeys())) {
-			GameSettingsInput* input = Game.getClientInstance()->getGameSettingsInput();
-			HudModule::drawKeystroke(*input->forwardKey, Vec2(32.f, windowSize.y - 84));
-			HudModule::drawKeystroke(*input->leftKey, Vec2(10.f, windowSize.y - 62));
-			HudModule::drawKeystroke(*input->backKey, Vec2(32.f, windowSize.y - 62));
-			HudModule::drawKeystroke(*input->rightKey, Vec2(54.f, windowSize.y - 62));
-			HudModule::drawKeystroke(*input->spaceBarKey, Vec2(10.f, windowSize.y - 40));
-			HudModule::drawMouseKeystroke(Vec2(10.f, windowSize.y - 25), "LMB");
-			HudModule::drawMouseKeystroke(Vec2(43.f, windowSize.y - 25), "RMB");
 		}
 	}
 }

@@ -2,12 +2,12 @@
 
 #include "Module.h"
 
-class NoPacket : public IModule {
+class NoPacket : public Module {
 public:
 	NoPacket();
 	~NoPacket();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	bool allowAutoStart() override;
 	void onEnable() override;

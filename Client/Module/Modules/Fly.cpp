@@ -1,6 +1,6 @@
 #include "Fly.h"
 
-Fly::Fly() : IModule('F', Category::MOVEMENT, "Fly to the sky") {
+Fly::Fly() : Module('F', Category::MOVEMENT, "Fly to the sky") {
 	mode.addEntry(EnumEntry("Creative", 0))
 	.addEntry(EnumEntry("CubeGlide", 1))
 	.addEntry(EnumEntry("AirStuck", 2))

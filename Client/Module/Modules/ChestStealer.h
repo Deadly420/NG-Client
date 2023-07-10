@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class ChestStealer : public IModule {
+class ChestStealer : public Module {
 private:
 	int delay = 0;
 	int setDelay = 7;
@@ -12,7 +12,7 @@ public:
 	ChestStealer();
 	~ChestStealer();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void chestScreenController_tick(ChestScreenController* c);
 	virtual const char* getModuleName() override;
 };

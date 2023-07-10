@@ -19,7 +19,6 @@
 #include "Modules/EditionFaker.h"
 #include "Modules/ChestStealer.h"
 #include "Modules/OffhandAllow.h"
-#include "Modules/ClientTheme.h"
 #include "Modules/FontChanger.h"
 #include "Modules/VanillaPlus.h"
 //#include "Modules/CubeGlide.h"
@@ -111,7 +110,7 @@
 class ModuleManager {
 private:
 	GameData* gameData;
-	std::vector<std::shared_ptr<IModule>> moduleList;
+	std::vector<std::shared_ptr<Module>> moduleList;
 	bool initialized = false;
 	std::shared_mutex moduleListMutex;
 
@@ -142,14 +141,14 @@ public:
 	std::shared_mutex* getModuleListLock() { return &moduleListMutex; }
 
 	bool isInitialized() { return initialized; };
-	std::vector<std::shared_ptr<IModule>>* getModuleList();
+	std::vector<std::shared_ptr<Module>>* getModuleList();
 
 	int getModuleCount();
 	int getEnabledModuleCount();
 
 	/*
 	 *	Use as follows: 
-	 *		IModule* mod = moduleMgr.getModule<NoKnockBack>(); 
+	 *		Module* mod = moduleMgr.getModule<NoKnockBack>(); 
 	 *	Check for nullptr directly after that call, as Hooks::init is called before ModuleManager::initModules !	
 	 */
 	template <typename TRet>
@@ -167,21 +166,21 @@ public:
 	};
 
 	// Dont Use this functions unless you absolutely need to. The function above this one works in 99% of cases
-	std::optional<std::shared_ptr<IModule>> getModuleByName(const std::string name) {
+	std::optional<std::shared_ptr<Module>> getModuleByName(const std::string name) {
 		if (!isInitialized())
 			return nullptr;
 		std::string nameCopy = name;
 		std::transform(nameCopy.begin(), nameCopy.end(), nameCopy.begin(), ::tolower);
 		
 		auto lock = lockModuleList();
-		for (std::vector<std::shared_ptr<IModule>>::iterator it = moduleList.begin(); it != moduleList.end(); ++it) {
-			std::shared_ptr<IModule> mod = *it;
+		for (std::vector<std::shared_ptr<Module>>::iterator it = moduleList.begin(); it != moduleList.end(); ++it) {
+			std::shared_ptr<Module> mod = *it;
 			std::string modNameCopy = mod->getRawModuleName();
 			std::transform(modNameCopy.begin(), modNameCopy.end(), modNameCopy.begin(), ::tolower);
 			if (modNameCopy == nameCopy)
-				return std::optional<std::shared_ptr<IModule>>(mod);
+				return std::optional<std::shared_ptr<Module>>(mod);
 		}
-		return std::optional<std::shared_ptr<IModule>>();
+		return std::optional<std::shared_ptr<Module>>();
 	}
 };
 

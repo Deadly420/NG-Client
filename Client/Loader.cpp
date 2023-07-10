@@ -59,7 +59,6 @@ DWORD WINAPI start(LPVOID lpParam) {
 	logF("Initialized config manager (3/3)");
 
 	Hooks::Enable();
-	TabGui::init();
 	ClickGui::init();
 
 	logF("Hooks enabled");

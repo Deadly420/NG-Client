@@ -1,6 +1,6 @@
 #include "AutoSprint.h"
 
-AutoSprint::AutoSprint() : IModule(0, Category::MOVEMENT, "Automatically sprint without holding the key.") {
+AutoSprint::AutoSprint() : Module(0, Category::MOVEMENT, "Automatically sprint without holding the key.") {
 	registerBoolSetting("All Directions", &alldirections, alldirections);
 }
 

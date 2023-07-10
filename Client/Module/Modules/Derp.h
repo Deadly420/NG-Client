@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Derp : public IModule {
+class Derp : public Module {
 private:
 	int counter = 0;
 	bool epicStroke = false;
@@ -12,7 +12,7 @@ public:
 	Derp();
 	~Derp();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onTick(GameMode* gm) override;
 	virtual const char* getModuleName() override;
 };

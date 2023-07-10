@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "../ModuleManager.h"
 
-class ESP : public IModule {
+class ESP : public Module {
 public:
 	bool isMobEsp = false;
 	bool doRainbow = true;
@@ -11,7 +11,7 @@ public:
 	ESP();
 	~ESP();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 };

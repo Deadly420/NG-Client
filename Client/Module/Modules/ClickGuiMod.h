@@ -2,14 +2,14 @@
 
 #include "Module.h"
 
-class ClickGuiMod : public IModule {
+class ClickGuiMod : public Module {
 public:
 	ClickGuiMod();
 	~ClickGuiMod();
 
 	bool showTooltips = true;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual const char* getModuleName() override;
 	virtual void onDisable() override;

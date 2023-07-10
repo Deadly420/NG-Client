@@ -2,11 +2,11 @@
 
 #include "Module.h"
 
-class InstaBreak : public IModule {
+class InstaBreak : public Module {
 public:
 	InstaBreak();
 	~InstaBreak();
 	
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

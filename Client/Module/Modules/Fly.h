@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Fly : public IModule {
+class Fly : public Module {
 private:
 	float horizontalSpeed = 1.5f;
 	float verticalSpeed = 0.5;
@@ -15,7 +15,7 @@ public:
 
 	SettingEnum mode = SettingEnum(this);
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onEnable() override;
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;

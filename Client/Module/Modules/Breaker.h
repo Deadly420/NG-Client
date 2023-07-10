@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "../ModuleManager.h"
 
-class Breaker : public IModule {
+class Breaker : public Module {
 private:
 	int range = 5;
 	bool beds = true;
@@ -17,7 +17,7 @@ public:
 	Breaker();
 	~Breaker();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

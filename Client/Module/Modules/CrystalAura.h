@@ -4,7 +4,7 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class CrystalAura : public IModule {
+class CrystalAura : public Module {
 private:
 	int prevSlot;
 	int delay = 0;
@@ -22,7 +22,7 @@ public:
 	CrystalAura();
 	~CrystalAura();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;

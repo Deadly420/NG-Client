@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class HudModule : public IModule {
+class HudModule : public Module {
 public:
 	HudModule();
 	~HudModule();
@@ -21,9 +21,7 @@ public:
 
 	float scale = 1.f;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
-	static void drawKeystroke(char key, const Vec2& pos);
-	static void drawMouseKeystroke(Vec2 pos, std::string keyString);
 };

@@ -14,7 +14,7 @@ bool grid = true;
 // it's the only one that could be. since everything else is accessed at renderEntity()
 float bgOpacity = 0.2f;
 
-Radar::Radar() : IModule(0, Category::CLIENT, "Radar.") {
+Radar::Radar() : Module(0, Category::CLIENT, "Radar.") {
 	registerBoolSetting("Show Grid", &grid, true);
 	registerIntSetting("Size", &size, size, 50, 200);
 	registerFloatSetting("Pixel Size", &pixelSize, pixelSize, 2, 4);
@@ -73,7 +73,7 @@ void renderEntity(Entity* currentEntity, bool isRegularEntity) {
 		topPad - ((delta.x * s) + (delta.z * c))
 	);
 	if (relPos.x > 0 && relPos.x < size && relPos.y > topPad - cent && relPos.y < topPad + cent) {
-		DrawUtils::fillRectangle(Vec4(relPos.x - pxSize, relPos.y - pxSize, relPos.x + pxSize, relPos.y + pxSize), MC_Color(rcolors[0], rcolors[1], rcolors[2]), pxOpacity);
+		DrawUtils::fillRectangle(Vec4(relPos.x - pxSize, relPos.y - pxSize, relPos.x + pxSize, relPos.y + pxSize), Mc_Color(rcolors[0], rcolors[1], rcolors[2]), pxOpacity);
 	}
 }
 
@@ -92,7 +92,7 @@ void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 	Utils::ApplyRainbow(rcolors, 0.0015f);
 
-	DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), MC_Color(0, 0, 0), bgOpacity);
+	DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(0, 0, 0), bgOpacity);
 
 	auto pPos = Game.getClientInstance()->levelRenderer->getOrigin();
 	playerPos = pPos;

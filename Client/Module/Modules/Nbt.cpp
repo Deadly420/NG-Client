@@ -2,7 +2,7 @@
 #include "../../../SDK/Tag.h"
 #include "../../../Utils/Utils.h"
 
-Nbt::Nbt() : IModule(0, Category::PLAYER, "Print NBT tags when you right click on mobs (Only works on local worlds!).") {
+Nbt::Nbt() : Module(0, Category::PLAYER, "Print NBT tags when you right click on mobs (Only works on local worlds!).") {
 }
 
 Nbt::~Nbt() {

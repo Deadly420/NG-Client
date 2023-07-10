@@ -2,13 +2,13 @@
 
 #include "Module.h"
 
-class AutoArmor : public IModule {
+class AutoArmor : public Module {
 public:
 	CraftingScreenController* inventoryScreen = nullptr;
 	AutoArmor();
 	~AutoArmor();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onTick(GameMode* gm) override;
 	virtual const char* getModuleName() override;
 };

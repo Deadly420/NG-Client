@@ -1,6 +1,6 @@
 #include "NoWeb.h"
 
-NoWeb::NoWeb() : IModule(0, Category::MOVEMENT, "Ignore cobwebs slowdown.") {
+NoWeb::NoWeb() : Module(0, Category::MOVEMENT, "Ignore cobwebs slowdown.") {
 }
 
 NoWeb ::~NoWeb() {

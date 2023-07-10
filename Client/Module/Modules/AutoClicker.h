@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "../ModuleManager.h"
 
-class AutoClicker : public IModule {
+class AutoClicker : public Module {
 private:
 	int delay = 0;
 	int Odelay = 0;
@@ -16,7 +16,7 @@ public:
 	AutoClicker();
 	~AutoClicker();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class TestModule : public IModule {
+class TestModule : public Module {
 private:
 	int delay = 0;
 
@@ -16,7 +16,7 @@ public:
 	TestModule();
 	~TestModule();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual bool isFlashMode() override;
 	virtual void onEnable() override;

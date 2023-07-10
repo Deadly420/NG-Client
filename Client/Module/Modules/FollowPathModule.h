@@ -6,7 +6,7 @@
 #include "../../path/goals/JoeGoal.h"
 #include <functional>
 
-class FollowPathModule : public IModule {
+class FollowPathModule : public Module {
 private:
 	std::shared_ptr<JoePathFinder> pathFinder;
 	std::unique_ptr<JoeMovementController> movementController;

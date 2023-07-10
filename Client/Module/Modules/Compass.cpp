@@ -2,7 +2,7 @@
 
 #include "../ModuleManager.h"
 
-Compass::Compass() : IModule(0, Category::CLIENT, "Compass.") {
+Compass::Compass() : Module(0, Category::CLIENT, "Compass.") {
 	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1);
 	registerIntSetting("Range", &range, range, 45, 180);
 	registerBoolSetting("Show Waypoints", &showWaypoints, showWaypoints);
@@ -109,30 +109,30 @@ void Compass::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			}
 			stacking.push_back(myTextRange);
 			pos.y += 5 * (overlapping + 1);
-			DrawUtils::drawText(pos, &pName, MC_Color(255, 255, 255), tSize, majorOpacity);
+			DrawUtils::drawText(pos, &pName, Mc_Color(255, 255, 255), tSize, majorOpacity);
 		}
 
 		if (off != 0 && minorOpacity > 0) {
 			if ((oDeg % 15) != 0) {
 				if ((oDeg % 5) == 0) {
-					DrawUtils::fillRectangle(Vec4(xOff - 0.25f, 16, xOff + 0.25f, 19), MC_Color(255, 255, 255), minorOpacity);
+					DrawUtils::fillRectangle(Vec4(xOff - 0.25f, 16, xOff + 0.25f, 19), Mc_Color(255, 255, 255), minorOpacity);
 				}
 				continue;
 			}
 
 			// Bigger line with degree displayed
-			DrawUtils::fillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), MC_Color(255, 255, 255), minorOpacity);
+			DrawUtils::fillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), Mc_Color(255, 255, 255), minorOpacity);
 			drawCenteredText(Vec2(xOff, 20.f), std::to_string(oDeg), 0.75f, minorOpacity);
 		}
 	}
 
 	// Center line
-	DrawUtils::fillRectangle(Vec4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), MC_Color(255, 255, 255), opacity);
+	DrawUtils::fillRectangle(Vec4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), Mc_Color(255, 255, 255), opacity);
 	drawCenteredText(Vec2(sCenter, 25.f), std::to_string(deg), 0.75f, opacity);
 	DrawUtils::flush();
 }
 
 void Compass::drawCenteredText(Vec2 pos, std::string text, float size, float textOpacity) {
 	pos.x -= DrawUtils::getTextWidth(&text, size) / 2;
-	DrawUtils::drawText(pos, &text, MC_Color(255, 255, 255), size, textOpacity);
+	DrawUtils::drawText(pos, &text, Mc_Color(255, 255, 255), size, textOpacity);
 }

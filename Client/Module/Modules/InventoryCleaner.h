@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class InventoryCleaner : public IModule {
+class InventoryCleaner : public Module {
 private:
 	bool sorted = false;
 
@@ -23,7 +23,7 @@ public:
 	InventoryCleaner();
 	~InventoryCleaner();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

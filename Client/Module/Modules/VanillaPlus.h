@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class VanillaPlus : public IModule {
+class VanillaPlus : public Module {
 
 public:
 	bool fastFlyingItems = true;

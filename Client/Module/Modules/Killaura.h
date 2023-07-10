@@ -4,7 +4,7 @@
 #include "../ModuleManager.h"
 #include "../../../Utils/Target.h"
 
-class Killaura : public IModule
+class Killaura : public Module
 {
 private:
 	bool isMulti = true;
@@ -26,7 +26,7 @@ public:
 	Killaura();
 	~Killaura();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 	virtual void onEnable() override;

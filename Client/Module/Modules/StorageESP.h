@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class StorageESP : public IModule {
+class StorageESP : public Module {
 private:
 	std::vector<AABB> bufferedChestList;
 	float opacity = 1.f;
@@ -14,7 +14,7 @@ public:
 	StorageESP();
 	~StorageESP();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onTick(GameMode* gm) override;

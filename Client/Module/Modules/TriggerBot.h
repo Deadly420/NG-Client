@@ -3,7 +3,7 @@
 #include "Module.h"
 #include "../ModuleManager.h"
 
-class TriggerBot : public IModule {
+class TriggerBot : public Module {
 private:
 	int delay = 0;
 	int Odelay = 0;
@@ -13,7 +13,7 @@ public:
 	TriggerBot();
 	~TriggerBot();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

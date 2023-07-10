@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class StackableItem : public IModule {
+class StackableItem : public Module {
 private:
 	int maxAmount = 64;
 public:

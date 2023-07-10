@@ -1,6 +1,6 @@
 #include "PacketLogger.h"
 
-PacketLogger::PacketLogger() : IModule(0x0, Category::WORLD, "Logs packets, PacketAddr shows the CE or IDA address for packet, AuthChunk shows PAIP and SCRP and SetTitle shows STP") {
+PacketLogger::PacketLogger() : Module(0x0, Category::WORLD, "Logs packets, PacketAddr shows the CE or IDA address for packet, AuthChunk shows PAIP and SCRP and SetTitle shows STP") {
 	registerEnumSetting("Packet Type", &packetType, 0);
 	packetType = SettingEnum(this)
 			.addEntry(EnumEntry("Server", 0))

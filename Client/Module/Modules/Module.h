@@ -5,7 +5,7 @@
 #include "../../../Utils/keys.h"
 //#include "../../DrawUtils.h"
 
-class IModule;
+class Module;
 
 enum class Category {
 	COMBAT = 0,
@@ -34,29 +34,31 @@ struct AddResult;
 
 class SettingEnum {
 private:
-	IModule* owner = nullptr;
+	Module* owner = nullptr;
 
 public:
 	std::vector<EnumEntry> Entrys;
 	int selected = -1;
 
-	SettingEnum(std::vector<EnumEntry> entr, IModule* mod = nullptr);
-	SettingEnum(IModule* mod = nullptr);
+	SettingEnum(std::vector<EnumEntry> entr, Module* mod = nullptr);
+	SettingEnum(Module* mod = nullptr);
 	//SettingEnum();
 	SettingEnum& addEntry(EnumEntry entr);
+	SettingEnum& addEntry(const char* name, int value);
 	EnumEntry& GetEntry(int ind);
 	EnumEntry& GetSelectedEntry();
+	int getSelectedValue();
 	int GetCount();
 };
 
 enum class ValueType {
-	FLOAT_T,
-	DOUBLE_T,
-	INT64_T,
-	INT_T,
-	BOOL_T,
-	TEXT_T,
-	ENUM_T
+	FLOAT,
+	DOUBLE,
+	INT64,
+	INT,
+	BOOL,
+	TEXT,
+	ENUM
 };
 
 struct SettingValue {
@@ -86,7 +88,7 @@ struct SettingEntry {
 	void makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
 };
 
-class IModule {
+class Module {
 private:
 	bool enabled = false;
 	int keybind = 0x0;
@@ -99,7 +101,7 @@ private:
 	std::vector<SettingEntry*> settings;
 
 protected:
-	IModule(int key, Category c, const char* tooltip);
+	Module(int key, Category c, const char* tooltip);
 
 	void registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue);
 	void registerIntSetting(std::string name, int* intpTr, int defaultValue, int minValue, int maxValue);
@@ -109,7 +111,7 @@ protected:
 	void clientMessageF(const char* fmt, ...);
 
 public:
-	virtual ~IModule();
+	virtual ~Module();
 
 	const Category getCategory() { return category; };
 

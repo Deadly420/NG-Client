@@ -2,12 +2,12 @@
 
 #include "Module.h"
 
-class Tracer : public IModule {
+class Tracer : public Module {
 public:
 	Tracer();
 	~Tracer();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	void onLevelRender() override;
 	void onPreRender(MinecraftUIRenderContext* renderCtx) override;

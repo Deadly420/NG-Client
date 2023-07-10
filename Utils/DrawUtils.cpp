@@ -3,7 +3,6 @@
 #include "../Client/Module/ModuleManager.h"
 #include <Windows.h>
 #include "../Utils/Logger.h"
-#include "../Utils/ClientColors.h"
 #include <glm/ext/matrix_transform.hpp>
 
 class MaterialPtr {
@@ -221,7 +220,7 @@ void DrawUtils::drawLine(const Vec2& start, const Vec2& end, float lineWidth) {
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
 
-void DrawUtils::drawText(const Vec2& pos, std::string* textStr, const MC_Color& color, float textSize, float alpha, Fonts font) {
+void DrawUtils::drawText(const Vec2& pos, std::string* textStr, const Mc_Color& color, float textSize, float alpha, Fonts font) {
 	TextHolder text(*textStr);
 	Font* fontPtr = getFont(font);
 	static uintptr_t caretMeasureData = 0xFFFFFFFF;
@@ -454,7 +453,7 @@ void DrawUtils::drawImage(std::string filePath, Vec2& imagePos, Vec2& ImageDimen
 
 	if (texturePtr != nullptr) {
 		//renderCtx->drawImage(texturePtr, imagePos, ImageDimension, yot, idk);
-		MC_Color col(1.f, 1.f, 1.f);
+		Mc_Color col(1.f, 1.f, 1.f);
 		//renderCtx->flushImages(col, (float)flushImageAddr, (__int64)&hashedString);
 	}
 }
@@ -478,11 +477,11 @@ void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool 
 		Vec4 subRectPos = rectPos;
 		subRectPos.y = subRectPos.w - 1.f * textSize;
 		static auto nametagsMod = moduleMgr->getModule<NameTags>();
-		fillRectangle(rectPos, ClientColors::nametagsBackgroundColor, nametagsMod->opacity);
+		fillRectangle(rectPos, Mc_Color(0, 0, 0), nametagsMod->opacity);
 		if (nametagsMod->underline) {
-			fillRectangle(subRectPos, ClientColors::nametagsUnderlineColor, 0.9f);
+			fillRectangle(subRectPos, Mc_Color(0, 246, 255), 0.9f);
 		}
-		drawText(textPos, &text, MC_Color(255, 255, 255), textSize);
+		drawText(textPos, &text, Mc_Color(255, 255, 255), textSize);
 
 		static auto nameTagsMod = moduleMgr->getModule<NameTags>();
 
@@ -714,7 +713,7 @@ void DrawUtils::drawBox3dFilled(const Vec3& lower, const Vec3& upper, float scal
 	meshHelper_renderImm(game3dContext, myTess, onUi ? uiMaterial : blendMaterial);
 }
 
-void DrawUtils::drawCircle(Vec2 pos, Vec2 radius, MC_Color color, double quality) {
+void DrawUtils::drawCircle(Vec2 pos, Vec2 radius, Mc_Color color, double quality) {
 	DrawUtils::setColor(color.r, color.g, color.b, color.a);
 	DrawUtils::tess__begin(tessellator, 5);
 
@@ -726,7 +725,7 @@ void DrawUtils::drawCircle(Vec2 pos, Vec2 radius, MC_Color color, double quality
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
 
-void DrawUtils::drawCircleFilled(Vec2 pos, Vec2 radius, MC_Color color, double quality) {
+void DrawUtils::drawCircleFilled(Vec2 pos, Vec2 radius, Mc_Color color, double quality) {
 	float x;
 	float y;
 	DrawUtils::setColor(color.r, color.g, color.b, color.a);
@@ -746,12 +745,17 @@ void DrawUtils::drawCircleFilled(Vec2 pos, Vec2 radius, MC_Color color, double q
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
 
-void DrawUtils::fillRectangle(const Vec4& pos, const MC_Color& col, float alpha) {
+void DrawUtils::fillRectangle(const Vec4& pos, const Mc_Color& col, float alpha) {
 	DrawUtils::setColor(col.r, col.g, col.b, alpha);
 	DrawUtils::drawQuad({pos.x, pos.w}, {pos.z, pos.w}, {pos.z, pos.y}, {pos.x, pos.y});
 }
 
-void DrawUtils::drawBoxBottom(const Vec4& pos, const MC_Color& col, float alpha, float thickness) {
+void DrawUtils::fillRectangle3(Vec4 pos, Mc_Color col) {
+	DrawUtils::setColor(col.r, col.g, col.b, col.a);
+	DrawUtils::drawQuad({pos.x, pos.w}, {pos.z, pos.w}, {pos.z, pos.y}, {pos.x, pos.y});
+}
+
+void DrawUtils::drawBoxBottom(const Vec4& pos, const Mc_Color& col, float alpha, float thickness) {
 	DrawUtils::setColor(col.r, col.g, col.b, alpha);
 	DrawUtils::drawLine({pos.z, pos.y}, {pos.x, pos.y}, thickness);
 }
@@ -816,8 +820,8 @@ void DrawUtils::drawLinestrip3d(const std::vector<Vec3>& points) {
 	meshHelper_renderImm(game3dContext, myTess, entityFlatStaticMaterial);
 }
 
-MC_Color MC_Color::lerp(const MC_Color& o, float t) const {
-	return MC_Color(Utils::lerp(r, o.r, t), Utils::lerp(g, o.g, t), Utils::lerp(b, o.b, t), Utils::lerp(a, o.a, t));
+Mc_Color Mc_Color::lerp(const Mc_Color& o, float t) const {
+	return Mc_Color(Utils::lerp(r, o.r, t), Utils::lerp(g, o.g, t), Utils::lerp(b, o.b, t), Utils::lerp(a, o.a, t));
 }
 
 void DrawUtils::onMouseClickUpdate(int key, bool isDown) {

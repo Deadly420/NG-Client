@@ -1,6 +1,6 @@
 #include "GuiUtils.h"
 
-void GuiUtils::drawCrossLine(Vec2 pos, MC_Color col, float lineWidth, float crossSize, bool secondCross) {
+void GuiUtils::drawCrossLine(Vec2 pos, Mc_Color col, float lineWidth, float crossSize, bool secondCross) {
 	crossSize /= 2;
 	DrawUtils::setColor(col.r, col.g, col.b, col.a);
 	//float MidX = (pos.z + pos.x) / 2;

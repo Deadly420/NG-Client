@@ -1,6 +1,6 @@
 #include "Twerk.h"
 
-Twerk::Twerk() : IModule(0x0, Category::MOVEMENT, "Crouch Spam.") {
+Twerk::Twerk() : Module(0x0, Category::MOVEMENT, "Crouch Spam.") {
 	registerFloatSetting("Delay", &delay, delay, 0.05f, 10);
 }
 

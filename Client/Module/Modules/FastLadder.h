@@ -2,13 +2,13 @@
 
 #include "Module.h"
 
-class FastLadder : public IModule {
+class FastLadder : public Module {
 public:
 	float speed = 0.6f;
 
 	FastLadder();
 	~FastLadder();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

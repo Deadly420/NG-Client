@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Reach : public IModule {
+class Reach : public Module {
 private:
 	float reachValue = 3;
 	float originalReach = 0;
@@ -13,7 +13,7 @@ public:
 	Reach();
 	~Reach();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onEnable() override;
 	virtual void onDisable() override;

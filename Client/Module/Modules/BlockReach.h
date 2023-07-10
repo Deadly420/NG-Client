@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class BlockReach : public IModule {
+class BlockReach : public Module {
 private:
 	float blockReach = 7.f;
 
@@ -12,6 +12,6 @@ public:
 
 	inline float getBlockReach() { return blockReach; };
 	inline void setBlockReach(float reach) { blockReach = reach; };
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

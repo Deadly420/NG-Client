@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Teleport : public IModule {
+class Teleport : public Module {
 private:
 	bool onlyHand = false;
 	bool lerp = false;
@@ -15,7 +15,7 @@ public:
 	Teleport();
 	~Teleport();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onTick(GameMode* gm) override;
 	virtual const char* getModuleName() override;
 };

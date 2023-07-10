@@ -41,7 +41,7 @@ private:
 	static void renderTooltip(std::string* text);
 
 	static void renderCategory(Category category);
-	inline static void getModuleListByCategory(Category category, std::vector<std::shared_ptr<IModule>>* modList);
+	inline static void getModuleListByCategory(Category category, std::vector<std::shared_ptr<Module>>* modList);
 
 	inline static const char* catToName(Category cat){
 		const char* categoryName;

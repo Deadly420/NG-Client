@@ -42,13 +42,13 @@ void ButtonInfo::draw(Vec2 mousePos, const char* label) {
 		textPos.y -= DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2;
 	}
 	
-	DrawUtils::drawText(textPos, &str, MC_Color());
+	DrawUtils::drawText(textPos, &str, Mc_Color());
 	if (isInSelectableSurface(mousePos)) {  // Mouse hovering over us
 		if (DrawUtils::isLeftClickDown) surface = surface.shrink(0.8f);  // shrink the button when pressed
-		DrawUtils::fillRectangle(surface, MC_Color(85, 85, 85), 1);
+		DrawUtils::fillRectangle(surface, Mc_Color(85, 85, 85), 1);
 		canClickB = true;
 	} else {
-		DrawUtils::fillRectangle(surface, MC_Color(12, 12, 12), 1);
+		DrawUtils::fillRectangle(surface, Mc_Color(12, 12, 12), 1);
 		canClickB = false;
 	}		
 }

@@ -3,7 +3,7 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class AirJump : public IModule {
+class AirJump : public Module {
 private:
 	int hasJumped = 0;
 	bool legacyMode = false;
@@ -12,7 +12,7 @@ public:
 	AirJump();
 	~AirJump();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

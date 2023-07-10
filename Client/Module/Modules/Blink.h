@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Blink : public IModule {
+class Blink : public Module {
 private:
 	std::vector<C_MovePlayerPacket*> MovePlayerPacketHolder;
 	std::vector<PlayerAuthInputPacket*> PlayerAuthInputPacketHolder;
@@ -11,7 +11,7 @@ public:
 	Blink();
 	~Blink();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual void onTick(GameMode* gm) override;
 	virtual const char* getModuleName() override;
 

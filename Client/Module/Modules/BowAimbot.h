@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class BowAimbot : public IModule {
+class BowAimbot : public Module {
 private:
 	bool silent = true;
 	bool predict = false;
@@ -16,6 +16,6 @@ public:
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onSendPacket(Packet* packet) override;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

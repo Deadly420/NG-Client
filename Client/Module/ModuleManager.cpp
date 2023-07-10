@@ -29,7 +29,6 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new ChestStealer());
 		moduleList.emplace_back(new OffhandAllow());
 		moduleList.emplace_back(new EditionFaker());
-		moduleList.emplace_back(new ClientTheme());
 		moduleList.emplace_back(new FontChanger());
 		moduleList.emplace_back(new TimeChanger());
 		// moduleList.emplace_back(new CubeGlide());
@@ -264,7 +263,7 @@ void ModuleManager::onBaseTick(Entity* ent) {
 	}
 }
 
-std::vector<std::shared_ptr<IModule>>* ModuleManager::getModuleList() {
+std::vector<std::shared_ptr<Module>>* ModuleManager::getModuleList() {
 	return &moduleList;
 }
 

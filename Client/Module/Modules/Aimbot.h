@@ -3,7 +3,7 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class Aimbot : public IModule {
+class Aimbot : public Module {
 private:
 	float range = 4.f;
 	bool vertical = true;
@@ -19,7 +19,7 @@ public:
 	Aimbot();
 	~Aimbot();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 };

@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Twerk : public IModule {
+class Twerk : public Module {
 public:
 	Twerk();
 	~Twerk();

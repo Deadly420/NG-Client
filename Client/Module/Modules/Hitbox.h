@@ -4,7 +4,7 @@
 #include "../ModuleManager.h"
 #include "Module.h"
 
-class Hitbox : public IModule {
+class Hitbox : public Module {
 public:
 	float height = 2;
 	float width = 4;
@@ -13,7 +13,7 @@ public:
 	Hitbox();
 	~Hitbox();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

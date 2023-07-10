@@ -1,6 +1,6 @@
 #include "CrystalAura.h"
 
-CrystalAura::CrystalAura() : IModule(VK_NUMPAD0, Category::COMBAT, "Destroys nearby End Crystals.") {
+CrystalAura::CrystalAura() : Module(VK_NUMPAD0, Category::COMBAT, "Destroys nearby End Crystals.") {
 	registerIntSetting("Range", &range, range, 1, 10);
 	registerIntSetting("Crystal Range", &cRange, cRange, 1, 15);
 	registerIntSetting("Place Range", &eRange, eRange, 1, 5);

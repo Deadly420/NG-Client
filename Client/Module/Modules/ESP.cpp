@@ -2,7 +2,7 @@
 #include "../../FriendList/FriendsManager.h"
 #include "../../../Utils/Target.h"
 
-ESP::ESP() : IModule('O', Category::VISUAL, "Makes it easier to find entities around you.") {
+ESP::ESP() : Module('O', Category::VISUAL, "Makes it easier to find entities around you.") {
 	registerBoolSetting("Rainbow", &doRainbow, doRainbow);
 	registerBoolSetting("MobEsp", &isMobEsp, isMobEsp);
 	registerBoolSetting("2D", &is2d, is2d);

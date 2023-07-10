@@ -13,7 +13,7 @@ struct WaypointInstance {
 	WaypointInstance(Vec3 pos, int dim) : pos(pos), dimension(dim){};
 };
 
-class Waypoints : public IModule {
+class Waypoints : public Module {
 private:
 	std::shared_ptr<std::map<std::string, WaypointInstance>> waypoints = std::make_shared<std::map<std::string, WaypointInstance>>();
 
@@ -25,7 +25,7 @@ public:
 	bool showCoordinates = false;
 	float size = 0.6f;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onLoadConfig(void* confVoid) override;

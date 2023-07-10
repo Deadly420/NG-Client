@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Spammer : public IModule {
+class Spammer : public Module {
 private:
 	int Odelay = 0;
 	bool bypass = true;
@@ -19,7 +19,7 @@ public:
 	inline int& getLength() { return length; };
 	inline bool& getBypass() { return bypass; };
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

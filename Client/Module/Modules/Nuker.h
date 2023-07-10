@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class Nuker : public IModule {
+class Nuker : public Module {
 private:
 	int delay = 0;
 	int nukerRadius = 4;
@@ -17,7 +17,7 @@ public:
 	int getNukerRadius() { return nukerRadius; };
 	inline bool isVeinMiner() { return veinMiner; };
 	
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

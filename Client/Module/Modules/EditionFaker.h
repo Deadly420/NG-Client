@@ -2,7 +2,7 @@
 
 #include "Module.h"
 
-class EditionFaker : public IModule {
+class EditionFaker : public Module {
 public:
 	SettingEnum edition = SettingEnum(this);
 	
@@ -11,6 +11,6 @@ public:
 
 	int getFakedEditon();
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 };

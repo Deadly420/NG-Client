@@ -3,7 +3,7 @@
 #include "..\ModuleManager.h"
 #include "Module.h"
 
-class ChestAura : public IModule {
+class ChestAura : public Module {
 private:
 	int range = 3;
 	bool enderchests = false;
@@ -15,7 +15,7 @@ public:
 
 	std::vector<Vec3i> chestlist;
 
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 	virtual void onDisable() override;

@@ -3,7 +3,7 @@
 #include "Module.h"
 
 class Jesus :
-	public IModule
+	public Module
 {
 private:
 	bool wasInWater = false;
@@ -11,7 +11,7 @@ public:
 	Jesus();
 	~Jesus();
 	
-	// Inherited via IModule
+	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
 };

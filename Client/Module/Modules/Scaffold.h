@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-class Scaffold : public IModule {
+class Scaffold : public Module {
 private:
 	bool autoSelect = false;
 	bool down = false;
