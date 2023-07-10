@@ -13,16 +13,6 @@ Arraylist::Arraylist() : Module(0x0, Category::VISUAL, "Displays the arraylist")
 	mode.addEntry("FluxBar", 3);
 	mode.addEntry("None", 4);
 
-	registerEnumSetting("Color", &Mode, 0);
-	Mode.addEntry("RGB", 0);
-	Mode.addEntry("wave", 1);
-	Mode.addEntry("RGBWave", 2);
-
-	registerEnumSetting("Animation", &animation, 1);
-	// animation.addEntry("Normal", 0);
-	animation.addEntry("Smooth", 1);
-	animation.addEntry("None", 2);
-
 	registerBoolSetting("Modes", &modes, modes);
 	// registerBoolSetting("KeyBinds", &keybinds, keybinds);
 	registerFloatSetting("Opacity", &opacity, opacity, 0, 1);
@@ -93,11 +83,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 		set<ModuleContainer> modContainerList;
 
-		if (Y > 100)
-			bottom = true;
-		else
-			bottom = false;
-
 		if (mode.selected == 0) {
 			yOffset = 1;
 		} else {
@@ -114,7 +99,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		}
 
 		float lastModuleLength = 0.f;
-		Vec4 underline;
 		int index = 0;
 
 		for (std::set<ModuleContainer>::iterator mod = modContainerList.begin(); mod != modContainerList.end(); ++mod) {
@@ -128,104 +112,72 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			// Animations
 			float xOffsetOri = windowSize.x - textWidth - (textPadding * 2);
 			float xOffset = windowSize.x - mod->pos->x;
-
-			switch (animation.getSelectedValue()) {
-			case 0:
-				mod->pos->y += 4.f;
-			case 1:
-				mod->pos->x += ((textPadding * 2) + textWidth - mod->pos->x) * 0.05f;
-				break;
-			case 2:
-				mod->pos->x += INFINITY;
-				break;
-			}
+			mod->pos->x += INFINITY;
 
 			if (xOffset < xOffsetOri) xOffset = xOffsetOri;
 			if (!mod->enabled) {
-				switch (animation.getSelectedValue()) {
-				case 0:
-					xOffset += mod->pos->y;
-					mod->pos->y += 4.f;
-					break;
-				case 1:
-					xOffset += mod->pos->y;
-					mod->pos->y += ((textPadding * 2) + textWidth + 2.f - mod->pos->y) * 0.05f;
-					break;
-				case 2:
-					xOffset += mod->pos->y;
-					mod->pos->y += INFINITY;
-					break;
-				}
-
-				if (!bottom)
-					yOffset -= mod->pos->y / (textHeight + (textPadding * 2) * 0.1f);
-				else
-					yOffset += mod->pos->y / (textHeight + (textPadding * 2) * 0.1f);
+				xOffset += mod->pos->y;
+				mod->pos->y += INFINITY;
+				yOffset -= mod->pos->y / (textHeight + (textPadding * 2) * 0.1f);
 			}
 			if (!mod->enabled && xOffset > windowSize.x) {
 				mod->pos->x = 0.f;
 				mod->pos->y = 0.f;
 			}
 
-			Vec2 textPos = Vec2(xOffset - 1 + textPadding, yOffset + textPadding);
-			Vec4 rectPos = Vec4(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
-			Vec4 rectPos2 = Vec4(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vec4 leftRect = Vec4(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
-			Vec4 FluxBar = Vec4(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vec4 Bar = Vec4(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
-			Vec4 topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
-			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
+			Vec2 textPos(xOffset - 1 + textPadding, yOffset + textPadding);
+			Vec4 rectPos(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
+			Vec4 rectPos2(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 leftRect(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
+			Vec4 FluxBar(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 Bar(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
+			Vec4 topLine(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
+			Vec4 underline(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
-			if (bottom) underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y + textHeight, leftRect.x, leftRect.y + textHeight + 1.f);
-			if (bottom) topLine = Vec4(rectPos.x, rectPos.y + (textPadding * 2) + textHeight - 1, rectPos.z + 1.f, rectPos.y + (textPadding * 2) + textHeight);
+
 
 			auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				if (Mode.selected == 0 && index == 1) DrawUtils::fillRectangle3(topLine, color);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(leftRect, color);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(underline, color);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(Bar, color);
-				if (Mode.selected == 0) DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				if (index == 1) DrawUtils::fillRectangle3(topLine, color);
+				DrawUtils::fillRectangle3(leftRect, color);
+				DrawUtils::fillRectangle3(underline, color);
+				DrawUtils::fillRectangle3(Bar, color);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
 				break;
 			case 1:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(leftRect, color);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(underline, color);
-				if (Mode.selected == 0) DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::fillRectangle3(leftRect, color);
+				DrawUtils::fillRectangle3(underline, color);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
 				break;
 			case 2:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(leftRect, color);
-				if (Mode.selected == 0) DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::fillRectangle3(leftRect, color);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
 				break;
 			case 3:
 				DrawUtils::fillRectangle(rectPos2, Mc_Color(0, 0, 0), opacity);
-				if (Mode.selected == 0) DrawUtils::fillRectangle3(FluxBar, color);
-				if (Mode.selected == 0) DrawUtils::drawText(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
+				DrawUtils::fillRectangle3(FluxBar, color);
+				DrawUtils::drawText(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
 				break;
 			case 4:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				if (Mode.selected == 0) DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
 				break;
 			}
 
-			if (bottom) {
-				yOffset -= textHeight + (textPadding * 2);
-			} else {
-				yOffset += textHeight + (textPadding * 2);
-			}
+			yOffset += textHeight + (textPadding * 2);
 			lastModuleLength = textWidth;
 			underline = Vec4(windowSize.x - (textWidth + 4.f + (textPadding * 2.f)), leftRect.w, windowSize.x + 1.f, leftRect.w + 1.f);
-			if (bottom) underline = Vec4(windowSize.x - (textWidth + 4.f + (textPadding * 2.f)), leftRect.w - textHeight - 1.f, windowSize.x + 1.f, leftRect.w - textHeight);
 		}
 		index++;
 		int curIndex = -index * 90;
 		
 		auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
 
-		if (Mode.selected == 0 && mode.getSelectedValue() == 0 || mode.getSelectedValue() == 1) DrawUtils::fillRectangle(underline, color, 1.f);
+		if (mode.getSelectedValue() == 0 || mode.getSelectedValue() == 1) DrawUtils::fillRectangle(underline, color, 1.f);
 		modContainerList.clear();
 	}
 }

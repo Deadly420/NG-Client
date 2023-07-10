@@ -4,8 +4,6 @@
 class Arraylist : public Module {
 public:
 	SettingEnum mode = SettingEnum(this);
-	SettingEnum Mode = SettingEnum(this);
-	SettingEnum animation = SettingEnum(this);
 
 	int X = static_cast<int>(Game.getClientInstance()->getGuiData()->windowSize.x);
 	int Y = 1;
