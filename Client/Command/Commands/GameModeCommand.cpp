@@ -15,9 +15,9 @@ bool GameModeCommand::execute(std::vector<std::string>* args) {
 
 	if (gamemode >= 0 && gamemode <= 2) {
 		Game.getLocalPlayer()->setGameModeType(gamemode);
-		clientMessageF("[%sHorion%s] %sGameMode changed!", GOLD, WHITE, GREEN);
+		clientMessageF("%s[%sNG%s] %sGameMode changed!", BOLD, AQUA, WHITE, GREEN);
 	} else {
-		clientMessageF("[%sHorion%s] %sInvalid GameMode!", GOLD, WHITE, RED);
+		clientMessageF("%s[%sNG%s] %sInvalid GameMode!", BOLD, AQUA, WHITE, RED);
 	}
 
 	return true;

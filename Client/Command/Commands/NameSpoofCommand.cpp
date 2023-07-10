@@ -19,11 +19,11 @@ bool NameSpoofCommand::execute(std::vector<std::string>* args) {
 		}
 		TextHolder* name = new TextHolder(os.str());
 		Game.setFakeName(name);
-		clientMessageF("[%sHorion%s] %sSet fakename to %s%s%s, please reconnect!", GOLD, WHITE, GREEN, GRAY, name->getText(), GREEN);
+		clientMessageF("%s[%sNG%s] %sSet fakename to %s%s%s, please reconnect!", BOLD, AQUA, WHITE, GREEN, GRAY, name->getText(), GREEN);
 		return true;
 	} else if (args->at(1) == "reset") {
 		Game.setFakeName(NULL);
-		clientMessageF("[%sHorion%s] %sReset fakename!", GOLD, WHITE, GREEN);
+		clientMessageF("%s[%sNG%s] %sReset fakename!", BOLD, AQUA, WHITE, GREEN);
 		return true;
 	}
 	return false;

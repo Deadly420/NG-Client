@@ -12,6 +12,6 @@ bool SetPrefixCommand::execute(std::vector<std::string>* args) {
 	assertTrue(args->at(1).length() == 1);
 	char prefix = args->at(1).at(0);
 	cmdMgr->prefix = prefix;
-	clientMessageF("[%sHorion%s] %sSet prefix to %s%c", GOLD, WHITE, GREEN, GRAY, prefix);
+	clientMessageF("%s[%sNG%s] %sSet prefix to %s%c", BOLD, AQUA, WHITE, GREEN, GRAY, prefix);
 	return true;
 }

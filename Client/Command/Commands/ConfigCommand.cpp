@@ -21,7 +21,7 @@ bool ConfigCommand::execute(std::vector<std::string>* args) {
 	} else if (option == "save" || option == "s") {
 		configMgr->saveConfig();
 		std::string configName = configMgr->currentConfig;
-		clientMessageF("[%sHorion%s] %sSuccessfully saved config %s%s%s!", GOLD, WHITE, GREEN, GRAY, configName.c_str(), GREEN);
+		clientMessageF("%s[%sNG%s] %sSuccessfully saved config %s%s%s!", BOLD, AQUA, WHITE, GREEN, GRAY, configName.c_str(), GREEN);
 		return true;
 	}
 	return false;

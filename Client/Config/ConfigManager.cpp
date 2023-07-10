@@ -81,15 +81,15 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 
 		if (Game.getLocalPlayer() != nullptr) {
 			static bool helpedUser = false;
-			Game.getGuiData()->displayClientMessageF("[%sHorion%s] %sSuccessfully %s config %s%s%s!", GOLD, WHITE, GREEN, !configExists ? "created" : "loaded", GRAY, name.c_str(), GREEN);
+			Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sSuccessfully %s config %s%s%s!", BOLD, AQUA, WHITE, GREEN, !configExists ? "created" : "loaded", GRAY, name.c_str(), GREEN);
 			if (!helpedUser && name != "default") {
 				helpedUser = true;
-				Game.getGuiData()->displayClientMessageF("[%sHorion%s] %sEnter \"%s%cconfig load default%s\" to load your old config!", GOLD, WHITE, YELLOW, WHITE, cmdMgr->prefix, YELLOW);
+				Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sEnter \"%s%cconfig load default%s\" to load your old config!", BOLD, AQUA, WHITE, YELLOW, WHITE, cmdMgr->prefix, YELLOW);
 			}
 		}
 	} else {
 		if (Game.getLocalPlayer() != nullptr) 
-			Game.getGuiData()->displayClientMessageF("[%sHorion%s] %sCould not load config %s%s%s!", GOLD, WHITE, RED, GRAY, name.c_str(), RED);
+			Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sCould not load config %s%s%s!", BOLD, AQUA, WHITE, RED, GRAY, name.c_str(), RED);
 	}
 
 	delete[] fullPath;

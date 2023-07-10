@@ -46,6 +46,6 @@ bool SayCommand::execute(std::vector<std::string>* args) {
 	textPacket.xboxUserId = std::to_string(Game.getLocalPlayer()->getUserId());
 	Game.getClientInstance()->loopbackPacketSender->sendToServer(&textPacket);
 
-	clientMessageF("[%sHorion%s] %sSent Message", GOLD, WHITE, GREEN);
+	clientMessageF("%s[%sNG%s] %s%sSent Message", BOLD, AQUA, WHITE, RESET, WHITE);
 	return true;
 }

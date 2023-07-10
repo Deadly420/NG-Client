@@ -9,9 +9,9 @@ HideCommand::~HideCommand() {
 bool HideCommand::execute(std::vector<std::string>* args) {
 	GameData::hide();
 	if (GameData::shouldHide()) {
-		clientMessageF("[%sHorion%s] %sHidden.", GOLD, WHITE, GREEN);
+		clientMessageF("%s[%sNG%s] %sHidden.", BOLD, AQUA, WHITE, GREEN);
 	} else {
-		clientMessageF("[%sHorion%s] %sMod is now visible.", GOLD, WHITE, GREEN);
+		clientMessageF("%s[%sNG%s] %sMod is now visible.", BOLD, AQUA, WHITE, GREEN);
 	}
 	return true;
 }
