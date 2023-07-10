@@ -99,6 +99,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		}
 
 		float lastModuleLength = 0.f;
+		Vec4 underline;
 		int index = 0;
 
 		for (std::set<ModuleContainer>::iterator mod = modContainerList.begin(); mod != modContainerList.end(); ++mod) {
@@ -125,15 +126,14 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				mod->pos->y = 0.f;
 			}
 
-			Vec2 textPos(xOffset - 1 + textPadding, yOffset + textPadding);
-			Vec4 rectPos(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
-			Vec4 rectPos2(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vec4 leftRect(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
-			Vec4 FluxBar(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vec4 Bar(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
-			Vec4 topLine(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
-			Vec4 underline(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
-
+			Vec2 textPos = Vec2(xOffset - 1 + textPadding, yOffset + textPadding);
+			Vec4 rectPos = Vec4(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
+			Vec4 rectPos2 = Vec4(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 leftRect = Vec4(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
+			Vec4 FluxBar = Vec4(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 Bar = Vec4(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
+			Vec4 topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
+			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
 
 			auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
