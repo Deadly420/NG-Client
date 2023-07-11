@@ -1,7 +1,7 @@
 #include "MidClick.h"
 #include "../../FriendList/FriendsManager.h"
 
-MidClick::MidClick() : Module(0, Category::PLAYER, "Click a player with your mouse wheel to add em as a friend.") {
+MidClick::MidClick() : Module(0x0, Category::PLAYER, "Click a player with your mouse wheel to add em as a friend.") {
 }
 
 MidClick::~MidClick() {

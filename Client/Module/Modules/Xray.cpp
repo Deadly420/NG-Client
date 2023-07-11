@@ -1,6 +1,6 @@
 #include "Xray.h"
 
-Xray::Xray() : Module(0, Category::RENDER, "Allows you to see certain blocks easier.") {
+Xray::Xray() : Module(0x0, Category::RENDER, "Allows you to see certain blocks easier.") {
 }
 
 Xray::~Xray() {

@@ -1,6 +1,6 @@
 #include "Aimbot.h"
 
-Aimbot::Aimbot() : Module(0, Category::COMBAT, "Automatically aims at the nearest entity.") {
+Aimbot::Aimbot() : Module(0x0, Category::COMBAT, "Automatically aims at the nearest entity.") {
 	registerFloatSetting("Range", &range, range, 3.f, 8.f);
 	registerBoolSetting("Require Click", &click, click);
 	registerBoolSetting("Only Swords/Axes", &sword, sword);

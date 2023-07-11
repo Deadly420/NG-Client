@@ -3,7 +3,7 @@
 
 #include "../../../Utils/DrawUtils.h"
 
-HudModule::HudModule() : Module(0, Category::RENDER, "Displays things like the ArrayList/TabGUI.") {
+HudModule::HudModule() : Module(0x0, Category::RENDER, "Displays things like the ArrayList/TabGUI.") {
 	registerBoolSetting("ClickToggle", &clickToggle, clickToggle);
 	registerBoolSetting("Watermark", &watermark, watermark);
 	registerBoolSetting("Coordinates", &coordinates, coordinates);

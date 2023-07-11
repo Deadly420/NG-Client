@@ -5,7 +5,7 @@
 
 std::vector<Entity*> targetList;
 
-BowAimbot::BowAimbot() : Module(0, Category::COMBAT, "Aimbot, but for bows.") {
+BowAimbot::BowAimbot() : Module(0x0, Category::COMBAT, "Aimbot, but for bows.") {
 	registerBoolSetting("Silent", &silent, silent);
 	registerBoolSetting("Predict", &predict, predict);
 	registerBoolSetting("Visualize", &visualize, visualize);

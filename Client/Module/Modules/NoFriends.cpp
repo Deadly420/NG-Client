@@ -1,6 +1,6 @@
 #include "NoFriends.h"
 
-NoFriends::NoFriends() : Module(0, Category::PLAYER, "Ignores friend list check.") {
+NoFriends::NoFriends() : Module(0x0, Category::PLAYER, "Ignores friend list check.") {
 }
 
 NoFriends::~NoFriends() {

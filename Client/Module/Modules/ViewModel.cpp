@@ -1,7 +1,7 @@
 #include "ViewModel.h"
 
 
-ViewModel::ViewModel() : Module(0, Category::RENDER, "Custom item view model.") {
+ViewModel::ViewModel() : Module(0x0, Category::RENDER, "Custom item view model.") {
 	registerBoolSetting("Reset", &Reset, Reset);
 	registerBoolSetting("Translate", &doTranslate, doTranslate);
 	registerBoolSetting("Scale", &doScale, doScale);

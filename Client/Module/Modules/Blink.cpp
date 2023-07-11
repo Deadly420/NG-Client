@@ -1,6 +1,6 @@
 #include "Blink.h"
 
-Blink::Blink() : Module(0, Category::MISC, "Stops you from sending packets and then sends them in a bunch.") {
+Blink::Blink() : Module(0x0, Category::MISC, "Stops you from sending packets and then sends them in a bunch.") {
 }
 
 Blink::~Blink() {

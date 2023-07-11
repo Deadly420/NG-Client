@@ -2,7 +2,7 @@
 
 #include "../../../Utils/Target.h"
 
-TriggerBot::TriggerBot() : Module(0, Category::COMBAT, "Attacks entities you're looking at.") {
+TriggerBot::TriggerBot() : Module(0x0, Category::COMBAT, "Attacks entities you're looking at.") {
 	registerIntSetting("Delay", &delay, delay, 0, 20);
 }
 

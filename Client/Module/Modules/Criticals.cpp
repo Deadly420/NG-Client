@@ -1,6 +1,6 @@
 #include "Criticals.h"
 
-Criticals::Criticals() : Module(0, Category::COMBAT, "Each hit becomes a critical hit.") {
+Criticals::Criticals() : Module(0x0, Category::COMBAT, "Each hit becomes a critical hit.") {
 	registerBoolSetting("test", &test, test);
 }
 

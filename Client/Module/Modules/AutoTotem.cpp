@@ -1,6 +1,6 @@
 #include "AutoTotem.h"
 
-AutoTotem::AutoTotem() : Module(0, Category::PLAYER, "Automatically puts totems into your offhand.") {
+AutoTotem::AutoTotem() : Module(0x0, Category::PLAYER, "Automatically puts totems into your offhand.") {
 }
 
 AutoTotem::~AutoTotem() {
