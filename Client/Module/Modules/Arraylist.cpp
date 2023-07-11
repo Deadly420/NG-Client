@@ -25,6 +25,10 @@ const char* Arraylist::getModuleName() {
 	return "ArrayList";
 }
 
+std::string Arraylist::getModSettings() {
+	return mode.GetSelectedEntry().GetName();
+}
+
 void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSizeReal;
@@ -71,6 +75,16 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
+
+				if (arrayList->modes) {
+					char text[50];
+					sprintf_s(text, 50, "%s%s%s", ModuleNameChr, std::string(GRAY).c_str(), arrayList->modes ? std::string(mod->getModSettings() == "" ? "" : " " + mod->getModSettings()).c_str() : "");
+					moduleName = text;
+
+					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
+					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
+				}
+				
 				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 				if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 			}

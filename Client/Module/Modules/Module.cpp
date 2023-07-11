@@ -202,6 +202,10 @@ const char* Module::getRawModuleName() {
 	return getModuleName();
 }
 
+std::string Module::getModSettings() {
+	return "";
+}
+
 int Module::getKeybind() {
 	return this->keybind;
 }

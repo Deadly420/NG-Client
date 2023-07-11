@@ -121,6 +121,7 @@ public:
 
 	virtual const char* getModuleName() = 0;
 	virtual const char* getRawModuleName();
+	virtual std::string getModSettings();
 	virtual int getKeybind();
 	virtual void setKeybind(int key);
 	virtual bool allowAutoStart();

@@ -11,11 +11,13 @@ public:
 	bool bottom = false;
 	bool keybinds = false;
 	bool modes = true;
+	float scale = 1.f;
 
 	Arraylist();
 	~Arraylist();
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;
+	virtual std::string getModSettings() override;
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 };
