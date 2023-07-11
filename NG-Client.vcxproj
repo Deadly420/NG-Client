@@ -370,6 +370,7 @@
     <ClInclude Include="Client\Command\Commands\WaypointCommand.h" />
     <ClInclude Include="Client\Command\Commands\XpCommand.h" />
     <ClInclude Include="Client\Config\ConfigManager.h" />
+    <ClInclude Include="Client\Module\Modules\MinecraftRGB.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />
     <ClInclude Include="Client\GuiUtils.h" />

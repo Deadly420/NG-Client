@@ -11,6 +11,7 @@ public:
 	float float1 = 0;
 	int int1 = 0;
 	bool bool1 = true;
+	float Opacity = 1.f, Red = 1.f, Green = 1.f, Blue = 1.f;
 	SettingEnum enum1 = SettingEnum(this);
 
 	TestModule();

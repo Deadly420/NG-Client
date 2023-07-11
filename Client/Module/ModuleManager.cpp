@@ -27,6 +27,7 @@ void ModuleManager::initModules() {
 		// moduleList.push_back(new Notifications());
 		moduleList.emplace_back(new AntiImmobile());
 		moduleList.emplace_back(new ChestStealer());
+		moduleList.emplace_back(new MinecraftRGB());
 		moduleList.emplace_back(new OffhandAllow());
 		moduleList.emplace_back(new EditionFaker());
 		moduleList.emplace_back(new FontChanger());
