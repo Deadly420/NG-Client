@@ -131,7 +131,7 @@ void ClickGui::renderCategory(Category category) {
 			ourWindow->pos.y = 4;
 			switch (category) {
 			case Category::COMBAT:
-				ourWindow->pos.x = 8;
+				ourWindow->pos.x = 6;
 				ourWindow->pos.y = 1;
 				break;
 			case Category::RENDER:
@@ -154,9 +154,9 @@ void ClickGui::renderCategory(Category category) {
 				ourWindow->pos.x = yot / 11.f * 5.f;
 				ourWindow->pos.y = 1;
 				break;
-			case Category::CLIENT:
+			case Category::HUD:
 				ourWindow->pos.x = yot / 11.f * 4.f;
-				ourWindow->pos.y = 125.f;
+				ourWindow->pos.y = 63.f;
 				break;
 			default:
 				break;
@@ -758,7 +758,7 @@ void ClickGui::render() {
 	renderCategory(Category::PLAYER);
 	renderCategory(Category::WORLD);
 	renderCategory(Category::MISC);
-	renderCategory(Category::CLIENT);
+	renderCategory(Category::HUD);
 
 	DrawUtils::shouldToggleLeftClick = false;
 	DrawUtils::shouldToggleRightClick = false;
@@ -810,7 +810,7 @@ void ClickGui::onLoadConfig(void* confVoid) {
 		auto obj = conf->at("ClickGuiMenu");
 		if (obj.is_null())
 			return;
-		for (int i = 0; i <= (int)Category::CLIENT /*last category*/; i++) {
+		for (int i = 0; i <= (int)Category::HUD /*last category*/; i++) {
 			auto catName = ClickGui::catToName((Category)i);
 			if (obj.contains(catName)) {
 				auto value = obj.at(catName);

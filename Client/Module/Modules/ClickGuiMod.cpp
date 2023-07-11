@@ -1,7 +1,7 @@
 #include "ClickGuiMod.h"
 #include "../../Menu/ClickGui.h"
 
-ClickGuiMod::ClickGuiMod() : Module(VK_INSERT, Category::CLIENT, "The clickgui - toggle everything just by clicking on it!") {
+ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggle everything just by clicking on it!") {
 	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
 }
 

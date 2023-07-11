@@ -67,8 +67,8 @@ private:
 			case Category::MISC:
 				categoryName = "Misc";
 				break;
-			case Category::CLIENT:
-				categoryName = "Client";
+			case Category::HUD:
+				categoryName = "Hud";
 				break;
 			}
 		}

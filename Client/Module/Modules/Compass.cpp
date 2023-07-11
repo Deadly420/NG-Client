@@ -2,7 +2,7 @@
 
 #include "../ModuleManager.h"
 
-Compass::Compass() : Module(0, Category::CLIENT, "Compass.") {
+Compass::Compass() : Module(0, Category::RENDER, "Compass.") {
 	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1);
 	registerIntSetting("Range", &range, range, 45, 180);
 	registerBoolSetting("Show Waypoints", &showWaypoints, showWaypoints);

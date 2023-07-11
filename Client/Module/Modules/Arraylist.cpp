@@ -5,7 +5,7 @@
 #include "../../Module/ModuleManager.h"
 
 using namespace std;
-Arraylist::Arraylist() : Module(0x0, Category::RENDER, "Displays the arraylist") {
+Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
 	registerEnumSetting("Mode", &mode, 0);
 	mode.addEntry("Full", 0);
 	mode.addEntry("Outline", 1);
@@ -84,11 +84,10 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		set<ModuleContainer> modContainerList;
 
 		if (mode.selected == 0) {
-			yOffset = 1;
+			Y = 1;
 		} else {
-			yOffset = 0;
+			Y = 0;
 		}
-
 
 		auto lock = moduleMgr->lockModuleList();
 		vector<shared_ptr<Module>>* moduleList = moduleMgr->getModuleList();
@@ -135,7 +134,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Vec4 topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
 			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
-
 			auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
@@ -158,7 +156,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
 				break;
 			case 3:
-				DrawUtils::fillRectangle(rectPos2, Mc_Color(0, 0, 0), opacity);
+				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(FluxBar, color);
 				DrawUtils::drawText(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
 				break;
@@ -174,7 +172,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		}
 		index++;
 		int curIndex = -index * 90;
-		
+
 		auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
 
 		if (mode.getSelectedValue() == 0 || mode.getSelectedValue() == 1) DrawUtils::fillRectangle(underline, color, 1.f);

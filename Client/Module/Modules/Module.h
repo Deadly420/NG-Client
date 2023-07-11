@@ -14,7 +14,7 @@ enum class Category {
 	PLAYER = 3,
 	WORLD = 4,
 	MISC = 5,
-	CLIENT = 6
+	HUD = 6
 };
 
 struct EnumEntry {
