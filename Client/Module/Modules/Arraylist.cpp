@@ -5,7 +5,7 @@
 #include "../../Module/ModuleManager.h"
 
 using namespace std;
-Arraylist::Arraylist() : Module(0x0, Category::VISUAL, "Displays the arraylist") {
+Arraylist::Arraylist() : Module(0x0, Category::RENDER, "Displays the arraylist") {
 	registerEnumSetting("Mode", &mode, 0);
 	mode.addEntry("Full", 0);
 	mode.addEntry("Outline", 1);

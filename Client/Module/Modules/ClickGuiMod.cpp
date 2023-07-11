@@ -22,6 +22,7 @@ bool ClickGuiMod::allowAutoStart() {
 
 void ClickGuiMod::onDisable() {
 	Game.getClientInstance()->grabMouse();
+	Opacity = 0;
 }
 
 void ClickGuiMod::onPostRender(MinecraftUIRenderContext* renderCtx) {

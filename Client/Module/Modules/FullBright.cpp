@@ -1,6 +1,6 @@
 #include "FullBright.h"
 
-FullBright::FullBright() : Module(0, Category::VISUAL, "Puts your gamma to max.") {
+FullBright::FullBright() : Module(0, Category::RENDER, "Puts your gamma to max.") {
 	registerFloatSetting("Gamma", &intensity, intensity, -25.f, 25.f);
 }
 

@@ -9,7 +9,7 @@ class Module;
 
 enum class Category {
 	COMBAT = 0,
-	VISUAL = 1,
+	RENDER = 1,
 	MOVEMENT = 2,
 	PLAYER = 3,
 	WORLD = 4,

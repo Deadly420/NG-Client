@@ -5,7 +5,7 @@
 #include "../ModuleManager.h"
 
 bool old = false;
-Tracer::Tracer() : Module('R', Category::VISUAL, "Draws lines to ESP highlighted entities.") {
+Tracer::Tracer() : Module('R', Category::RENDER, "Draws lines to ESP highlighted entities.") {
 	registerBoolSetting("3D Tracers", &old, old);
 }
 

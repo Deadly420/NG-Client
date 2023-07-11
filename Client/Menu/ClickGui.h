@@ -52,8 +52,8 @@ private:
 			case Category::COMBAT:
 				categoryName = "Combat";
 				break;
-			case Category::VISUAL:
-				categoryName = "Visual";
+			case Category::RENDER:
+				categoryName = "Render";
 				break;
 			case Category::MOVEMENT:
 				categoryName = "Movement";

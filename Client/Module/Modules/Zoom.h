@@ -7,7 +7,7 @@ class Zoom : public Module {
 public:
 	float strength = 0.5f;
 
-	Zoom() : Module(0x0, Category::VISUAL, "Zoom in or out!") {
+	Zoom() : Module(0x0, Category::RENDER, "Zoom in or out!") {
 		registerFloatSetting("Strength", &strength, strength, 0.f, 1.f);
 	};
 	~Zoom(){};

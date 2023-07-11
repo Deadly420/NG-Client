@@ -7,6 +7,7 @@ public:
 	ClickGuiMod();
 	~ClickGuiMod();
 
+	int Opacity = 0;
 	bool showTooltips = true;
 
 	// Inherited via Module
