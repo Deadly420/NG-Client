@@ -415,6 +415,12 @@ public:
 
 	static std::string getClipboardText();
 
+	static void systemPlay(std::string name);
+
+	static void makeRoamingFoldr(std::string file);
+
+	static void makeNGFoldr(std::string file);
+
 	static void setClipboardText(std::string& text);
 
 	static std::string readFileContents(std::wstring filePath) {

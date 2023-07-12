@@ -66,7 +66,7 @@ void Logger::WriteLogFileF(volatile char* fmt, ...) {
 
 
 		std::wstring roam = GetRoamingFolderPath();
-		sprintf_s(logPath, 200, "%S\\logs.txt", roam.c_str());
+		sprintf_s(logPath, 200, "%S\\NG\\logs.txt", roam.c_str());
 
 		try {
 			remove(logPath);

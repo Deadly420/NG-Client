@@ -53,6 +53,29 @@ uintptr_t Utils::getBase() {
 	return cachedBase;
 }
 
+void Utils::systemPlay(std::string name) {
+	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\CustomSounds\\") + std::string(name);
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+}
+
+void Utils::makeRoamingFoldr(std::string file) {
+	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\") + std::string(file);
+	// Creating File
+	if (mkdir(path.c_str()) == -1)
+		return;
+	else
+		return;
+}
+
+void Utils::makeNGFoldr(std::string file) {
+	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\") + std::string(file);
+	// Creating File
+	if (mkdir(path.c_str()) == -1)
+		return;
+	else
+		return;
+}
+
 void Utils::GetCurrentSystemTime(tm& timeInfo) {
 	const std::chrono::system_clock::time_point systemNow = std::chrono::system_clock::now();
 	std::time_t now_c = std::chrono::system_clock::to_time_t(systemNow);

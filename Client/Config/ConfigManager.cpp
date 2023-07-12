@@ -9,29 +9,8 @@ using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Wrappers;
 
 std::wstring ConfigManager::GetRoamingFolderPath() {
-	ComPtr<IApplicationDataStatics> appDataStatics;
-	auto hr = RoGetActivationFactory(HStringReference(L"Windows.Storage.ApplicationData").Get(), __uuidof(appDataStatics), &appDataStatics);
-	if (FAILED(hr)) throw std::runtime_error("Failed to retrieve application data statics");
-
-	ComPtr<IApplicationData> appData;
-	hr = appDataStatics->get_Current(&appData);
-	if (FAILED(hr)) throw std::runtime_error("Failed to retrieve current application data");
-
-	ComPtr<IStorageFolder> roamingFolder;
-	hr = appData->get_RoamingFolder(&roamingFolder);
-	if (FAILED(hr)) throw std::runtime_error("Failed to retrieve roaming folder");
-
-	ComPtr<IStorageItem> folderItem;
-	hr = roamingFolder.As(&folderItem);
-	if (FAILED(hr)) throw std::runtime_error("Failed to cast roaming folder to IStorageItem");
-
-	HString roamingPathHString;
-	hr = folderItem->get_Path(roamingPathHString.GetAddressOf());
-	if (FAILED(hr)) throw std::runtime_error("Failed to retrieve roaming folder path");
-
-	uint32_t pathLength;
-	auto roamingPathCStr = roamingPathHString.GetRawBuffer(&pathLength);
-	return std::wstring(roamingPathCStr, pathLength);
+	std::string roamingPathCStr = (getenv("AppData") + (std::string) "\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\Configs\\");
+	return Utils::stringToWstring(roamingPathCStr);
 }
 
 ConfigManager::ConfigManager() {
@@ -82,7 +61,7 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 		if (Game.getLocalPlayer() != nullptr) {
 			static bool helpedUser = false;
 			Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sSuccessfully %s config %s%s%s!", BOLD, AQUA, WHITE, GREEN, !configExists ? "created" : "loaded", GRAY, name.c_str(), GREEN);
-			if (!helpedUser && name != "default") {
+			if (!helpedUser && name != "NG") {
 				helpedUser = true;
 				Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sEnter \"%s%cconfig load default%s\" to load your old config!", BOLD, AQUA, WHITE, YELLOW, WHITE, cmdMgr->prefix, YELLOW);
 			}

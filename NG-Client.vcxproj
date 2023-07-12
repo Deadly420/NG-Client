@@ -382,6 +382,7 @@
     <ClInclude Include="Client\Module\Entity\EntitySpeed.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
+    <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />
     <ClInclude Include="Client\GuiUtils.h" />
