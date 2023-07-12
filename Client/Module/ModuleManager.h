@@ -37,6 +37,7 @@
 #include "Movement/AutoGapple.h"
 #include "Render/ViewModel.h"
 #include "Hud/Arraylist.h"
+#include "Hud/ToggleSounds.h"
 #include "Render/Waypoints.h"
 #include "Render/NoHurtcam.h"
 #include "Render/NightMode.h"

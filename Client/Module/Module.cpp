@@ -359,10 +359,18 @@ void Module::setEnabled(bool enabled) {
 #endif
 			logF("%s %s", enabled ? "Enabled" : "Disabled", this->getModuleName());
 
-		if (enabled)
+		static auto ToggleSound = moduleMgr->getModule<ToggleSounds>();
+
+
+		if (enabled) {
 			this->onEnable();
-		else
+			if (ToggleSound->isEnabled() && !((GameData::isKeyDown('L') && GameData::isKeyDown(VK_CONTROL)) || GameData::isKeyDown(VK_END) || GameData::shouldTerminate()) && Game.isInGame() && Game.getLocalPlayer() != nullptr && !isFlashMode())
+				Utils::systemPlay("CustomEnable.wav");
+		} else {
 			this->onDisable();
+			if (ToggleSound->isEnabled() && !((GameData::isKeyDown('L') && GameData::isKeyDown(VK_CONTROL)) || GameData::isKeyDown(VK_END) || GameData::shouldTerminate()) && Game.isInGame() && Game.getLocalPlayer() != nullptr && !isFlashMode())
+				Utils::systemPlay("CustomDisable.wav");
+		}
 	}
 }
 

@@ -381,6 +381,7 @@
     <ClInclude Include="Client\Module\Entity\EntityLongJump.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpeed.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
+    <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
