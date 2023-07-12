@@ -21,10 +21,8 @@ void ModuleManager::initModules() {
 
 		moduleList.emplace_back(new FollowPathModule());
 		moduleList.emplace_back(new InventoryCleaner());
-		// moduleList.emplace_back(new InfiniteAura());
 		moduleList.emplace_back(new StackableItem());
 		moduleList.emplace_back(new InventoryMove());
-		// moduleList.push_back(new Notifications());
 		moduleList.emplace_back(new AntiImmobile());
 		moduleList.emplace_back(new ChestStealer());
 		moduleList.emplace_back(new MinecraftRGB());
@@ -32,13 +30,10 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new EditionFaker());
 		moduleList.emplace_back(new FontChanger());
 		moduleList.emplace_back(new TimeChanger());
-		// moduleList.emplace_back(new CubeGlide());
 		moduleList.emplace_back(new CrystalAura());
 		moduleList.emplace_back(new AutoClicker());
 		moduleList.emplace_back(new ClickGuiMod());
-		// moduleList.emplace_back(new AirStuck());
 		moduleList.emplace_back(new BlockReach());
-		// moduleList.emplace_back(new FastEat());
 		moduleList.emplace_back(new FastLadder());
 		moduleList.emplace_back(new FullBright());
 		moduleList.emplace_back(new NoSlowDown());
@@ -47,13 +42,11 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new RainbowSky());
 		moduleList.emplace_back(new StorageESP());
 		moduleList.emplace_back(new TriggerBot());
-		// moduleList.emplace_back(new Jetpack());
 		moduleList.emplace_back(new ViewModel());
 		moduleList.emplace_back(new Waypoints());
 		moduleList.emplace_back(new Arraylist());
 		moduleList.emplace_back(new NoHurtcam());
 		moduleList.emplace_back(new AutoSneak());
-		// moduleList.emplace_back(new Godmode());
 		moduleList.emplace_back(new NightMode());
 		moduleList.emplace_back(new ChestAura());
 		moduleList.emplace_back(new NoFriends());
@@ -108,6 +101,15 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Nbt());
 		moduleList.emplace_back(new Fly());
 		moduleList.emplace_back(new ESP());
+
+		//Entity
+		moduleList.emplace_back(new EntityLongJump());
+		moduleList.emplace_back(new EntitySpider());
+		moduleList.emplace_back(new EntityJesus());
+		moduleList.emplace_back(new EntitySpeed());
+		moduleList.emplace_back(new EntityBhop());
+		moduleList.emplace_back(new EntityFly());
+
 
 #ifdef _DEBUG
 		moduleList.emplace_back(new PacketLogger());

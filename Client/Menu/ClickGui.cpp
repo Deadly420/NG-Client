@@ -1,6 +1,6 @@
 #include "ClickGui.h"
 
-#include "../Module/Modules/ClickGuiMod.h"
+#include "../Module/Hud/ClickGuiMod.h"
 #include "../../Utils/Json.hpp"
 #include "../../Utils/Logger.h"
 #include <Windows.h>
@@ -140,23 +140,28 @@ void ClickGui::renderCategory(Category category) {
 				break;
 			case Category::MOVEMENT:
 				ourWindow->pos.x = yot / 11.f * 2.f;
-				ourWindow->pos.y = 0.5;
+				ourWindow->pos.y = 0.5; 
 				break;
 			case Category::PLAYER:
 				ourWindow->pos.x = yot / 11.f * 3.f;
 				ourWindow->pos.y = 1;
 				break;
-			case Category::WORLD:
+			case Category::ENTITY:
 				ourWindow->pos.x = yot / 11.f * 4.f;
 				ourWindow->pos.y = 1;
 				break;
 			case Category::MISC:
-				ourWindow->pos.x = yot / 11.f * 5.f;
+				ourWindow->pos.x = yot / 11.f * 5.08f;
 				ourWindow->pos.y = 1;
 				break;
+			case Category::WORLD:
+				ourWindow->pos.x = yot / 11.f * 3.f;
+				ourWindow->pos.y = 130.f;
+				break;
+			//Hud is Under World
 			case Category::HUD:
 				ourWindow->pos.x = yot / 11.f * 4.f;
-				ourWindow->pos.y = 63.f;
+				ourWindow->pos.y = 73.f;
 				break;
 			default:
 				break;
@@ -756,8 +761,9 @@ void ClickGui::render() {
 	renderCategory(Category::RENDER);
 	renderCategory(Category::MOVEMENT);
 	renderCategory(Category::PLAYER);
-	renderCategory(Category::WORLD);
+	renderCategory(Category::ENTITY);
 	renderCategory(Category::MISC);
+	renderCategory(Category::WORLD);
 	renderCategory(Category::HUD);
 
 	DrawUtils::shouldToggleLeftClick = false;

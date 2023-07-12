@@ -61,11 +61,14 @@ private:
 			case Category::PLAYER:
 				categoryName = "Player";
 				break;
-			case Category::WORLD:
-				categoryName = "World";
+			case Category::ENTITY:
+				categoryName = "Entity";
 				break;
 			case Category::MISC:
 				categoryName = "Misc";
+				break;
+			case Category::WORLD:
+				categoryName = "World";
 				break;
 			case Category::HUD:
 				categoryName = "Hud";
