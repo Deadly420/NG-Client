@@ -221,7 +221,6 @@
     <ClCompile Include="Client\Module\Movement\AirJump.cpp" />
     <ClCompile Include="Client\Module\Movement\AirSwim.cpp" />
     <ClCompile Include="Client\Module\Player\AntiBot.cpp" />
-    <ClCompile Include="Client\Module\Misc\AntiImmobile.cpp" />
     <ClCompile Include="Client\Module\Movement\AntiVoid.cpp" />
     <ClCompile Include="Client\Module\Hud\Arraylist.cpp" />
     <ClCompile Include="Client\Module\Player\AutoArmor.cpp" />
@@ -231,7 +230,6 @@
     <ClCompile Include="Client\Module\Movement\AutoSprint.cpp" />
     <ClCompile Include="Client\Module\Combat\AutoTotem.cpp" />
     <ClCompile Include="Client\Module\Movement\Bhop.cpp" />
-    <ClCompile Include="Client\Module\Misc\Blink.cpp" />
     <ClCompile Include="Client\Module\Combat\BowAimbot.cpp" />
     <ClCompile Include="Client\Module\Player\ChestAura.cpp" />
     <ClCompile Include="Client\Module\Misc\Criticals.cpp" />
@@ -263,12 +261,10 @@
     <ClCompile Include="Client\Module\World\InstaBreak.cpp" />
     <ClCompile Include="Client\Module\Player\InventoryCleaner.cpp" />
     <ClCompile Include="Client\Module\Movement\InventoryMove.cpp" />
-    <ClCompile Include="Client\Module\Movement\Jesus.cpp" />
     <ClCompile Include="Client\Module\Combat\Killaura.cpp" />
     <ClCompile Include="Client\Module\Player\MidClick.cpp" />
     <ClCompile Include="Client\Module\Module.cpp" />
     <ClCompile Include="Client\Module\Render\NameTags.cpp" />
-    <ClCompile Include="Client\Module\Player\Nbt.cpp" />
     <ClCompile Include="Client\Module\Render\NightMode.cpp" />
     <ClCompile Include="Client\Module\Player\NoFall.cpp" />
     <ClCompile Include="Client\Module\Player\NoFriends.cpp" />
@@ -300,10 +296,7 @@
     <ClCompile Include="Client\Module\Combat\TriggerBot.cpp" />
     <ClCompile Include="Client\Module\Movement\Twerk.cpp" />
     <ClCompile Include="Client\Module\Render\VanillaPlus.cpp" />
-    <ClCompile Include="Client\Module\Render\ViewModel.cpp" />
-    <ClCompile Include="Client\Module\Movement\Velocity.cpp" />
     <ClCompile Include="Client\Module\Render\Waypoints.cpp" />
-    <ClCompile Include="Client\Module\Render\Xray.cpp" />
     <ClCompile Include="Client\path\goals\JoeGoal.cpp" />
     <ClCompile Include="Client\path\goals\JoeGoalXYZ.cpp" />
     <ClCompile Include="Client\path\goals\JoeGoalXZ.cpp" />
@@ -382,6 +375,9 @@
     <ClInclude Include="Client\Module\Entity\EntitySpeed.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
+    <ClInclude Include="Client\Module\Player\XP.h" />
+    <ClInclude Include="Client\Module\Render\BlockEsp.h" />
+    <ClInclude Include="Client\Module\Render\HoleEsp.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
@@ -443,7 +439,6 @@
     <ClInclude Include="Client\Module\Player\MidClick.h" />
     <ClInclude Include="Client\Module\Module.h" />
     <ClInclude Include="Client\Module\Render\NameTags.h" />
-    <ClInclude Include="Client\Module\Player\Nbt.h" />
     <ClInclude Include="Client\Module\Render\NightMode.h" />
     <ClInclude Include="Client\Module\Player\NoFall.h" />
     <ClInclude Include="Client\Module\Player\NoFriends.h" />

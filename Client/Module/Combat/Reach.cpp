@@ -15,6 +15,10 @@ const char* Reach::getModuleName() {
 	return ("Reach");
 }
 
+std::string Reach::getModSettings() {
+	return std::to_string((int)reachValue) + std::string(".") + std::to_string((int)(reachValue * 10) - ((int)reachValue * 10));
+}
+
 void Reach::onTick(GameMode* gm) {
 	if (reachPtr != 0) {
 		*reachPtr = reachValue;

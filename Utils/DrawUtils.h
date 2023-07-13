@@ -131,6 +131,7 @@ public:
 
 	static void drawText(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH);
 	static void drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, int mode = 1);
+	static void drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline = false);
 	static void draw2DBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, bool corners = false);
 	static void drawEntityBox(Entity* ent, float lineWidth = 0.f, bool fill = false);
 	static void draw2D(Entity* ent, float lineWidth = 0.f);

@@ -9,6 +9,9 @@ private:
 	bool rotations = true;
 	int extend = 0;
 	bool Ylock = false;
+	bool Count = false;
+	float scY = 20.f;
+	float scX = 10.f;
 	bool tryScaffold(Vec3 blockBelow);
 	bool tryClutchScaffold(Vec3 blockBelow);
 	bool findBlock();

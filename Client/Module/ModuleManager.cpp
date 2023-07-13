@@ -58,6 +58,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new HudModule());
 		moduleList.emplace_back(new FastStop());
 		moduleList.emplace_back(new Freelook());
+		moduleList.emplace_back(new BlockEsp());
 		moduleList.emplace_back(new Teleport());
 		moduleList.emplace_back(new MidClick());
 		moduleList.emplace_back(new AntiVoid());
@@ -72,6 +73,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Crasher());
 		moduleList.emplace_back(new AntiBot());
 		moduleList.emplace_back(new Spammer());
+		moduleList.emplace_back(new HoleESP());
 		moduleList.emplace_back(new AirSwim());
 		moduleList.emplace_back(new Breaker());
 		moduleList.emplace_back(new Freecam());
@@ -99,9 +101,9 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Bhop());
 		moduleList.emplace_back(new Xray());
 		moduleList.emplace_back(new Step());
-		moduleList.emplace_back(new Nbt());
 		moduleList.emplace_back(new Fly());
 		moduleList.emplace_back(new ESP());
+		moduleList.emplace_back(new XP());
 
 		//Entity
 		moduleList.emplace_back(new EntityLongJump());

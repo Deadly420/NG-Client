@@ -4,6 +4,9 @@
 #include "../../../Utils/DrawUtils.h"
 #include "../../Module/ModuleManager.h"
 
+uintptr_t HiveBypass1 = Utils::getBase() + 0x8F3895;  // Second one of 89 41 ? 0F B6 42 ? 88 41 ? F2 0F 10 42 ? F2 0F 11 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 48 83 C2 ? 89 41 ? 48 83 C1 ? E8 ? ? ? ? 0F B6 43
+uintptr_t HiveBypass2 = Utils::getBase() + 0x8F87C7;  // C7 40 ? ? ? ? ? 48 8B 8D ? ? ? ? 48 33 CC E8 ? ? ? ? 4C 8D 9C 24
+
 Scaffold::Scaffold() : Module(VK_NUMPAD1, Category::WORLD, "Automatically build blocks beneath you") {
 	registerBoolSetting("AutoSelect", &autoSelect, autoSelect);
 	registerBoolSetting("Down", &down, down);
@@ -11,6 +14,7 @@ Scaffold::Scaffold() : Module(VK_NUMPAD1, Category::WORLD, "Automatically build 
 	registerBoolSetting("Hive", &hive, hive);
 	registerBoolSetting("Rotations", &rotations, rotations);
 	registerBoolSetting("Y Lock", &Ylock, Ylock);
+	registerBoolSetting("Block Count", &Count, Count);
 	registerIntSetting("Extend", &extend, extend, 0, 8);
 }
 
@@ -153,6 +157,34 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 	auto player = Game.getLocalPlayer();
 	if (player == nullptr || !Game.canUseMoveKeys()) {
 		return;
+	}
+
+	Vec4 testRect = Vec4(scX, scY, 25 + scX, scY + 16);
+	Vec2 textPos(testRect.x + 8, testRect.y + 8);
+	Vec2 blockPos(testRect.x + 5, testRect.y + 7);
+
+	if (Count) {
+		PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
+		Inventory* inv = supplies->inventory;
+		int totalCount = 0;
+
+		DrawUtils::fillRectangle(testRect, Mc_Color(0, 0, 0, 150), false);
+		for (int s = 0; s < 9; s++) {
+			ItemStack* stack = inv->getItemStack(s);
+			if (stack->item != nullptr && stack->getItem()->isBlock()) {
+				if (stack->isValid()) DrawUtils::drawItem(stack, Vec2(blockPos.x - 1, blockPos.y - 7), 1, 1, false);
+				totalCount += stack->count;
+			}
+		}
+
+		std::string count = std::to_string(totalCount);
+		Mc_Color color = Mc_Color();
+		if (totalCount > 64) color = Mc_Color(255, 255, 255);
+		if (totalCount < 64) color = Mc_Color(255, 255, 20);
+		if (totalCount < 32) color = Mc_Color(255, 196, 0);
+		if (totalCount < 16) color = Mc_Color(252, 62, 62);
+		if (totalCount < 1) color = Mc_Color(255, 0, 0);
+		DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
 	}
 
 	auto selectedItem = player->getSelectedItem();

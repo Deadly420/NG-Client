@@ -24,6 +24,14 @@ public:
 		*greenAddress = Green;
 		*blueAddress = Blue;
 	}
+
+	void onDisable() {
+		*opacityAddress = 1.f;
+		*redAddress = 1.f;
+		*greenAddress = 1.f;
+		*blueAddress = 1.f;
+	}
+
 	virtual const char* getModuleName() override {
 		return "MinecraftRGB";
 	}

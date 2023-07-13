@@ -34,7 +34,7 @@ void Freecam::onPreRender(MinecraftUIRenderContext* rcx) {
 
 	if (Player == nullptr)
 		return;
-	//yaw = Player->bodyYaw;
+	yaw = Player->bodyYaw;
 
 	bool isForwardKeyDown = GameData::isKeyDown(*input->forwardKey);
 	bool isBackKeyDown = GameData::isKeyDown(*input->backKey);

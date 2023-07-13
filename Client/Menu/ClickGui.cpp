@@ -5,7 +5,7 @@
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
-bool resetStartPos = true;
+bool resetStartPos = false;
 bool initialised = false;
 int scrollingDirection = 0;
 

@@ -389,6 +389,85 @@ void DrawUtils::drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, b
 	}
 }
 
+void DrawUtils::drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline) {
+	Vec3 vertices[4];
+	vertices[0] = Vec3(lower.x, lower.y, lower.z);
+	vertices[1] = Vec3(lower.x + (upper.x - lower.x), lower.y, lower.z);
+	vertices[2] = Vec3(lower.x, lower.y, lower.z + (upper.z - lower.z));
+	vertices[3] = Vec3(lower.x + (upper.x - lower.x), lower.y, lower.z + (upper.z - lower.z));
+
+	// Convert to screen coord
+	std::vector<std::tuple<int, Vec2>> screenCords;
+	for (int i = 0; i < 4; i++) {
+		Vec2 screen;
+		if (refdef->OWorldToScreen(origin, vertices[i], screen, fov, screenSize)) {
+			screenCords.emplace_back((int)screenCords.size(), screen);
+		}
+	}
+	if (screenCords.size() < 2)
+		return;  // No lines possible
+
+	// Find start vertex
+	auto it = screenCords.begin();
+	std::tuple<int, Vec2> start = *it;
+	it++;
+	for (; it != screenCords.end(); it++) {
+		auto cur = *it;
+		if (std::get<1>(cur).x < std::get<1>(start).x) {
+			start = cur;
+		}
+	}
+
+	// Follow outer line
+	std::vector<int> indices;
+
+	auto current = start;
+	indices.push_back(std::get<0>(current));
+	Vec2 lastDir(0, -1);
+	do {
+		float smallestAngle = PI * 2;
+		Vec2 smallestDir;
+		std::tuple<int, Vec2> smallestE;
+		auto lastDirAtan2 = atan2(lastDir.y, lastDir.x);
+		for (auto cur : screenCords) {
+			if (std::get<0>(current) == std::get<0>(cur))
+				continue;
+
+			// angle between vecs
+			Vec2 dir = Vec2(std::get<1>(cur)).sub(std::get<1>(current));
+			float angle = atan2(dir.y, dir.x) - lastDirAtan2;
+			if (angle > PI) {
+				angle -= 2 * PI;
+			} else if (angle <= -PI) {
+				angle += 2 * PI;
+			}
+			if (angle >= 0 && angle < smallestAngle) {
+				smallestAngle = angle;
+				smallestDir = dir;
+				smallestE = cur;
+			}
+		}
+		indices.push_back(std::get<0>(smallestE));
+		lastDir = smallestDir;
+		current = smallestE;
+	} while (std::get<0>(current) != std::get<0>(start) && indices.size() < 8);
+
+	// draw
+
+	Vec2 lastVertex;
+	bool hasLastVertex = false;
+	for (auto& indice : indices) {
+		Vec2 curVertex = std::get<1>(screenCords[indice]);
+		if (!hasLastVertex) {
+			hasLastVertex = true;
+			lastVertex = curVertex;
+			continue;
+		}
+		DrawUtils::drawLine(lastVertex, curVertex, lineWidth);
+		lastVertex = curVertex;
+	}
+}
+
 void DrawUtils::draw2DBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill, bool corners) {
 	if (Game.getLocalPlayer() == nullptr) return;
 	Vec3 worldPoints[8];
