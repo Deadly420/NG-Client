@@ -203,14 +203,14 @@ void ClickGui::renderCategory(Category category) {
 
 	if (ourWindow->isInAnimation) {
 		if (ourWindow->isExtended) {
-			ourWindow->animation *= 0.895f;
-			if (ourWindow->animation < 0.01f) {
+			ourWindow->animation *= 0.90f;
+			if (ourWindow->animation < 0.001f) {
 				ourWindow->yOffset = 0;  // reset scroll
 				ourWindow->isInAnimation = false;
 			}
 
 		} else {
-			ourWindow->animation = 1 - ((1 - ourWindow->animation) * 0.85f);
+			ourWindow->animation = 1 - ((1 - ourWindow->animation) * 0.93f);
 			if (1 - ourWindow->animation < 0.001f)
 				ourWindow->isInAnimation = false;
 		}
