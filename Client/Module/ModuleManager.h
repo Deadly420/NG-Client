@@ -10,24 +10,30 @@
 #include "../../Memory/GameData.h"
 #include "Module.h"
 
+// World
+#include "World/InstaBreak.h"
+#include "World/Scaffold.h"
+#include "World/Tower.h"
+#include "World/Nuker.h"
+
+// Hud
+#include "Hud/ToggleSounds.h"
 #include "Hud/FontChanger.h"
-#include "Combat/CrystalAura.h"
 #include "Hud/ClickGuiMod.h"
+#include "Hud/Arraylist.h"
+
+// Combat
+#include "Combat/CrystalAura.h"
 #include "Combat/AutoClicker.h"
 #include "Combat/TriggerBot.h"
-#include "World/InstaBreak.h"
-#include "Hud/Arraylist.h"
-#include "Hud/ToggleSounds.h"
 #include "Combat/BowAimbot.h"
 #include "Combat/AutoTotem.h"
-#include "World/Scaffold.h"
 #include "Combat/Killaura.h"
+#include "Combat/AutoPot.h"
 #include "Combat/Hitbox.h"
 #include "Combat/Aimbot.h"
 #include "Combat/Teams.h"
-#include "World/Tower.h"
 #include "Combat/Reach.h"
-#include "World/Nuker.h"
 
 // Player
 #include "Player/InventoryCleaner.h"

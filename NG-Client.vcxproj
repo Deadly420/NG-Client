@@ -217,7 +217,6 @@
     <ClCompile Include="Client\Loader.cpp" />
     <ClCompile Include="Client\Menu\ClickGui.cpp" />
     <ClCompile Include="Client\Module\ModuleManager.cpp" />
-    <ClCompile Include="Client\Module\Combat\Aimbot.cpp" />
     <ClCompile Include="Client\Module\Movement\AirJump.cpp" />
     <ClCompile Include="Client\Module\Movement\AirSwim.cpp" />
     <ClCompile Include="Client\Module\Player\AntiBot.cpp" />
@@ -368,6 +367,7 @@
     <ClInclude Include="Client\Command\Commands\WaypointCommand.h" />
     <ClInclude Include="Client\Command\Commands\XpCommand.h" />
     <ClInclude Include="Client\Config\ConfigManager.h" />
+    <ClInclude Include="Client\Module\Combat\AutoPot.h" />
     <ClInclude Include="Client\Module\Entity\EntityBhop.h" />
     <ClInclude Include="Client\Module\Entity\EntityFly.h" />
     <ClInclude Include="Client\Module\Entity\EntityJesus.h" />
