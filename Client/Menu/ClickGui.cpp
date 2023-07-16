@@ -5,7 +5,7 @@
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
-bool resetStartPos = false;
+bool resetStartPos = true;
 bool initialised = false;
 int scrollingDirection = 0;
 
@@ -156,9 +156,8 @@ void ClickGui::renderCategory(Category category) {
 				break;
 			case Category::WORLD:
 				ourWindow->pos.x = yot / 11.f * 3.f;
-				ourWindow->pos.y = 130.f;
+				ourWindow->pos.y = 140.f;
 				break;
-			//Hud is Under World
 			case Category::HUD:
 				ourWindow->pos.x = yot / 11.f * 4.f;
 				ourWindow->pos.y = 73.f;

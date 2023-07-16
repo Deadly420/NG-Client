@@ -460,13 +460,11 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 				}
 			} else {
-				shouldRenderArrayList = hudModule->arraylist && hudModule->isEnabled();
 				shouldRenderWatermark = hudModule->watermark && hudModule->isEnabled();
 
 				if (clickGuiModule->isEnabled()) {
 					ClickGui::render();
 					shouldPostRender = false;
-					shouldRenderArrayList = false;
 					shouldRenderTabGui = false;
 					shouldRenderWatermark = false;
 				}
@@ -548,12 +546,51 @@ float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, 
 	}
 
 	static auto rainbowSkyMod = moduleMgr->getModule<RainbowSky>();
+	static float rcolors[4];
+	static float currColor[4];
+
 	if (rainbowSkyMod->isEnabled()) {
-		color[0] = rColor.r;
-		color[1] = rColor.g;
-		color[2] = rColor.b;
-		color[3] = 1;
-		return color;
+		if (RainbowSky::custom) {
+			if (rcolors[3] < 1) {
+				rcolors[0] = 1;
+				rcolors[1] = 0.2f;
+				rcolors[2] = 0.2f;
+				rcolors[3] = 1;
+			}
+
+			Utils::ColorConvertRGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);  // perfect code, dont question this
+
+			rcolors[0] += rainbowSkyMod->intensity;
+			if (rcolors[0] >= 1) {
+				rcolors[0] = 0;
+			}
+
+			Utils::ColorConvertHSVtoRGB(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);
+
+			return rcolors;
+		} else {
+			if (currColor[3] < 1) {
+				currColor[0] = 1;
+				currColor[1] = 0.2f;
+				currColor[2] = 0.2f;
+				currColor[3] = 1;
+			}
+
+			Utils::ColorConvertRGBtoHSV(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);  // perfect code, dont question this
+
+			currColor[0] += rainbowSkyMod->intensity;
+			if (currColor[0] >= 1) {
+				currColor[0] = 0;
+			}
+
+			Utils::ColorConvertHSVtoRGB(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);
+
+			currColor[0] = RainbowSky::red;
+			currColor[1] = RainbowSky::green;
+			currColor[2] = RainbowSky::blue;
+
+			return currColor;
+		}
 	}
 	return oGetFogColor(_this, color, a3, a4);
 }

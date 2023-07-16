@@ -30,11 +30,6 @@ public:
 		registerBoolSetting("Translate", &doTranslate, doTranslate);
 		registerBoolSetting("Scale", &doScale, doScale);
 		registerBoolSetting("Rotate", &doRotation, doRotation);
-		registerBoolSetting("Spin", &spin, spin);
-		mode.addEntry("Around Body", 1);
-		mode.addEntry("Circle", 2);
-		mode.addEntry("Vertical", 3);
-		registerEnumSetting("Spin Mode", &mode, 0);
 
 		registerFloatSetting("TranslateX", &xTrans, 0.f, -2.f, 2.f);
 		registerFloatSetting("TranslateY", &yTrans, 0.f, -2.f, 2.f);
@@ -70,7 +65,6 @@ public:
 			RotatePosition = 0.f;
 
 			Reset = false;
-			spin = false;
 		}
 	}
 

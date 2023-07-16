@@ -100,7 +100,6 @@
 #include "Render/NoHurtcam.h"
 #include "Render/NightMode.h"
 #include "Render/HudModule.h"
-#include "Render/BlockEsp.h"
 #include "Render/Freelook.h"
 #include "Render/NameTags.h"
 #include "Render/HoleESP.h"

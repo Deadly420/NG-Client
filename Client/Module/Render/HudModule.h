@@ -7,8 +7,6 @@ public:
 	HudModule();
 	~HudModule();
 
-	bool tabgui = true;
-	bool arraylist = true;
 	bool clickToggle = true;
 	bool watermark = true;
 	bool coordinates = false;

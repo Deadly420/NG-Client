@@ -58,7 +58,6 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new HudModule());
 		moduleList.emplace_back(new FastStop());
 		moduleList.emplace_back(new Freelook());
-		moduleList.emplace_back(new BlockEsp());
 		moduleList.emplace_back(new Teleport());
 		moduleList.emplace_back(new MidClick());
 		moduleList.emplace_back(new AntiVoid());
