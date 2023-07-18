@@ -16,6 +16,8 @@ Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
 	registerBoolSetting("Modes", &modes, modes);
 	// registerBoolSetting("KeyBinds", &keybinds, keybinds);
 	registerFloatSetting("Opacity", &opacity, opacity, 0, 1);
+	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f);
+	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f);
 }
 
 Arraylist::~Arraylist() {
@@ -31,7 +33,7 @@ std::string Arraylist::getModSettings() {
 
 void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
-	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSizeReal;
+	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
 	auto hudMod = moduleMgr->getModule<HudModule>();
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
@@ -39,8 +41,13 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 	static constexpr bool isOnRightSide = true;
 	int arrayListX = X;
-	windowSize.x = arrayListX;
 	int yOffset = Y;
+
+	if (isOnRightSide) {
+		arrayListX = windowSizeReal.x - windowSize.x;
+	} else {
+		arrayListX = windowSize.x;
+	}
 
 	if (moduleMgr->isInitialized() && !clickGUI->isEnabled()) {
 		float textSize = 1.f;
@@ -148,7 +155,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Vec4 topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
 			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
-			auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
+			auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
@@ -187,7 +194,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		index++;
 		int curIndex = -index * 90;
 
-		auto color = ColorUtil::getRainbowColor(3, 1, 1, curIndex * 2);
+		auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 
 		if (mode.getSelectedValue() == 0 || mode.getSelectedValue() == 1) DrawUtils::fillRectangle(underline, color, 1.f);
 		modContainerList.clear();

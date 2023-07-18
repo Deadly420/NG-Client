@@ -8,6 +8,8 @@ public:
 	int X = static_cast<int>(Game.getClientInstance()->getGuiData()->windowSize.x);
 	int Y = 1;
 	float opacity = 0.6f;
+	float cycleSpeed = 3.f;
+	float saturation = 1.f;
 	bool bottom = false;
 	bool keybinds = false;
 	bool modes = true;
