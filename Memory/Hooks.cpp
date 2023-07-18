@@ -18,6 +18,14 @@ bool overrideStyledReturn = false;
 TextHolder styledReturnText;
 //#define TEST_DEBUG
 
+void blockRotate(glm::mat4& matrix, float upper) {
+	float floatY = -1.30F;
+	matrix = glm::translate<float>(matrix, glm::vec3(-0.24F, upper, -0.20F));
+	matrix = glm::rotate<float>(matrix, -1.98F, glm::vec3(0.0F, 1.0F, 0.0F));
+	matrix = glm::rotate<float>(matrix, -floatY, glm::vec3(4.0F, 0.0F, 0.0F));
+	matrix = glm::rotate<float>(matrix, 60.0F, glm::vec3(0.0F, 1.0F, 0.0F));
+}
+
 void Hooks::Init() {
 	logF("Setting up Hooks...");
 	// clang-format off
@@ -117,7 +125,8 @@ void Hooks::Init() {
 		static auto bobViewHookF = [](__int64 _this, glm::mat4& matrix, float lerpT){
 			static auto origFunc = g_Hooks.lambdaHooks.at(lambda_counter)->GetFastcall<void, __int64, glm::mat4&, float>();
 			
-			static auto testMod = moduleMgr->getModule<ViewModel>();
+			static auto animations = moduleMgr->getModule<ViewModel>();
+			auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
 			auto p = Game.getLocalPlayer();
 			float degrees = fmodf(p->getPosOld()->lerp(p->getPos(), lerpT).x, 5) - 2.5f;
 			degrees *= 180 / 2.5f;
@@ -127,12 +136,33 @@ void Hooks::Init() {
 			glm::mat4 View = matrix;
 			
 			matrix = View;
-			if (testMod->isEnabled()) {
-				if (testMod->doTranslate)
-					matrix = glm::translate<float>(matrix, glm::vec3(testMod->xTrans, testMod->yTrans, testMod->zTrans));
+			if (animations->isEnabled()) {
+				if (animations->doTranslate)
+					matrix = glm::translate<float>(matrix, glm::vec3(animations->xTrans, animations->yTrans, animations->zTrans));
 
-				if (testMod->doScale)
-					matrix = glm::scale<float>(matrix, glm::vec3(testMod->xMod, testMod->yMod, testMod->zMod));
+				if (animations->doScale)
+					matrix = glm::scale<float>(matrix, glm::vec3(animations->xMod, animations->yMod, animations->zMod));
+
+				// 1.7
+				if (animations->mode.getSelectedValue() == 1) {
+					lerpT = 0.f;
+					matrix = glm::translate<float>(matrix, glm::vec3(0.62222223281, 0.0, -0.26666666269302368));
+					matrix = glm::translate<float>(matrix, glm::vec3(0.82f, -0.20f, -0.80f));
+					blockRotate(matrix, 0.25f);
+				}
+				// Spin
+				if (animations->mode.getSelectedValue() == 2) {
+					auto player = Game.getLocalPlayer();
+					float degrees = fmodf(player->getPosOld()->lerp(player->getPos(), lerpT).x, 5) - 2.5f;
+					degrees *= 180 / 2.5f;
+
+					auto pos = Game.getClientInstance()->levelRenderer->getOrigin();
+
+					glm::mat4 View = matrix;
+
+					matrix = View;
+					matrix = glm::rotate<float>(matrix, glm::radians<float>(degrees), glm::vec3(0, 0, 1));
+				}
 			}
 			return origFunc(_this, matrix, lerpT);
 		};

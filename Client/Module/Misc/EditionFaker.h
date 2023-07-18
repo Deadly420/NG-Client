@@ -13,4 +13,5 @@ public:
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;
+	virtual std::string getModSettings() override;
 };

@@ -8,8 +8,6 @@ public:
 	bool Reset = false;
 	bool doTranslate = true;
 	bool doScale = true;
-	bool doRotation = true;
-	bool spin = true;
 	SettingEnum mode = this;
 
 	float xMod = 1.f;
@@ -26,10 +24,14 @@ public:
 	float RotatePosition = 0.f;
 
 	ViewModel() : Module(0x0, Category::RENDER, "Custom item view model") {
+		registerEnumSetting("Mode", &mode, 1);
+		mode.addEntry(EnumEntry("None", 0))
+			.addEntry(EnumEntry("1.7", 1))
+			.addEntry(EnumEntry("Spin", 2));
+
 		registerBoolSetting("Reset", &Reset, Reset);
 		registerBoolSetting("Translate", &doTranslate, doTranslate);
 		registerBoolSetting("Scale", &doScale, doScale);
-		registerBoolSetting("Rotate", &doRotation, doRotation);
 
 		registerFloatSetting("TranslateX", &xTrans, 0.f, -2.f, 2.f);
 		registerFloatSetting("TranslateY", &yTrans, 0.f, -2.f, 2.f);
@@ -70,5 +72,8 @@ public:
 
 	virtual const char* getModuleName() override {
 		return "ViewModel";
+	}
+	std::string getModSettings() {
+		return mode.GetSelectedEntry().GetName();
 	}
 };
