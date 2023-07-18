@@ -13,6 +13,7 @@
 // World
 #include "World/InstaBreak.h"
 #include "World/Scaffold.h"
+#include "World/Disabler.h"
 #include "World/Tower.h"
 #include "World/Nuker.h"
 

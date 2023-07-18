@@ -56,6 +56,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new BowAimbot());
 		moduleList.emplace_back(new Criticals());
 		moduleList.emplace_back(new HudModule());
+		moduleList.emplace_back(new Disabler());
 		moduleList.emplace_back(new FastStop());
 		moduleList.emplace_back(new Freelook());
 		moduleList.emplace_back(new Teleport());

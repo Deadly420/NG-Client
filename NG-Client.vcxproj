@@ -210,6 +210,7 @@
     <ClCompile Include="Client\Module\Entity\EntityLongJump.cpp" />
     <ClCompile Include="Client\Module\Entity\EntitySpeed.cpp" />
     <ClCompile Include="Client\Module\Entity\EntitySpider.cpp" />
+    <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="Utils\DrawUtils.cpp" />
     <ClCompile Include="Client\FriendList\FriendsManager.cpp" />
     <ClCompile Include="Client\GuiUtils.cpp" />
@@ -378,6 +379,7 @@
     <ClInclude Include="Client\Module\Player\XP.h" />
     <ClInclude Include="Client\Module\Render\HoleEsp.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
+    <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />
