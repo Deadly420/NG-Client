@@ -31,6 +31,7 @@
 #include "Combat/AutoTotem.h"
 #include "Combat/Killaura.h"
 #include "Combat/AutoPot.h"
+#include "Combat/FastUse.h"
 #include "Combat/Hitbox.h"
 #include "Combat/Aimbot.h"
 #include "Combat/Teams.h"
