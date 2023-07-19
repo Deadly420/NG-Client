@@ -477,7 +477,8 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					string =
 						// Changelogs
 						"Changelogs: \n"
-						"[*] Cleaned The ClickGui \n\n"
+						"[+] ID Command\n"
+						"[*] MinDelay/MaxDelay to Killaura\n\n"
 						// Credits
 						"Credits: \n"
 						"DeadtrosGaming \n"

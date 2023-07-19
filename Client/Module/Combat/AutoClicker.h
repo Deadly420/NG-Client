@@ -1,18 +1,23 @@
 #pragma once
+
 #include "../ModuleManager.h"
 #include "../Module.h"
 
 class AutoClicker : public Module {
 private:
-	bool weapons = false;
-	bool hold = true;
-	int maxCPS = 20;
-	int minCPS = 15;
-	int CPS = 0;
+	int delay = 0;
+	int minD = 0;
+	int maxD = 20;
+	bool weapons = true;
+	bool breakBlocks = true;
+	bool rightclick = false;
+	bool hold = false;
 
 public:
-	virtual void onPlayerTick(Player* plr);
-	virtual const char* getModuleName();
-	virtual void onTick(GameMode* gm);
 	AutoClicker();
+	~AutoClicker();
+
+	// Inherited via IModule
+	virtual const char* getModuleName() override;
+	virtual void onTick(GameMode* gm) override;
 };

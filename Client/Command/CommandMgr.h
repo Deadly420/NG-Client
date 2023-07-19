@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../Memory/GameData.h"
+
+#include "Commands/IDCommand.h"
 #include "Commands/BindCommand.h"
 #include "Commands/BruhCommand.h"
 #include "Commands/CoordsCommand.h"

@@ -9,7 +9,8 @@ class Killaura : public Module
 private:
 	bool isMulti = true;
 	int delay = 0;
-	int Odelay = 0;
+	int minD = 0;
+	int maxD = 20;
 	bool autoweapon = false;
 	void findWeapon();
 	bool silent = true;
@@ -18,7 +19,7 @@ public:
 	bool rotations = false;
 	bool targetListEmpty = false;
 	Vec2 angle;
-	bool isMobAura = false;
+	bool targetMobs = false;
 	bool hurttime = true;
 	float range = 6;
 
