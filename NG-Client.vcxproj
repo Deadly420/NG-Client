@@ -221,7 +221,6 @@
     <ClCompile Include="Client\Module\ModuleManager.cpp" />
     <ClCompile Include="Client\Module\Movement\AirJump.cpp" />
     <ClCompile Include="Client\Module\Movement\AirSwim.cpp" />
-    <ClCompile Include="Client\Module\Player\AntiBot.cpp" />
     <ClCompile Include="Client\Module\Movement\AntiVoid.cpp" />
     <ClCompile Include="Client\Module\Hud\Arraylist.cpp" />
     <ClCompile Include="Client\Module\Player\AutoArmor.cpp" />

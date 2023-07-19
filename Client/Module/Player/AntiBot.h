@@ -1,7 +1,5 @@
 #pragma once
-
 #include "../Module.h"
-
 class AntiBot : public Module {
 private:
 	bool hitboxCheck = true;
@@ -12,28 +10,35 @@ private:
 	bool extraCheck = false;
 
 public:
-	AntiBot();
-	~AntiBot();
+	AntiBot::AntiBot() : Module(0, Category::PLAYER, "filter bots and non player char") {
+		registerBoolSetting("Hitbox Check", &hitboxCheck, hitboxCheck);
+		registerBoolSetting("Invisible Check", &invisibleCheck, invisibleCheck);
+		registerBoolSetting("EntityID Check", &entityIdCheck, entityIdCheck);
+		registerBoolSetting("Other Check", &otherCheck, otherCheck);
+		registerBoolSetting("Extra Check", &extraCheck, extraCheck);
+	}
+	~AntiBot(){};
 
 	inline bool isHitboxCheckEnabled() {
-		return hitboxCheck && isEnabled();
+		return hitboxCheck && this->isEnabled();
 	}
 	inline bool isNameCheckEnabled() {
-		return false && isEnabled();
+		return false;
 	}
 	inline bool isInvisibleCheckEnabled() {
-		return invisibleCheck && isEnabled();
+		return invisibleCheck && this->isEnabled();
 	}
 	inline bool isEntityIdCheckEnabled() {
-		return entityIdCheck && isEnabled();
+		return entityIdCheck && this->isEnabled();
 	}
 	inline bool isOtherCheckEnabled() {
-		return otherCheck && isEnabled();
+		return otherCheck && this->isEnabled();
 	}
 	inline bool isExtraCheckEnabled() {
-		return extraCheck && isEnabled();
+		return this->extraCheck && this->isEnabled();
 	}
 
-	// Inherited via Module
-	virtual const char* getModuleName() override;
+	virtual const char* getModuleName() override {
+		return "AntiBot";
+	}
 };
