@@ -134,7 +134,9 @@ public:
 	static void drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline = false);
 	static void draw2DBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, bool corners = false);
 	static void drawEntityBox(Entity* ent, float lineWidth = 0.f, bool fill = false);
-	static void draw2D(Entity* ent, float lineWidth = 0.f);
+	static void drawBetterESP(Entity* ent, float lineWidth);
+	static void draw2D(Entity* ent, float lineWidth);
+	static void drawZephyr(Entity* ent, float lineWidth);
 	static void drawNameTags(Entity* ent, float textSize, bool drawHealth = false, bool useUnicodeFont = false);
 	static void drawItem(ItemStack* item, const Vec2& ItemPos, float opacity, float scale, bool isEnchanted);
 	static float getLerpTime();

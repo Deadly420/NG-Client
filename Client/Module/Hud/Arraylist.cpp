@@ -2,7 +2,7 @@
 
 #include "../../../Utils/DrawUtils.h"
 #include "../../../Utils/ColorUtil.h"
-#include "../../Module/ModuleManager.h"
+#include "../ModuleManager.h"
 
 using namespace std;
 Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {

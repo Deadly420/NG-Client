@@ -47,7 +47,6 @@ void CommandMgr::initCommands() {
 	commandList.push_back(new TopCommand());
 	commandList.push_back(new NbtCommand());
 	commandList.push_back(new SayCommand());
-	commandList.push_back(new IDCommand());
 	commandList.push_back(new XpCommand());
 
 #ifdef _DEBUG

@@ -604,6 +604,16 @@ void DrawUtils::drawEntityBox(Entity* ent, float lineWidth, bool fill) {
 	DrawUtils::drawBox(render.lower, render.upper, lineWidth == 0 ? LineWidth : lineWidth, fill);
 }
 
+void DrawUtils::drawBetterESP(Entity* ent, float lineWidth) {
+	// Vec3* end = ent->getPos();
+	// Vec3 lerped = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
+
+	AABB render(ent->eyePos0, ent->width, ent->height, ent->eyePos0.y - ent->aabb.lower.y);
+	render.upper.y += 0.1f;
+
+	DrawUtils::drawBox(render.lower, render.upper, lineWidth);
+}
+
 void DrawUtils::draw2D(Entity* ent, float lineWidth) {
 	if (Game.getLocalPlayer() == nullptr) return;
 	Vec3 end = ent->eyePos0;
@@ -644,6 +654,34 @@ void DrawUtils::draw2D(Entity* ent, float lineWidth) {
 	float LineWidth = (float)fmax(0.5f, 1 / (float)fmax(1, (float)Game.getLocalPlayer()->eyePos0.dist(end)));
 	DrawUtils::drawRectangle(Vec2(resultRect.x, resultRect.y), Vec2(resultRect.z, resultRect.w), lineWidth == 0 ? LineWidth : lineWidth);
 }
+
+void DrawUtils::drawZephyr(Entity* ent, float lineWidth) {
+	// Vec3* end = ent->getPos();
+	// Vec3 base = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
+
+	float ofs = (Game.getLocalPlayer()->yaw + 90.f) * (PI / 180);
+
+	Vec3 corners[4];
+	Vec2 corners2d[4];
+
+	corners[0] = Vec3(ent->eyePos0.x - ent->width / 1.5f * -sin(ofs), ent->aabb.upper.y + (float)0.1, ent->eyePos0.z - ent->width / 1.5f * cos(ofs));
+	corners[1] = Vec3(ent->eyePos0.x + ent->width / 1.5f * -sin(ofs), ent->aabb.upper.y + (float)0.1, ent->eyePos0.z + ent->width / 1.5f * cos(ofs));
+	corners[2] = Vec3(ent->eyePos0.x - ent->width / 1.5f * -sin(ofs), ent->aabb.lower.y, ent->eyePos0.z - ent->width / 1.5f * cos(ofs));
+	corners[3] = Vec3(ent->eyePos0.x + ent->width / 1.5f * -sin(ofs), ent->aabb.lower.y, ent->eyePos0.z + ent->width / 1.5f * cos(ofs));
+
+	if (refdef->OWorldToScreen(origin, corners[0], corners2d[0], fov, screenSize) &&
+		refdef->OWorldToScreen(origin, corners[1], corners2d[1], fov, screenSize) &&
+		refdef->OWorldToScreen(origin, corners[2], corners2d[2], fov, screenSize) &&
+		refdef->OWorldToScreen(origin, corners[3], corners2d[3], fov, screenSize)) {
+		float length = (corners2d[1].x - corners2d[0].x) / 4.f;
+
+		drawLine(corners2d[0], corners2d[1], lineWidth);
+		drawLine(corners2d[0], corners2d[2], lineWidth);
+		drawLine(corners2d[3], corners2d[1], lineWidth);
+		drawLine(corners2d[3], corners2d[2], lineWidth);
+	}
+}
+
 
 void DrawUtils::drawItem(ItemStack* item, const Vec2& itemPos, float opacity, float scale, bool isEnchanted) {
 	__int64 scnCtx = reinterpret_cast<__int64*>(renderCtx)[2];
