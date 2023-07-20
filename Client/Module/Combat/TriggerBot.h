@@ -6,7 +6,8 @@
 class TriggerBot : public Module {
 private:
 	int delay = 0;
-	int Odelay = 0;
+	int minD = 0;
+	int maxD = 20;
 	bool sword = true;
 
 public:

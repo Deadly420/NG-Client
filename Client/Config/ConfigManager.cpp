@@ -40,7 +40,7 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 			} catch (json::parse_error& e) {
 				logF("Config Load Exception!: %s", e.what());
 			}
-			currentConfigObj["from"] = "Horion";
+			currentConfigObj["from"] = "NG";
 		}
 
 		if (configExists) {
@@ -61,7 +61,7 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 		if (Game.getLocalPlayer() != nullptr) {
 			static bool helpedUser = false;
 			Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sSuccessfully %s config %s%s%s!", BOLD, AQUA, WHITE, GREEN, !configExists ? "created" : "loaded", GRAY, name.c_str(), GREEN);
-			if (!helpedUser && name != "NG") {
+			if (!helpedUser && name != "default") {
 				helpedUser = true;
 				Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sEnter \"%s%cconfig load default%s\" to load your old config!", BOLD, AQUA, WHITE, YELLOW, WHITE, cmdMgr->prefix, YELLOW);
 			}

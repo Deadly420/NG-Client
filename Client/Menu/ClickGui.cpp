@@ -140,7 +140,7 @@ void ClickGui::renderCategory(Category category) {
 				break;
 			case Category::MOVEMENT:
 				ourWindow->pos.x = yot / 11.f * 2.f;
-				ourWindow->pos.y = 0.5; 
+				ourWindow->pos.y = 1; 
 				break;
 			case Category::PLAYER:
 				ourWindow->pos.x = yot / 11.f * 3.f;

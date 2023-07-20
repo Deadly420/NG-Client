@@ -1,6 +1,6 @@
 #include "ImmediateGui.h"
 
-ImmediateGui HorionGui;
+ImmediateGui NG_Gui;
 
 ComponentInfo::ComponentInfo(int id) : id(id) {
 }

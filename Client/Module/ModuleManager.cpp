@@ -75,7 +75,6 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Crasher());
 		moduleList.emplace_back(new AntiBot());
 		moduleList.emplace_back(new Spammer());
-		moduleList.emplace_back(new HoleESP());
 		moduleList.emplace_back(new AirSwim());
 		moduleList.emplace_back(new Breaker());
 		moduleList.emplace_back(new Freecam());

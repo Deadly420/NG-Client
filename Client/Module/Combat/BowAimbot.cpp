@@ -2,13 +2,14 @@
 
 #include "../../../Utils/Target.h"
 #include "../../../Utils/DrawUtils.h"
+#include "../ModuleManager.h"
 
 std::vector<Entity*> targetList;
 
-BowAimbot::BowAimbot() : Module(0x0, Category::COMBAT, "Aimbot, but for bows.") {
-	registerBoolSetting("Silent", &silent, silent);
-	registerBoolSetting("Predict", &predict, predict);
-	registerBoolSetting("Visualize", &visualize, visualize);
+BowAimbot::BowAimbot() : Module(0x0, Category::COMBAT, "Aimbot, but for bows") {
+	registerBoolSetting("silent", &silent, silent);
+	registerBoolSetting("predict", &predict, predict);
+	registerBoolSetting("visualize", &visualize, visualize);
 }
 
 BowAimbot::~BowAimbot() {
@@ -22,7 +23,7 @@ struct CompareTargetEnArray {
 };
 
 const char* BowAimbot::getModuleName() {
-	return ("BowAimbot");
+	return "BowAimbot";
 }
 
 void findTargets(Entity* currentEntity, bool isRegularEntitie) {
@@ -46,7 +47,7 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	if (localPlayer->getSelectedItemId() != 300)  // Bow in hand?
 		return;
 
-	if (!(GameData::isRightClickDown() && GameData::canUseMoveKeys())) // is aiming?
+	if (!(GameData::isRightClickDown() && GameData::canUseMoveKeys()))  // is aiming?
 		return;
 
 	Game.forEachEntity(findTargets);
@@ -62,10 +63,8 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			velocity.z *= origin.dist(pos) / 2.f;
 			pos = pos.add(velocity);
 		}
-		if (visualize) {
-			DrawUtils::setColor(.75f, .25f, .5f, 0.2f);
+		if (visualize)
 			DrawUtils::drawBox(pos.sub(0.5), pos.add(0.5), 0.3f, true);
-		}
 		pos = pos.sub(origin);
 		float yaw = (atan2f(pos.z, pos.x) * DEG_RAD) - 90;
 		float len = pos.magnitudexz();

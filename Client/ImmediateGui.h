@@ -46,4 +46,4 @@ public:
 	bool Button(const char* label, Vec2 pos, bool centered = false);
 };
 
-extern ImmediateGui HorionGui;
+extern ImmediateGui NG_Gui;

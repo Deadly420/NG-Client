@@ -104,7 +104,6 @@
 #include "Render/HudModule.h"
 #include "Render/Freelook.h"
 #include "Render/NameTags.h"
-#include "Render/HoleESP.h"
 #include "Render/Compass.h"
 #include "Render/NoSwing.h"
 #include "Render/Tracer.h"

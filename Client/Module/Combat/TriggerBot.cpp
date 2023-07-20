@@ -2,8 +2,9 @@
 
 #include "../../../Utils/Target.h"
 
-TriggerBot::TriggerBot() : Module(0x0, Category::COMBAT, "Attacks entities you're looking at.") {
-	registerIntSetting("Delay", &delay, delay, 0, 20);
+TriggerBot::TriggerBot() : Module(0x0, Category::COMBAT, "Attacks player you're looking at.") {
+	registerIntSetting("MinDelay", &minD, 0, 0, 20);
+	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
 }
 
 TriggerBot::~TriggerBot() {
@@ -16,14 +17,14 @@ void TriggerBot::onTick(GameMode* gm) {
 	LocalPlayer* localPlayer = Game.getLocalPlayer();
 	Entity* target = Game.getLocalPlayer()->level->getEntity();
 	
-	Odelay++;
-	if (target != 0 && Odelay >= delay) {
+	delay++;
+	if (target != 0 && delay >= random(minD, maxD)) {
 		if (!Target::isValidTarget(target))
 			return;
 
 		localPlayer->swingArm();
 		gm->attack(target);
 
-		Odelay = 0;
+	delay = 0;
 	}
 }

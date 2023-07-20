@@ -343,8 +343,8 @@ void Hooks::ClientInstanceScreenModel_sendChatMessage(void* _this, TextHolder* t
 	} else if (*message == '.') {
 		static std::once_flag flag;
 		std::call_once(flag, [] {
-			Game.getClientInstance()->getGuiData()->displayClientMessageF("%sYour Horion prefix is: \"%s%c%s\"", RED, YELLOW, cmdMgr->prefix, RED);
-			Game.getClientInstance()->getGuiData()->displayClientMessageF("%sEnter \"%s%cprefix .%s\" to reset your prefix", RED, YELLOW, cmdMgr->prefix, RED);
+			Game.getGuiData()->displayClientMessageF("%sYour NG prefix is: \"%s%c%s\"", RED, YELLOW, cmdMgr->prefix, RED);
+			Game.getGuiData()->displayClientMessageF("%sEnter \"%s%cprefix .%s\" to reset your prefix", RED, YELLOW, cmdMgr->prefix, RED);
 		});
 	}
 	return oSendMessage(_this, text);
@@ -434,7 +434,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 		static auto hudModule = moduleMgr->getModule<HudModule>();
 		static auto clickGuiModule = moduleMgr->getModule<ClickGuiMod>();
 
-		HorionGui.startFrame();
+		NG_Gui.startFrame();
 
 		Game.frameCount++;
 
@@ -477,8 +477,11 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					string =
 						// Changelogs
 						"Changelogs: \n"
+						"[-] HoleESP\n"
 						"[+] FastBow\n"
 						"[+] MinDelay/MaxDelay to Killaura\n"
+						"[+] MinDelay/MaxDelay to TriggerBot\n"
+						"[+] MinDelay/MaxDelay to AutoClicker\n\n"
 						// Credits
 						"Credits: \n"
 						"DeadtrosGaming \n"

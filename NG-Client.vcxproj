@@ -378,7 +378,6 @@
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Player\XP.h" />
-    <ClInclude Include="Client\Module\Render\HoleEsp.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="Utils\Base64.h" />
