@@ -4,11 +4,12 @@
 
 class ClickGuiMod : public Module {
 public:
-	ClickGuiMod();
-	~ClickGuiMod();
-
+	SettingEnum mode = SettingEnum(this);
 	int Opacity = 0;
 	bool showTooltips = true;
+
+	ClickGuiMod();
+	~ClickGuiMod();
 
 	// Inherited via Module
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;

@@ -2,6 +2,10 @@
 #include "../../Menu/ClickGui.h"
 
 ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggle everything just by clicking on it!") {
+	registerEnumSetting("Mode", &mode, 0);
+	mode.addEntry("New", 0);
+	mode.addEntry("Old", 1);
+
 	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
 }
 

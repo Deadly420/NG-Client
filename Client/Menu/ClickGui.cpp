@@ -24,8 +24,8 @@ Vec2 dragStart = Vec2();
 
 unsigned int focusedElement = -1;
 bool isFocused = false;
-static constexpr float textPaddingX = 2.0f;
-static constexpr float textPaddingY = 1.0f;
+static constexpr float textPaddingX = 2.4f;
+static constexpr float textPaddingY = 1.4f;
 
 static constexpr float textSize = 0.75f;
 static constexpr float textHeight = textSize * 10.0f;
@@ -33,6 +33,10 @@ static constexpr float categoryMargin = 0.5f;
 static constexpr float paddingRight = 13.5f;
 static constexpr float crossSize = textHeight / 2.f;
 static constexpr float crossWidth = 0.3f;
+
+static constexpr float ArrowSize = textHeight / 5.f;
+static constexpr float ArrowWidth = 0.3f;
+
 static constexpr float backgroundAlpha = 0.40f;
 
 static const Mc_Color whiteColor = Mc_Color(255, 255, 255);
@@ -279,17 +283,21 @@ void ClickGui::renderCategory(Category category) {
 			// Settings
 			{
 				std::vector<SettingEntry*>* settings = mod->getSettings();
+				auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
 				if (settings->size() > 2 && allowRender) {
 					std::shared_ptr<ClickModule> clickMod = getClickModule(ourWindow, mod->getRawModuleName());
 					if (rectPos.contains(&mousePos) && DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
 						DrawUtils::shouldToggleRightClick = false;
 						clickMod->isExtended = !clickMod->isExtended;
 					}
-
-					GuiUtils::drawCrossLine(Vec2(
-												currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f,
-												currentYOffset + textPaddingY + (textHeight / 2)),
-											whiteColor, crossWidth, crossSize, !clickMod->isExtended);
+					if (clickguiMod->mode.selected == 0) {
+						if (!clickMod->isExtended)
+							GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
+						else
+							GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
+					} else {
+						GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !clickMod->isExtended);
+					}
 
 					currentYOffset += textHeight + (textPaddingY * 2);
 
@@ -710,12 +718,20 @@ void ClickGui::renderCategory(Category category) {
 		{
 			// Draw Text
 			std::string textStr = categoryName;
+			auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
 			DrawUtils::drawText(textPos, &textStr, whiteColor, textSize);
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
 			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
 			
 			// Draw Dash
-			GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !ourWindow->isExtended);
+			if (clickguiMod->mode.selected == 0) {
+				if (!ourWindow->isExtended)
+					GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
+				else
+					GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
+			} else {
+				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !ourWindow->isExtended);
+			}
 		}
 	}
 
