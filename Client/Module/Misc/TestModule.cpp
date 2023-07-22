@@ -106,31 +106,56 @@ void TestModule::onImGuiRender() {
 		TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
 		// ImGui::PushFont(Arial); // push
+		// ImGui::PushFont(Arial); // push
 		if (ImGui::Begin(("TestGui"), 0, TargetFlags)) {
 			ImGui::SetWindowSize(ImVec2(360.f, 430.f));
 
 			// image hax
 			int my_image_width = 0;
 			int my_image_height = 0;
-			if (ImGui::CollapsingHeader("Aura")) {
+			if (ImGui::CollapsingHeader("Combat")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Visuals"))) {
+			if (ImGui::CollapsingHeader(("Render"))) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Client"))) {
+			if (ImGui::CollapsingHeader(("Movemet"))) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Exploits"))) {
+			if (ImGui::CollapsingHeader(("Player"))) {
+				ImGui::Spacing();
+				if (ImGui::Button("Test")) {
+				}
+				ImGui::Spacing();
+			}
+			if (ImGui::CollapsingHeader(("World"))) {
+				ImGui::Spacing();
+				if (ImGui::Button("Test")) {
+				}
+				ImGui::Spacing();
+			}
+			if (ImGui::CollapsingHeader(("Entity"))) {
+				ImGui::Spacing();
+				if (ImGui::Button("Test")) {
+				}
+				ImGui::Spacing();
+			}
+			if (ImGui::CollapsingHeader(("Hud"))) {
+				ImGui::Spacing();
+				if (ImGui::Button("Test")) {
+				}
+				ImGui::Spacing();
+			}
+			if (ImGui::CollapsingHeader(("Misc"))) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
 				}

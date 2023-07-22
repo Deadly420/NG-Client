@@ -1017,11 +1017,11 @@ void Hooks::ClickFunc(__int64 a1, char mouseButton, char isDown, __int16 mouseX,
 		if (mouseButton != 0)  // Mouse click event
 			return;
 	}
-	//if (mouseButton > 0 && mouseButton < 3)
-		//ImGui::GetIO().MouseDown[0] = isDown;
+	if (mouseButton > 0 && mouseButton < 3)
+		ImGui::GetIO().MouseDown[0] = isDown;
 
-	//if (!ImGui::GetIO().WantCaptureMouse)
-		//return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
+	if (!ImGui::GetIO().WantCaptureMouse)
+		return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
 	return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
 }
 
