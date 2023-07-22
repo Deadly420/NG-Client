@@ -19,6 +19,7 @@ public:
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;
+	virtual void onImGuiRender() override;
 	virtual bool isFlashMode() override;
 	virtual void onEnable() override;
 	virtual void onTick(GameMode* gm) override;

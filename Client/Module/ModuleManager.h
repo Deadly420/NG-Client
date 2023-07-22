@@ -140,6 +140,7 @@ public:
 	void disable();
 	void onLoadConfig(void* conf);
 	void onSaveConfig(void* conf);
+	void onImGuiRender();
 	void onTick(GameMode* gameMode);
 	void onAttack(Entity* attackedEnt);
 	void onWorldTick(GameMode* gameMode);

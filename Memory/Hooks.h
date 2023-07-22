@@ -4,13 +4,27 @@
 //#define PERFORMANCE_TEST
 #endif
 
-#include <d3d11.h>
 #include <d3dcompiler.h>
-#include <dxgi.h>
 #include <intrin.h>
 
 #include <thread>
 #include <unordered_map>
+
+#include "../include/imgui/imgui.h"
+#include "../include/imgui/imgui_impl_win32.h"
+#include "../include/imgui/imgui_impl_dx12.h"
+#include "../include/imgui/imgui_impl_dx11.h"
+#include <initguid.h>
+#include <dxgi.h>
+#include <d3d11.h>
+#include <d3d12.h>
+#include <d2d1_1.h>
+#include <dxgi1_4.h>
+#include <dwrite_1.h>
+#include "../include/kiero/kiero.h"
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dwrite.lib")
 
 #include "../Client/Command/CommandMgr.h"
 #include "../Client/Config/ConfigManager.h"
@@ -76,6 +90,7 @@ public:
 	bool shouldLocalPlayerBeImmobile = false;
 
 	static void Init();
+	static void InitImGui();
 	static void Restore();
 	static void Enable();
 

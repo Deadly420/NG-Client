@@ -46,6 +46,7 @@ DWORD WINAPI start(LPVOID lpParam) {
 	MH_Initialize();
 	GameData::initGameData(gameModule, &mem, (HMODULE)lpParam);
 	Target::init(Game.getPtrLocalPlayer());
+	Hooks::InitImGui();
 	Hooks::Init();
 
 	DWORD ejectThreadId;
@@ -53,11 +54,11 @@ DWORD WINAPI start(LPVOID lpParam) {
 	logF("EjectThread: %i", ejectThreadId);
 
 	cmdMgr->initCommands();
-	logF("Initialized command manager (1/3)");
+	logF("Initialized command manager");
 	moduleMgr->initModules();
-	logF("Initialized module manager (2/3)");
+	logF("Initialized module manager");
 	configMgr->init();
-	logF("Initialized config manager (3/3)");
+	logF("Initialized config manager");
 
 	Hooks::Enable();
 	ClickGui::init();
@@ -128,7 +129,7 @@ BOOL __stdcall DllMain(HMODULE hModule,
 		if (Game.getLocalPlayer() != nullptr) {
 			GuiData* guiData = Game.getClientInstance()->getGuiData();
 			if (guiData != nullptr && !GameData::shouldHide())
-				guiData->displayClientMessageF("%sEjected!", RED);
+				guiData->displayClientMessageF("Successfully Ejected NG Client!", RED);
 		}
 		break;
 	}

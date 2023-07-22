@@ -1,6 +1,7 @@
 #include "ModuleManager.h"
 #include "../../Utils/Logger.h"
 #include "../../Utils/Json.hpp"
+#include "../../include/imgui/imgui.h"
 
 using json = nlohmann::json;
 
@@ -165,6 +166,16 @@ void ModuleManager::onSaveConfig(void* confVoid) {
 	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		mod->onSaveConfig(conf);
+	}
+}
+
+void ModuleManager::onImGuiRender() {
+	if (!isInitialized())
+		return;
+	auto lock = lockModuleList();
+	for (auto& mod : moduleList) {
+		if (mod->isEnabled() || mod->callWhenDisabled())
+			mod->onImGuiRender();
 	}
 }
 

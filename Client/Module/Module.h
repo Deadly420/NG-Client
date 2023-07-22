@@ -138,6 +138,7 @@ public:
 	virtual void onLevelRender();
 	virtual void onMove(MoveInputHandler*);
 	virtual void onPlayerTick(Player*);
+	virtual void onImGuiRender();
 	virtual void onLoadConfig(void* conf);
 	virtual void onSaveConfig(void* conf);
 	virtual bool isFlashMode();

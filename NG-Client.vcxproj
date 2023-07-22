@@ -212,6 +212,15 @@
     <ClCompile Include="Client\Module\Entity\EntitySpeed.cpp" />
     <ClCompile Include="Client\Module\Entity\EntitySpider.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="include\kiero\kiero.cpp" />
     <ClCompile Include="Utils\DrawUtils.cpp" />
     <ClCompile Include="Client\FriendList\FriendsManager.cpp" />
     <ClCompile Include="Client\GuiUtils.cpp" />
@@ -331,6 +340,7 @@
     <ClCompile Include="Utils\VoxelIntersector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\imconfig.h" />
     <ClInclude Include="Client\Command\CommandMgr.h" />
     <ClInclude Include="Client\Command\Commands\BindCommand.h" />
     <ClInclude Include="Client\Command\Commands\BruhCommand.h" />
@@ -380,6 +390,7 @@
     <ClInclude Include="Client\Module\Player\XP.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
+    <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />
@@ -487,22 +498,21 @@
     <ClInclude Include="Client\path\JoePath.h" />
     <ClInclude Include="Client\path\JoePathFinder.h" />
     <ClInclude Include="Client\path\JoeSegment.h" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="include\imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="include\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\imgui\imstb_truetype.h" />
     <ClInclude Include="include\atlrx.h" />
     <ClInclude Include="include\chakra\ChakraCommon.h" />
     <ClInclude Include="include\chakra\ChakraCommonWindows.h" />
     <ClInclude Include="include\chakra\ChakraCore.h" />
     <ClInclude Include="include\chakra\ChakraCoreWindows.h" />
     <ClInclude Include="include\chakra\ChakraDebug.h" />
-    <ClInclude Include="include\imgui\examples\imgui_impl_dx11.h" />
-    <ClInclude Include="include\imgui\examples\imgui_impl_win32.h" />
-    <ClInclude Include="include\imgui\imconfig.h" />
-    <ClInclude Include="include\imgui\imgui.h" />
-    <ClInclude Include="include\imgui\imgui_internal.h" />
-    <ClInclude Include="include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="include\imgui\imstb_textedit.h" />
-    <ClInclude Include="include\imgui\imstb_truetype.h" />
-    <ClInclude Include="include\imgui\misc\cpp\imgui_stdlib.h" />
-    <ClInclude Include="include\imgui\misc\single_file\imgui_single_file.h" />
     <ClInclude Include="include\RegExp.h" />
     <ClInclude Include="include\StringProcess.h" />
     <ClInclude Include="include\WinHttpClient.h" />

@@ -394,6 +394,8 @@ void Module::onMove(MoveInputHandler*) {
 }
 void Module::onPlayerTick(Player* player) {
 }
+void Module::onImGuiRender() {
+}
 void Module::onLevelRender() {
 }
 void Module::clientMessageF(const char* fmt, ...) {
