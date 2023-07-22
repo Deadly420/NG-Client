@@ -24,14 +24,14 @@ void Bhop::onMove(MoveInputHandler* input) {
 	if (player->isSneaking())
 		return;
 
-	Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
-	bool pressed = moveVec2d.magnitude() > 0.01f;
+	Vector2 moveVector2d = {input->forwardMovement, -input->sideMovement};
+	bool pressed = moveVector2d.magnitude() > 0.01f;
 
 	float calcYaw = (player->yaw + 90) * (PI / 180);
-	Vec3 moveVec;
+	Vector3 moveVec;
 	float c = cos(calcYaw);
 	float s = sin(calcYaw);
-	moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
+	moveVector2d = {moveVector2d.x * c - moveVector2d.y * s, moveVector2d.x * s + moveVector2d.y * c};
 
 	if (hive) {
 		player->stepHeight = 0.f;
@@ -49,18 +49,18 @@ void Bhop::onMove(MoveInputHandler* input) {
 				if (useVelocity && !input->isJumping) player->velocity.y = 0.4000000059604645;
 				speedFriction = RandomFloat(0.4190652072429657, 0.48381298780441284);
 			} else {
-				moveVec.x = moveVec2d.x * speedFriction;
+				moveVec.x = moveVector2d.x * speedFriction;
 				moveVec.y = player->velocity.y;
-				moveVec.z = moveVec2d.y * speedFriction;
+				moveVec.z = moveVector2d.y * speedFriction;
 				player->lerpMotion(moveVec);
 			}
 		}
 	} else {
 		if (player->onGround && pressed)
 			player->jumpFromGround();
-		moveVec.x = moveVec2d.x * speed;
+		moveVec.x = moveVector2d.x * speed;
 		moveVec.y = player->velocity.y;
-		moveVec.z = moveVec2d.y * speed;
+		moveVec.z = moveVector2d.y * speed;
 		if (pressed) player->lerpMotion(moveVec);
 	}
 }

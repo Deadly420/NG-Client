@@ -2,7 +2,7 @@
 
 #include "../../Utils/DrawUtils.h"
 
-JoeSegment::JoeSegment(JoeSegmentType type, Vec3i& start, Vec3i& stop, float cost, bool allowSprint) : segmentType(type), start(start), end(stop), cost(cost), allowSprint(allowSprint) {
+JoeSegment::JoeSegment(JoeSegmentType type, Vector3i& start, Vector3i& stop, float cost, bool allowSprint) : segmentType(type), start(start), end(stop), cost(cost), allowSprint(allowSprint) {
 
 }
 void JoeSegment::draw() {
@@ -12,34 +12,34 @@ void JoeSegment::draw() {
 
 	switch (segmentType) {
 		case DROP: {
-			auto dropPoint = start.toVec3t().add(0.5f, 0.05f, 0.5f);
+			auto dropPoint = start.toVector3t().add(0.5f, 0.05f, 0.5f);
 			dropPoint.x = end.x + 0.5f;
 			dropPoint.z = end.z + 0.5f;
-			DrawUtils::drawLine3d(start.toVec3t().add(0.5f, 0.05f, 0.5f), dropPoint);
-			DrawUtils::drawLine3d(dropPoint, end.toVec3t().add(0.5f, 0.05f, 0.5f));
+			DrawUtils::drawLine3d(start.toVector3t().add(0.5f, 0.05f, 0.5f), dropPoint);
+			DrawUtils::drawLine3d(dropPoint, end.toVector3t().add(0.5f, 0.05f, 0.5f));
 		} break;
 		case JUMP:
-			DrawUtils::drawLine3d(start.toVec3t().add(0.5f, 0.05f, 0.5f), start.toVec3t().add(0.5f, 1.05f, 0.5f));
-			DrawUtils::drawLine3d(start.toVec3t().add(0.5f, 1.05f, 0.5f), end.toVec3t().add(0.5f, 0.05f, 0.5f));
+			DrawUtils::drawLine3d(start.toVector3t().add(0.5f, 0.05f, 0.5f), start.toVector3t().add(0.5f, 1.05f, 0.5f));
+			DrawUtils::drawLine3d(start.toVector3t().add(0.5f, 1.05f, 0.5f), end.toVector3t().add(0.5f, 0.05f, 0.5f));
 			break;
 		case PARKOUR_JUMP_SINGLE:{
-			auto middle = start.toVec3t().add(0.5f, 0.05f, 0.5f).add(end.sub(start).toVec3t().mul(0.5f).add(0, 1, 0));
-			DrawUtils::drawLine3d(start.toVec3t().add(0.5f, 0.05f, 0.5f), middle);
-			DrawUtils::drawLine3d(middle, end.toVec3t().add(0.5f, 0.05f, 0.5f));
+			auto middle = start.toVector3t().add(0.5f, 0.05f, 0.5f).add(end.sub(start).toVector3t().mul(0.5f).add(0, 1, 0));
+			DrawUtils::drawLine3d(start.toVector3t().add(0.5f, 0.05f, 0.5f), middle);
+			DrawUtils::drawLine3d(middle, end.toVector3t().add(0.5f, 0.05f, 0.5f));
 		} break;
 		case WALK:
 		default:
-			DrawUtils::drawLine3d(start.toVec3t().add(0.5f, 0.05f, 0.5f), end.toVec3t().add(0.5f, 0.05f, 0.5f));
+			DrawUtils::drawLine3d(start.toVector3t().add(0.5f, 0.05f, 0.5f), end.toVector3t().add(0.5f, 0.05f, 0.5f));
 			break;
 	}
 }
 JoeSegmentType JoeSegment::getSegmentType() const {
 	return segmentType;
 }
-const Vec3i& JoeSegment::getStart() const {
+const Vector3i& JoeSegment::getStart() const {
 	return start;
 }
-const Vec3i& JoeSegment::getEnd() const {
+const Vector3i& JoeSegment::getEnd() const {
 	return end;
 }
 float JoeSegment::getCost() const {
@@ -51,18 +51,18 @@ bool JoeSegment::isAllowingSprint() const {
 void JoeSegment::setAllowSprint(bool allowSprint) {
 	JoeSegment::allowSprint = allowSprint;
 }
-bool JoeSegment::isInValidPosition(const Vec3i& pos) const {
+bool JoeSegment::isInValidPosition(const Vector3i& pos) const {
 	for(const auto& validPos : validPositions){
 		if(pos == validPos)
 			return true;
 	}
 	return false;
 }
-void JoeSegment::setValidPositions(const std::vector<Vec3i>& validPositions) {
+void JoeSegment::setValidPositions(const std::vector<Vector3i>& validPositions) {
 	JoeSegment::validPositions = validPositions;
 }
 void JoeSegment::init() {
-	std::vector<Vec3i> positions = {start, end};
+	std::vector<Vector3i> positions = {start, end};
 
 	auto player = Game.getLocalPlayer();
 	auto reg = player->region;
@@ -86,10 +86,10 @@ void JoeSegment::init() {
 				break;
 			}
 
-			Vec3 tangentF = end.sub(start).toFloatVector();
+			Vector3 tangentF = end.sub(start).toFloatVector();
 			tangentF.y = 0;
 			tangentF = tangentF.normalize();
-			Vec3i tangent((int)roundf(tangentF.x), 0, (int)roundf(tangentF.z));
+			Vector3i tangent((int)roundf(tangentF.x), 0, (int)roundf(tangentF.z));
 
 			positions.push_back(start.add(tangent));
 			positions.push_back(start.add(tangent).add(0, -1, 0));
@@ -119,10 +119,10 @@ void JoeSegment::init() {
 			positions.push_back(mod);
 		} break;
 		case JoeSegmentType::PARKOUR_JUMP_SINGLE: {
-			Vec3 tangentF = end.sub(start).toFloatVector();
+			Vector3 tangentF = end.sub(start).toFloatVector();
 			tangentF.y = 0;
 			tangentF = tangentF.normalize();
-			Vec3i tangent((int)roundf(tangentF.x), 0, (int)roundf(tangentF.z));
+			Vector3i tangent((int)roundf(tangentF.x), 0, (int)roundf(tangentF.z));
 
 			positions.push_back(start.add(0, 1, 0));
 

@@ -9,7 +9,7 @@ private:
 	float lerpSpeed = 0.1f;
 	bool hasClicked = false;
 	bool shouldTP = false;
-	Vec3 tpPos;
+	Vector3 tpPos;
 
 public:
 	Teleport();

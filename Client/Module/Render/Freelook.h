@@ -4,8 +4,8 @@
 
 class Freelook : public Module {
 public:
-	Vec2 oldPos;
-	Vec2 Pos;
+	Vector2 oldPos;
+	Vector2 Pos;
 	bool hold = true;
 
 	Freelook() : Module(0x0, Category::RENDER, "Look around freely without moving your rotation.") {

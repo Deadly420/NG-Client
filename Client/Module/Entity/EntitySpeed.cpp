@@ -77,7 +77,7 @@ void EntitySpeed::onTick(GameMode* gm) {
 			yaw -= 360.f;
 
 		float calcYaw = (yaw + 90) * (PI / 180);
-		Vec3 moveVec;
+		Vector3 moveVec;
 		moveVec.x = cos(calcYaw) * speed;
 		moveVec.y = targetDeez[0]->velocity.y;
 		moveVec.z = sin(calcYaw) * speed;

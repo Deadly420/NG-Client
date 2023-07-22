@@ -12,8 +12,8 @@ private:
 	bool Count = false;
 	float scY = 20.f;
 	float scX = 10.f;
-	bool tryScaffold(Vec3 blockBelow);
-	bool tryClutchScaffold(Vec3 blockBelow);
+	bool tryScaffold(Vector3 blockBelow);
+	bool tryClutchScaffold(Vector3 blockBelow);
 	bool findBlock();
 	float YCoord;
 
@@ -21,15 +21,15 @@ public:
 	Scaffold();
 	~Scaffold(){};
 
-	void handleScaffoldDown(Player* player, float speed, const Vec3& velocity);
-	void handleScaffoldUp(Player* player, float speed, const Vec3& velocity);
-	Vec3 getBlockBelow(Player* player, float yOffset);
-	void adjustYCoordinate(Vec3& blockBelow, const Vec3& blockBelowReal);
-	void extendBlock(Player* player, const Vec3& velocity, Vec3& blockBelow);
-	void attemptScaffoldWhileMoving(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow, Vec3& blockBelowBelow);
-	void handleReplaceableBlock(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow);
-	void handleNonReplaceableBlock(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow);
-	Vec3 getNextBlock(Player* player, const Vec3& velocity, const Vec3& blockBelow);
+	void handleScaffoldDown(Player* player, float speed, const Vector3& velocity);
+	void handleScaffoldUp(Player* player, float speed, const Vector3& velocity);
+	Vector3 getBlockBelow(Player* player, float yOffset);
+	void adjustYCoordinate(Vector3& blockBelow, const Vector3& blockBelowReal);
+	void extendBlock(Player* player, const Vector3& velocity, Vector3& blockBelow);
+	void attemptScaffoldWhileMoving(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow, Vector3& blockBelowBelow);
+	void handleReplaceableBlock(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow);
+	void handleNonReplaceableBlock(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow);
+	Vector3 getNextBlock(Player* player, const Vector3& velocity, const Vector3& blockBelow);
 
 	virtual const char* getModuleName() {
 		return "Scaffold";

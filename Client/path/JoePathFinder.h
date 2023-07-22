@@ -10,7 +10,7 @@
 
 class JoePathFinder {
 private:
-	Vec3i startPos;
+	Vector3i startPos;
 	JoePath currentPath;
 	BlockSource* region;
 	std::shared_ptr<JoeGoal> goal;
@@ -18,7 +18,7 @@ public:
 	bool terminateSearch = false;
 	float pathSearchTimeout = 5.f;
 
-	JoePathFinder(Vec3i start, BlockSource* reg, std::shared_ptr<JoeGoal> goal);
+	JoePathFinder(Vector3i start, BlockSource* reg, std::shared_ptr<JoeGoal> goal);
 
 	JoePath findPath();
 	const JoePath& getCurrentPath() const;

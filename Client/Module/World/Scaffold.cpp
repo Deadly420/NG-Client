@@ -18,37 +18,37 @@ Scaffold::Scaffold() : Module(VK_NUMPAD1, Category::WORLD, "Automatically build 
 	registerIntSetting("Extend", &extend, extend, 0, 8);
 }
 
-bool Scaffold::tryScaffold(Vec3 blockBelow) {
-	Vec3 vel = Game.getLocalPlayer()->velocity;
+bool Scaffold::tryScaffold(Vector3 blockBelow) {
+	Vector3 vel = Game.getLocalPlayer()->velocity;
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
 	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f); // white when placing all the time
-	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f); // Draw a box around the block about to be placed
+	if (highlight) DrawUtils::drawBox(blockBelow, Vector3(blockBelow).add(1), 0.4f); // Draw a box around the block about to be placed
 
 	BlockSource* region = Game.getLocalPlayer()->region;
-	Block* block = region->getBlock(Vec3i(blockBelow));
+	Block* block = region->getBlock(Vector3i(blockBelow));
 	BlockLegacy* blockLegacy = (block->blockLegacy);
 	if (blockLegacy->material->isReplaceable) {
-		Vec3i blok(blockBelow);
+		Vector3i blok(blockBelow);
 
 		// Find neighbour
-		static std::vector<Vec3i*> checklist;
+		static std::vector<Vector3i*> checklist;
 		if (checklist.empty()) {
-			checklist.push_back(new Vec3i(0, -1, 0));
-			checklist.push_back(new Vec3i(0, 1, 0));
+			checklist.push_back(new Vector3i(0, -1, 0));
+			checklist.push_back(new Vector3i(0, 1, 0));
 
-			checklist.push_back(new Vec3i(0, 0, -1));
-			checklist.push_back(new Vec3i(0, 0, 1));
+			checklist.push_back(new Vector3i(0, 0, -1));
+			checklist.push_back(new Vector3i(0, 0, 1));
 
-			checklist.push_back(new Vec3i(-1, 0, 0));
-			checklist.push_back(new Vec3i(1, 0, 0));
+			checklist.push_back(new Vector3i(-1, 0, 0));
+			checklist.push_back(new Vector3i(1, 0, 0));
 		}
 
 		bool foundCandidate = false;
 		int i = 0;
 		for (auto current : checklist) {
-			Vec3i calc = blok.sub(*current);
+			Vector3i calc = blok.sub(*current);
 			bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
 			if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
 				// Found a solid block to click
@@ -67,56 +67,56 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 	return false;
 }
 
-bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
-	Vec3 vel = Game.getLocalPlayer()->velocity;
+bool Scaffold::tryClutchScaffold(Vector3 blockBelow) {
+	Vector3 vel = Game.getLocalPlayer()->velocity;
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
 	DrawUtils::setColor(0.f, 0.f, 1.f, 1.f);                                       // blue when predicting
-	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
+	if (highlight) DrawUtils::drawBox(blockBelow, Vector3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
 
-	static std::vector<Vec3i> checkBlocks;
+	static std::vector<Vector3i> checkBlocks;
 	if (checkBlocks.empty()) {  // Only re sort if its empty
 		for (int y = -4; y <= 4; y++) {
 			for (int x = -4; x <= 4; x++) {
 				for (int z = -4; z <= 4; z++) {
-					checkBlocks.push_back(Vec3i(x, y, z));
+					checkBlocks.push_back(Vector3i(x, y, z));
 				}
 			}
 		}
 		// https://www.mathsisfun.com/geometry/pythagoras-3d.html c2 = x2 + y2 + z2 funny
-		std::sort(checkBlocks.begin(), checkBlocks.end(), [](Vec3i first, Vec3i last) {
+		std::sort(checkBlocks.begin(), checkBlocks.end(), [](Vector3i first, Vector3i last) {
 			return sqrtf((float)(first.x * first.x) + (float)(first.y * first.y) + (float)(first.z * first.z)) < sqrtf((float)(last.x * last.x) + (float)(last.y * last.y) + (float)(last.z * last.z));
 		});
 	}
 
-	for (const Vec3i& blockOffset : checkBlocks) {
-		Vec3i currentBlock = Vec3i(blockBelow).add(blockOffset);
+	for (const Vector3i& blockOffset : checkBlocks) {
+		Vector3i currentBlock = Vector3i(blockBelow).add(blockOffset);
 
 		// Normal tryScaffold after it sorts
 		BlockSource* region = Game.getLocalPlayer()->region;
-		Block* block = region->getBlock(Vec3i(currentBlock));
+		Block* block = region->getBlock(Vector3i(currentBlock));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
 		if (blockLegacy->material->isReplaceable) {
-			Vec3i blok(currentBlock);
+			Vector3i blok(currentBlock);
 
 			// Find neighbour
-			static std::vector<Vec3i*> checklist;
+			static std::vector<Vector3i*> checklist;
 			if (checklist.empty()) {
-				checklist.push_back(new Vec3i(0, -1, 0));
-				checklist.push_back(new Vec3i(0, 1, 0));
+				checklist.push_back(new Vector3i(0, -1, 0));
+				checklist.push_back(new Vector3i(0, 1, 0));
 
-				checklist.push_back(new Vec3i(0, 0, -1));
-				checklist.push_back(new Vec3i(0, 0, 1));
+				checklist.push_back(new Vector3i(0, 0, -1));
+				checklist.push_back(new Vector3i(0, 0, 1));
 
-				checklist.push_back(new Vec3i(-1, 0, 0));
-				checklist.push_back(new Vec3i(1, 0, 0));
+				checklist.push_back(new Vector3i(-1, 0, 0));
+				checklist.push_back(new Vector3i(1, 0, 0));
 			}
 
 			bool foundCandidate = false;
 			int i = 0;
 			for (auto current : checklist) {
-				Vec3i calc = blok.sub(*current);
+				Vector3i calc = blok.sub(*current);
 				bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
 				if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
 					// Found a solid block to click
@@ -159,9 +159,9 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 		return;
 	}
 
-	Vec4 testRect = Vec4(scX, scY, 25 + scX, scY + 16);
-	Vec2 textPos(testRect.x + 8, testRect.y + 8);
-	Vec2 blockPos(testRect.x + 5, testRect.y + 7);
+	Vector4 testRect = Vector4(scX, scY, 25 + scX, scY + 16);
+	Vector2 textPos(testRect.x + 8, testRect.y + 8);
+	Vector2 blockPos(testRect.x + 5, testRect.y + 7);
 
 	if (Count) {
 		PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
@@ -172,7 +172,7 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 		for (int s = 0; s < 9; s++) {
 			ItemStack* stack = inv->getItemStack(s);
 			if (stack->item != nullptr && stack->getItem()->isBlock()) {
-				if (stack->isValid()) DrawUtils::drawItem(stack, Vec2(blockPos.x - 1, blockPos.y - 7), 1, 1, false);
+				if (stack->isValid()) DrawUtils::drawItem(stack, Vector2(blockPos.x - 1, blockPos.y - 7), 1, 1, false);
 				totalCount += stack->count;
 			}
 		}
@@ -184,7 +184,7 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 		if (totalCount < 32) color = Mc_Color(255, 196, 0);
 		if (totalCount < 16) color = Mc_Color(252, 62, 62);
 		if (totalCount < 1) color = Mc_Color(255, 0, 0);
-		DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
+		DrawUtils::drawText(Vector2(textPos), &count, color, 1.f, true);
 	}
 
 	auto selectedItem = player->getSelectedItem();
@@ -193,7 +193,7 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 	}
 
 	float speed = player->velocity.magnitudexz();
-	Vec3 velocity = player->velocity.normalize();
+	Vector3 velocity = player->velocity.normalize();
 
 	if (down) {
 		handleScaffoldDown(player, speed, velocity);
@@ -202,9 +202,9 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 	}
 }
 
-void Scaffold::handleScaffoldDown(Player* player, float speed, const Vec3& velocity) {
-	Vec3 blockBelow = getBlockBelow(player, 1.5f);
-	Vec3 blockBelowBelow = getBlockBelow(player, 2.0f);
+void Scaffold::handleScaffoldDown(Player* player, float speed, const Vector3& velocity) {
+	Vector3 blockBelow = getBlockBelow(player, 1.5f);
+	Vector3 blockBelowBelow = getBlockBelow(player, 2.0f);
 
 	if (!tryScaffold(blockBelow) && !tryScaffold(blockBelowBelow)) {
 		if (speed > 0.05f) {
@@ -213,9 +213,9 @@ void Scaffold::handleScaffoldDown(Player* player, float speed, const Vec3& veloc
 	}
 }
 
-void Scaffold::handleScaffoldUp(Player* player, float speed, const Vec3& velocity) {
-	Vec3 blockBelowReal = getBlockBelow(player, 0.5f);
-	Vec3 blockBelow = blockBelowReal;
+void Scaffold::handleScaffoldUp(Player* player, float speed, const Vector3& velocity) {
+	Vector3 blockBelowReal = getBlockBelow(player, 0.5f);
+	Vector3 blockBelow = blockBelowReal;
 
 	if (Ylock) {
 		adjustYCoordinate(blockBelow, blockBelowReal);
@@ -223,32 +223,32 @@ void Scaffold::handleScaffoldUp(Player* player, float speed, const Vec3& velocit
 
 	extendBlock(player, velocity, blockBelow);
 
-	if (player->region->getBlock(Vec3i(blockBelow.floor()))->blockLegacy->material->isReplaceable) {
+	if (player->region->getBlock(Vector3i(blockBelow.floor()))->blockLegacy->material->isReplaceable) {
 		handleReplaceableBlock(player, speed, velocity, blockBelow);
 	} else {
 		handleNonReplaceableBlock(player, speed, velocity, blockBelow);
 	}
 }
 
-Vec3 Scaffold::getBlockBelow(Player* player, float yOffset) {
-	Vec3 blockBelow = player->eyePos0;
+Vector3 Scaffold::getBlockBelow(Player* player, float yOffset) {
+	Vector3 blockBelow = player->eyePos0;
 	blockBelow.y -= player->height + yOffset;
 	return blockBelow;
 }
 
-void Scaffold::adjustYCoordinate(Vec3& blockBelow, const Vec3& blockBelowReal) {
+void Scaffold::adjustYCoordinate(Vector3& blockBelow, const Vector3& blockBelowReal) {
 	blockBelow.y = YCoord;
 	if (blockBelowReal.y < YCoord) {
 		YCoord = blockBelowReal.y;
 	}
 }
 
-void Scaffold::extendBlock(Player* player, const Vec3& velocity, Vec3& blockBelow) {
+void Scaffold::extendBlock(Player* player, const Vector3& velocity, Vector3& blockBelow) {
 	blockBelow.x += velocity.x * extend;
 	blockBelow.z += velocity.z * extend;
 }
 
-void Scaffold::attemptScaffoldWhileMoving(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow, Vec3& blockBelowBelow) {
+void Scaffold::attemptScaffoldWhileMoving(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow, Vector3& blockBelowBelow) {
 	blockBelow.z -= velocity.z * 0.4f;
 	blockBelowBelow.z -= velocity.z * 0.4f;
 
@@ -268,16 +268,16 @@ void Scaffold::attemptScaffoldWhileMoving(Player* player, float speed, const Vec
 	}
 }
 
-void Scaffold::handleReplaceableBlock(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow) {
+void Scaffold::handleReplaceableBlock(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow) {
 	tryClutchScaffold(blockBelow);
 
 	if (hive) {
-		Vec3 nextBlock = getNextBlock(player, velocity, blockBelow);
+		Vector3 nextBlock = getNextBlock(player, velocity, blockBelow);
 		tryClutchScaffold(nextBlock);
 	}
 }
 
-void Scaffold::handleNonReplaceableBlock(Player* player, float speed, const Vec3& velocity, Vec3& blockBelow) {
+void Scaffold::handleNonReplaceableBlock(Player* player, float speed, const Vector3& velocity, Vector3& blockBelow) {
 	if (!hive) {
 		if (!tryScaffold(blockBelow)) {
 			if (speed > 0.05f) {
@@ -298,8 +298,8 @@ void Scaffold::handleNonReplaceableBlock(Player* player, float speed, const Vec3
 	}
 }
 
-Vec3 Scaffold::getNextBlock(Player* player, const Vec3& velocity, const Vec3& blockBelow) {
-	Vec3 nextBlock = blockBelow;
+Vector3 Scaffold::getNextBlock(Player* player, const Vector3& velocity, const Vector3& blockBelow) {
+	Vector3 nextBlock = blockBelow;
 	if (abs(velocity.x) > abs(velocity.z)) {
 		nextBlock.x += (velocity.x > 0 ? 1 : (velocity.x < 0 ? -1 : 0));
 	} else {
@@ -314,14 +314,14 @@ void Scaffold::onSendPacket(Packet* packet) {
 	if (player == nullptr) return;
 	if (hive || rotations) {
 		float speed = player->velocity.magnitudexz();
-		Vec3 blockBelow = player->eyePos0;  // Block 1 block below the player
+		Vector3 blockBelow = player->eyePos0;  // Block 1 block below the player
 		blockBelow.y -= player->height;
 		blockBelow.y -= 0.5f;
 
 		if (packet->isInstanceOf<C_MovePlayerPacket>()) {
 			if (speed > 0.05f) {
 				auto* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);
-				Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
+				Vector2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
 				movePacket->pitch = 83;
 				movePacket->headYaw = angle.y;
 				movePacket->yaw = angle.y;
@@ -334,12 +334,12 @@ void Scaffold::onPlayerTick(Player* player) {
 	if (player == nullptr) return;
 	if (hive || rotations) {
 		float speed = player->velocity.magnitudexz();
-		Vec3 blockBelow = player->eyePos0;  // Block 1 block below the player
+		Vector3 blockBelow = player->eyePos0;  // Block 1 block below the player
 		blockBelow.y -= player->height;
 		blockBelow.y -= 0.5f;
 
 		if (speed > 0.05f) {
-			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
+			Vector2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
 			player->pitch = angle.x;
 			player->yawUnused1 = angle.y;
 			player->bodyYaw = angle.y;

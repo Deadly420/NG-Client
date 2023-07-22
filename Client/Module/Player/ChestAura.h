@@ -13,7 +13,7 @@ public:
 	ChestAura();
 	~ChestAura();
 
-	std::vector<Vec3i> chestlist;
+	std::vector<Vector3i> chestlist;
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;

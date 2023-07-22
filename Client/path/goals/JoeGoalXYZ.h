@@ -6,10 +6,10 @@
 
 class JoeGoalXYZ : public JoeGoal {
 private:
-	Vec3i targetPos;
+	Vector3i targetPos;
 public:
-	JoeGoalXYZ(const Vec3i& targetPos);
+	JoeGoalXYZ(const Vector3i& targetPos);
 
-	bool isInGoal(Vec3i pos) override;
-	float getHeuristicEstimation(Vec3i pos) override;
+	bool isInGoal(Vector3i pos) override;
+	float getHeuristicEstimation(Vector3i pos) override;
 };

@@ -28,7 +28,7 @@ void StorageESP::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	for (const auto& chest : bufferedChestList) {
 		Mc_Color flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);
 
-		Vec3 blockPos = chest.lower;
+		Vector3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
 		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;
@@ -64,7 +64,7 @@ void StorageESP::onLevelRender() {
 	for (const auto& chest : bufferedChestList) {
 		Mc_Color flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);
 
-		Vec3 blockPos = chest.lower;
+		Vector3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
 		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;

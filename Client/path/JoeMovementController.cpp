@@ -18,7 +18,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 
 	auto pPos = player->eyePos0;
 	pPos.y -= 1.62f;
-	Vec3i playerNode((int)floorf(pPos.x), (int)roundf(pPos.y), (int)floorf(pPos.z));
+	Vector3i playerNode((int)floorf(pPos.x), (int)roundf(pPos.y), (int)floorf(pPos.z));
 
 	auto curSeg = currentPath->getSegment(stateInfo.currentPathSegment);
 
@@ -29,20 +29,20 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 	}
 
 	auto startBpos = curSeg.getStart();
-	auto start = startBpos.toVec3t().add(0.5f, 0, 0.5f);
+	auto start = startBpos.toVector3t().add(0.5f, 0, 0.5f);
 	auto endBpos = curSeg.getEnd();
-	auto end = endBpos.toVec3t().add(0.5f, 0, 0.5f);
+	auto end = endBpos.toVector3t().add(0.5f, 0, 0.5f);
 
-	auto nextSegEnd = Vec3();
+	auto nextSegEnd = Vector3();
 
 	bool hasNextSeg = stateInfo.currentPathSegment < currentPath->getNumSegments() - 1;
 	if(hasNextSeg)
-		nextSegEnd = currentPath->getSegment(stateInfo.currentPathSegment + 1).getEnd().toVec3t().add(0.5f, 0, 0.5f);
+		nextSegEnd = currentPath->getSegment(stateInfo.currentPathSegment + 1).getEnd().toVector3t().add(0.5f, 0, 0.5f);
 
 	auto walkTarget = end;
 	bool enableNextSegmentSmoothing = true;
 	float dComp = 0.5f;
-	Vec3 addedDiff{0, 0, 0};
+	Vector3 addedDiff{0, 0, 0};
 
 	// we should probably make seperate classes for each segment type at some point, but im just doing it here for now for faster prototyping
 	switch(curSeg.getSegmentType()){
@@ -186,7 +186,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 					walkTarget = start.add(tangent.mul(0.2f)); // center if we need to get up a block
 			}
 
-			Vec3 flow{};
+			Vector3 flow{};
 
 			auto block = player->region->getBlock(playerNode);
 			if(!block->toLegacy()->material->isLiquid){
@@ -222,8 +222,8 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 			walkTarget = start;
 		}
 
-		Vec3 diff3d = walkTarget.sub(pPosD);
-		Vec2 diff2d = {diff3d.x, diff3d.z};
+		Vector3 diff3d = walkTarget.sub(pPosD);
+		Vector2 diff2d = {diff3d.x, diff3d.z};
 		float diffMag = diff2d.magnitude();
 		if(enableNextSegmentSmoothing && hasNextSeg && diffMag < 0.2f && fabsf(end.y - pPosD.y) < (player->isInWater() ? 0.5f : 0.1f)){ // Start taking the next segment into account when we're very close to our destination
 			auto tangent = nextSegEnd.sub(end).normalize();
@@ -240,7 +240,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 		}
 
 		float yaw = player->yaw;
-		auto forward = Vec2::fromAngle(yaw * RAD_DEG);
+		auto forward = Vector2::fromAngle(yaw * RAD_DEG);
 		auto right = forward.cross();
 
 		movementHandler->forwardMovement = forward.dot(diff2d);

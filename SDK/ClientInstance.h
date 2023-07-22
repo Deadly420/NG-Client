@@ -102,8 +102,8 @@ private:
 public:
 	mce::TexturePtr atlasTexture;  // 0x140
 
-	Vec3& getOrigin() {
-		return *(Vec3*)((char*)this + (0x79C));
+	Vector3& getOrigin() {
+		return *(Vector3*)((char*)this + (0x79C));
 	}
 };
 
@@ -183,7 +183,7 @@ public:
 			float widthReal;   //0x0018
 			float heightReal;  //0x001C
 		};
-		Vec2 windowSizeReal;  //0x0018
+		Vector2 windowSizeReal;  //0x0018
 	};
 
 	float widthReal2;   //0x0020
@@ -193,7 +193,7 @@ public:
 			float widthGame;   //0x0028
 			float heightGame;  //0x002C
 		};
-		Vec2 windowSize;  //0x0028
+		Vector2 windowSize;  //0x0028
 	};
 
 	void displayClientMessageVA(const char* fmt, va_list lis, bool sendToInjector = true);
@@ -258,12 +258,12 @@ public:
 		return reinterpret_cast<glmatrixf*>((uintptr_t)(this) + 0x2F0);
 	};
 
-	Vec2* getMousePos() {
-		return reinterpret_cast<Vec2*>((uintptr_t)(this) + 0x458);
+	Vector2* getMousePos() {
+		return reinterpret_cast<Vector2*>((uintptr_t)(this) + 0x458);
 	}
 
-	Vec2 getFov() {
-		Vec2 fov;
+	Vector2 getFov() {
+		Vector2 fov;
 		fov.x = *reinterpret_cast<float*>((uintptr_t)(this) + 0x690);
 		fov.y = *reinterpret_cast<float*>((uintptr_t)(this) + 0x6A4);
 		return fov;

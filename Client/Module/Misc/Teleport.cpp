@@ -18,9 +18,9 @@ void Teleport::onTick(GameMode* gm) {
 
 	if (GameData::isRightClickDown() && !hasClicked) {
 		hasClicked = true;
-		const Vec3i& block = Game.getLocalPlayer()->getlevel()->block;
-		if (block == Vec3i(0, 0, 0)) return;
-		Vec3 pos = block.toFloatVector();
+		const Vector3i& block = Game.getLocalPlayer()->getlevel()->block;
+		if (block == Vector3i(0, 0, 0)) return;
+		Vector3 pos = block.toFloatVector();
 		pos.x += 0.5f;
 		pos.z += 0.5f;
 
@@ -34,7 +34,7 @@ void Teleport::onTick(GameMode* gm) {
 	if (shouldTP && GameData::isKeyDown(*Game.getClientInstance()->getGameSettingsInput()->sneakKey)) {
 		tpPos.y += (gm->player->getPos()->y - gm->player->getAABB()->lower.y) + 1;  // eye height + 1
 		if (lerp) {
-			Game.getLocalPlayer()->lerpTo(tpPos, Vec2(1, 1), (int)std::fmax((int)(gm->player->getPos()->dist(tpPos) * lerpSpeed), 1));
+			Game.getLocalPlayer()->lerpTo(tpPos, Vector2(1, 1), (int)std::fmax((int)(gm->player->getPos()->dist(tpPos) * lerpSpeed), 1));
 		} else {
 			gm->player->setPos(tpPos);
 		}

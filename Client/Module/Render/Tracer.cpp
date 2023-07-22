@@ -21,12 +21,12 @@ void Tracer::onLevelRender() {
 		if (!Game.getLocalPlayer()) return;
 		float calcYaw = (Game.getLocalPlayer()->yaw + 90) * (PI / 180);
 		float calcPitch = (Game.getLocalPlayer()->pitch) * -(PI / 180);
-		Vec3 moveVec;
+		Vector3 moveVec;
 		moveVec.x = cos(calcYaw) * cos(calcPitch) * 0.5f;
 		moveVec.y = sin(calcPitch) * 0.5f;
 		moveVec.z = sin(calcYaw) * cos(calcPitch) * 0.5f;
 
-		const Vec3 origin = Game.getClientInstance()->levelRenderer->getOrigin().add(moveVec); /*place the start of the line slightly forward so it won't get clipped*/
+		const Vector3 origin = Game.getClientInstance()->levelRenderer->getOrigin().add(moveVec); /*place the start of the line slightly forward so it won't get clipped*/
 		Game.forEachEntity([&](Entity* ent, bool valid) {
 			if (ent != Game.getLocalPlayer() && Target::isValidTarget(ent) && Game.canUseMoveKeys()) {
 				DrawUtils::setColor(255, 255, 255, 1);
@@ -44,13 +44,13 @@ void Tracer::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		Game.forEachEntity([&](Entity* ent, bool valid) {
 			if (ent != Game.getLocalPlayer() && Target::isValidTarget(ent) && Game.canUseMoveKeys()) {
 				static auto tracerMod = moduleMgr->getModule<Tracer>();
-				Vec2 target;
-				Vec2 screenSize;
+				Vector2 target;
+				Vector2 screenSize;
 				screenSize.x = Game.getGuiData()->widthGame;
 				screenSize.y = Game.getGuiData()->heightGame;
 				refdef2->OWorldToScreen(Game.getClientInstance()->levelRenderer->getOrigin(), ent->eyePos0, target, Game.getClientInstance()->getFov(), screenSize);
-				Vec2 mid(((Game.getClientInstance()->getGuiData()->widthGame) / 2), ((Game.getClientInstance()->getGuiData()->heightGame) / 2));
-				if (target != Vec2(0, 0)) {
+				Vector2 mid(((Game.getClientInstance()->getGuiData()->widthGame) / 2), ((Game.getClientInstance()->getGuiData()->heightGame) / 2));
+				if (target != Vector2(0, 0)) {
 					DrawUtils::setColor(255, 255, 255, 1);
 					DrawUtils::drawLine(mid, target, 0.2f);
 				}

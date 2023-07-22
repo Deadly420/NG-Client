@@ -40,7 +40,7 @@ void NoFall::onSendPacket(Packet* packet) {
 
 bool NoFall::isOverVoid() {
 	for (float posY = Game.getLocalPlayer()->getPos()->y; posY > 0.0f; --posY) {
-		if (!(Game.getLocalPlayer()->region->getBlock(Vec3(Game.getLocalPlayer()->getPos()->x, posY, Game.getLocalPlayer()->getPos()->z))->blockLegacy->blockId == 0)) {
+		if (!(Game.getLocalPlayer()->region->getBlock(Vector3(Game.getLocalPlayer()->getPos()->x, posY, Game.getLocalPlayer()->getPos()->z))->blockLegacy->blockId == 0)) {
 			return false;
 		}
 	}
@@ -71,7 +71,7 @@ void NoFall::onTick(GameMode* gm) {
 				Game.getClientInstance()->loopbackPacketSender->sendToServer(&actionPacket);
 			}
 			case 4: {
-				Vec3 blockBelow = localPlayer->eyePos0;
+				Vector3 blockBelow = localPlayer->eyePos0;
 				blockBelow.y -= localPlayer->height;
 				blockBelow.y -= 0.17999f;
 				while (localPlayer->region->getBlock(blockBelow)->blockLegacy->blockId == 0 && !localPlayer->region->getBlock(blockBelow)->blockLegacy->material->isSolid) {
@@ -81,7 +81,7 @@ void NoFall::onTick(GameMode* gm) {
 					}
 				}
 				blockBelow.y += 2.62001f;
-				Vec3 pos = *localPlayer->getPos();
+				Vector3 pos = *localPlayer->getPos();
 				closestGround = {pos.x, blockBelow.y, pos.z};
 			}
 			}

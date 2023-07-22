@@ -24,7 +24,7 @@ public:
 class LevelSoundEventPacket : public Packet {
 public:
 	int sound;           //0x28
-	Vec3 pos;          //0x2C
+	Vector3 pos;          //0x2C
 	int extraData = -1;  //0x38
 private:
 	int unknown = 0;  //0x3C
@@ -40,9 +40,9 @@ public:
 	//uint64_t entityRuntimeId; //0x0020
 	float pitch;  //0x0028
 	float yaw;
-	Vec3 pos;       //0x0030
+	Vector3 pos;       //0x0030
 	float yawUnused;  //0x0038
-	Vec3 velocity;
+	Vector3 velocity;
 	float InputAD;  // 1 for A, -1 for D, multiply by sqrt(2)/2 if mixed with InputWS
 	float InputWS;  // 1 for W, -1 for S, multiply by sqrt(2)/2 if mixed with InputAD
 private:
@@ -53,14 +53,14 @@ public:
 
 public:
 	PlayerAuthInputPacket();
-	PlayerAuthInputPacket(Vec3 pos, float pitch, float yaw, float yawUnused);
+	PlayerAuthInputPacket(Vector3 pos, float pitch, float yaw, float yawUnused);
 };
 
 class PlayerActionPacket : public Packet {
 public:
 	PlayerActionPacket();
 	
-	Vec3i blockPosition;    // 0x28
+	Vector3i blockPosition;    // 0x28
 	int face;                 // 0x34
 	int action;               // 0x38
 	__int64 entityRuntimeId;  // 0x40
@@ -150,7 +150,7 @@ public:
 
 class C_InteractPacket : public Packet {
 public:
-	C_InteractPacket(/**enum InteractPacket::Action, class ActorRuntimeID, Vec3 const&*/);
+	C_InteractPacket(/**enum InteractPacket::Action, class ActorRuntimeID, Vector3 const&*/);
 	
 public:
 	int action;
@@ -234,10 +234,10 @@ public:
 __declspec(align(8)) class C_MovePlayerPacket : public Packet {
 public:
 	C_MovePlayerPacket();
-	C_MovePlayerPacket(LocalPlayer* player, Vec3 pos);
+	C_MovePlayerPacket(LocalPlayer* player, Vector3 pos);
 	
 	__int64 entityRuntimeID;  //0x28
-	Vec3 Position;          //0x30
+	Vector3 Position;          //0x30
 	float pitch;              //0x3c
 	float yaw;                //0x40
 	float headYaw;            //0x44

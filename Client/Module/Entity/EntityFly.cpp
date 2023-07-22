@@ -58,8 +58,8 @@ void EntityFly::onMove(MoveInputHandler* input) {
 		if (targetJoe[0] && targetJoe[0] == nullptr) return;
 		if (targetJoe[0]->isSneaking())
 			return;
-		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
-		bool pressed = moveVec2d.magnitude() > 0.01f;
+		Vector2 moveVector2d = {input->forwardMovement, -input->sideMovement};
+		bool pressed = moveVector2d.magnitude() > 0.01f;
 
 		if (input->right) {
 			yaw += 90.f;
@@ -81,7 +81,7 @@ void EntityFly::onMove(MoveInputHandler* input) {
 			yaw += 180.f;
 
 		float calcYaw = (yaw + 90.f) * (PI / 180.f);
-		Vec3 moveVec;
+		Vector3 moveVec;
 		moveVec.x = cos(calcYaw) * speed2;
 		moveVec.y = targetJoe[0]->velocity.y;
 		moveVec.z = sin(calcYaw) * speed2;

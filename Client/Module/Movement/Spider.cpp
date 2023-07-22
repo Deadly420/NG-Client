@@ -23,39 +23,39 @@ void Spider::onMove(MoveInputHandler* input) {
 	if (player->isSneaking())
 		return;
 	
-	std::vector<Vec3i> sideBlocks;
+	std::vector<Vector3i> sideBlocks;
 	sideBlocks.reserve(8);
 
-	Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
-	bool pressed = moveVec2d.magnitude() > 0.01f;
+	Vector2 moveVector2d = {input->forwardMovement, -input->sideMovement};
+	bool pressed = moveVector2d.magnitude() > 0.01f;
 	if (!pressed)
 		return;
-	moveVec2d = moveVec2d.normalized();
+	moveVector2d = moveVector2d.normalized();
 
 	float calcYaw = (player->yaw + 90) * (PI / 180);
-	Vec3 moveVec;
+	Vector3 moveVec;
 	float c = cos(calcYaw);
 	float s = sin(calcYaw);
-	moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
+	moveVector2d = {moveVector2d.x * c - moveVector2d.y * s, moveVector2d.x * s + moveVector2d.y * c};
 
 	for (int x = -1; x <= 1; x++) {
 		for (int z = -1; z <= 1; z++) {
 			if (x == 0 && z == 0)
 				continue;
 
-			if (moveVec2d.dot(Vec2(x, z).normalized()) < 0.6f)
+			if (moveVector2d.dot(Vector2(x, z).normalized()) < 0.6f)
 				continue;
-			sideBlocks.push_back(Vec3i(x, 0, z));
+			sideBlocks.push_back(Vector3i(x, 0, z));
 		}
 	}
 
 	auto pPos = *player->getPos();
 	pPos.y = player->aabb.lower.y;
-	auto pPosI = Vec3i(pPos.floor());
+	auto pPosI = Vector3i(pPos.floor());
 
 	auto isObstructed = [&](int yOff, AABB* obstructingBlock = nullptr, bool ignoreYcoll = false) {
 		for (const auto& current : sideBlocks) {
-			Vec3i side = pPosI.add(0, yOff, 0).add(current);
+			Vector3i side = pPosI.add(0, yOff, 0).add(current);
 			if (side.y < 0 || side.y >= 256)
 				break;
 			auto block = player->region->getBlock(side);

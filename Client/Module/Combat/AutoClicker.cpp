@@ -47,7 +47,7 @@ void AutoClicker::onTick(GameMode* gm) {
 			delay++;
 			if (delay >= random(minD, maxD)) {
 				bool idk = true;
-				gm->buildBlock(new Vec3i(level->block), level->blockSide, idk);
+				gm->buildBlock(new Vector3i(level->block), level->blockSide, idk);
 				delay = 0;
 			}
 		}

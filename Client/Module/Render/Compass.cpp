@@ -39,7 +39,7 @@ void Compass::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		}
 	}
 
-	std::vector<Vec2> stacking{};
+	std::vector<Vector2> stacking{};
 
 	const int deg = (int)(player->yaw + 180);
 	const float degSubOffset = 0;  // -fmodf(player->yaw, 1)
@@ -65,28 +65,28 @@ void Compass::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 		switch (oDeg) {
 		case 0:
-			drawCenteredText(Vec2(xOff, 30.f), "N", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "N", 1, majorOpacity);
 			break;
 		case 45:
-			drawCenteredText(Vec2(xOff, 30.f), "NE", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "NE", 1, majorOpacity);
 			break;
 		case 90:
-			drawCenteredText(Vec2(xOff, 30.f), "E", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "E", 1, majorOpacity);
 			break;
 		case 135:
-			drawCenteredText(Vec2(xOff, 30.f), "SE", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "SE", 1, majorOpacity);
 			break;
 		case 180:
-			drawCenteredText(Vec2(xOff, 30.f), "S", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "S", 1, majorOpacity);
 			break;
 		case 225:
-			drawCenteredText(Vec2(xOff, 30.f), "SW", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "SW", 1, majorOpacity);
 			break;
 		case 270:
-			drawCenteredText(Vec2(xOff, 30.f), "W", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "W", 1, majorOpacity);
 			break;
 		case 315:
-			drawCenteredText(Vec2(xOff, 30.f), "NW", 1, majorOpacity);
+			drawCenteredText(Vector2(xOff, 30.f), "NW", 1, majorOpacity);
 			break;
 		}
 		auto result = extraPoints.equal_range(oDeg);
@@ -94,14 +94,14 @@ void Compass::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			std::string pName = it->second;
 			std::transform(pName.begin(), pName.end(), pName.begin(), ::toupper);
 
-			Vec2 pos = Vec2(xOff, 31.f);
+			Vector2 pos = Vector2(xOff, 31.f);
 
 			int overlapping = 0;
 			const float tSize = 0.75f;
 			const float tWidth = DrawUtils::getTextWidth(&pName, tSize);
 			pos.x -= tWidth / 2;
-			const Vec2 myTextRange = Vec2(pos.x, pos.x + tWidth); 
-			for (const Vec2 otherTextRange : stacking) {
+			const Vector2 myTextRange = Vector2(pos.x, pos.x + tWidth); 
+			for (const Vector2 otherTextRange : stacking) {
 				// Check if other text overlaps us
 				if (myTextRange.x < otherTextRange.y && otherTextRange.x < myTextRange.y) {
 					overlapping++;
@@ -115,24 +115,24 @@ void Compass::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		if (off != 0 && minorOpacity > 0) {
 			if ((oDeg % 15) != 0) {
 				if ((oDeg % 5) == 0) {
-					DrawUtils::fillRectangle(Vec4(xOff - 0.25f, 16, xOff + 0.25f, 19), Mc_Color(255, 255, 255), minorOpacity);
+					DrawUtils::fillRectangle(Vector4(xOff - 0.25f, 16, xOff + 0.25f, 19), Mc_Color(255, 255, 255), minorOpacity);
 				}
 				continue;
 			}
 
 			// Bigger line with degree displayed
-			DrawUtils::fillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), Mc_Color(255, 255, 255), minorOpacity);
-			drawCenteredText(Vec2(xOff, 20.f), std::to_string(oDeg), 0.75f, minorOpacity);
+			DrawUtils::fillRectangle(Vector4(xOff - 0.5f, 15, xOff + 0.5f, 20), Mc_Color(255, 255, 255), minorOpacity);
+			drawCenteredText(Vector2(xOff, 20.f), std::to_string(oDeg), 0.75f, minorOpacity);
 		}
 	}
 
 	// Center line
-	DrawUtils::fillRectangle(Vec4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), Mc_Color(255, 255, 255), opacity);
-	drawCenteredText(Vec2(sCenter, 25.f), std::to_string(deg), 0.75f, opacity);
+	DrawUtils::fillRectangle(Vector4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), Mc_Color(255, 255, 255), opacity);
+	drawCenteredText(Vector2(sCenter, 25.f), std::to_string(deg), 0.75f, opacity);
 	DrawUtils::flush();
 }
 
-void Compass::drawCenteredText(Vec2 pos, std::string text, float size, float textOpacity) {
+void Compass::drawCenteredText(Vector2 pos, std::string text, float size, float textOpacity) {
 	pos.x -= DrawUtils::getTextWidth(&text, size) / 2;
 	DrawUtils::drawText(pos, &text, Mc_Color(255, 255, 255), size, textOpacity);
 }

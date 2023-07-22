@@ -10,7 +10,7 @@ bool initialised = false;
 int scrollingDirection = 0;
 
 struct SavedWindowSettings {
-	Vec2 pos = {-1, -1};
+	Vector2 pos = {-1, -1};
 	bool isExtended = true;
 	const char* name = "";
 };
@@ -20,7 +20,7 @@ std::map<unsigned int, SavedWindowSettings> savedWindowSettings;
 
 bool isDragging = false;
 unsigned int draggedWindow = -1;
-Vec2 dragStart = Vec2();
+Vector2 dragStart = Vector2();
 
 unsigned int focusedElement = -1;
 bool isFocused = false;
@@ -98,19 +98,19 @@ void ClickGui::renderLabel(const char* text) {
 }
 
 void ClickGui::renderTooltip(std::string* text) {
-	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-	Vec2 currentTooltipPos = Vec2(5.f, windowSize.y - 15.f);
+	Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+	Vector2 currentTooltipPos = Vector2(5.f, windowSize.y - 15.f);
 	float textWidth = DrawUtils::getTextWidth(text, textSize);
-	Vec2 textPos = Vec2(
+	Vector2 textPos = Vector2(
 		currentTooltipPos.x + textPaddingX,
 		currentTooltipPos.y);
-	Vec4 rectPos = Vec4(
+	Vector4 rectPos = Vector4(
 		currentTooltipPos.x - 2.f,
 		currentTooltipPos.y - 2.f,
 		currentTooltipPos.x + (textPaddingX * 2) + textWidth + 2.f,
 		currentTooltipPos.y + textHeight + 2.f);
 
-	Vec4 rectPosbottom = Vec4(
+	Vector4 rectPosbottom = Vector4(
 		currentTooltipPos.x - 2.f,
 		currentTooltipPos.y + 10.f,
 		currentTooltipPos.x + (textPaddingX * 2) + textWidth + 2.f,
@@ -170,7 +170,7 @@ void ClickGui::renderCategory(Category category) {
 
 	const float xOffset = ourWindow->pos.x;
 	const float yOffset = ourWindow->pos.y;
-	Vec2* windowSize = &ourWindow->size;
+	Vector2* windowSize = &ourWindow->size;
 	currentXOffset = xOffset;
 	currentYOffset = yOffset;
 
@@ -188,12 +188,12 @@ void ClickGui::renderCategory(Category category) {
 
 	const float xEnd = currentXOffset + windowSize->x + paddingRight;
 
-	Vec2 mousePos = *Game.getClientInstance()->getMousePos();
+	Vector2 mousePos = *Game.getClientInstance()->getMousePos();
 
 	// Convert mousePos to visual Pos
 	{
-		Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-		Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
+		Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+		Vector2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
 
 		mousePos = mousePos.div(windowSizeReal);
 		mousePos = mousePos.mul(windowSize);
@@ -244,10 +244,10 @@ void ClickGui::renderCategory(Category category) {
 
 			std::string textStr = mod->getModuleName();
 
-			Vec2 textPos = Vec2(
+			Vector2 textPos = Vector2(
 				currentXOffset + textPaddingX,
 				currentYOffset + textPaddingY);
-			Vec4 rectPos = Vec4(
+			Vector4 rectPos = Vector4(
 				currentXOffset,
 				currentYOffset,
 				xEnd,
@@ -289,11 +289,11 @@ void ClickGui::renderCategory(Category category) {
 					}
 					if (clickguiMod->mode.selected == 0) {
 						if (!clickMod->isExtended)
-							GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
+							GuiUtils::drawDownArrow(Vector2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
 						else
-							GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
+							GuiUtils::drawUpArrow(Vector2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
 					} else {
-						GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !clickMod->isExtended);
+						GuiUtils::drawCrossLine(Vector2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !clickMod->isExtended);
 					}
 
 					currentYOffset += textHeight + (textPaddingY * 2);
@@ -304,12 +304,12 @@ void ClickGui::renderCategory(Category category) {
 								if (strcmp(setting->name, "enabled") == 0 || strcmp(setting->name, "keybind") == 0)
 								continue;
 
-							Vec2 textPos = Vec2(
+							Vector2 textPos = Vector2(
 								currentXOffset + textPaddingX + 5,
 								currentYOffset + textPaddingY);
 
 							// Incomplete, because we dont know the endY yet
-							Vec4 rectPos = Vec4(
+							Vector4 rectPos = Vector4(
 								currentXOffset,
 								currentYOffset,
 								xEnd,
@@ -325,7 +325,7 @@ void ClickGui::renderCategory(Category category) {
 								rectPos.w = currentYOffset + textHeight + (textPaddingY * 2);
 								// Background of bool setting
 								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
-								Vec4 selectableSurface = Vec4(
+								Vector4 selectableSurface = Vector4(
 									textPos.x + textPaddingX,
 									textPos.y + textPaddingY,
 									xEnd - textPaddingX,
@@ -342,7 +342,7 @@ void ClickGui::renderCategory(Category category) {
 								// Checkbox
 								{
 									float boxHeight = textHeight - textPaddingY / 0.90;
-									Vec4 boxPos = Vec4(
+									Vector4 boxPos = Vector4(
 										textPos.x + textPaddingX,
 										textPos.y + textPaddingY,
 										textPos.x + textPaddingX + boxHeight,
@@ -432,7 +432,7 @@ void ClickGui::renderCategory(Category category) {
 																				&elTexto, textSize) +
 																				5);  // because we add 5 to text padding
 										textPos.y = currentYOffset + textPaddingY;
-										Vec4 selectableSurface = Vec4(
+										Vector4 selectableSurface = Vector4(
 											textPos.x,
 											rectPos.y,
 											xEnd,
@@ -482,7 +482,7 @@ void ClickGui::renderCategory(Category category) {
 								}
 								// Slider
 								{
-									Vec4 rect = Vec4(
+									Vector4 rect = Vector4(
 										currentXOffset + textPaddingX + 5,
 										currentYOffset + textPaddingY + 1,
 										xEnd - textPaddingX,
@@ -564,7 +564,7 @@ void ClickGui::renderCategory(Category category) {
 								}
 								// Slider
 								{
-									Vec4 rect = Vec4(
+									Vector4 rect = Vector4(
 										currentXOffset + textPaddingX + 5,
 										currentYOffset + textPaddingY,
 										xEnd - textPaddingX,
@@ -637,7 +637,7 @@ void ClickGui::renderCategory(Category category) {
 							startYOffset += textPaddingY;
 							endYOffset -= textPaddingY;
 							DrawUtils::setColor(1, 1, 1, 1);
-							DrawUtils::drawLine(Vec2(currentXOffset + 2, startYOffset), Vec2(currentXOffset + 2, endYOffset), 0.5f);
+							DrawUtils::drawLine(Vector2(currentXOffset + 2, startYOffset), Vector2(currentXOffset + 2, endYOffset), 0.5f);
 						}
 					}
 				} else
@@ -645,7 +645,7 @@ void ClickGui::renderCategory(Category category) {
 			}
 		}
 
-		Vec4 winRectPos = Vec4(
+		Vector4 winRectPos = Vector4(
 			xOffset,
 			yOffset,
 			xEnd,
@@ -666,10 +666,10 @@ void ClickGui::renderCategory(Category category) {
 	DrawUtils::flush();
 	// Draw Category Header
 	{
-		Vec2 textPos = Vec2(
+		Vector2 textPos = Vector2(
 			currentXOffset + textPaddingX,
 			categoryHeaderYOffset + textPaddingY);
-		Vec4 rectPos = Vec4(
+		Vector4 rectPos = Vector4(
 			currentXOffset - categoryMargin,
 			categoryHeaderYOffset - categoryMargin,
 			currentXOffset + windowSize->x + paddingRight + categoryMargin,
@@ -697,7 +697,7 @@ void ClickGui::renderCategory(Category category) {
 		{
 			if (isDragging && Utils::getCrcHash(categoryName) == draggedWindow) {  // WE are being dragged
 				if (DrawUtils::isLeftClickDown) {                                      // Still dragging
-					Vec2 diff = Vec2(mousePos).sub(dragStart);
+					Vector2 diff = Vector2(mousePos).sub(dragStart);
 					ourWindow->pos = ourWindow->pos.add(diff);
 					dragStart = mousePos;
 				} else {  // Stopped dragging
@@ -718,23 +718,23 @@ void ClickGui::renderCategory(Category category) {
 			auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
 			DrawUtils::drawText(textPos, &textStr, whiteColor, textSize);
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
-			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
+			DrawUtils::fillRectangle(Vector4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
 			
 			// Draw Dash
 			if (clickguiMod->mode.selected == 0) {
 				if (!ourWindow->isExtended)
-					GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
+					GuiUtils::drawDownArrow(Vector2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, ArrowWidth, ArrowSize);
 				else
-					GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
+					GuiUtils::drawUpArrow(Vector2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, ArrowWidth, ArrowSize);
 			} else {
-				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !ourWindow->isExtended);
+				GuiUtils::drawCrossLine(Vector2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, crossWidth, crossSize, !ourWindow->isExtended);
 			}
 		}
 	}
 
 	// anti idiot
 	{
-		Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+		Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
 		if (ourWindow->pos.x + ourWindow->size.x > windowSize.x) {
 			ourWindow->pos.x = windowSize.x - ourWindow->size.x;
@@ -765,7 +765,7 @@ void ClickGui::render() {
 		clickGuiMod->Opacity++;
 
 	// Fill Background
-	DrawUtils::fillRectangle(Vec4(0, 0, Game.getGuiData()->widthGame, Game.getGuiData()->heightGame), Mc_Color(0, 0, 0), clickGuiMod->Opacity / 100.f);
+	DrawUtils::fillRectangle(Vector4(0, 0, Game.getGuiData()->widthGame, Game.getGuiData()->heightGame), Mc_Color(0, 0, 0), clickGuiMod->Opacity / 100.f);
 
 
 	// Render all categorys

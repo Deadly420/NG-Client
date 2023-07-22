@@ -6,7 +6,7 @@
 class NoFall : public Module {
 public:
 	SettingEnum mode = SettingEnum(this);
-	Vec3 closestGround;
+	Vector3 closestGround;
 	bool isOverVoid();
 	NoFall();
 	~NoFall();

@@ -5,7 +5,7 @@
 class Tower : public Module {
 private:
 	float motion = 0.5f;
-	bool tryTower(Vec3 blockBelow);
+	bool tryTower(Vector3 blockBelow);
 
 public:
 	Tower();

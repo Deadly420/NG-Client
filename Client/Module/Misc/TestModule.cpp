@@ -66,7 +66,7 @@ void TestModule::onMove(MoveInputHandler* hand){
 void TestModule::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	/* LocalPlayer* player = Game.getLocalPlayer();
 	Inventory* inv = player->getSupplies()->inventory;
-	Vec2 pos = Vec2(Game.getGuiData()->heightReal, Game.getGuiData()->widthReal);
+	Vector2 pos = Vector2(Game.getGuiData()->heightReal, Game.getGuiData()->widthReal);
 	pos.x / 2.55;
 	pos.y / 2.55;
 	if (player != nullptr) {
@@ -79,7 +79,7 @@ void TestModule::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			}
 		}
 	}
-	if (HorionGui.Button("Test Button", Vec2(200, 200), true)) {  // Check if button is pressed. When it gets pressed it sends the message.
+	if (HorionGui.Button("Test Button", Vector2(200, 200), true)) {  // Check if button is pressed. When it gets pressed it sends the message.
 		clientMessageF("Test Button Was Clicked");
 	}*/
 }

@@ -22,8 +22,8 @@ void LocalPlayer::unlockAchievements() {  // MinecraftEventing::fireEventAwardAc
 	for (int i = 0; i < 118; i++)
 		fireEventAwardFunc(this, i);
 }
-void LocalPlayer::applyTurnDelta(Vec2 *viewAngleDelta) {
-	using applyTurnDelta = void(__thiscall *)(void *, Vec2 *);
+void LocalPlayer::applyTurnDelta(Vector2 *viewAngleDelta) {
+	using applyTurnDelta = void(__thiscall *)(void *, Vector2 *);
 	static applyTurnDelta TurnDelta = reinterpret_cast<applyTurnDelta>(FindSignature("48 8B C4 48 89 58 18 48 89 68 20 56 57 41 56 48 81 EC ?? ?? ?? ?? 0F 29 70 D8 0F 29 78 C8 44 0F 29 40 ?? 48 8B 05 ?? ?? ?? ??"));
 	TurnDelta(this, viewAngleDelta);
 }
@@ -42,8 +42,8 @@ float Entity::getBlocksPerSecond() {
 	return getTicksPerSecond() * *Game.getClientInstance()->minecraft->simTimer;
 }
 
-void Entity::lerpTo(Vec3 const &pos, Vec2 const &rot, int steps) { //lerpTo was removed from the Player vtable so this is how we are going to use it from now on
-	using lerpTo = void(__fastcall *)(Entity *, Vec3 const &, Vec2 const &, int);
+void Entity::lerpTo(Vector3 const &pos, Vector2 const &rot, int steps) { //lerpTo was removed from the Player vtable so this is how we are going to use it from now on
+	using lerpTo = void(__fastcall *)(Entity *, Vector3 const &, Vector2 const &, int);
 	static lerpTo lerp = reinterpret_cast<lerpTo>(FindSignature("48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 49 8B F8 48 8B 89 ? ? ? ? 48 85 C9 74 ? 48 8B 01 48 8B 5C 24"));
 	lerp(this, pos, rot, steps);
 }

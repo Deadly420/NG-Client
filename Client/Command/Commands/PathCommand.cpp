@@ -39,7 +39,7 @@ bool PathCommand::execute(std::vector<std::string>* args) {
 		int x = assertInt(args->at(2));
 		int z = assertInt(args->at(3));
 
-		mod->goal = std::make_unique<JoeGoalXZ>(Vec3i(x, 0, z));
+		mod->goal = std::make_unique<JoeGoalXZ>(Vector3i(x, 0, z));
 		mod->setEnabled(true);
 
 		clientMessageF("Starting search...");
@@ -52,7 +52,7 @@ bool PathCommand::execute(std::vector<std::string>* args) {
 		int y = assertInt(args->at(3));
 		int z = assertInt(args->at(4));
 
-		mod->goal = std::make_unique<JoeGoalXYZ>(Vec3i(x, y, z));
+		mod->goal = std::make_unique<JoeGoalXYZ>(Vector3i(x, y, z));
 		mod->setEnabled(true);
 
 		clientMessageF("Starting search...");
@@ -66,7 +66,7 @@ bool PathCommand::execute(std::vector<std::string>* args) {
 		std::transform(nameOfPlayerLower.begin(), nameOfPlayerLower.end(), nameOfPlayerLower.begin(), ::tolower);
 		nameOfPlayerLower = Utils::sanitize(nameOfPlayerLower);
 
-		Vec3 pos{};
+		Vector3 pos{};
 		auto playerFinder = [&](Entity* e, bool isNewList) {
 			if (e == Game.getLocalPlayer())
 				return;
@@ -85,7 +85,7 @@ bool PathCommand::execute(std::vector<std::string>* args) {
 			return true;
 		}
 
-		Vec3i endNode((int)floorf(pos.x), (int)roundf(pos.y - 1.62f), (int)floorf(pos.z));
+		Vector3i endNode((int)floorf(pos.x), (int)roundf(pos.y - 1.62f), (int)floorf(pos.z));
 		mod->goal = std::make_unique<JoeGoalXYZ>(endNode);
 		mod->setEnabled(true);
 		clientMessageF("Starting search...");

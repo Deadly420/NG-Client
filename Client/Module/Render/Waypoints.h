@@ -7,10 +7,10 @@
 #include <optional>
 
 struct WaypointInstance {
-	Vec3 pos;
+	Vector3 pos;
 	int dimension;
 
-	WaypointInstance(Vec3 pos, int dim) : pos(pos), dimension(dim){};
+	WaypointInstance(Vector3 pos, int dim) : pos(pos), dimension(dim){};
 };
 
 class Waypoints : public Module {
@@ -31,7 +31,7 @@ public:
 	virtual void onLoadConfig(void* confVoid) override;
 	virtual void onSaveConfig(void* confVoid) override;
 
-	bool add(std::string text, Vec3 pos, int dimension) {
+	bool add(std::string text, Vector3 pos, int dimension) {
 		for (auto it = waypoints->begin(); it != waypoints->end(); it++) {
 			if (text == it->first) {
 				return false;

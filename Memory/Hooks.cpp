@@ -20,10 +20,10 @@ TextHolder styledReturnText;
 
 void blockRotate(glm::mat4& matrix, float upper) {
 	float floatY = -1.30F;
-	matrix = glm::translate<float>(matrix, glm::vec3(-0.24F, upper, -0.20F));
-	matrix = glm::rotate<float>(matrix, -1.98F, glm::vec3(0.0F, 1.0F, 0.0F));
-	matrix = glm::rotate<float>(matrix, -floatY, glm::vec3(4.0F, 0.0F, 0.0F));
-	matrix = glm::rotate<float>(matrix, 60.0F, glm::vec3(0.0F, 1.0F, 0.0F));
+	matrix = glm::translate<float>(matrix, glm::Vector3(-0.24F, upper, -0.20F));
+	matrix = glm::rotate<float>(matrix, -1.98F, glm::Vector3(0.0F, 1.0F, 0.0F));
+	matrix = glm::rotate<float>(matrix, -floatY, glm::Vector3(4.0F, 0.0F, 0.0F));
+	matrix = glm::rotate<float>(matrix, 60.0F, glm::Vector3(0.0F, 1.0F, 0.0F));
 }
 
 void Hooks::Init() {
@@ -138,16 +138,16 @@ void Hooks::Init() {
 			matrix = View;
 			if (animations->isEnabled()) {
 				if (animations->doTranslate)
-					matrix = glm::translate<float>(matrix, glm::vec3(animations->xTrans, animations->yTrans, animations->zTrans));
+					matrix = glm::translate<float>(matrix, glm::Vector3(animations->xTrans, animations->yTrans, animations->zTrans));
 
 				if (animations->doScale)
-					matrix = glm::scale<float>(matrix, glm::vec3(animations->xMod, animations->yMod, animations->zMod));
+					matrix = glm::scale<float>(matrix, glm::Vector3(animations->xMod, animations->yMod, animations->zMod));
 
 				// 1.7
 				if (animations->mode.getSelectedValue() == 1) {
 					lerpT = 0.f;
-					matrix = glm::translate<float>(matrix, glm::vec3(0.62222223281, 0.0, -0.26666666269302368));
-					matrix = glm::translate<float>(matrix, glm::vec3(0.82f, -0.20f, -0.80f));
+					matrix = glm::translate<float>(matrix, glm::Vector3(0.62222223281, 0.0, -0.26666666269302368));
+					matrix = glm::translate<float>(matrix, glm::Vector3(0.82f, -0.20f, -0.80f));
 					blockRotate(matrix, 0.25f);
 				}
 				// Spin
@@ -161,7 +161,7 @@ void Hooks::Init() {
 					glm::mat4 View = matrix;
 
 					matrix = View;
-					matrix = glm::rotate<float>(matrix, glm::radians<float>(degrees), glm::vec3(0, 0, 1));
+					matrix = glm::rotate<float>(matrix, glm::radians<float>(degrees), glm::Vector3(0, 0, 1));
 				}
 			}
 			return origFunc(_this, matrix, lerpT);
@@ -458,11 +458,11 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 			if (strcmp(screenName.c_str(), "start_screen") == 0) {
 				// Main Menu
 				std::string screenName(g_Hooks.currentScreenName);
-				Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+				Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
 				if (screenName == "start_screen") {
-					Vec2 text(1.0f, 5.0f);
-					Vec2 outline(1.0f, 5.5f);
+					Vector2 text(1.0f, 5.0f);
+					Vector2 outline(1.0f, 5.5f);
 
 					Mc_Color white(255, 255, 255);
 					std::string string;
@@ -541,10 +541,10 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 				float titleWidth = DrawUtils::getTextWidth(&box->title, titleTextSize);
 				float msgWidth = DrawUtils::getTextWidth(&box->message, messageTextSize);
-				Vec2 bottomRight(wid.x - paddingHoriz - std::max(titleWidth, msgWidth) / 2, yOffset - paddingVert * 2 - titleTextHeight - messageHeight * lines - paddingVert);
-				Vec2 textPos = Vec2(bottomRight.x - titleWidth / 2, bottomRight.y);
-				Vec2 msgPos = Vec2(bottomRight.x - msgWidth / 2, textPos.y + titleTextHeight + paddingVert);
-				Vec4 rectPos = Vec4(
+				Vector2 bottomRight(wid.x - paddingHoriz - std::max(titleWidth, msgWidth) / 2, yOffset - paddingVert * 2 - titleTextHeight - messageHeight * lines - paddingVert);
+				Vector2 textPos = Vector2(bottomRight.x - titleWidth / 2, bottomRight.y);
+				Vector2 msgPos = Vector2(bottomRight.x - msgWidth / 2, textPos.y + titleTextHeight + paddingVert);
+				Vector4 rectPos = Vector4(
 					bottomRight.x - paddingHoriz - std::max(titleWidth, msgWidth) / 2,
 					bottomRight.y - paddingVert,
 					bottomRight.x + paddingHoriz + std::max(titleWidth, msgWidth) / 2,
@@ -640,8 +640,8 @@ float Hooks::Dimension_getTimeOfDay(Dimension* _this, int time, float a) {
 	return oGetTimeOfDay(_this, time, a);
 }
 
-float Hooks::Dimension_getSunIntensity(Dimension* _this, float a, Vec3* viewVector, float minInfluenceAngle) {
-	static auto oGetSunIntensity = g_Hooks.Dimension_getSunIntensityHook->GetFastcall<float, Dimension*, float, Vec3*, float>();
+float Hooks::Dimension_getSunIntensity(Dimension* _this, float a, Vector3* viewVector, float minInfluenceAngle) {
+	static auto oGetSunIntensity = g_Hooks.Dimension_getSunIntensityHook->GetFastcall<float, Dimension*, float, Vector3*, float>();
 
 	static auto nightMod = moduleMgr->getModule<NightMode>();
 	if (nightMod->isEnabled()) {
@@ -659,8 +659,8 @@ void Hooks::ChestBlockActor_tick(ChestBlockActor* _this, BlockSource* source) {
 		GameData::addChestToList(_this);
 }
 
-void Hooks::Actor_lerpMotion(Entity* _this, Vec3 motVec) {
-	static auto oLerp = g_Hooks.Actor_lerpMotionHook->GetFastcall<void, Entity*, Vec3>();
+void Hooks::Actor_lerpMotion(Entity* _this, Vector3 motVec) {
+	static auto oLerp = g_Hooks.Actor_lerpMotionHook->GetFastcall<void, Entity*, Vector3>();
 
 	if (Game.getLocalPlayer() != _this)
 		return oLerp(_this, motVec);
@@ -871,13 +871,13 @@ void Hooks::MultiLevelPlayer_tick(EntityList* _this) {
 	GameData::EntityList_tick(_this);
 }
 
-void Hooks::GameMode_startDestroyBlock(GameMode* _this, Vec3i* pos, uint8_t face, void* a4, void* a5) {
-	static auto oFunc = g_Hooks.GameMode_startDestroyBlockHook->GetFastcall<void, GameMode*, Vec3i*, uint8_t, void*, void*>();
+void Hooks::GameMode_startDestroyBlock(GameMode* _this, Vector3i* pos, uint8_t face, void* a4, void* a5) {
+	static auto oFunc = g_Hooks.GameMode_startDestroyBlockHook->GetFastcall<void, GameMode*, Vector3i*, uint8_t, void*, void*>();
 
 	static auto nukerModule = moduleMgr->getModule<Nuker>();
 
 	if (nukerModule->isEnabled()) {
-		Vec3i tempPos;
+		Vector3i tempPos;
 
 		int range = nukerModule->getNukerRadius();
 		const bool isVeinMiner = nukerModule->isVeinMiner();
@@ -1334,8 +1334,8 @@ bool Hooks::Mob__isImmobile(Entity* ent) {
 	return func(ent);
 }
 
-void Hooks::Actor__setRot(Entity* _this, Vec2& angle) {
-	static auto func = g_Hooks.Actor__setRotHook->GetFastcall<void, Entity*, Vec2&>();
+void Hooks::Actor__setRot(Entity* _this, Vector2& angle) {
+	static auto func = g_Hooks.Actor__setRotHook->GetFastcall<void, Entity*, Vector2&>();
 	static auto killauraMod = moduleMgr->getModule<Killaura>();
 	static auto freelookMod = moduleMgr->getModule<Freelook>();
 	static auto freecamMod = moduleMgr->getModule<Freecam>();
