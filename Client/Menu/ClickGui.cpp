@@ -33,12 +33,9 @@ static constexpr float categoryMargin = 0.5f;
 static constexpr float paddingRight = 13.5f;
 static constexpr float crossSize = textHeight / 2.f;
 static constexpr float crossWidth = 0.3f;
-
 static constexpr float ArrowSize = textHeight / 5.f;
 static constexpr float ArrowWidth = 0.3f;
-
 static constexpr float backgroundAlpha = 0.40f;
-
 static const Mc_Color whiteColor = Mc_Color(255, 255, 255);
 static const Mc_Color moduleColor = Mc_Color(0, 0, 0); // background
 
@@ -160,11 +157,11 @@ void ClickGui::renderCategory(Category category) {
 				break;
 			case Category::WORLD:
 				ourWindow->pos.x = yot / 11.f * 3.f;
-				ourWindow->pos.y = 140.f;
+				ourWindow->pos.y = 148.f;
 				break;
 			case Category::HUD:
 				ourWindow->pos.x = yot / 11.f * 4.f;
-				ourWindow->pos.y = 73.f;
+				ourWindow->pos.y = 78.f;
 				break;
 			default:
 				break;
