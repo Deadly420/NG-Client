@@ -8,7 +8,7 @@ const char *FollowPathModule::getModuleName() {
 	return "FollowPath";
 }
 
-void FollowPathModule::startSearch(Vector3i startNode, BlockSource* region, float searchTimeout, std::function<void(bool, JoePath)> callback){
+void FollowPathModule::startSearch(Vec3i startNode, BlockSource* region, float searchTimeout, std::function<void(bool, JoePath)> callback){
 	if(pathFinder){
 		logF("Already searching!");
 		return;
@@ -63,7 +63,7 @@ void FollowPathModule::onTick(GameMode *mode) {
 
 	auto player = Game.getLocalPlayer();
 	auto pPos = player->eyePos0;
-	Vector3i startNode((int)floorf(pPos.x), (int)roundf(pPos.y - 1.62f), (int)floorf(pPos.z));
+	Vec3i startNode((int)floorf(pPos.x), (int)roundf(pPos.y - 1.62f), (int)floorf(pPos.z));
 
 	startSearch(startNode, player->region, 0.5f, [&](bool succeeded, JoePath tempPath) {
 		if (!succeeded) {

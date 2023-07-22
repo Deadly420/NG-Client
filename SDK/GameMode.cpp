@@ -1,7 +1,7 @@
 #include "GameMode.h"
 #include "../Memory/GameData.h"
 
-void GameMode::survivalDestroyBlockHack(Vector3i const &block, int face, bool &isDestroyedOut, bool isFirst) {
+void GameMode::survivalDestroyBlockHack(Vec3i const &block, int face, bool &isDestroyedOut, bool isFirst) {
 	auto p = this->player;
 	p->swing();
 	if (isFirst)
@@ -18,7 +18,7 @@ void GameMode::survivalDestroyBlockHack(Vector3i const &block, int face, bool &i
 
 	PlayerActionPacket action;
 	action.action = 18;
-	action.blockPosition = Vector3i(block.x, block.y, block.z);
+	action.blockPosition = Vec3i(block.x, block.y, block.z);
 	action.face = face;
 	action.entityRuntimeId = p->entityRuntimeId;
 	Game.getClientInstance()->loopbackPacketSender->sendToServer(&action);

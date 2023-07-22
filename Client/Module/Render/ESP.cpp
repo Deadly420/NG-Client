@@ -27,7 +27,7 @@ std::string ESP::getModSettings() {
 }
 
 static float rcolors[4];
-std::vector<Vector3i> lastPos;
+std::vector<Vec3i> lastPos;
 void ESP::onEnable() {
 	lastPos.clear();
 }

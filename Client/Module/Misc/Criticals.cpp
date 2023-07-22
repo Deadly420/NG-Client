@@ -14,7 +14,7 @@ const char* Criticals::getModuleName() {
 void Criticals::onTick(GameMode* gm) {
 	if (test) {
 		LocalPlayer* player = Game.getLocalPlayer();
-		Vector3 pos = player->eyePos0;
+		Vec3 pos = player->eyePos0;
 		pos.y += 2.f;
 		C_MovePlayerPacket movePlayerPacket;
 		movePlayerPacket.onGround = false;
@@ -29,7 +29,7 @@ void Criticals::onTick(GameMode* gm) {
 void Criticals::onSendPacket(Packet* packet) {
 	LocalPlayer* player = Game.getLocalPlayer();
 	if (player != nullptr) {
-		Vector3 pos = player->eyePos0;
+		Vec3 pos = player->eyePos0;
 		pos.y += 2.f;
 		if (packet->isInstanceOf<C_MovePlayerPacket>() && player != nullptr) {
 			C_MovePlayerPacket* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);

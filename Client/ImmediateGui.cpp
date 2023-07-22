@@ -5,7 +5,7 @@ ImmediateGui NG_Gui;
 ComponentInfo::ComponentInfo(int id) : id(id) {
 }
 
-ButtonInfo::ButtonInfo(int id, Vector2 pos, bool centered) : ComponentInfo(id), pos(pos), centered(centered) {
+ButtonInfo::ButtonInfo(int id, Vec2 pos, bool centered) : ComponentInfo(id), pos(pos), centered(centered) {
 }
 
 void ButtonInfo::calculateSize(const char* txt) {
@@ -13,12 +13,12 @@ void ButtonInfo::calculateSize(const char* txt) {
 	size = {DrawUtils::getTextWidth(&str), DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight()};
 }
 
-bool ButtonInfo::isInSelectableSurface(Vector2 mouse) {
-	Vector4 surface = getSelectableSurface();
+bool ButtonInfo::isInSelectableSurface(Vec2 mouse) {
+	Vec4 surface = getSelectableSurface();
 	return surface.contains(&mouse);
 }
 
-Vector4 ButtonInfo::getSelectableSurface() {
+Vec4 ButtonInfo::getSelectableSurface() {
 	if (centered) {
 		return {pos.x - padding - size.x / 2,
 				pos.y - padding - size.y / 2,
@@ -32,10 +32,10 @@ Vector4 ButtonInfo::getSelectableSurface() {
 	}
 }
 
-void ButtonInfo::draw(Vector2 mousePos, const char* label) {
+void ButtonInfo::draw(Vec2 mousePos, const char* label) {
 	calculateSize(label);
 	auto surface = getSelectableSurface();
-	Vector2 textPos = pos;
+	Vec2 textPos = pos;
 	std::string str(label);
 	if (centered) {
 		textPos.x -= DrawUtils::getTextWidth(&str) / 2;
@@ -54,8 +54,8 @@ void ButtonInfo::draw(Vector2 mousePos, const char* label) {
 }
 
 void ImmediateGui::startFrame() {
-	Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-	Vector2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
+	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
 	mousePos = *Game.getClientInstance()->getMousePos();
 	mousePos = mousePos.div(windowSizeReal);
 	mousePos = mousePos.mul(windowSize);
@@ -65,7 +65,7 @@ void ImmediateGui::startFrame() {
 	}
 }
 
-bool ImmediateGui::Button(const char* label, Vector2 pos, bool centered) {
+bool ImmediateGui::Button(const char* label, Vec2 pos, bool centered) {
 	auto id = Utils::getCrcHash(label);
 	if (components.find(id) == components.end()) {  // Create new button
 		components[id] = std::make_shared<ButtonInfo>(id, pos, centered);

@@ -94,7 +94,7 @@ private:
 	bool enabled = false;
 	int keybind = 0x0;
 	bool extended = false;
-	Vector2 ModulePos;
+	Vec2 ModulePos;
 private:
 	Category category;
 	const char* tooltip;
@@ -116,7 +116,7 @@ public:
 
 	const Category getCategory() { return category; };
 
-	inline Vector2* getPos() { return &ModulePos; };
+	inline Vec2* getPos() { return &ModulePos; };
 
 	inline std::vector<SettingEntry*>* getSettings() { return &settings; };
 

@@ -38,39 +38,39 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 		if (player == nullptr || player->isInLava() || player->isInWater() || player->isSneaking())
 			return;
 
-		std::vector<Vector3i> sideBlocks;
+		std::vector<Vec3i> sideBlocks;
 		sideBlocks.reserve(8);
 
-		Vector2 moveVector2d = {input->forwardMovement, -input->sideMovement};
-		bool pressed = moveVector2d.magnitude() > 0.01f;
+		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
+		bool pressed = moveVec2d.magnitude() > 0.01f;
 		if (!pressed)
 			return;
-		moveVector2d = moveVector2d.normalized();
+		moveVec2d = moveVec2d.normalized();
 
 		float calcYaw = (player->yaw + 90) * (PI / 180);
-		Vector3 moveVec;
+		Vec3 moveVec;
 		float c = cos(calcYaw);
 		float s = sin(calcYaw);
-		moveVector2d = {moveVector2d.x * c - moveVector2d.y * s, moveVector2d.x * s + moveVector2d.y * c};
+		moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				if (x == 0 && z == 0)
 					continue;
 
-				if (moveVector2d.dot(Vector2(x, z).normalized()) < 0.6f)
+				if (moveVec2d.dot(Vec2(x, z).normalized()) < 0.6f)
 					continue;
-				sideBlocks.push_back(Vector3i(x, 0, z));
+				sideBlocks.push_back(Vec3i(x, 0, z));
 			}
 		}
 
-		Vector3 pPos = *player->getPos();
+		Vec3 pPos = *player->getPos();
 		pPos.y = player->aabb.lower.y;
-		Vector3i pPosI = Vector3i(pPos.floor());
+		Vec3i pPosI = Vec3i(pPos.floor());
 
 		auto isObstructed = [&](int yOff, AABB* obstructingBlock = nullptr, bool ignoreYcoll = false) {
 			for (const auto& current : sideBlocks) {
-				Vector3i side = pPosI.add(0, yOff, 0).add(current);
+				Vec3i side = pPosI.add(0, yOff, 0).add(current);
 				if (side.y < 0 || side.y >= 256)
 					break;
 				Block* block = player->region->getBlock(side);

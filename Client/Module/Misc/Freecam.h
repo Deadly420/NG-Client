@@ -7,7 +7,7 @@ class Freecam : public Module {
 public:
 	float speed = 0.325f;
 	float yaw = 0;
-	Vector2 initialViewAngles;
+	Vec2 initialViewAngles;
 	Camera* camera = nullptr;
 	bool keyPressed = false;
 

@@ -6,7 +6,7 @@
 class AntiVoid : public Module {
 private:
 	int distance = 5;
-	Vector3 savepos;
+	Vec3 savepos;
 
 public:
 	MoveInputHandler* inputHandler = nullptr;

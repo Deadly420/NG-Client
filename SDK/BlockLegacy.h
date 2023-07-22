@@ -45,10 +45,10 @@ private:
 public:
 	short blockId;  //0x014C
 
-	int liquidGetDepth(BlockSource*, const Vector3i* pos);
-	void liquidGetFlow(Vector3* flowOut, BlockSource*, const Vector3i* pos);
-	bool getCollisionShape(AABB* collShapeOut, Block* block, BlockSource* blockSource, const Vector3i* pos, Entity* actor);
-	bool hasWater(BlockSource*, const Vector3i& pos);
+	int liquidGetDepth(BlockSource*, const Vec3i* pos);
+	void liquidGetFlow(Vec3* flowOut, BlockSource*, const Vec3i* pos);
+	bool getCollisionShape(AABB* collShapeOut, Block* block, BlockSource* blockSource, const Vec3i* pos, Entity* actor);
+	bool hasWater(BlockSource*, const Vec3i& pos);
 };
 
 class Block {
@@ -82,17 +82,17 @@ class BlockSource {
 public:
 	virtual void Destructor();
 	virtual Block* getBlock(int, int, int);
-	virtual Block* getBlock(Vector3i const&);
-	virtual Block* getBlock(Vector3i const&, int);
-	virtual BlockActor* getBlockEntity(Vector3i const&);
-	virtual Block* getExtraBlock(Vector3i const&);
-	virtual Block* getLiquidBlock(Vector3i const&);
-	virtual bool hasBlock(Vector3i const&);
+	virtual Block* getBlock(Vec3i const&);
+	virtual Block* getBlock(Vec3i const&, int);
+	virtual BlockActor* getBlockEntity(Vec3i const&);
+	virtual Block* getExtraBlock(Vec3i const&);
+	virtual Block* getLiquidBlock(Vec3i const&);
+	virtual bool hasBlock(Vec3i const&);
 	virtual bool containsMaterial(AABB const&, struct MaterialType);
-	virtual Material* getMaterial(Vector3i const&);
+	virtual Material* getMaterial(Vec3i const&);
 	virtual Material* getMaterial(int, int, int);
 	virtual bool hasChunksAt(struct Bounds const&);
-	virtual bool hasChunksAt(Vector3i const&, int);
+	virtual bool hasChunksAt(Vec3i const&, int);
 	virtual bool hasChunksAt(AABB const&);
 	virtual int getDimensionId(void);
 	virtual __int64 getWeakRef(void);
@@ -100,7 +100,7 @@ public:
 	virtual void removeListener(BlockSourceListener&);
 	virtual class EntityList* fetchEntities(Entity const*, AABB const&, bool);
 	virtual class EntityList* fetchEntities(__int64, AABB const&, Entity const*);
-	virtual void setBlock(Vector3i const&, Block const&, int, class ActorBlockSyncMessage const*, Entity*);
+	virtual void setBlock(Vec3i const&, Block const&, int, class ActorBlockSyncMessage const*, Entity*);
 	virtual bool containsAnyLiquid(AABB const&);
 	virtual int getMinHeight(void);
 	virtual class Dimension* getDimension(void);
@@ -110,5 +110,5 @@ public:
 	virtual std::vector<AABB>* fetchCollisionShapes(AABB const&, float*, bool, class IActorMovementProxy*);
 	virtual AABB* getTallestCollisionShape(AABB const&, float*, bool, IActorMovementProxy*);
 	virtual __int64 getChunkSource(void);
-	virtual bool isSolidBlockingBlock(Vector3i const&);
+	virtual bool isSolidBlockingBlock(Vec3i const&);
 };

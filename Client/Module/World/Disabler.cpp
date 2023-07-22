@@ -56,6 +56,6 @@ void Disabler::onSendPacket(Packet* packet) {
 		}
 	} else if (disablerMode.selected == 1 && packet->isInstanceOf<PlayerAuthInputPacket>()) {
 		PlayerAuthInputPacket* pkt = (PlayerAuthInputPacket*)packet;
-		pkt->velocity = Vector3(0, 0, 0);
+		pkt->velocity = Vec3(0, 0, 0);
 	}
 }

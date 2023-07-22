@@ -71,8 +71,8 @@ public:
 	void flushText(float timeSinceLastFlush) {
 		return Utils::CallVFunc<6, void, float>(this, timeSinceLastFlush);
 	};
-	__int64 drawImage(const TexturePtr* a2, Vector2 const& ImagePos, Vector2 const& ImageDimension, Vector2 const& uvPos, Vector2 const& uvSize) {
-		return Utils::CallVFunc<7, __int64, const TexturePtr*, Vector2 const&, Vector2 const&, Vector2 const&, Vector2 const&>(this, a2, ImagePos, ImageDimension, uvPos, uvSize);
+	__int64 drawImage(const TexturePtr* a2, Vec2 const& ImagePos, Vec2 const& ImageDimension, Vec2 const& uvPos, Vec2 const& uvSize) {
+		return Utils::CallVFunc<7, __int64, const TexturePtr*, Vec2 const&, Vec2 const&, Vec2 const&, Vec2 const&>(this, a2, ImagePos, ImageDimension, uvPos, uvSize);
 	};
 	__int64 drawNineslice(TexturePtr* texturePtr, __int64* ninesliceInfo) {
 		return Utils::CallVFunc<8, __int64, TexturePtr*, __int64*>(this, texturePtr, ninesliceInfo);
@@ -80,14 +80,14 @@ public:
 	__int64 flushImages(Mc_Color& color, float opacity, class HashedString& hashedString) {
 		return Utils::CallVFunc<9, __int64, Mc_Color&, float, class HashedString&>(this, color, opacity, hashedString);
 	};
-	void drawRectangle(Vector4 const& pos, Mc_Color& color, float alpha, int lineWidth) {
-		return Utils::CallVFunc<12, void, Vector4 const&, Mc_Color&, float, int>(this, pos, color, alpha, lineWidth);
+	void drawRectangle(Vec4 const& pos, Mc_Color& color, float alpha, int lineWidth) {
+		return Utils::CallVFunc<12, void, Vec4 const&, Mc_Color&, float, int>(this, pos, color, alpha, lineWidth);
 	};
-	void fillRectangle(Vector4 const& pos, Mc_Color& color, float alpha) {
-		return Utils::CallVFunc<13, void, Vector4 const&, Mc_Color&, float>(this, pos, color, alpha);
+	void fillRectangle(Vec4 const& pos, Mc_Color& color, float alpha) {
+		return Utils::CallVFunc<13, void, Vec4 const&, Mc_Color&, float>(this, pos, color, alpha);
 	};
-	void setClippingRectangle(Vector4 const& pos) {
-		return Utils::CallVFunc<20, void, Vector4 const&>(this, pos);
+	void setClippingRectangle(Vec4 const& pos) {
+		return Utils::CallVFunc<20, void, Vec4 const&>(this, pos);
 	};
 	void saveCurrentClippingRectangle() {
 		return Utils::CallVFunc<22, void>(this);

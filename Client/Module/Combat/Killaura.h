@@ -18,7 +18,7 @@ private:
 public:
 	bool rotations = false;
 	bool targetListEmpty = false;
-	Vector2 angle;
+	Vec2 angle;
 	bool targetMobs = false;
 	bool hurttime = true;
 	float range = 6;

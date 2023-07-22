@@ -33,6 +33,6 @@ public:
 	int pRange = 5;
 	int range = 10;
 
-	void CPlace(GameMode* gm, Vector3* pos);
+	void CPlace(GameMode* gm, Vec3* pos);
 	void DestroyC(Entity* ent, int range);
 };

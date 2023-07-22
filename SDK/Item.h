@@ -143,13 +143,13 @@ public:
 	virtual __int64 buildIdAux(short, CompoundTag const *);                                                                                // 77
 	virtual bool canUseOnSimTick(void);                                                                                                    // 78
 	virtual __int64 use(ItemStack &, Player &);                                                                                        // 79
-	virtual __int64 dispense(BlockSource &, __int64, int, Vector3 const &, unsigned char);                                                // 80
+	virtual __int64 dispense(BlockSource &, __int64, int, Vec3 const &, unsigned char);                                                // 80
 	virtual __int64 useTimeDepleted(ItemStack &, Level *, Player *);                                                          // 81
 	virtual __int64 releaseUsing(ItemStack &, Player *, int);                                                                          // 82
 	virtual __int64 getDestroySpeed(ItemStack const &, Block const &);                                                                 // 83
 	virtual __int64 hurtActor(ItemStack &, Entity &, Entity &);                                                                      // 84
 	virtual __int64 hitActor(ItemStack &, Entity &, Entity &);                                                                       // 85
-	virtual __int64 hitBlock(ItemStack &, Block const &, Vector3i const &, Entity &);                                                 // 86
+	virtual __int64 hitBlock(ItemStack &, Block const &, Vec3i const &, Entity &);                                                 // 86
 	virtual __int64 mineBlock(ItemStack &, Block const &, int, int, int, Entity *);                                                  // 87
 	virtual __int64 mineBlock(ItemStack &, Block const &, int, int, int, Entity *) const;                                            // 88
 	virtual __int64 buildDescriptionName(ItemStack const &);                                                                             // 89
@@ -187,9 +187,9 @@ public:
 	virtual __int64 getFurnaceBurnIntervalMultipler(ItemStack const &);                                                                  // 121
 	virtual __int64 getFurnaceXPmultiplier(ItemStack const &);                                                                           // 122
 	virtual __int64 getAuxValuesDescription(void);                                                                                         // 123
-	virtual __int64 _checkUseOnPermissions(Entity &, ItemStack &, unsigned char const &, Vector3i const &);                             // 124
-	virtual __int64 _calculatePlacePos(ItemStack &, Entity &, unsigned char &, Vector3i &);                                             // 125
-	virtual __int64 _useOn(ItemStack &, Entity &, Vector3i, unsigned char, float, float, float);                                        // 126
+	virtual __int64 _checkUseOnPermissions(Entity &, ItemStack &, unsigned char const &, Vec3i const &);                             // 124
+	virtual __int64 _calculatePlacePos(ItemStack &, Entity &, unsigned char &, Vec3i &);                                             // 125
+	virtual __int64 _useOn(ItemStack &, Entity &, Vec3i, unsigned char, float, float, float);                                        // 126
 
 public:
 	bool isTool(void) {

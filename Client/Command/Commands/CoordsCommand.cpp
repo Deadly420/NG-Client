@@ -8,7 +8,7 @@ CoordsCommand::~CoordsCommand() {
 }
 
 bool CoordsCommand::execute(std::vector<std::string>* args) {
-	Vector3* pos = Game.getLocalPlayer()->getPos();
+	Vec3* pos = Game.getLocalPlayer()->getPos();
 	float yPos = pos->y - 1.62f;
 	clientMessageF("%s[%sNG%s] %sX: %.2f Y: %.2f Z: %.2f", BOLD, AQUA, WHITE, GREEN, pos->x, yPos /* eye height */, pos->z);
 	return true;

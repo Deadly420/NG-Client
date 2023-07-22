@@ -42,20 +42,20 @@ void EntityBhop::onMove(MoveInputHandler* input) {
 		if (player->isSneaking())
 			return;
 
-		Vector2 moveVector2d = {input->forwardMovement, -input->sideMovement};
-		bool pressed = moveVector2d.magnitude() > 0.01f;
+		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
+		bool pressed = moveVec2d.magnitude() > 0.01f;
 
 		if (player->onGround && pressed)
 			player->jumpFromGround();
 
 		float calcYaw = (player->yaw + 90) * (PI / 180);
-		Vector3 moveVec;
+		Vec3 moveVec;
 		float c = cos(calcYaw);
 		float s = sin(calcYaw);
-		moveVector2d = {moveVector2d.x * c - moveVector2d.y * s, moveVector2d.x * s + moveVector2d.y * c};
-		moveVec.x = moveVector2d.x * speed;
+		moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
+		moveVec.x = moveVec2d.x * speed;
 		moveVec.y = player->velocity.y;
-		moveVec.z = moveVector2d.y * speed;
+		moveVec.z = moveVec2d.y * speed;
 		if (pressed) player->lerpMotion(moveVec);
 		if (player->onGround && pressed && !input->isJumping && lowhop)
 			player->velocity.y -= upVal;

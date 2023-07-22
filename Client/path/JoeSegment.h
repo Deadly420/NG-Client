@@ -15,20 +15,20 @@ enum JoeSegmentType{
 class JoeSegment {
 private:
 	JoeSegmentType segmentType;
-	Vector3i start, end;
+	Vec3i start, end;
 	float cost;
 	bool allowSprint;
-	std::vector<Vector3i> validPositions;
+	std::vector<Vec3i> validPositions;
 public:
-	JoeSegment(JoeSegmentType type, Vector3i& start, Vector3i& stop, float cost, bool allowSprint = false);
+	JoeSegment(JoeSegmentType type, Vec3i& start, Vec3i& stop, float cost, bool allowSprint = false);
 	void draw();
 	bool isAllowingSprint() const;
 	void setAllowSprint(bool allowSprint);
 	JoeSegmentType getSegmentType() const;
-	const Vector3i& getStart() const;
-	const Vector3i& getEnd() const;
-	bool isInValidPosition(const Vector3i& pos) const;
-	void setValidPositions(const std::vector<Vector3i>& validPositions);
+	const Vec3i& getStart() const;
+	const Vec3i& getEnd() const;
+	bool isInValidPosition(const Vec3i& pos) const;
+	void setValidPositions(const std::vector<Vec3i>& validPositions);
 	float getCost() const;
 	void init();
 };

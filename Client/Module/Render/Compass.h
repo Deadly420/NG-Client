@@ -8,7 +8,7 @@ private:
 	float opacity = 0.5;
 	int range = 90;
 	bool showWaypoints = true;
-	void drawCenteredText(Vector2 pos, std::string text, float size, float textOpacity = 1);
+	void drawCenteredText(Vec2 pos, std::string text, float size, float textOpacity = 1);
 
 public:
 	Compass();

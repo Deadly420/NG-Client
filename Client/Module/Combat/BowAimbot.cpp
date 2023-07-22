@@ -54,11 +54,11 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 	if (!targetList.empty()) {
 		std::sort(targetList.begin(), targetList.end(), CompareTargetEnArray());
-		Vector3 origin = Game.getLocalPlayer()->eyePos0;  // TODO: sort list
+		Vec3 origin = Game.getLocalPlayer()->eyePos0;  // TODO: sort list
 		Entity* entity = targetList[0];
-		Vector3 pos = entity->aabb.centerPoint();
+		Vec3 pos = entity->aabb.centerPoint();
 		if (predict) {
-			Vector3 velocity = entity->getPos()->sub(*entity->getPosOld());
+			Vec3 velocity = entity->getPos()->sub(*entity->getPosOld());
 			velocity.x *= origin.dist(pos) / 2.f;
 			velocity.z *= origin.dist(pos) / 2.f;
 			pos = pos.add(velocity);
@@ -73,7 +73,7 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		float pitch = DEG_RAD * -atanf((1 - sqrtf(tmp)) / (g * len));
 
 		if (silent) {
-			angle = Vector2(pitch, yaw);
+			angle = Vec2(pitch, yaw);
 			C_MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
 			p.pitch = angle.x;
 			p.yaw = angle.y;
@@ -81,9 +81,9 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);
 		} else {
 			if (pitch < 89 && pitch > -89) {
-				Vector2 angles = Vector2(pitch, yaw);
+				Vec2 angles = Vec2(pitch, yaw);
 
-				Vector2 appl = angles.sub(localPlayer->viewAngles).normAngles();
+				Vec2 appl = angles.sub(localPlayer->viewAngles).normAngles();
 				appl.x = -appl.x;
 				appl = appl.div(7);  // Smooth dat boi
 

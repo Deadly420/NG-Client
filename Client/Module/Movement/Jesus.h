@@ -37,17 +37,17 @@ public:
 			if (gm->player->isSneaking()) return;
 			if (gm->player->isOnFire()) return;
 
-			Vector3 pos = *gm->player->getPos();
+			Vec3 pos = *gm->player->getPos();
 			pos.y -= 1.62f;
 
 			pos.z = gm->player->aabb.upper.z;
 			pos.x = gm->player->aabb.upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->region->getBlock(Vector3i(pos));
+			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
-				Vector3 pos = *gm->player->getPos();
+				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
@@ -59,11 +59,11 @@ public:
 			pos.x = gm->player->aabb.lower.x;
 			pos.z = gm->player->aabb.lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->region->getBlock(Vector3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
-				Vector3 pos = *gm->player->getPos();
+				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
@@ -73,11 +73,11 @@ public:
 			}
 
 			pos.x = gm->player->aabb.upper.x;  // upper x and lower z
-			block = Game.getLocalPlayer()->region->getBlock(Vector3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
-				Vector3 pos = *gm->player->getPos();
+				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
@@ -88,11 +88,11 @@ public:
 			pos.x = gm->player->aabb.lower.x;
 			pos.z = gm->player->aabb.upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vector3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
-				Vector3 pos = *gm->player->getPos();
+				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;

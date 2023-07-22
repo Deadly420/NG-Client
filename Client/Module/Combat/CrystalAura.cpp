@@ -45,10 +45,10 @@ bool CfindEntity(Entity* curEnt, bool isRegularEntity) {
 }
 
 bool space = true;
-Vector3 _pos;
-bool CanPlaceC(Vector3i* pos) {
+Vec3 _pos;
+bool CanPlaceC(Vec3i* pos) {
 	space = true;
-	_pos = pos->toVector3t();
+	_pos = pos->toVec3t();
 	Game.forEachEntity([](Entity* ent, bool b) {
 		if (!space)
 			return;
@@ -58,12 +58,12 @@ bool CanPlaceC(Vector3i* pos) {
 	return space;
 }
 
-void CrystalAura::CPlace(GameMode* gm, Vector3* pos) {
+void CrystalAura::CPlace(GameMode* gm, Vec3* pos) {
 	if (!pEnhanced) {
 #pragma warning(push)
 #pragma warning(disable : 4244)
-		Vector3i blockPos = Vector3i(pos->x, pos->y, pos->z);
-		Vector3i upperBlockPos = Vector3i(pos->x, pos->y + 1, pos->z);
+		Vec3i blockPos = Vec3i(pos->x, pos->y, pos->z);
+		Vec3i upperBlockPos = Vec3i(pos->x, pos->y + 1, pos->z);
 #pragma warning(pop)
 		Block* block = gm->player->region->getBlock(blockPos);
 		Block* upperBlock = gm->player->region->getBlock(upperBlockPos);
@@ -71,13 +71,13 @@ void CrystalAura::CPlace(GameMode* gm, Vector3* pos) {
 		gm->buildBlock(&blockPos, Game.getLocalPlayer()->level->blockSide, idk);
 		return;
 	}
-	Vector3i bestPos;
+	Vec3i bestPos;
 	bool ValidPos = false;
 	for (int x = (int)pos->x - eRange; x < pos->x + eRange; x++) {
 		for (int z = (int)pos->z - eRange; z < pos->z + eRange; z++) {
 			for (int y = (int)pos->y - eRange; y < pos->y + eRange; y++) {
-				Vector3i blockPos = Vector3i(x, y, z);
-				Vector3i upperBlockPos = Vector3i(x, y + 1, z);
+				Vec3i blockPos = Vec3i(x, y, z);
+				Vec3i upperBlockPos = Vec3i(x, y + 1, z);
 				Block* block = gm->player->region->getBlock(blockPos);
 				Block* upperBlock = gm->player->region->getBlock(upperBlockPos);
 				if (block != nullptr) {
@@ -87,7 +87,7 @@ void CrystalAura::CPlace(GameMode* gm, Vector3* pos) {
 						if (!ValidPos) {
 							ValidPos = true;
 							bestPos = blockPos;
-						} else if (blockPos.toVector3t().dist(*pos) < bestPos.toVector3t().dist(*pos)) {
+						} else if (blockPos.toVec3t().dist(*pos) < bestPos.toVec3t().dist(*pos)) {
 							bestPos = blockPos;
 						}
 					}
@@ -197,8 +197,8 @@ void CrystalAura::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			if (Game.getLocalPlayer()->region->getBlock(ptr->block)->toLegacy()->blockId == 49 ||
 				Game.getLocalPlayer()->region->getBlock(ptr->block)->toLegacy()->blockId == 7) {
 				DrawUtils::setColor(.75f, .25f, .5f, 1.f);
-				DrawUtils::drawBox(ptr->block.toVector3t().add(0.f, 1.5f, 0.f),
-								   ptr->block.add(1).toVector3t().add(0.f, 1.5f, 0.f), .3f);
+				DrawUtils::drawBox(ptr->block.toVec3t().add(0.f, 1.5f, 0.f),
+								   ptr->block.add(1).toVec3t().add(0.f, 1.5f, 0.f), .3f);
 			}
 }
 

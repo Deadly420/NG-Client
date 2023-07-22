@@ -8,8 +8,8 @@ private:
 public:
 	JoeGoalY(float target);
 
-	bool isInGoal(Vector3i pos) override;
-	float getHeuristicEstimation(Vector3i pos) override;
+	bool isInGoal(Vec3i pos) override;
+	float getHeuristicEstimation(Vec3i pos) override;
 
-	static float heuristicEstimation(Vector3i node, float target);
+	static float heuristicEstimation(Vec3i node, float target);
 };

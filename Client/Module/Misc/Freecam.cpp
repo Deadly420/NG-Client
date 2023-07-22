@@ -18,7 +18,7 @@ void Freecam::onEnable() {
 	auto Player = Game.getLocalPlayer();
 	if (cameraAddr != nullptr) NopBytes((BYTE*)((uintptr_t)cameraAddr), 33);
 
-	if (Player != nullptr) initialViewAngles = Vector2(Player->pitch, Player->yaw);
+	if (Player != nullptr) initialViewAngles = Vec2(Player->pitch, Player->yaw);
 }
 
 void Freecam::onDisable() {
@@ -79,7 +79,7 @@ void Freecam::onPreRender(MinecraftUIRenderContext* rcx) {
 
 	float calcYaw = (yaw + 90) * (PI / 180);
 
-	Vector3 moveVec;
+	Vec3 moveVec;
 	moveVec.x = cos(calcYaw) * speed;
 	if (GameData::isKeyDown(*input->spaceBarKey)) camera->cameraPos.y += speed;
 	else if (GameData::isKeyDown(*input->sneakKey)) camera->cameraPos.y -= speed;

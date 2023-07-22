@@ -87,15 +87,15 @@ private:
 	static __int64 RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx);
 	static float* Dimension_getFogColor(Dimension*, float* color, __int64 brightness, float a4);
 	static float Dimension_getTimeOfDay(Dimension*, int a2, float a3);
-	static float Dimension_getSunIntensity(Dimension*, float a2, Vector3* a3, float a4);
+	static float Dimension_getSunIntensity(Dimension*, float a2, Vec3* a3, float a4);
 	static void ChestBlockActor_tick(ChestBlockActor*, BlockSource* source);
-	static void Actor_lerpMotion(Entity* _this, Vector3);
+	static void Actor_lerpMotion(Entity* _this, Vec3);
 	static int AppPlatform_getGameEdition(__int64 _this);
 	static void PleaseAutoComplete(__int64 _this, __int64 a2, TextHolder* text, int a4);
 	static void LoopbackPacketSender_sendToServer(LoopbackPacketSender* a, Packet* packet);
 	static void LoopbackPacketSender_sendToClient(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4);
 	static void MultiLevelPlayer_tick(EntityList* entityList);
-	static void GameMode_startDestroyBlock(GameMode* _this, Vector3i* a2, uint8_t face, void* a4, void* a5);
+	static void GameMode_startDestroyBlock(GameMode* _this, Vec3i* a2, uint8_t face, void* a4, void* a5);
 	static void HIDController_keyMouse(HIDController* _this, void* a2, void* a3);
 	static int BlockLegacy_getRenderLayer(BlockLegacy* a1);
 	static __int8* BlockLegacy_getLightEmission(BlockLegacy* _this, __int8* a2);
@@ -121,7 +121,7 @@ private:
 	static __int64 InGamePlayScreen___renderLevel(__int64 playScreen, __int64 a2, __int64 a3);
 	static void LocalPlayer__updateFromCamera(__int64 a1, Camera* camera, __int64* a3, Entity* a4);
 	static bool Mob__isImmobile(Entity*);
-	static void Actor__setRot(Entity* _this, Vector2& angle);
+	static void Actor__setRot(Entity* _this, Vec2& angle);
 	static bool playerCallBack(Player* lp, __int64 a2, __int64 a3);
 	static void InventoryTransactionManager__addAction(Player* _this, InventoryAction* a2, char a3);
 	static void LevelRendererPlayer__renderNameTags(__int64 a1, __int64 a2, TextHolder* name, __int64 a4);

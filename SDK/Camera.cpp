@@ -2,8 +2,8 @@
 
 #include "../Utils/Utils.h"
 
-void Camera::getEulerAngles(Vector3* vec) {
-	using cam_getEuler_t = void(__fastcall*)(Camera*, Vector3*);
+void Camera::getEulerAngles(Vec3* vec) {
+	using cam_getEuler_t = void(__fastcall*)(Camera*, Vec3*);
 	static auto cam_getEuler = reinterpret_cast<cam_getEuler_t>(FindSignature("48 8B C4 53 48 81 EC ?? ?? ?? ?? 0F 29 70 ?? 48 8B DA 0F 29 78 ?? F3"));
 	cam_getEuler(this, vec);
 }
@@ -12,8 +12,8 @@ void Camera::setOrientation(float pitch, float yaw, float roll) {
 	static auto cam_setOrientation = reinterpret_cast<cam_setOrientation_t>(FindSignature("40 53 48 81 EC ?? ?? ?? ?? 0F 29 74 24 ?? 0F 57"));
 	cam_setOrientation(this, pitch, yaw, roll);
 }
-void Camera::getForwardVector(Vector3* forward) {
-	Vector3 eulerAngles;
+void Camera::getForwardVector(Vec3* forward) {
+	Vec3 eulerAngles;
 	this->getEulerAngles(&eulerAngles);
 
 	float calcYaw = eulerAngles.y - (90 * (PI / 180));

@@ -32,8 +32,8 @@ std::string Arraylist::getModSettings() {
 }
 
 void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
-	Vector2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
-	Vector2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
+	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
+	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
 	auto hudMod = moduleMgr->getModule<HudModule>();
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
@@ -60,7 +60,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			string moduleName;
 			float textWidth;
 			bool enabled;
-			Vector2* pos;
+			Vec2* pos;
 			int ticks;
 			int keybind;
 
@@ -80,7 +80,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					moduleName = text;
 
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vector2(0.f, 0.f)) shouldRender = false;
+					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
 
 				if (arrayList->modes) {
@@ -89,11 +89,11 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					moduleName = text;
 
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vector2(0.f, 0.f)) shouldRender = false;
+					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
 				
 				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-				if (!enabled && (*pos) == Vector2(0.f, 0.f)) shouldRender = false;
+				if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 			}
 
 			bool operator<(const ModuleContainer& other) const {
@@ -119,7 +119,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		}
 
 		float lastModuleLength = 0.f;
-		Vector4 underline;
+		Vec4 underline;
 		int index = 0;
 
 		for (std::set<ModuleContainer>::iterator mod = modContainerList.begin(); mod != modContainerList.end(); ++mod) {
@@ -146,14 +146,14 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				mod->pos->y = 0.f;
 			}
 
-			Vector2 textPos = Vector2(xOffset - 1 + textPadding, yOffset + textPadding);
-			Vector4 rectPos = Vector4(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
-			Vector4 rectPos2 = Vector4(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vector4 leftRect = Vector4(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
-			Vector4 FluxBar = Vector4(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
-			Vector4 Bar = Vector4(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
-			Vector4 topLine = Vector4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
-			underline = Vector4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
+			Vec2 textPos = Vec2(xOffset - 1 + textPadding, yOffset + textPadding);
+			Vec4 rectPos = Vec4(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
+			Vec4 rectPos2 = Vec4(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 leftRect = Vec4(xOffset - 4, yOffset, xOffset - 3, yOffset + textPadding - 0.50f + textHeight);
+			Vec4 FluxBar = Vec4(windowSize.x - 2, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
+			Vec4 Bar = Vec4(rectPos2.z - 1, rectPos2.y, rectPos2.z, rectPos2.y + textHeight + (textPadding * 2));
+			Vec4 topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
+			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
 			auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
@@ -179,7 +179,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			case 3:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(FluxBar, color);
-				DrawUtils::drawText(Vector2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
+				DrawUtils::drawText(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
 				break;
 			case 4:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
@@ -189,7 +189,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 			yOffset += textHeight + (textPadding * 2);
 			lastModuleLength = textWidth;
-			underline = Vector4(windowSize.x - (textWidth + 4.f + (textPadding * 2.f)), leftRect.w, windowSize.x + 1.f, leftRect.w + 1.f);
+			underline = Vec4(windowSize.x - (textWidth + 4.f + (textPadding * 2.f)), leftRect.w, windowSize.x + 1.f, leftRect.w + 1.f);
 		}
 		index++;
 		int curIndex = -index * 90;

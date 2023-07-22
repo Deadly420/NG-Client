@@ -19,7 +19,7 @@ private:
 
 public:
 	bool overrideViewAngles = false;
-	Vector2 targetViewAngles = {0, 0};
+	Vec2 targetViewAngles = {0, 0};
 
 	JoeMovementController(std::shared_ptr<JoePath> path);
 

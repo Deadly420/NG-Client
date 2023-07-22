@@ -8,7 +8,7 @@ public:
 	bool silent = true;
 	bool predict = false;
 	bool visualize = false;
-	Vector2 angle;
+	Vec2 angle;
 
 	virtual const char* getModuleName() override;
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;

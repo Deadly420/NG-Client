@@ -46,7 +46,7 @@ public:
 			allEntities.push_back(e);
 		});
 
-		Vector3 origin = Game.getClientInstance()->levelRenderer->getOrigin();
+		Vec3 origin = Game.getClientInstance()->levelRenderer->getOrigin();
 
 		// Loop through all our players and retrieve their information
 		targetList.clear();
@@ -64,8 +64,8 @@ public:
 
 		if (targetList.size() > 0) {
 			std::sort(targetList.begin(), targetList.end(), CompareTargetEnArray());
-			Vector2 angle = origin.CalcAngle(*targetList[0]->getPos());
-			Vector2 appl = angle.sub(localPlayer->viewAngles).normAngles();
+			Vec2 angle = origin.CalcAngle(*targetList[0]->getPos());
+			Vec2 appl = angle.sub(localPlayer->viewAngles).normAngles();
 			appl.x = -appl.x;
 			if ((appl.x < verticalrange && appl.x > -verticalrange) && (appl.y < horizontalrange && appl.y > -horizontalrange) && GameData::canUseMoveKeys()) {
 				PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();

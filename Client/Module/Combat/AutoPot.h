@@ -72,7 +72,7 @@ public:
 				Level* level = Game.getLocalPlayer()->level;
 
 				bool idk = true;
-				gm->buildBlock(new Vector3i(level->block), level->blockSide, idk);
+				gm->buildBlock(new Vec3i(level->block), level->blockSide, idk);
 			}
 		}
 	}

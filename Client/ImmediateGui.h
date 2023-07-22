@@ -17,33 +17,33 @@ protected:
 
 class ButtonInfo : public ComponentInfo {
 private:
-	Vector2 pos;
-	Vector2 size;
+	Vec2 pos;
+	Vec2 size;
 	bool centered;
 	float padding = 3.f;
 	bool canClickB = false;
 
 public:
-	ButtonInfo(int id, Vector2 pos, bool centered = false);
+	ButtonInfo(int id, Vec2 pos, bool centered = false);
 	virtual ~ButtonInfo(){};
 
 	void calculateSize(const char*);
-	bool isInSelectableSurface(Vector2 mouse);
-	Vector4 getSelectableSurface();
-	void draw(Vector2 mousePos, const char* label);
+	bool isInSelectableSurface(Vec2 mouse);
+	Vec4 getSelectableSurface();
+	void draw(Vec2 mousePos, const char* label);
 	bool canClick() { return canClickB; };
-	void updatePos(Vector2 pos) { pos = pos; }
+	void updatePos(Vec2 pos) { pos = pos; }
 	
 };
 
 class ImmediateGui {
 private:
-	Vector2 mousePos;
+	Vec2 mousePos;
 	std::map<unsigned int, std::shared_ptr<ComponentInfo>> components;
 
 public:
 	void startFrame();
-	bool Button(const char* label, Vector2 pos, bool centered = false);
+	bool Button(const char* label, Vec2 pos, bool centered = false);
 };
 
 extern ImmediateGui NG_Gui;
