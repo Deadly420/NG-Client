@@ -50,6 +50,25 @@ bool TestModule::isFlashMode() {
 
 void TestModule::onImGuiRender() {
 	{
+		// Hud
+		auto ArrayListMod = moduleMgr->getModule<Arraylist>();
+		auto TogglesSoundsMod = moduleMgr->getModule<ToggleSounds>();
+		auto CustomFontMod = moduleMgr->getModule<FontChanger>();
+
+		// Misc
+		auto BreakerMod = moduleMgr->getModule<Breaker>();
+		auto CrasherMod = moduleMgr->getModule<Crasher>();
+		auto DerpMod = moduleMgr->getModule<Derp>();
+		auto EditionFakerMod = moduleMgr->getModule<EditionFaker>();
+		auto FreecamMod = moduleMgr->getModule<Freecam>();
+		auto NoPacketMod = moduleMgr->getModule<NoPacket>();
+		auto OffhandAllowMod = moduleMgr->getModule<OffhandAllow>();
+		auto SpammerMod = moduleMgr->getModule<Spammer>();
+		auto TeleportMod = moduleMgr->getModule<Teleport>();
+		auto TimerMod = moduleMgr->getModule<Timer>();
+		auto VanillaPlusMod = moduleMgr->getModule<VanillaPlus>();
+
+		// Main Window
 		ImGuiStyle* style = &ImGui::GetStyle();
 
 		style->WindowPadding = ImVec2(15, 15);
@@ -105,64 +124,98 @@ void TestModule::onImGuiRender() {
 		ImGuiWindowFlags TargetFlags;
 		TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
-		// ImGui::PushFont(Arial); // push
-		// ImGui::PushFont(Arial); // push
-		if (ImGui::Begin(("TestGui"), 0, TargetFlags)) {
-			ImGui::SetWindowSize(ImVec2(360.f, 430.f));
+		if (ImGui::Begin("ClickGui", 0, TargetFlags)) {
+			ImGui::SetWindowSize(ImVec2(360.f, 330.f));
 
-			// image hax
-			int my_image_width = 0;
-			int my_image_height = 0;
 			if (ImGui::CollapsingHeader("Combat")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Render"))) {
+
+			if (ImGui::CollapsingHeader("Render")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Movemet"))) {
+
+			if (ImGui::CollapsingHeader("Movement")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Player"))) {
+
+			if (ImGui::CollapsingHeader("Player")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("World"))) {
+
+			if (ImGui::CollapsingHeader("World")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Entity"))) {
+
+			if (ImGui::CollapsingHeader("Entity")) {
 				ImGui::Spacing();
 				if (ImGui::Button("Test")) {
+					// Handle button click action here
 				}
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Hud"))) {
+
+			if (ImGui::CollapsingHeader("HUD")) {
 				ImGui::Spacing();
-				if (ImGui::Button("Test")) {
-				}
+
+				auto toggleModState = [](bool currentState, const char* labelOn, const char* labelOff) {
+					if (ImGui::Button(currentState ? labelOn : labelOff)) {
+						currentState = !currentState;
+					}
+					return currentState;
+				};
+
+				ArrayListMod->setEnabled(toggleModState(ArrayListMod->isEnabled(), "ArrayList (ON)", "ArrayList (OFF)"));
+				CustomFontMod->setEnabled(toggleModState(CustomFontMod->isEnabled(), "CustomFont (ON)", "CustomFont (OFF)"));
+				TogglesSoundsMod->setEnabled(toggleModState(TogglesSoundsMod->isEnabled(), "TogglesSounds (ON)", "TogglesSounds (OFF)"));
+
 				ImGui::Spacing();
 			}
-			if (ImGui::CollapsingHeader(("Misc"))) {
+
+			if (ImGui::CollapsingHeader("Misc")) {
 				ImGui::Spacing();
-				if (ImGui::Button("Test")) {
-				}
+
+				auto toggleModState = [](bool currentState, const char* labelOn, const char* labelOff) {
+					if (ImGui::Button(currentState ? labelOn : labelOff)) {
+						currentState = !currentState;
+					}
+					return currentState;
+				};
+				BreakerMod->setEnabled(toggleModState(BreakerMod->isEnabled(), "Breaker (ON)", "Breaker (OFF)"));
+				CrasherMod->setEnabled(toggleModState(CrasherMod->isEnabled(), "Crasher (ON)", "Crasher (OFF)"));
+				DerpMod->setEnabled(toggleModState(DerpMod->isEnabled(), "Derp (ON)", "Derp (OFF)"));
+				EditionFakerMod->setEnabled(toggleModState(EditionFakerMod->isEnabled(), "EditionFaker (ON)", "EditionFaker (OFF)"));
+				FreecamMod->setEnabled(toggleModState(FreecamMod->isEnabled(), "Freecam (ON)", "Freecam (OFF)"));
+				NoPacketMod->setEnabled(toggleModState(NoPacketMod->isEnabled(), "NoPacket (ON)", "NoPacket (OFF)"));
+				OffhandAllowMod->setEnabled(toggleModState(OffhandAllowMod->isEnabled(), "OffhandAllow (ON)", "OffhandAllow (OFF)"));
+				SpammerMod->setEnabled(toggleModState(SpammerMod->isEnabled(), "Spammer (ON)", "Spammer (OFF)"));
+				TeleportMod->setEnabled(toggleModState(TeleportMod->isEnabled(), "Teleport (ON)", "Teleport (OFF)"));
+				TimerMod->setEnabled(toggleModState(TimerMod->isEnabled(), "Timer (ON)", "Timer (OFF)"));
+				VanillaPlusMod->setEnabled(toggleModState(VanillaPlusMod->isEnabled(), "Vanilla+ (ON)", "Vanilla+ (OFF)"));
+
 				ImGui::Spacing();
 			}
 		}
-		// ImGui::PopFont(); //pop
 		ImGui::End();
 	}
 }
