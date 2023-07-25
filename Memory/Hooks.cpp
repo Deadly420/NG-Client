@@ -12,6 +12,9 @@
 #include "../SDK/Tag.h"
 #include "../Utils/ColorUtil.h"
 
+#include "../include/WinHttpClient.h"
+#include <Shellapi.h>
+
 Hooks g_Hooks;
 bool isTicked = false;
 bool overrideStyledReturn = false;
@@ -483,14 +486,15 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 						"[+] MinDelay/MaxDelay to TriggerBot\n"
 						"[+] MinDelay/MaxDelay to AutoClicker\n\n"
 						// Credits
-						"Credits: \n"
-						"DeadtrosGaming \n"
-						"Sentinel \n"
-						"Founder \n"
-						"Intop \n"
-						"2474 \n"
-						"NRG \n"
-						"deq \n";
+						"Credits:\n"
+						"DeadtrosGaming\n"
+						"Sentinel\n"
+						"User0092\n"
+						"Founder\n"
+						"Intop\n"
+						"2474\n"
+						"NRG\n"
+						"deq\n";
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 				}
 			} else {
@@ -994,7 +998,7 @@ __int64 Hooks::LevelRenderer_renderLevel(__int64 _this, __int64 a2, __int64 a3) 
 void Hooks::ClickFunc(__int64 a1, char mouseButton, char isDown, __int16 mouseX, __int16 mouseY, __int16 relativeMovementX, __int16 relativeMovementY, char a8) {
 	static auto oFunc = g_Hooks.ClickFuncHook->GetFastcall<void, __int64, char, char, __int16, __int16, __int16, __int16, char>();
 	static auto clickGuiModule = moduleMgr->getModule<ClickGuiMod>();
-	static auto TestMod = moduleMgr->getModule<TestModule>();
+	static auto imgui = moduleMgr->getModule<NewUI>();
 
 
 	// MouseButtons
@@ -1019,10 +1023,10 @@ void Hooks::ClickFunc(__int64 a1, char mouseButton, char isDown, __int16 mouseX,
 		if (mouseButton != 0)  // Mouse click event
 			return;
 	}
-	if (TestMod->isEnabled() && mouseButton > 0 && mouseButton < 3)
+	if (imgui->isEnabled() && mouseButton > 0 && mouseButton < 3)
 		ImGui::GetIO().MouseDown[0] = isDown;
 
-	if (TestMod->isEnabled() && !ImGui::GetIO().WantCaptureMouse)
+	if (imgui->isEnabled() && !ImGui::GetIO().WantCaptureMouse)
 		return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
 
 	return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);

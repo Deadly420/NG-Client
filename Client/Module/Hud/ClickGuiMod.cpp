@@ -17,6 +17,8 @@ const char* ClickGuiMod::getModuleName() {
 }
 
 void ClickGuiMod::onEnable() {
+	static auto imgui = moduleMgr->getModule<NewUI>();
+	imgui->setEnabled(false);
 	Game.getClientInstance()->releaseMouse();
 }
 

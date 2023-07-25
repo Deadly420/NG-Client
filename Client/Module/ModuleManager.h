@@ -22,6 +22,7 @@
 #include "Hud/FontChanger.h"
 #include "Hud/ClickGuiMod.h"
 #include "Hud/Arraylist.h"
+#include "Hud/Newui.h"
 
 // Combat
 #include "Combat/CrystalAura.h"
