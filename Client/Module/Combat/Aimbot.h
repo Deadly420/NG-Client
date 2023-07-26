@@ -36,7 +36,7 @@ public:
 		}
 	};
 	// Inherited via Module
-	virtual const char* getModuleName() override { return "Aimbot"; }
+	virtual const char* getModuleName() override { return "Aim-bot"; }
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override {
 		LocalPlayer* localPlayer = Game.getLocalPlayer();
 		if (!localPlayer) return;

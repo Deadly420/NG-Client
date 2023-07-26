@@ -1,7 +1,5 @@
 #include "ModuleManager.h"
 #include "../../Utils/Logger.h"
-#include "../../Utils/Json.hpp"
-#include "../../include/imgui/imgui.h"
 
 using json = nlohmann::json;
 
@@ -11,15 +9,12 @@ ModuleManager::ModuleManager(GameData* gameData) {
 
 ModuleManager::~ModuleManager() {
 	initialized = false;
-	auto lock = lockModuleListExclusive();
 	moduleList.clear();
 }
 
 void ModuleManager::initModules() {
 	logF("Initializing modules.");
 	{
-		auto lock = lockModuleListExclusive();
-
 		moduleList.emplace_back(new FollowPathModule());
 		moduleList.emplace_back(new InventoryCleaner());
 		moduleList.emplace_back(new StackableItem());
@@ -68,6 +63,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new NoPacket());
 		moduleList.emplace_back(new Scaffold());
 		moduleList.emplace_back(new Velocity());
+		moduleList.emplace_back(new FightBot());
 		moduleList.emplace_back(new Killaura());
 		moduleList.emplace_back(new FastUse());
 		moduleList.emplace_back(new Compass());
@@ -139,7 +135,6 @@ void ModuleManager::initModules() {
 }
 
 void ModuleManager::disable() {
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled())
 			mod->setEnabled(false);
@@ -150,7 +145,6 @@ void ModuleManager::onLoadConfig(void* confVoid) {
 	auto conf = reinterpret_cast<json*>(confVoid);
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		mod->onLoadConfig(conf);
 	}
@@ -164,7 +158,6 @@ void ModuleManager::onSaveConfig(void* confVoid) {
 	auto conf = reinterpret_cast<json*>(confVoid);
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		mod->onSaveConfig(conf);
 	}
@@ -173,7 +166,6 @@ void ModuleManager::onSaveConfig(void* confVoid) {
 void ModuleManager::onImGuiRender() {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onImGuiRender();
@@ -183,7 +175,6 @@ void ModuleManager::onImGuiRender() {
 void ModuleManager::onWorldTick(GameMode* gameMode) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onWorldTick(gameMode);
@@ -193,7 +184,6 @@ void ModuleManager::onWorldTick(GameMode* gameMode) {
 void ModuleManager::onTick(GameMode* gameMode) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onTick(gameMode);
@@ -203,8 +193,6 @@ void ModuleManager::onTick(GameMode* gameMode) {
 void ModuleManager::onAttack(Entity* attackEnt) {
 	if (!isInitialized())
 		return;
-
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onAttack(attackEnt);
@@ -214,7 +202,6 @@ void ModuleManager::onAttack(Entity* attackEnt) {
 void ModuleManager::onKeyUpdate(int key, bool isDown) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		mod->onKeyUpdate(key, isDown);
 	}
@@ -223,8 +210,6 @@ void ModuleManager::onKeyUpdate(int key, bool isDown) {
 void ModuleManager::onKey(int key, bool isDown, bool& shouldCancel) {
 	if (!isInitialized())
 		return;
-	auto mutex = lockModuleList();
-
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onKey(key, isDown, shouldCancel);
@@ -234,8 +219,6 @@ void ModuleManager::onKey(int key, bool isDown, bool& shouldCancel) {
 void ModuleManager::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	if (!isInitialized())
 		return;
-	auto mutex = lockModuleList();
-
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onPreRender(renderCtx);
@@ -245,8 +228,6 @@ void ModuleManager::onPreRender(MinecraftUIRenderContext* renderCtx) {
 void ModuleManager::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	if (!isInitialized())
 		return;
-	auto mutex = lockModuleList();
-
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->callWhenDisabled())
 			mod->onPostRender(renderCtx);
@@ -256,7 +237,6 @@ void ModuleManager::onPostRender(MinecraftUIRenderContext* renderCtx) {
 void ModuleManager::onSendClientPacket(Packet* packet) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled() || it->callWhenDisabled())
 			it->onSendClientPacket(packet);
@@ -266,7 +246,6 @@ void ModuleManager::onSendClientPacket(Packet* packet) {
 void ModuleManager::onSendPacket(Packet* packet) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled() || it->callWhenDisabled())
 			it->onSendPacket(packet);
@@ -276,7 +255,6 @@ void ModuleManager::onSendPacket(Packet* packet) {
 void ModuleManager::onBaseTick(Entity* ent) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& mod : moduleList) {
 		mod->onBaseTick(ent);
 	}
@@ -292,7 +270,6 @@ int ModuleManager::getModuleCount() {
 
 int ModuleManager::getEnabledModuleCount() {
 	int i = 0;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled()) i++;
 	}
@@ -301,7 +278,6 @@ int ModuleManager::getEnabledModuleCount() {
 void ModuleManager::onMove(MoveInputHandler* hand) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled() || it->callWhenDisabled())
 			it->onMove(hand);
@@ -311,7 +287,6 @@ void ModuleManager::onMove(MoveInputHandler* hand) {
 void ModuleManager::onPlayerTick(Player* player) {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled() || it->callWhenDisabled())
 			it->onPlayerTick(player);
@@ -320,7 +295,6 @@ void ModuleManager::onPlayerTick(Player* player) {
 void ModuleManager::onLevelRender() {
 	if (!isInitialized())
 		return;
-	auto lock = lockModuleList();
 	for (auto& it : moduleList) {
 		if (it->isEnabled() || it->callWhenDisabled())
 			it->onLevelRender();

@@ -153,7 +153,7 @@ void GameData::forEachEntity(std::function<void(Entity*, bool)> callback) {
 	if (this->localPlayer && this->localPlayer->level) {
 		for (const auto& ent : g_Hooks.entityList) if (ent.ent != nullptr && ent.ent->isPlayer()) callback(ent.ent, false); //Only get players from this list
 		for (const auto& ent : Game.getLocalPlayer()->level->getMiscEntityList())
-			if (ent != nullptr && ent->getEntityTypeId() >= 1 && ent->getEntityTypeId() <= 999999999 && !ent->isPlayer()) callback(ent, false); //get everythign else from this
+			if (ent != nullptr && ent->getEntityTypeId() >= 1 && ent->getEntityTypeId() <= 999999999 && !ent->isPlayer()) callback(ent, false); //get everything else from this
 	}
 }
 

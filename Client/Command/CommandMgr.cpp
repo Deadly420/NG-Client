@@ -101,12 +101,12 @@ void CommandMgr::execute(char* message) {
 		IMCCommand* c = *it;
 		std::string commandCopy = c->getCommand();
 
-		// Put them both in lowercase so they can be compaired
+		// Put them both in lowercase so they can be compared
 		std::transform(commandCopy.begin(), commandCopy.end(), commandCopy.begin(), ::tolower);
 		std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
 		if (commandCopy.find(cmd) != std::string::npos)                                                 // if it has the name in it but not completed
-			Game.getGuiData()->displayClientMessageF("%sDid you mean to type: %s?", RED, commandCopy.c_str());  // Tell the user what they might have ment
+			Game.getGuiData()->displayClientMessageF("%sDid you mean to type: %s?", RED, commandCopy.c_str());  // Tell the user what they might have meant
 	}
 }
 

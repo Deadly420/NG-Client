@@ -204,7 +204,7 @@ void Hooks::Init() {
 			}
 		} else logF("MoveTurnInput is null");
 
-		//The reason im using a sig is because injecting on the menu causes LocalPlayer to be null so i cant get the vtable from just doing Game.getLocalPlayer(). Same with Gamemode bc i get that from local player.
+		//The reason im using a sig is that injecting on the menu causes LocalPlayer to be null, so I cant get the vtable from just doing Game.getLocalPlayer(). Same with Gamemode bc i get that from local player.
 		// LocalPlayer::vtable
 		{
 			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8d 05 ? ? ? ? 48 89 01 48 8b 89 ? ? ? ? 48 8b 01 ff 90 ? ? ? ? 48 8b 10", 3);

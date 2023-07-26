@@ -8,8 +8,8 @@ Fly::Fly() : Module('F', Category::MOVEMENT, "Fly to the sky") {
 	.addEntry(EnumEntry("Jetpack2", 4))
 	.addEntry(EnumEntry("Motion", 5));
 	registerEnumSetting("Mode", &mode, 0);
-	registerFloatSetting("Horizontal Speed", &this->horizontalSpeed, this->horizontalSpeed, 0.1f, 10.f);
-	registerFloatSetting("Vertical Speed", &this->verticalSpeed, this->verticalSpeed, 0.1f, 10.f);
+	registerFloatSetting("Horizontal Speed", &horizontalSpeed, horizontalSpeed, 0.1f, 10.f);
+	registerFloatSetting("Vertical Speed", &verticalSpeed, verticalSpeed, 0.1f, 10.f);
 }
 
 Fly::~Fly() {

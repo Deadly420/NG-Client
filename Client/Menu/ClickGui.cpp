@@ -1,7 +1,5 @@
 #include "ClickGui.h"
 
-#include "../Module/Hud/ClickGuiMod.h"
-#include "../../Utils/Json.hpp"
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
@@ -308,7 +306,7 @@ void ClickGui::renderCategory(Category category) {
 								currentXOffset + textPaddingX + 5,
 								currentYOffset + textPaddingY);
 
-							// Incomplete, because we dont know the endY yet
+							// Incomplete, because we don't know the endY yet
 							Vec4 rectPos = Vec4(
 								currentXOffset,
 								currentYOffset,
