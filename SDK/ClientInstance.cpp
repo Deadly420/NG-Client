@@ -3,7 +3,6 @@
 #include <cstdarg>
 
 #include "../Utils/Logger.h"
-#include "../Utils/Utils.h"
 
 __int64 MinecraftGame::getServerEntries() {
 	return Utils::CallVFunc<30, __int64>(this);

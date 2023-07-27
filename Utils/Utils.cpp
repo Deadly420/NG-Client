@@ -1,34 +1,15 @@
 #include "Utils.h"
-#include <iomanip>
 #include <chrono>
 #include <string>
-
-#include "Logger.h"
 #include <Windows.h>
 #include <Psapi.h>
 #include "HMath.h"
-#include <sys\stat.h>
-#include <iostream>
 #include <direct.h>
-#include <conio.h>
 #include <sstream>
-#include <windows.h>
 #include <string.h>
-#include <stdio.h>
-#include <string>
-#include<TlHelp32.h>
-#include <tchar.h> 
-#include <vector>
-#include <thread>
-#include <wtsapi32.h>
-#include <psapi.h>
-#include <math.h>
-#include <algorithm> 
 #include <playsoundapi.h>
 #pragma comment(lib, "winmm.lib")
-#include <tchar.h>
 #include <urlmon.h>
-#include <windows.h>
 
 #include "../Memory/Hooks.h"
 #pragma comment(lib, "urlmon.lib")
@@ -108,7 +89,7 @@ std::wstring Utils::stringToWstring(std::string txt) {
 	int wchars_num = MultiByteToWideChar(CP_UTF8, 0, txt.c_str(), -1, NULL, 0);
 	wchar_t* wstr = new wchar_t[wchars_num];
 	MultiByteToWideChar(CP_UTF8, 0, txt.c_str(), -1, wstr, wchars_num);
-	// do whatever with wstr
+	// do whatever with str
 	std::wstring gamer(wstr);
 	delete[] wstr;
 	return gamer;
@@ -118,36 +99,36 @@ std::string Utils::getRttiBaseClassName(void* ptr) {
 #define retIfBad(m, c) \
 	if (IsBadReadPtr(reinterpret_cast<void*>(m), c)) DebugBreak();
 
-	retIfBad(ptr, 8);
+	retIfBad(ptr, 8)
 
 	__int64 vtable = *reinterpret_cast<__int64*>(ptr);
-	retIfBad(vtable - sizeof(uintptr_t), 8);
+	retIfBad(vtable - sizeof(uintptr_t), 8)
 
 	uintptr_t moduleBase;
 	if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, reinterpret_cast<char*>(vtable), reinterpret_cast<HMODULE*>(&moduleBase)))
 		return std::string("invalid handle");
 
 	auto objLocator = *reinterpret_cast<__int64*>(vtable - sizeof(uintptr_t));
-	retIfBad(objLocator + 0x10, 8);
+	retIfBad(objLocator + 0x10, 8)
 	auto classHierachyDescriptorOffset = *reinterpret_cast<int*>(objLocator + 0x10);
 	auto classHierachy = moduleBase + classHierachyDescriptorOffset;
-	retIfBad(classHierachy + 0x8, sizeof(unsigned int));
+	retIfBad(classHierachy + 0x8, sizeof(unsigned int))
 	int numBaseClasses = *reinterpret_cast<int*>(classHierachy + 0x8);
 	if (numBaseClasses < 0 || numBaseClasses > 25)
 		numBaseClasses = 0;
-	retIfBad(classHierachy + 0xC, sizeof(uintptr_t));
+	retIfBad(classHierachy + 0xC, sizeof(uintptr_t))
 	auto baseClassArrayOffset = *reinterpret_cast<int*>(classHierachy + 0xC);
 	auto baseClassArray = moduleBase + baseClassArrayOffset;
-	retIfBad(baseClassArray, sizeof(unsigned int));
+	retIfBad(baseClassArray, sizeof(unsigned int))
 
 
 	// We could iterate over all base classes here, but we just return the first
 	auto classDescriptorOffset = *reinterpret_cast<unsigned int*>(baseClassArray);
 	auto classDescriptor = moduleBase + classDescriptorOffset;
-	retIfBad(classDescriptor, sizeof(int));
+	retIfBad(classDescriptor, sizeof(int))
 	auto typeDescripterOffset = *reinterpret_cast<int*>(classDescriptor);
 	auto typeDescriptor = moduleBase + typeDescripterOffset;
-	retIfBad(typeDescriptor, 0x10 + 512);
+	retIfBad(typeDescriptor, 0x10 + 512)
 
 	size_t rttiLength = strnlen_s(reinterpret_cast<char*>(typeDescriptor + 0x11), 512);
 	if (rttiLength > 5 && rttiLength < 512) {

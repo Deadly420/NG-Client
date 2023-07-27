@@ -205,7 +205,6 @@
     <ClCompile Include="Client\Command\Commands\XpCommand.cpp" />
     <ClCompile Include="Client\Config\ConfigManager.cpp" />
     <ClCompile Include="Client\Module\Combat\FastUse.cpp" />
-    <ClCompile Include="Client\Module\Combat\FightBot.cpp" />
     <ClCompile Include="Client\Module\Entity\EntityBhop.cpp" />
     <ClCompile Include="Client\Module\Entity\EntityFly.cpp" />
     <ClCompile Include="Client\Module\Entity\EntityJesus.cpp" />
@@ -382,7 +381,6 @@
     <ClInclude Include="Client\Config\ConfigManager.h" />
     <ClInclude Include="Client\Module\Combat\AutoPot.h" />
     <ClInclude Include="Client\Module\Combat\FastUse.h" />
-    <ClInclude Include="Client\Module\Combat\FightBot.h" />
     <ClInclude Include="Client\Module\Entity\EntityBhop.h" />
     <ClInclude Include="Client\Module\Entity\EntityFly.h" />
     <ClInclude Include="Client\Module\Entity\EntityJesus.h" />

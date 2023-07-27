@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 #include "../Memory/GameData.h"
-#include "../Utils/Utils.h"
+
 InventoryTransactionManager *Entity::getTransactionManager() {
 	static unsigned int offset = 0x1218;
 	if (offset == 0) {
@@ -42,7 +42,7 @@ float Entity::getBlocksPerSecond() {
 	return getTicksPerSecond() * *Game.getClientInstance()->minecraft->simTimer;
 }
 
-void Entity::lerpTo(Vec3 const &pos, Vec2 const &rot, int steps) { //lerpTo was removed from the Player vtable so this is how we are going to use it from now on
+void Entity::lerpTo(Vec3 const &pos, Vec2 const &rot, int steps) { //lerpTo was removed from the Player vtable, so this is how we are going to use it from now on
 	using lerpTo = void(__fastcall *)(Entity *, Vec3 const &, Vec2 const &, int);
 	static lerpTo lerp = reinterpret_cast<lerpTo>(FindSignature("48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 49 8B F8 48 8B 89 ? ? ? ? 48 85 C9 74 ? 48 8B 01 48 8B 5C 24"));
 	lerp(this, pos, rot, steps);

@@ -35,7 +35,7 @@ using namespace Voxel;
 
 /*___________________________________________________________________________*/
 
-/* Which of the six face-plane(s) is point P outside of? */
+/* Which of the six face-plane(s) is point P outside? */
 
 long face_plane(Point3 p) {
 	long outcode;
@@ -52,7 +52,7 @@ long face_plane(Point3 p) {
 
 /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
-/* Which of the twelve edge plane(s) is point P outside of? */
+/* Which of the twelve-edge plane(s) is point P outside? */
 
 long bevel_2d(Point3 p) {
 	long outcode;
@@ -75,7 +75,7 @@ long bevel_2d(Point3 p) {
 
 /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
-/* Which of the eight corner plane(s) is point P outside of? */
+/* Which of the eight-corner plane(s) is point P outside? */
 
 long bevel_3d(Point3 p) {
 	long outcode;
@@ -95,7 +95,7 @@ long bevel_3d(Point3 p) {
 /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
 /* Test the point "alpha" of the way from P1 to P2 */
-/* See if it is on a face of the cube              */
+/* See if it is on the face of the cube              */
 /* Consider only faces in "mask"                   */
 
 long check_point(Point3 p1, Point3 p2, float alpha, long mask) {
@@ -110,9 +110,9 @@ long check_point(Point3 p1, Point3 p2, float alpha, long mask) {
 /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
 /* Compute intersection of P1 --> P2 line segment with face planes */
-/* Then test intersection point to see if it is on cube face       */
-/* Consider only face planes in "outcode_diff"                     */
-/* Note: Zero bits in "outcode_diff" means face line is outside of */
+/* Then test the intersection point to see if it is on cube face       */
+/* Consider only face planes in "outcome_diff"                     */
+/* Note: Zero bits in "outcome_diff" means face line is outside of */
 
 long check_line(Point3 p1, Point3 p2, long outcode_diff) {
 	if ((0x01 & outcode_diff) != 0)
@@ -152,21 +152,21 @@ long point_triangle_intersection(Point3 p, Triangle3 t) {
 	/* For each triangle side, make a vector out of it by subtracting vertexes; */
 	/* make another vector from one vertex to point P.                          */
 	/* The crossproduct of these two vectors is orthogonal to both and the      */
-	/* signs of its X,Y,Z components indicate whether P was to the inside or    */
+	/* signs of its X, Y, Z components indicate whether P was to the inside or    */
 	/* to the outside of this triangle side.                                    */
 
 	SUB(t.v1, t.v2, vect12)
-	SUB(t.v1, p, vect1h);
+	SUB(t.v1, p, vect1h)
 	CROSS(vect12, vect1h, cross12_1p)
-	sign12 = SIGN3(cross12_1p); /* Extract X,Y,Z signs as 0..7 or 0...63 integer */
+	sign12 = SIGN3(cross12_1p); /* Extract X, Y, Z signs as 0..7 or 0...63 integer */
 
 	SUB(t.v2, t.v3, vect23)
-	SUB(t.v2, p, vect2h);
+	SUB(t.v2, p, vect2h)
 	CROSS(vect23, vect2h, cross23_2p)
 	sign23 = SIGN3(cross23_2p);
 
 	SUB(t.v3, t.v1, vect31)
-	SUB(t.v3, p, vect3h);
+	SUB(t.v3, p, vect3h)
 	CROSS(vect31, vect3h, cross31_3p)
 	sign31 = SIGN3(cross31_3p);
 
@@ -202,14 +202,14 @@ long t_c_intersection(Triangle3 t) {
 	Point3 vect12, vect13, norm;
 	Point3 hitpp, hitpn, hitnp, hitnn;
 
-	/* First compare all three vertexes with all six face-planes */
+	/* First, compare all three vertexes with all six face-planes */
 	/* If any vertex is inside the cube, return immediately!     */
 
 	if ((v1_test = face_plane(t.v1)) == INSIDE) return (INSIDE);
 	if ((v2_test = face_plane(t.v2)) == INSIDE) return (INSIDE);
 	if ((v3_test = face_plane(t.v3)) == INSIDE) return (INSIDE);
 
-	/* If all three vertexes were outside of one or more face-planes, */
+	/* If all three vertexes were outside one or more face-planes, */
 	/* return immediately with a trivial rejection!                   */
 
 	if ((v1_test & v2_test & v3_test) != 0) return (OUTSIDE);
@@ -230,10 +230,10 @@ long t_c_intersection(Triangle3 t) {
 
 	/* If vertex 1 and 2, as a pair, cannot be trivially rejected */
 	/* by the above tests, then see if the v1-->v2 triangle edge  */
-	/* intersects the cube.  Do the same for v1-->v3 and v2-->v3. */
-	/* Pass to the intersection algorithm the "OR" of the outcode */
+	/* Intersects the cube.  Do the same for v1-->v3 and v2-->v3. */
+	/* Pass to the intersection algorithm the "OR" of the outcome */
 	/* bits, so that only those cube faces which are spanned by   */
-	/* each triangle edge need be tested.                         */
+	/* each triangle edge needs be tested.                         */
 
 	if ((v1_test & v2_test) == 0)
 		if (check_line(t.v1, t.v2, v1_test | v2_test) == INSIDE) return (INSIDE);
@@ -243,7 +243,7 @@ long t_c_intersection(Triangle3 t) {
 		if (check_line(t.v2, t.v3, v2_test | v3_test) == INSIDE) return (INSIDE);
 
 	/* By now, we know that the triangle is not off to any side,     */
-	/* and that its sides do not penetrate the cube.  We must now    */
+	/* And that its sides do not penetrate the cube.  We must now    */
 	/* test for the cube intersecting the interior of the triangle.  */
 	/* We do this by looking for intersections between the cube      */
 	/* diagonals and the triangle...first finding the intersection   */
@@ -251,19 +251,19 @@ long t_c_intersection(Triangle3 t) {
 	/* then if that intersection is inside the cube, pursuing        */
 	/* whether the intersection point is inside the triangle itself. */
 
-	/* To find plane of the triangle, first perform crossproduct on  */
+	/* To find the plane of the triangle, first perform crossproduct on  */
 	/* two triangle side vectors to compute the normal vector.       */
 
-	SUB(t.v1, t.v2, vect12);
-	SUB(t.v1, t.v3, vect13);
+	SUB(t.v1, t.v2, vect12)
+	SUB(t.v1, t.v3, vect13)
 	CROSS(vect12, vect13, norm)
 
-	/* The normal vector "norm" X,Y,Z components are the coefficients */
-	/* of the triangles AX + BY + CZ + D = 0 plane equation.  If we   */
+	/* The normal vector "norm" X, Y, Z components are the coefficients */
+	/* of the triangles AX + BY + CZ + D = 0 plane equation. if we    */
 	/* solve the plane equation for X=Y=Z (a diagonal), we get        */
 	/* -D/(A+B+C) as a metric of the distance from cube center to the */
-	/* diagonal/plane intersection.  If this is between -0.5 and 0.5, */
-	/* the intersection is inside the cube.  If so, we continue by    */
+	/* Diagonal/plane intersection.  If this is between -0.5 and 0.5, */
+	/* the intersection is inside the cube.  if so, we continue by    */
 	/* doing a point/triangle intersection.                           */
 	/* Do this for all four diagonals.                                */
 
@@ -309,7 +309,7 @@ void Voxel::getBoundingBox(AABB& aabbOut, const Triangle3& t) {
 }
 
 bool Voxel::intersects(const Vec3& voxel, const Triangle3& triangle) {
-	// i hope this gets optimized
+	// I hope this gets optimized
 	Triangle3 triMutated = {
 		{triangle.v1.x - voxel.x - 0.5f, triangle.v1.y - voxel.y - 0.5f, triangle.v1.z - voxel.z - 0.5f}, 
 		{triangle.v2.x - voxel.x - 0.5f, triangle.v2.y - voxel.y - 0.5f, triangle.v2.z - voxel.z - 0.5f}, 

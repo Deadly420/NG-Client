@@ -333,7 +333,7 @@ void DrawUtils::drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, b
 				}
 			}
 
-			// Follow outer line
+			// Follow the outer line
 			std::vector<int> indices;
 
 			auto current = start;
@@ -418,7 +418,7 @@ void DrawUtils::drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth,
 		}
 	}
 
-	// Follow outer line
+	// Follow the outer line
 	std::vector<int> indices;
 
 	auto current = start;
@@ -750,22 +750,22 @@ void DrawUtils::drawBox3d(const Vec3& lower, const Vec3& upper, float scale, boo
 	tess_vertex(myTess, n.x, n.y, n.z);
 
 	// Top square
-	line(vertices[4], vertices[5]);
-	line(vertices[5], vertices[7]);
-	line(vertices[7], vertices[6]);
-	line(vertices[6], vertices[4]);
+	line(vertices[4], vertices[5])
+	line(vertices[5], vertices[7])
+	line(vertices[7], vertices[6])
+	line(vertices[6], vertices[4])
 
 	// Bottom Square
-	line(vertices[0], vertices[1]);
-	line(vertices[1], vertices[3]);
-	line(vertices[3], vertices[2]);
-	line(vertices[2], vertices[0]);
+	line(vertices[0], vertices[1])
+	line(vertices[1], vertices[3])
+	line(vertices[3], vertices[2])
+	line(vertices[2], vertices[0])
 
 	// Sides
-	line(vertices[0], vertices[4]);
-	line(vertices[1], vertices[5]);
-	line(vertices[2], vertices[6]);
-	line(vertices[3], vertices[7]);
+	line(vertices[0], vertices[4])
+	line(vertices[1], vertices[5])
+	line(vertices[2], vertices[6])
+	line(vertices[3], vertices[7])
 
 #undef line
 	
@@ -809,22 +809,22 @@ void DrawUtils::drawBox3dFilled(const Vec3& lower, const Vec3& upper, float scal
 	tess_vertex(myTess, n.x, n.y, n.z);
 
 	// Top square
-	line(vertices[4], vertices[5]);
-	line(vertices[5], vertices[7]);
-	line(vertices[7], vertices[6]);
-	line(vertices[6], vertices[4]);
+	line(vertices[4], vertices[5])
+	line(vertices[5], vertices[7])
+	line(vertices[7], vertices[6])
+	line(vertices[6], vertices[4])
 
 	// Bottom Square
-	line(vertices[0], vertices[1]);
-	line(vertices[1], vertices[3]);
-	line(vertices[3], vertices[2]);
-	line(vertices[2], vertices[0]);
+	line(vertices[0], vertices[1])
+	line(vertices[1], vertices[3])
+	line(vertices[3], vertices[2])
+	line(vertices[2], vertices[0])
 
 	// Sides
-	line(vertices[0], vertices[4]);
-	line(vertices[1], vertices[5]);
-	line(vertices[2], vertices[6]);
-	line(vertices[3], vertices[7]);
+	line(vertices[0], vertices[4])
+	line(vertices[1], vertices[5])
+	line(vertices[2], vertices[6])
+	line(vertices[3], vertices[7])
 
 #undef line
 	meshHelper_renderImm(game3dContext, myTess, onUi ? uiMaterial : blendMaterial);

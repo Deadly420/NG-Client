@@ -1,7 +1,6 @@
 #include "Item.h"
 
 #include "../Memory/GameData.h"
-#include "../Utils/Utils.h"
 #include "Tag.h"
 
 BaseActorRenderContext::BaseActorRenderContext(ScreenContext *ScreenCtx, ClientInstance *client, MinecraftGame *game) {

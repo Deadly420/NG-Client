@@ -3,8 +3,6 @@
 #include "../../../Utils/Target.h"
 #include "../../FriendList/FriendsManager.h"
 
-
-
 ESP::ESP() : Module(0x0, Category::RENDER, "Makes it easier to find entities around you") {
 	registerBoolSetting("rainbow", &doRainbow, doRainbow);
 	registerBoolSetting("MobEsp", &isMobEsp, isMobEsp);

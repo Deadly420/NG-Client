@@ -1,6 +1,6 @@
 #include "SlimMem.h"
 #include <windows.h>
-#include <tlhelp32.h>\
+#include <tlhelp32.h>
 
 inline bool IsProcessHandleValid(HANDLE h) { return h > (void*)0 && h != INVALID_HANDLE_VALUE; };
 inline bool IsHandleValid(HANDLE h) { return h != INVALID_HANDLE_VALUE; }

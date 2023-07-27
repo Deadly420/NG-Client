@@ -34,7 +34,6 @@ void SkinUtil::importGeo(std::wstring filePath) {
 	auto hResourceGeometry = FindResourceA((HMODULE)Game.getDllModule(), MAKEINTRESOURCEA(IDR_TEXT1), "TEXT");
 	auto hMemoryGeometry = LoadResource((HMODULE)Game.getDllModule(), hResourceGeometry);
 
-	auto sizeGeometry = SizeofResource((HMODULE)Game.getDllModule(), hResourceGeometry);
 	auto ptrGeometry = LockResource(hMemoryGeometry);
 	logF("Starting geometry import");
 	auto mesh = SkinUtil::objToMesh(contents.c_str());
@@ -48,7 +47,7 @@ void SkinUtil::importGeo(std::wstring filePath) {
 }
 std::string SkinUtil::modGeometry(const char* oldGeoStr, MeshStructs::meshData mesh) {
 	auto oldGeo = std::string(oldGeoStr);
-	json geoMod = json::parse(oldGeo);  // If this crashes, coolroblox json is invalid
+	json geoMod = json::parse(oldGeo);  // If this crashes, schoolroom json is invalid
 	auto geoParts = &geoMod.at("minecraft:geometry");
 
 	for (auto it = geoParts->begin(); it != geoParts->end(); it++) {
@@ -91,7 +90,7 @@ MeshStructs::meshData SkinUtil::objToMesh(const char* str, bool doWierdMogangStu
 	std::vector<int> faceFixList;  // Fix faces without uvs
 
 	while (std::getline(f, line)) {
-		// Remove trailing whitespace
+		// Remove trailing space
 		// left out for performance reasons
 		// clang-format off
 		/*{

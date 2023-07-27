@@ -204,7 +204,7 @@ void Hooks::Init() {
 			}
 		} else logF("MoveTurnInput is null");
 
-		//The reason im using a sig is that injecting on the menu causes LocalPlayer to be null, so I cant get the vtable from just doing Game.getLocalPlayer(). Same with Gamemode bc i get that from local player.
+		//The reason im using a sig is that injecting on the menu causes LocalPlayer to be null, so I cant get the vtable from just doing Game.getLocalPlayer(). Same with Game mode bc I get that from local player.
 		// LocalPlayer::vtable
 		{
 			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8d 05 ? ? ? ? 48 89 01 48 8b 89 ? ? ? ? 48 8b 01 ff 90 ? ? ? ? 48 8b 10", 3);
@@ -482,7 +482,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 						"Changelogs: \n"
 						"[-] HoleESP\n"
 						"[+] FastBow\n"
-						"[+] MinDelay/MaxDelay to Killaura\n"
+						"[+] MinDelay/MaxDelay to Kill-aura\n"
 						"[+] MinDelay/MaxDelay to TriggerBot\n"
 						"[+] MinDelay/MaxDelay to AutoClicker\n\n"
 						// Credits
@@ -596,7 +596,7 @@ float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, 
 				rcolors[3] = 1;
 			}
 
-			Utils::ColorConvertRGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);  // perfect code, dont question this
+			Utils::ColorConvertRGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);  // perfect code, don't question this
 
 			rcolors[0] += rainbowSkyMod->intensity;
 			if (rcolors[0] >= 1) {
@@ -614,7 +614,7 @@ float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, 
 				currColor[3] = 1;
 			}
 
-			Utils::ColorConvertRGBtoHSV(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);  // perfect code, dont question this
+			Utils::ColorConvertRGBtoHSV(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);  // perfect code, don't question this
 
 			currColor[0] += rainbowSkyMod->intensity;
 			if (currColor[0] >= 1) {
@@ -698,7 +698,7 @@ void Hooks::PleaseAutoComplete(__int64 a1, __int64 a2, TextHolder* text, int a4)
 	static auto oAutoComplete = g_Hooks.PleaseAutoCompleteHook->GetFastcall<void, __int64, __int64, TextHolder*, int>();
 	char* tx = text->getText();
 	if (tx != nullptr && text->getTextLength() >= 1 && tx[0] == '.') {
-		std::string search = tx + 1;                                              // Dont include the '.'
+		std::string search = tx + 1;                                              // Don't include the '.'
 		std::transform(search.begin(), search.end(), search.begin(), ::tolower);  // make the search text lowercase
 
 		struct LilPlump {
@@ -1217,7 +1217,7 @@ __int64 Hooks::ConnectionRequest_create(__int64 _this, __int64 privateKeyManager
 		newSkinData->skinSize = sizeSteve;
 
 		auto texOverride = Game.getCustomTextureOverride();
-		auto texture = std::get<1>(texOverride);  // Put it here so it won't go out of scope until after it has been used
+		auto texture = std::get<1>(texOverride);  // Put it here, so it won't go out of scope until after it has been used
 		if (std::get<0>(texOverride)) {           // Enabled
 			newSkinData->skinData = std::get<0>(*texture.get()).get();
 			newSkinData->skinSize = std::get<1>(*texture.get());
@@ -1304,7 +1304,7 @@ GamerTextHolder* Hooks::toStyledString(__int64 strIn, GamerTextHolder* strOut) {
 
 	static auto conRequest = reinterpret_cast<__int64>(g_Hooks.ConnectionRequest_createHook->funcPtr);
 	if (reinterpret_cast<__int64>(_ReturnAddress()) > conRequest && reinterpret_cast<__int64>(_ReturnAddress()) < conRequest + 10000 && overrideStyledReturn) {
-		// Return address is within boundaries of connection request function
+		// Return address is within the boundaries of connection request function
 
 		strOut->copyFrom(&styledReturnText);
 
@@ -1462,21 +1462,21 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 	if (window == NULL) {
 		logF("Failed to get Window HWND by name!");
 		goto out;
-	};
+	}
 	if (SUCCEEDED(ppSwapChain->GetDevice(IID_PPV_ARGS(&d3d11Device)))) {
 		deviceType = ID3D_Device_Type::D3D11;
 	} else if (SUCCEEDED(ppSwapChain->GetDevice(IID_PPV_ARGS(&d3d12Device)))) {
 		deviceType = ID3D_Device_Type::D3D12;
-	};
+	}
 	if (deviceType == ID3D_Device_Type::INVALID_DEVICE_TYPE) {
 		logF("Failed to get device!");
 		goto out;
-	};
+	}
 	if (deviceType == ID3D_Device_Type::D3D11) {
 		if (!initContext) {
 			ImGui::CreateContext();
 			initContext = true;
-		};
+		}
 		ID3D11DeviceContext* ppContext = nullptr;
 		d3d11Device->GetImmediateContext(&ppContext);
 		ID3D11Texture2D* pBackBuffer;
@@ -1505,7 +1505,11 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		ppSwapChain->GetDesc(&sdesc);
 		sdesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 		sdesc.OutputWindow = window;
-		sdesc.Windowed = ((GetWindowLongPtr(window, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
+		if ((GetWindowLongPtr(window, GWL_STYLE) & WS_POPUP) != 0) {
+			sdesc.Windowed = false;
+		} else {
+			sdesc.Windowed = true;
+		}
 		buffersCounts = sdesc.BufferCount;
 		frameContext = new FrameContext[buffersCounts];
 		D3D12_DESCRIPTOR_HEAP_DESC descriptorImGuiRender = {};
@@ -1519,7 +1523,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 			return false;
 		for (size_t i = 0; i < buffersCounts; i++) {
 			frameContext[i].commandAllocator = allocator;
-		};
+		}
 		if (d3d12Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator, NULL, IID_PPV_ARGS(&d3d12CommandList)) != S_OK ||
 			d3d12CommandList->Close() != S_OK)
 			return false;
@@ -1540,7 +1544,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 			frameContext[i].main_render_target_resource = pBackBuffer;
 			rtvHandle.ptr += rtvDescriptorSize;
 			pBackBuffer->Release();
-		};
+		}
 		if (!initContext) {
 			ImGui_ImplWin32_Init(window);
 			ImGui_ImplDX12_Init(d3d12Device, buffersCounts,
@@ -1549,7 +1553,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 								d3d12DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
 								d3d12DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
 			initContext = true;
-		};
+		}
 		if (d3d12CommandQueue == nullptr)
 			goto out;
 		ImGui_ImplDX12_NewFrame();
@@ -1587,11 +1591,11 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		currentFrameContext.commandAllocator->Release();
 		d3d12Device->Release();
 		delete frameContext;
-	};
+	}
 	goto out;
 out:
 	return oPresentD3D12(ppSwapChain, syncInterval, flags);
-};
+}
 
 typedef void(__thiscall* ExecuteCommandListsD3D12)(ID3D12CommandQueue*, UINT, ID3D12CommandList*);
 ExecuteCommandListsD3D12 oExecuteCommandListsD3D12;
@@ -1601,7 +1605,7 @@ void hookExecuteCommandListsD3D12(ID3D12CommandQueue* queue, UINT NumCommandList
 		d3d12CommandQueue = queue;
 
 	oExecuteCommandListsD3D12(queue, NumCommandLists, ppCommandLists);
-};
+}
 
 void Hooks::InitImGui() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success)

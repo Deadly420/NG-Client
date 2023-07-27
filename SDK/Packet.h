@@ -192,7 +192,7 @@ public:
 	char windowId1;           // 0xC1  DONT USE FOR PACKET SENDING
 	char inventorySlot1;      // 0xC2
 	char hotbarSlot1;         // 0xC3
-	char windowId2;           // 0xC4 ALL OF THIS IS PROBABLY BROKEN, DONT USE
+	char windowId2;           // 0xC4 ALL OF THIS IS PROBABLY BROKEN, DON'T USE
 	char unknown1;
 };
 
@@ -263,10 +263,10 @@ public:
 class MobEffectPacket : public Packet {
 public:
 	MobEffectPacket();
-	MobEffectPacket(__int64 entityRuntimeId, char event, int effectId, int amplifier, bool showParticles, int duration);  // showparticles and duration might be a in a different order
+	MobEffectPacket(__int64 entityRuntimeId, char event, int effectId, int amplifier, bool showParticles, int duration);  // showparticles and duration might be an in a different order
 
 	__int64 eid;
-	char event; // 0: None 1 : Add 2 : Modify 3 : Remove
+	char event; // 0: None 1: Add 2: Modify 3: Remove
 	int effectId;
 	int amplifier;
 	bool showParticles;
