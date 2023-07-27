@@ -1,13 +1,19 @@
 #include "GuiUtils.h"
 
 void GuiUtils::drawCrossLine(Vec2 pos, Mc_Color col, float lineWidth, float crossSize, bool secondCross) {
-	crossSize /= 2;
-	DrawUtils::setColor(col.r, col.g, col.b, col.a);
-	//float MidX = (pos.z + pos.x) / 2;
-	//float MidY = (pos.y + pos.w) / 2;
-	DrawUtils::drawLine(Vec2(pos.x - crossSize, pos.y), Vec2(pos.x + crossSize, pos.y), lineWidth);
-	if (secondCross)
-		DrawUtils::drawLine(Vec2(pos.x, pos.y - crossSize), Vec2(pos.x, pos.y + crossSize), lineWidth);
+    crossSize /= 2;
+    DrawUtils::setColor(col.r, col.g, col.b, col.a);
+    
+    Vec2 horizontalStart(pos.x - crossSize, pos.y);
+    Vec2 horizontalEnd(pos.x + crossSize, pos.y);
+    Vec2 verticalStart(pos.x, pos.y - crossSize);
+    Vec2 verticalEnd(pos.x, pos.y + crossSize);
+    
+    DrawUtils::drawLine(horizontalStart, horizontalEnd, lineWidth);
+    
+    if (secondCross) {
+        DrawUtils::drawLine(verticalStart, verticalEnd, lineWidth);
+    }
 }
 
 void GuiUtils::drawUpArrow(Vec2 pos, Mc_Color col, float lineWidth, float arrowSize) {
