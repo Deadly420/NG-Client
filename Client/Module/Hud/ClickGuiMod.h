@@ -4,19 +4,20 @@
 
 class ClickGuiMod : public Module {
 public:
-	SettingEnum mode = SettingEnum(this);
 	int Opacity = 0;
 	bool showTooltips = true;
+	bool resetStartPos = false;
+	SettingEnum mode = SettingEnum(this);
 
 	ClickGuiMod();
 	~ClickGuiMod();
 
 	// Inherited via Module
-	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
-	virtual const char* getModuleName() override;
-	virtual void onDisable() override;
 	virtual void onEnable() override;
+	virtual void onDisable() override;
 	virtual bool allowAutoStart() override;
+	virtual const char* getModuleName() override;
 	virtual void onLoadConfig(void* conf) override;
 	virtual void onSaveConfig(void* conf) override;
+	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 };

@@ -115,6 +115,7 @@ void NewUI::onImGuiRender() {
 	auto ViewModelMod = moduleMgr->getModule<ViewModel>();
 	auto NoHurtCamMod = moduleMgr->getModule<NoHurtcam>();
 	auto NightModeMod = moduleMgr->getModule<NightMode>();
+	auto TargetHUDMod = moduleMgr->getModule<TargetHUD>();
 	auto NameTagsMod = moduleMgr->getModule<NameTags>();
 	auto FreelookMod = moduleMgr->getModule<Freelook>();
 	auto CompassMod = moduleMgr->getModule<Compass>();
@@ -225,6 +226,7 @@ void NewUI::onImGuiRender() {
 			TimeChangerMod->setEnabled(toggleModState(TimeChangerMod->isEnabled(), "TimeChanger (ON)", "TimeChanger (OFF)"));
 			StorageESPMod->setEnabled(toggleModState(StorageESPMod->isEnabled(), "Storage-ESP (ON)", "Storage-ESP (OFF)"));
 			FullBrightMod->setEnabled(toggleModState(FullBrightMod->isEnabled(), "FullBright (ON)", "FullBright (OFF)"));
+			TargetHUDMod->setEnabled(toggleModState(TargetHUDMod->isEnabled(), "TargetHUD (ON)", "TargetHUD (OFF)"));
 			CustomSkyMod->setEnabled(toggleModState(CustomSkyMod->isEnabled(), "CustomSky (ON)", "CustomSky (OFF)"));
 			WaypointsMod->setEnabled(toggleModState(WaypointsMod->isEnabled(), "Waypoints (ON)", "Waypoints (OFF)"));
 			NoHurtCamMod->setEnabled(toggleModState(NoHurtCamMod->isEnabled(), "NoHurtCam (ON)", "NoHurtCam (OFF)"));

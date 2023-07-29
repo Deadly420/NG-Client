@@ -6,11 +6,11 @@
 ESP::ESP() : Module(0x0, Category::RENDER, "Makes it easier to find entities around you") {
 	registerBoolSetting("rainbow", &doRainbow, doRainbow);
 	registerBoolSetting("MobEsp", &isMobEsp, isMobEsp);
-	registerBoolSetting("ItemEsp", &item, item);
+	// registerBoolSetting("ItemEsp", &item, item);
 
 	registerEnumSetting("Mode", &mode, 0);
 	mode.addEntry("2D", 0);
-	mode.addEntry("Better", 1);
+	mode.addEntry("3D", 1);
 }
 
 ESP::~ESP() {
@@ -40,18 +40,23 @@ void doRenderStuff(Entity* ent, bool isRegularEntitie) {
 			DrawUtils::setColor(0.9f, 0.9f, 0.9f, (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
 	} else if (espMod->isMobEsp) {
 
-		if (ent->getNameTag()->getTextLength() <= 1 && ent->getEntityTypeId() == 63)
+		if (ent->getNameTag()->getTextLength() <= 1 && ent->getEntityTypeId() == 64)
 			return;
 
 		if (ent->isInvisible() || !localPlayer->canAttack(ent, false))
+			return;
+
+		if (ent == Game.getLocalPlayer())
 			return;
 
 		if (espMod->doRainbow)
 			DrawUtils::setColor(rcolors[0], rcolors[1], rcolors[2], (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
 		else
 			DrawUtils::setColor(0.9f, 0.9f, 0.9f, (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
-	} else
+	} else {
 		return;
+	}
+
 	if (Game.canUseMoveKeys() && Game.isInGame()) {
 		if (espMod->mode.selected == 0)
 			DrawUtils::drawZephyr(ent, (float)fmax(0.4f, 1 / (float)fmax(1, localPlayer->eyePos0.dist(ent->eyePos0) * 3.f)));

@@ -479,12 +479,13 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					text.y += 15.0f;
 					string =
 						// Changelogs
-						"Changelogs: \n"
-						"[-] HoleESP\n"
-						"[+] FastBow\n"
-						"[+] MinDelay/MaxDelay to Kill-aura\n"
+						"Changelogs:\n"
+						"[+] MinDelay/MaxDelay to AutoClicker\n"
 						"[+] MinDelay/MaxDelay to TriggerBot\n"
-						"[+] MinDelay/MaxDelay to AutoClicker\n\n"
+						"[+] MinDelay/MaxDelay to Kill-aura\n"
+						"[+] TargetHUD\n"
+						"[+] FastBow\n"
+						"[-] HoleESP\n\n"
 						// Credits
 						"Credits:\n"
 						"DeadtrosGaming\n"

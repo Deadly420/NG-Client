@@ -212,6 +212,7 @@
     <ClCompile Include="Client\Module\Entity\EntitySpeed.cpp" />
     <ClCompile Include="Client\Module\Entity\EntitySpider.cpp" />
     <ClCompile Include="Client\Module\Hud\Newui.cpp" />
+    <ClCompile Include="Client\Module\Render\TargetHUD.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
     <ClCompile Include="include\imgui\imgui_demo.cpp" />
@@ -391,6 +392,7 @@
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Player\XP.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
+    <ClInclude Include="Client\Module\Render\TargetHUD.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="Utils\Base64.h" />

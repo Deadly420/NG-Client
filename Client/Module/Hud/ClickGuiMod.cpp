@@ -6,6 +6,7 @@ ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggl
 	mode.addEntry("New", 0);
 	mode.addEntry("Old", 1);
 
+	registerBoolSetting("Reset On Inject", &resetStartPos, resetStartPos);
 	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
 }
 

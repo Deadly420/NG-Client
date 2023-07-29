@@ -55,7 +55,7 @@ void HudModule::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	{  // Coordinates
 		if (!(Game.getLocalPlayer() == nullptr || !coordinates)) {
 			Vec3* pos = Game.getLocalPlayer()->getPos();
-			std::string coords = std::string("X: ") + std::to_string((int)floorf(pos->x)) + std::string("\nY: ") + std::to_string((int)floorf(pos->y)) + std::string("\nZ: ") + std::to_string((int)floorf(pos->z));
+			std::string coords = std::string("X: ") + std::to_string((int)floorf(pos->x)) + std::string("Y: ") + std::to_string((int)floorf(pos->y)) + std::string("Z: ") + std::to_string((int)floorf(pos->z));
 			
 			Vec4 rectPos = Vec4(2.5f, startY + 5.f * scale, len, startY + 35.f * scale);
 			Vec2 textPos = Vec2(rectPos.x + 1.5f, rectPos.y + 1.f);

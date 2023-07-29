@@ -3,7 +3,6 @@
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
-bool resetStartPos = true;
 bool initialised = false;
 int scrollingDirection = 0;
 
@@ -121,12 +120,13 @@ void ClickGui::renderTooltip(std::string* text) {
 }
 
 void ClickGui::renderCategory(Category category) {
+	static auto clickGuiMod = moduleMgr->getModule<ClickGuiMod>();
 	const char* categoryName = ClickGui::catToName(category);
 
 	const std::shared_ptr<ClickWindow> ourWindow = getWindow(categoryName);
 
 	// Reset Windows to pre-set positions to avoid confusion
-		if (resetStartPos) {
+	if (clickGuiMod->resetStartPos) {
 			float yot = Game.getGuiData()->windowSize.x;
 			ourWindow->pos.y = 4;
 			switch (category) {
@@ -494,7 +494,7 @@ void ClickGui::renderCategory(Category category) {
 										// Background
 										const bool areWeFocused = rect.contains(&mousePos);
 
-										DrawUtils::drawRectangle(rectPos, whiteColor, 1.f, backgroundAlpha);       // Slider background
+										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);       // Slider background
 										DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);  // Background
 
 										const float minValue = setting->minValue->_float;
@@ -780,7 +780,7 @@ void ClickGui::render() {
 
 	DrawUtils::shouldToggleLeftClick = false;
 	DrawUtils::shouldToggleRightClick = false;
-	resetStartPos = false;
+	clickGuiMod->resetStartPos = false;
 
 	DrawUtils::flush();
 }

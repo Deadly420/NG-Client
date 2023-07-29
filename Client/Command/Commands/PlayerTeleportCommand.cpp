@@ -33,6 +33,10 @@ bool PlayerTeleportCommand::execute(std::vector<std::string>* args) {
 		if (currentEntity == nullptr)
 			break;
 
+		// Perform a null check on getNameTag()
+		if (currentEntity->getNameTag() == nullptr)
+			continue;
+
 		std::string name(currentEntity->getNameTag()->getText());
 		std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 

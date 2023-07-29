@@ -37,7 +37,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 	auto hudMod = moduleMgr->getModule<HudModule>();
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
-	auto arrayList = moduleMgr->getModule<Arraylist>();
 
 	static constexpr bool isOnRightSide = true;
 	int arrayListX = X;
@@ -91,7 +90,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
-				
+
 				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 				if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 			}
