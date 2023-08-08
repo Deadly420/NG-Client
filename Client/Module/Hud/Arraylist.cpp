@@ -109,7 +109,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			Y = 0;
 		}
 
-		auto lock = moduleMgr->lockModuleList();
 		vector<shared_ptr<Module>>* moduleList = moduleMgr->getModuleList();
 		for (auto mod : *moduleList) {
 			if (mod.get() != hudMod)

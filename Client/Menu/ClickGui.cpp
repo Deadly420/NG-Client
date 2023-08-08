@@ -3,6 +3,7 @@
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
+bool resetStartPos = true;
 bool initialised = false;
 int scrollingDirection = 0;
 
@@ -25,6 +26,7 @@ static constexpr float textPaddingX = 2.4f;
 static constexpr float textPaddingY = 1.4f;
 
 static constexpr float textSize = 0.75f;
+static constexpr float categorytextSize = 0.85f;
 static constexpr float textHeight = textSize * 10.0f;
 static constexpr float categoryMargin = 0.5f;
 static constexpr float paddingRight = 13.5f;
@@ -126,7 +128,7 @@ void ClickGui::renderCategory(Category category) {
 	const std::shared_ptr<ClickWindow> ourWindow = getWindow(categoryName);
 
 	// Reset Windows to pre-set positions to avoid confusion
-	if (clickGuiMod->resetStartPos || !clickGuiMod->resetStartPos) {
+	if (resetStartPos) {
 			float yot = Game.getGuiData()->windowSize.x;
 			ourWindow->pos.y = 4;
 			switch (category) {
@@ -715,7 +717,7 @@ void ClickGui::renderCategory(Category category) {
 			// Draw Text
 			std::string textStr = categoryName;
 			auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
-			DrawUtils::drawText(textPos, &textStr, whiteColor, textSize);
+			DrawUtils::drawTextShadow(textPos, &textStr, whiteColor, categorytextSize, 1.f, Fonts::SMOOTH, true);
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
 			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
 			
@@ -780,7 +782,7 @@ void ClickGui::render() {
 
 	DrawUtils::shouldToggleLeftClick = false;
 	DrawUtils::shouldToggleRightClick = false;
-	clickGuiMod->resetStartPos = false;
+	resetStartPos = false;
 
 	DrawUtils::flush();
 }

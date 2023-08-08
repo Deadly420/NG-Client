@@ -238,6 +238,25 @@ void DrawUtils::drawText(const Vec2& pos, std::string* textStr, const Mc_Color& 
 	renderCtx->drawText(fontPtr, posF, &text, color.arr, alpha, 0, &textMeasure, &caretMeasureData);
 }
 
+void DrawUtils::drawTextShadow(const Vec2& pos, std::string* textStr, const Mc_Color& color, float textSize, float alpha, Fonts font, bool drawShadow) {
+	TextHolder text(*textStr);
+	Font* fontPtr = getFont(font);
+	static uintptr_t caretMeasureData = 0xFFFFFFFF;
+
+	float posF[4];  // Vec4(startX, startY, endX, endY);
+	posF[0] = pos.x;
+	posF[1] = pos.x + 1000;
+	posF[2] = pos.y - 1;
+	posF[3] = pos.y + 1000;
+
+	TextMeasureData textMeasure{};
+	memset(&textMeasure, 0, sizeof(TextMeasureData));
+	textMeasure.textSize = textSize;
+	textMeasure.displayShadow = drawShadow;
+
+	renderCtx->drawText(fontPtr, posF, &text, color.arr, alpha, 0, &textMeasure, &caretMeasureData);
+}
+
 void DrawUtils::drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill, int mode) {
 	// Calculate the dimensions of the box
 	Vec3 diff = upper.sub(lower);

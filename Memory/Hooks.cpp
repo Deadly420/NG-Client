@@ -471,7 +471,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					std::string string;
 
 					string = "NG Client";
-					DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
+					DrawUtils::drawTextShadow(text, &string, white, 2.0f, 1.0f, Fonts::SMOOTH, true);
 
 					text.y += 18.0f;
 					string = "Version: 1.18.31.4";

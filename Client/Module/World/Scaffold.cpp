@@ -7,7 +7,7 @@
 uintptr_t HiveBypass1 = Utils::getBase() + 0x8F3895;  // Second one of 89 41 ? 0F B6 42 ? 88 41 ? F2 0F 10 42 ? F2 0F 11 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 48 83 C2 ? 89 41 ? 48 83 C1 ? E8 ? ? ? ? 0F B6 43
 uintptr_t HiveBypass2 = Utils::getBase() + 0x8F87C7;  // C7 40 ? ? ? ? ? 48 8B 8D ? ? ? ? 48 33 CC E8 ? ? ? ? 4C 8D 9C 24
 
-Scaffold::Scaffold() : Module(VK_NUMPAD1, Category::WORLD, "Automatically build blocks beneath you") {
+Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
 	registerBoolSetting("AutoSelect", &autoSelect, autoSelect);
 	registerBoolSetting("Down", &down, down);
 	registerBoolSetting("Highlight", &highlight, highlight);
@@ -154,30 +154,27 @@ bool Scaffold::findBlock() {
 }
 
 void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
+	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 	auto player = Game.getLocalPlayer();
 	if (player == nullptr || !Game.canUseMoveKeys()) {
 		return;
 	}
 
-	Vec4 testRect = Vec4(scX, scY, 25 + scX, scY + 16);
-	Vec2 textPos(testRect.x + 8, testRect.y + 8);
-	Vec2 blockPos(testRect.x + 5, testRect.y + 7);
+	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3));
 
 	if (Count) {
 		PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
 		Inventory* inv = supplies->inventory;
 		int totalCount = 0;
 
-		DrawUtils::fillRectangle(testRect, Mc_Color(0, 0, 0, 150), false);
 		for (int s = 0; s < 9; s++) {
 			ItemStack* stack = inv->getItemStack(s);
 			if (stack->item != nullptr && stack->getItem()->isBlock()) {
-				if (stack->isValid()) DrawUtils::drawItem(stack, Vec2(blockPos.x - 1, blockPos.y - 7), 1, 1, false);
 				totalCount += stack->count;
 			}
 		}
 
-		std::string count = std::to_string(totalCount);
+		std::string count = "Blocks Left: " + std::to_string(totalCount);
 		Mc_Color color = Mc_Color();
 		if (totalCount > 64) color = Mc_Color(255, 255, 255);
 		if (totalCount < 64) color = Mc_Color(255, 255, 20);
@@ -195,11 +192,10 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 	float speed = player->velocity.magnitudexz();
 	Vec3 velocity = player->velocity.normalize();
 
-	if (down) {
+	if (down)
 		handleScaffoldDown(player, speed, velocity);
-	} else {
+	else
 		handleScaffoldUp(player, speed, velocity);
-	}
 }
 
 void Scaffold::handleScaffoldDown(Player* player, float speed, const Vec3& velocity) {
