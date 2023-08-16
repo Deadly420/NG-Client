@@ -1,9 +1,7 @@
 #include "EntityJesus.h"
 
-int EntityJesusChrist = 0;
-
 EntityJesus::EntityJesus() : Module(0x0, Category::ENTITY, "Allows entities to walk on water and lava!") {
-	registerFloatSetting("Up-ness", &upness, upness, 0.01f, 1.00f);  // allows you to ajust your speed.
+	registerFloatSetting("Height", &upness, upness, 0.01f, 1.00f);
 }
 
 EntityJesus::~EntityJesus() {
@@ -23,7 +21,7 @@ void findBo(Entity* currentEntity, bool isRegularEntity) {
 		return;
 
 	int entityTypeId = currentEntity->getEntityTypeId();
-	// PIG: 4876, HORSE:2118423, DONKEY: 2118424, MULE: 2118425, BOAT: 90
+	// PIG: 4876, HORSE:2118423, DONKEY:2118424, MULE:2118425, BOAT:90
 	if (entityTypeId != 4876 && entityTypeId != 2118423 && entityTypeId != 2118424 && entityTypeId != 2118425 && entityTypeId != 90)
 		return;
 

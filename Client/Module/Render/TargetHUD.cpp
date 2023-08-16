@@ -57,7 +57,7 @@ void TargetHUD::onTick(GameMode* gm) {
 
 void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	std::sort(targetList3.begin(), targetList3.end(), CompareTargetEnArray());
-	if (!(Game.getLocalPlayer() == nullptr || !targetList3.empty())) {	
+	if (Game.getLocalPlayer() != nullptr && !targetList3.empty()) {	
 		// Atributes
 		AbsorptionAttribute attribute = AbsorptionAttribute();
 		HealthAttribute attribute2 = HealthAttribute();

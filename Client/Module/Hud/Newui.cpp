@@ -40,7 +40,6 @@ void NewUI::onImGuiRender() {
 	// Misc
 	auto OffhandAllowMod = moduleMgr->getModule<OffhandAllow>();
 	auto EditionFakerMod = moduleMgr->getModule<EditionFaker>();
-	auto VanillaPlusMod = moduleMgr->getModule<VanillaPlus>();  // Debug
 	auto TeleportMod = moduleMgr->getModule<Teleport>();
 	auto NoPacketMod = moduleMgr->getModule<NoPacket>();
 	auto SpammerMod = moduleMgr->getModule<Spammer>();
@@ -317,7 +316,6 @@ void NewUI::onImGuiRender() {
 		if (ImGui::CollapsingHeader("Misc")) {
 			OffhandAllowMod->setEnabled(toggleModState(OffhandAllowMod->isEnabled(), "Offhand Allow (ON)", "Offhand Allow (OFF)"));
 			EditionFakerMod->setEnabled(toggleModState(EditionFakerMod->isEnabled(), "Edition Faker (ON)", "Edition Faker (OFF)"));
-			VanillaPlusMod->setEnabled(toggleModState(VanillaPlusMod->isEnabled(), "Vanilla Plus (ON)", "Vanilla Plus (OFF)"));
 			TeleportMod->setEnabled(toggleModState(TeleportMod->isEnabled(), "Teleport (ON)", "Teleport (OFF)"));
 			NoPacketMod->setEnabled(toggleModState(NoPacketMod->isEnabled(), "No Packet (ON)", "No Packet (OFF)"));
 			SpammerMod->setEnabled(toggleModState(SpammerMod->isEnabled(), "Spammer (ON)", "Spammer (OFF)"));

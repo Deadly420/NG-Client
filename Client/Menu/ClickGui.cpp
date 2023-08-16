@@ -290,9 +290,9 @@ void ClickGui::renderCategory(Category category) {
 					}
 					if (clickguiMod->mode.selected == 0) {
 						if (!clickMod->isExtended)
-							GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize);
+							GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
 						else
-							GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize);
+							GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
 					} else {
 						GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !clickMod->isExtended);
 					}
@@ -724,11 +724,11 @@ void ClickGui::renderCategory(Category category) {
 			// Draw Dash
 			if (clickguiMod->mode.selected == 0) {
 				if (!ourWindow->isExtended)
-					GuiUtils::drawDownArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize);
+					GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
 				else
-					GuiUtils::drawUpArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize);
+					GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
 			} else {
-				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !ourWindow->isExtended);
+				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !ourWindow->isExtended);
 			}
 		}
 	}
