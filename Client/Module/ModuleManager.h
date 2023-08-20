@@ -78,6 +78,7 @@
 #include "Movement/Velocity.h"
 #include "Movement/HighJump.h"
 #include "Movement/AntiVoid.h"
+#include "Movement/BoatFly.h"
 #include "Movement/AirSwim.h"
 #include "Movement/AirJump.h"
 #include "Movement/Spider.h"

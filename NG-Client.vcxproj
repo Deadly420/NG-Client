@@ -215,6 +215,7 @@
     <ClCompile Include="Client\Module\Entity\EntitySpeed.cpp" />
     <ClCompile Include="Client\Module\Entity\EntitySpider.cpp" />
     <ClCompile Include="Client\Module\Hud\Newui.cpp" />
+    <ClCompile Include="Client\Module\Movement\BoatFly.cpp" />
     <ClCompile Include="Client\Module\Render\TargetHUD.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -398,6 +399,7 @@
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
     <ClInclude Include="Client\Module\Hud\Newui.h" />
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
+    <ClInclude Include="Client\Module\Movement\BoatFly.h" />
     <ClInclude Include="Client\Module\Player\XP.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\Render\TargetHUD.h" />

@@ -32,7 +32,7 @@ void GuiUtils::drawArrow(Vec2 pos, Mc_Color col, float lineWidth, float arrowSiz
 	if (isUpArrow) {
 		DrawUtils::drawTriangle(p1, p2, p3);
 	} else {
-		DrawUtils::drawTriangle(p1, p3, p2);  // Change the order of points for downward arrow
+		DrawUtils::drawTriangle(p1, p3, p2);
 	}
 }
 

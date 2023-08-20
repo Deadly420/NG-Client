@@ -104,6 +104,9 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new ESP());
 		moduleList.emplace_back(new XP());
 
+		//Movement
+		moduleList.emplace_back(new BoatFly());
+
 		//Entity
 		moduleList.emplace_back(new EntityLongJump());
 		moduleList.emplace_back(new EntitySpider());

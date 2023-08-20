@@ -352,11 +352,11 @@ void ClickGui::renderCategory(Category category) {
 									DrawUtils::drawRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f, 0.5f);
 
 									if (setting->value->_bool) {
-										DrawUtils::setColor(255, 255, 255, 1);
-										boxPos.x += 1;
-										boxPos.y += 1;
-										boxPos.z -= 1;
-										boxPos.w -= 1;
+										Vec4 boxPos = Vec4(
+										textPos.x + textPaddingX,
+										textPos.y + textPaddingY,
+										textPos.x + textPaddingX + boxHeight,
+										textPos.y + textPaddingY + boxHeight);
 
 										DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
 									}

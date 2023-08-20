@@ -21,9 +21,17 @@
 #include <unordered_map>
 #include <vector>
 
-// Libraries
+// Memory
 #include "Memory/MinHook.h"
 #include "Memory/SlimMem.h"
-#include "Utils/Json.hpp"
 
+// Utils
+#include "Utils/Base64.h"
+#include "Utils/ChakraHelper.h"
+#include "Utils/DllHelper.h"
+#include "Utils/HMath.h"
+#include "Utils/Json.hpp"
+#include "Utils/Logger.h"
+#include "Utils/TextFormat.h"
+#include "Utils/VoxelIntersector.h"
 #endif
