@@ -81,33 +81,34 @@ void Killaura::onTick(GameMode* gm) {
 	Game.forEachEntity(findEntity);
 
 	delay++;
-	if (!targetList.empty() && delay >= random(minD, maxD)) {
+	if (minD <= maxD) {
+		if (!targetList.empty() && delay >= random(minD, maxD)) {
+			if (autoweapon) findWeapon();
 
-		if (autoweapon) findWeapon();
+			if (Game.getLocalPlayer()->velocity.squaredxzlen() < 0.01) {
+				C_MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+				Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
+			}
 
-		if (Game.getLocalPlayer()->velocity.squaredxzlen() < 0.01) {
-			C_MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
-			Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
-		}
-
-		// Attack all entitys in targetList
-		if (isMulti) {
-			for (auto& i : targetList) {
-				if (!(i->damageTime > 1 && hurttime)) {
+			// Attack all entitys in targetList
+			if (isMulti) {
+				for (auto& i : targetList) {
+					if (!(i->damageTime > 1 && hurttime)) {
+						Game.getLocalPlayer()->swing();
+						Game.getGameMode()->attack(i);
+					}
+				}
+			} else {
+				if (!(targetList[0]->damageTime > 1 && hurttime)) {
 					Game.getLocalPlayer()->swing();
-					Game.getGameMode()->attack(i);
+					Game.getGameMode()->attack(targetList[0]);
 				}
 			}
-		} else {
-			if (!(targetList[0]->damageTime > 1 && hurttime)) {
-				Game.getLocalPlayer()->swing();
-				Game.getGameMode()->attack(targetList[0]);
+			if (rotations) {
+				angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
 			}
+			delay = 0;
 		}
-		if (rotations) {
-			angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
-		}
-		delay = 0;
 	}
 }
 
