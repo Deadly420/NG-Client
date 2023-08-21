@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Client/Module/Module.h"
+
 class EntityJesus : public Module {
 private:
 	bool wasInWater = false;

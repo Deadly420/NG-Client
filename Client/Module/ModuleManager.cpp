@@ -40,6 +40,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new StorageESP());
 		moduleList.emplace_back(new TriggerBot());
 		moduleList.emplace_back(new ViewModel());
+		moduleList.emplace_back(new ArmourHud());
 		moduleList.emplace_back(new Waypoints());
 		moduleList.emplace_back(new Arraylist());
 		moduleList.emplace_back(new NoHurtcam());
@@ -52,7 +53,6 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new BowAimbot());
 		moduleList.emplace_back(new Criticals());
 		moduleList.emplace_back(new TargetHUD());
-		moduleList.emplace_back(new HudModule());
 		moduleList.emplace_back(new Disabler());
 		moduleList.emplace_back(new FastStop());
 		moduleList.emplace_back(new Freelook());
@@ -133,7 +133,7 @@ void ModuleManager::initModules() {
 	}
 	
 	getModule<ClickGuiMod>()->setEnabled(false);
-	getModule<HudModule>()->setEnabled(true);
+	getModule<Arraylist>()->setEnabled(true);
 	getModule<AntiBot>()->setEnabled(true);
 }
 
@@ -153,7 +153,7 @@ void ModuleManager::onLoadConfig(void* confVoid) {
 	}
 
 	getModule<ClickGuiMod>()->setEnabled(false);
-	getModule<HudModule>()->setEnabled(true);
+	getModule<Arraylist>()->setEnabled(true);
 	getModule<AntiBot>()->setEnabled(true);
 }
 

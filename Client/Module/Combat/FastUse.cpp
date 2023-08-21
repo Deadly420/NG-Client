@@ -9,8 +9,8 @@ const char* FastUse::getModuleName() {
 	return "FastBow";
 }
 
-void FastUse::onTick(GameMode* gameMode) {
-	if (!gameMode) return;
+void FastUse::onTick(GameMode* gm) {
+	if (!gm) return;
 
 	auto player = Game.getLocalPlayer();
 	if (!player) return;
@@ -19,7 +19,7 @@ void FastUse::onTick(GameMode* gameMode) {
 		i++;
 
 		if (i >= charge) {
-			gameMode->releaseUsingItem();
+			gm->releaseUsingItem();
 			i = 0;
 		}
 	}

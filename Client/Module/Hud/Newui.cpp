@@ -119,7 +119,6 @@ void NewUI::onImGuiRender() {
 	auto FreelookMod = moduleMgr->getModule<Freelook>();
 	auto CompassMod = moduleMgr->getModule<Compass>();
 	auto TracerMod = moduleMgr->getModule<Tracer>();
-	auto HUDMod = moduleMgr->getModule<HudModule>();
 	auto RadarMod = moduleMgr->getModule<Radar>();
 	auto ZoomMod = moduleMgr->getModule<Zoom>();
 	auto XrayMod = moduleMgr->getModule<Xray>();
@@ -238,7 +237,6 @@ void NewUI::onImGuiRender() {
 			RadarMod->setEnabled(toggleModState(RadarMod->isEnabled(), "Radar (ON)", "Radar (OFF)"));
 			ZoomMod->setEnabled(toggleModState(ZoomMod->isEnabled(), "Zoom (ON)", "Zoom (OFF)"));
 			XrayMod->setEnabled(toggleModState(XrayMod->isEnabled(), "Xray (ON)", "Xray (OFF)"));
-			HUDMod->setEnabled(toggleModState(HUDMod->isEnabled(), "HUD (ON)", "HUD (OFF)"));
 			ESPMod->setEnabled(toggleModState(ESPMod->isEnabled(), "ESP (ON)", "ESP (OFF)"));
 			ImGui::Spacing();
 		}

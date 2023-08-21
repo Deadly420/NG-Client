@@ -275,7 +275,6 @@
     <ClCompile Include="Client\Module\Movement\Glide.cpp" />
     <ClCompile Include="Client\Module\Movement\HighJump.cpp" />
     <ClCompile Include="Client\Module\Combat\Hitbox.cpp" />
-    <ClCompile Include="Client\Module\Render\HudModule.cpp" />
     <ClCompile Include="Client\Module\Player\BlockReach.cpp" />
     <!--    <ClCompile Include="Horion\Module\Modules\InfiniteAura.cpp" /> -->
     <ClCompile Include="Client\Module\World\InstaBreak.cpp" />
@@ -401,6 +400,7 @@
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Movement\BoatFly.h" />
     <ClInclude Include="Client\Module\Player\XP.h" />
+    <ClInclude Include="Client\Module\Render\ArmourHud.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\Render\TargetHUD.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
@@ -455,7 +455,6 @@
     <ClInclude Include="Client\Module\Movement\Glide.h" />
     <ClInclude Include="Client\Module\Movement\HighJump.h" />
     <ClInclude Include="Client\Module\Combat\Hitbox.h" />
-    <ClInclude Include="Client\Module\Render\HudModule.h" />
     <ClInclude Include="Client\Module\Player\BlockReach.h" />
     <!--    <ClInclude Include="Horion\Module\Modules\InfiniteAura.h" /> -->
     <ClInclude Include="Client\Module\World\InstaBreak.h" />

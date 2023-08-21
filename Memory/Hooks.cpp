@@ -401,7 +401,6 @@ void Hooks::KeyMapHookCallback(unsigned char key, bool isDown) {
 
 __int64 Hooks::UIScene_render(UIScene* uiscene, __int64 screencontext) {
 	static auto oRender = g_Hooks.UIScene_renderHook->GetFastcall<__int64, UIScene*, __int64>();
-	static auto hudModule = moduleMgr->getModule<HudModule>();
 
 	g_Hooks.shouldRender = false;
 
@@ -417,8 +416,7 @@ __int64 Hooks::UIScene_render(UIScene* uiscene, __int64 screencontext) {
 	alloc.alignedTextLength = 0;
 
 	if (!g_Hooks.shouldRender) {
-		if (hudModule && !hudModule->alwaysShow)
-			g_Hooks.shouldRender = (!strcmp(g_Hooks.currentScreenName, "hud_screen") || !strcmp(g_Hooks.currentScreenName, "start_screen"));
+		g_Hooks.shouldRender = (!strcmp(g_Hooks.currentScreenName, "hud_screen") || !strcmp(g_Hooks.currentScreenName, "start_screen"));
 	}
 
 	return oRender(uiscene, screencontext);
@@ -434,7 +432,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 		if (GameData::shouldHide() || !moduleMgr->isInitialized() || !g_Hooks.shouldRender)
 			return oText(a1, renderCtx);
 
-		static auto hudModule = moduleMgr->getModule<HudModule>();
 		static auto clickGuiModule = moduleMgr->getModule<ClickGuiMod>();
 
 		NG_Gui.startFrame();
@@ -451,8 +448,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 		bool shouldPostRender = true;
 		bool shouldRenderArrayList = true;
-		bool shouldRenderTabGui = true;
-		bool shouldRenderWatermark = true;
 		Mc_Color color = ColorUtil::getRainbowColor(3, 0.5f, 1, 1);
 
 		{
@@ -499,13 +494,9 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 				}
 			} else {
-				shouldRenderWatermark = hudModule->watermark && hudModule->isEnabled();
-
 				if (clickGuiModule->isEnabled()) {
 					ClickGui::render();
 					shouldPostRender = false;
-					shouldRenderTabGui = false;
-					shouldRenderWatermark = false;
 				}
 			}
 		}

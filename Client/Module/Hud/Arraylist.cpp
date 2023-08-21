@@ -35,7 +35,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 
-	auto hudMod = moduleMgr->getModule<HudModule>();
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
 
 	static constexpr bool isOnRightSide = true;
@@ -111,9 +110,8 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 		vector<shared_ptr<Module>>* moduleList = moduleMgr->getModuleList();
 		for (auto mod : *moduleList) {
-			if (mod.get() != hudMod)
-				if (mod.get() != clickGUI)
-					modContainerList.emplace(ModuleContainer(mod));
+			if (mod.get() != clickGUI)
+				modContainerList.emplace(ModuleContainer(mod));
 		}
 
 		float lastModuleLength = 0.f;
