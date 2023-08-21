@@ -286,6 +286,13 @@ void ClickGui::renderCategory(Category category) {
 					if (rectPos.contains(&mousePos) && DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
 						DrawUtils::shouldToggleRightClick = false;
 						clickMod->isExtended = !clickMod->isExtended;
+						// update window size so it changes properly when closing settings
+						float newX = 0;
+						for (auto& it : moduleList) {
+							std::string label = "EntityLongJump";
+							newX = fmax(newX, DrawUtils::getTextWidth(&label, textSize));
+						}
+						windowSize->x = newX;
 					}
 					if (clickguiMod->mode.selected == 0) {
 						if (!clickMod->isExtended)
