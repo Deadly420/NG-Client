@@ -44,4 +44,8 @@ public:
 	virtual const char* getModuleName() override {
 		return "ArmourHud";
 	}
+
+	std::string getModSettings() {
+		return "Size: " + std::to_string((int)floorf((scale + 0.001f) * 100)) + "%";
+	}
 };

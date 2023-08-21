@@ -114,6 +114,9 @@
 #include "Render/Zoom.h"
 #include "Render/Xray.h"
 #include "Render/ESP.h"
+#include "Render/FPS.h"
+#include "Render/CPS.h"
+#include "Render/BPS.h"
 
 // Entity
 #include "Entity/EntityLongJump.h"

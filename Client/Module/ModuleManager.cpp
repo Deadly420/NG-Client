@@ -102,6 +102,9 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Step());
 		moduleList.emplace_back(new Fly());
 		moduleList.emplace_back(new ESP());
+		moduleList.emplace_back(new FPS());
+		moduleList.emplace_back(new BPS());
+		moduleList.emplace_back(new CPS());
 		moduleList.emplace_back(new XP());
 
 		//Movement
