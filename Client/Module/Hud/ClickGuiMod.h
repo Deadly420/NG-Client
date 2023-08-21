@@ -6,7 +6,9 @@ class ClickGuiMod : public Module {
 public:
 	int Opacity = 0;
 	bool showTooltips = true;
-	bool resetStartPos = false;
+	bool resetOnInject = true;
+	bool resetOnOpen = true;
+	bool resetStartPos = true;
 	SettingEnum mode = SettingEnum(this);
 
 	ClickGuiMod();

@@ -6,7 +6,8 @@ ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggl
 	mode.addEntry("New", 0);
 	mode.addEntry("Old", 1);
 
-	// registerBoolSetting("Reset On Inject", &resetStartPos, resetStartPos);
+	registerBoolSetting("Reset On Inject", &resetOnInject, resetOnInject);
+	registerBoolSetting("Reset On Open", &resetOnOpen, resetOnOpen);
 	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
 }
 
@@ -21,6 +22,9 @@ void ClickGuiMod::onEnable() {
 	static auto imgui = moduleMgr->getModule<NewUI>();
 	imgui->setEnabled(false);
 	Game.getClientInstance()->releaseMouse();
+	if (resetOnOpen) {
+		resetStartPos = true;
+	}
 }
 
 bool ClickGuiMod::allowAutoStart() {

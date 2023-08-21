@@ -3,7 +3,6 @@
 #include "../../Utils/Logger.h"
 #include <Windows.h>
 
-bool resetStartPos = true;
 bool initialised = false;
 int scrollingDirection = 0;
 
@@ -128,7 +127,7 @@ void ClickGui::renderCategory(Category category) {
 	const std::shared_ptr<ClickWindow> ourWindow = getWindow(categoryName);
 
 	// Reset Windows to pre-set positions to avoid confusion
-	if (resetStartPos) {
+	if(clickGuiMod->resetStartPos && (clickGuiMod->resetOnInject || clickGuiMod->resetOnOpen)) {
 			float yot = Game.getGuiData()->windowSize.x;
 			ourWindow->pos.y = 4;
 			switch (category) {
@@ -762,9 +761,9 @@ void ClickGui::render() {
 
 	static auto clickGuiMod = moduleMgr->getModule<ClickGuiMod>();
 
-	int fadeSpeed = 2;  // You can tweak this value to control the fade speed
+	int fadeSpeed = 2;
 
-	if (clickGuiMod->Opacity < 55)  // Adjust this value based on your preference for the maximum opacity
+	if (clickGuiMod->Opacity < 55)
 		clickGuiMod->Opacity += fadeSpeed;
 
 	// Fill Background
@@ -782,7 +781,7 @@ void ClickGui::render() {
 
 	DrawUtils::shouldToggleLeftClick = false;
 	DrawUtils::shouldToggleRightClick = false;
-	resetStartPos = false;
+	clickGuiMod->resetStartPos = false;
 
 	DrawUtils::flush();
 }
