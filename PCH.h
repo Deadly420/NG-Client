@@ -25,6 +25,11 @@
 #include "Memory/MinHook.h"
 #include "Memory/SlimMem.h"
 
+#include "include/imgui/imgui_impl_win32.h"
+#include "include/imgui/imgui_impl_dx11.h"
+#include "include/imgui/imgui_impl_dx12.h"
+#include "include/kiero/kiero.h"
+
 // include
 #include "include/WinHttpClient.h"
 #include "include/StringProcess.h"

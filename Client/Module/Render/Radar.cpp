@@ -1,4 +1,5 @@
 #include "Radar.h"
+#include "../../../Utils/ColorUtil.h"
 #include <array>
 
 float rcolors[4];
@@ -82,15 +83,11 @@ void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 	if (player == nullptr) return;
 
-	if (rcolors[3] < 1) {
-		rcolors[0] = 0.2f;
-		rcolors[1] = 0.2f;
-		rcolors[2] = 1.f;
-		rcolors[3] = 1;
-	}
+	int index = 0;
+	index++;
+	int curIndex = -index * 90;
+	auto color = ColorUtil::getRainbowColor(3.f, 1.f, 1, curIndex * 2);
 	recalculateScale();
-
-	Utils::ApplyRainbow(rcolors, 0.0015f);
 
 	DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(0, 0, 0), bgOpacity);
 
@@ -114,6 +111,7 @@ void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	int chunkX = int(floor(pPos.x)) & ~(15);
 	int chunkZ = int(floor(pPos.z)) & ~(15);
 	// Draw grid
+	DrawUtils::drawRectangle(Vec4(2, topPad - cent, (float)size, topPad + cent), Mc_Color(color), bgOpacity);
 	if (grid)
 	{
 		// we start at the player pos, and clip the grid lines to the view rectangle until the lines are no longer inside, then we repeat the process in the opposite direction, then we do the same for the other axis

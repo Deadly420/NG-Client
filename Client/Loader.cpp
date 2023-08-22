@@ -138,7 +138,7 @@ BOOL __stdcall DllMain(HMODULE hModule,
 		if (Game.getLocalPlayer() != nullptr) {
 			GuiData* guiData = Game.getClientInstance()->getGuiData();
 			if (guiData != nullptr && !GameData::shouldHide())
-				guiData->displayClientMessageF("Successfully Ejected NG Client!", RED);
+				guiData->displayClientMessageF("Successfully Ejected NG Client!");
 		}
 		break;
 	}

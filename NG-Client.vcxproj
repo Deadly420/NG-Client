@@ -217,6 +217,7 @@
     <ClCompile Include="Client\Module\Hud\Newui.cpp" />
     <ClCompile Include="Client\Module\Movement\BoatFly.cpp" />
     <ClCompile Include="Client\Module\Render\FPS.h" />
+    <ClCompile Include="Client\Module\Render\Keystrokes.cpp" />
     <ClCompile Include="Client\Module\Render\TargetHUD.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -344,6 +345,7 @@
     <ClCompile Include="SDK\Tag.cpp" />
     <ClCompile Include="SDK\Tessellator.cpp" />
     <ClCompile Include="Utils\Logger.cpp" />
+    <ClCompile Include="Utils\MoveUtils.cpp" />
     <ClCompile Include="Utils\SkinUtil.cpp" />
     <ClCompile Include="Utils\Target.cpp" />
     <ClCompile Include="Utils\TextFormat.cpp" />
@@ -404,6 +406,7 @@
     <ClInclude Include="Client\Module\Render\ArmourHud.h" />
     <ClInclude Include="Client\Module\Render\BPS.h" />
     <ClInclude Include="Client\Module\Render\CPS.h" />
+    <ClInclude Include="Client\Module\Render\Keystrokes.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\Render\TargetHUD.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
@@ -571,6 +574,7 @@
     <ClInclude Include="Utils\Json.hpp" />
     <ClInclude Include="Utils\keys.h" />
     <ClInclude Include="Utils\Logger.h" />
+    <ClInclude Include="Utils\MoveUtils.h" />
     <ClInclude Include="Utils\SkinUtil.h" />
     <ClInclude Include="Utils\Target.h" />
     <ClInclude Include="Utils\TextFormat.h" />

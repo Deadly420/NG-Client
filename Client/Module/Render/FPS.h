@@ -16,10 +16,9 @@ public:
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
 		// fps
-		float f = 10.f * this->scale;
+		float f = 10.f * scale;
 		std::string tempStr("Movement");
 		float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
-
 		float yVal = fpsY;
 		float xVal = fpsX;
 

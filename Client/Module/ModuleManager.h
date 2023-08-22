@@ -99,6 +99,7 @@
 #include "Render/RainbowSky.h"
 #include "Render/FullBright.h"
 #include "Render/StorageESP.h"
+#include "Render/KeyStrokes.h"
 #include "Render/TargetHUD.h"
 #include "Render/ViewModel.h"
 #include "Render/Waypoints.h"

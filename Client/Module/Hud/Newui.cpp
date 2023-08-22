@@ -2,7 +2,7 @@
 #include "../../../include/imgui/imgui.h"
 #include "../ModuleManager.h"
 
-NewUI::NewUI() : Module(VK_INSERT, Category::HUD, "New UI") {
+NewUI::NewUI() : Module(VK_INSERT, Category::HUD, "New UI (Dx12)") {
 }
 
 NewUI::~NewUI() {

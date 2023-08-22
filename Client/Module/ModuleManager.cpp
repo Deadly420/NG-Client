@@ -39,6 +39,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new RainbowSky());
 		moduleList.emplace_back(new StorageESP());
 		moduleList.emplace_back(new TriggerBot());
+		moduleList.emplace_back(new KeyStrokes());
 		moduleList.emplace_back(new ViewModel());
 		moduleList.emplace_back(new ArmourHud());
 		moduleList.emplace_back(new Waypoints());

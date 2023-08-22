@@ -159,27 +159,27 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				DrawUtils::fillRectangle3(leftRect, color);
 				DrawUtils::fillRectangle3(underline, color);
 				DrawUtils::fillRectangle3(Bar, color);
-				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 1:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
 				DrawUtils::fillRectangle3(underline, color);
-				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 2:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
-				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 3:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(FluxBar, color);
-				DrawUtils::drawText(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f);
+				DrawUtils::drawTextShadow(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 4:
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f);
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			}
 

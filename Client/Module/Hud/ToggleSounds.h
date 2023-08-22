@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "../Module.h"
 #include "../ModuleManager.h"
 class ToggleSounds : public Module {
