@@ -6,7 +6,6 @@
 class Radar : public Module {
 public:
 	Radar();
-	~Radar();
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;

@@ -24,9 +24,6 @@ Radar::Radar() : Module(0x0, Category::RENDER, "Radar") {
 	registerFloatSetting("Pixel Opacity", &pxOpacity, pxOpacity, 0.1f, 1.0f);
 }
 
-Radar::~Radar() {
-}
-
 const char* Radar::getModuleName() {
 	return "Radar";
 }

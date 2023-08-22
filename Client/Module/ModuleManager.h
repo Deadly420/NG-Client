@@ -106,6 +106,7 @@
 #include "Render/NoHurtcam.h"
 #include "Render/ArmourHud.h"
 #include "Render/NightMode.h"
+#include "Render/Watermark.h"
 #include "Render/Freelook.h"
 #include "Render/NameTags.h"
 #include "Render/Compass.h"
