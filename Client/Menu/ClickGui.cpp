@@ -359,10 +359,10 @@ void ClickGui::renderCategory(Category category) {
 
 									if (setting->value->_bool) {
 										Vec4 boxPos = Vec4(
-										textPos.x + textPaddingX,
-										textPos.y + textPaddingY,
-										textPos.x + textPaddingX + boxHeight,
-										textPos.y + textPaddingY + boxHeight);
+											textPos.x + textPaddingX,
+											textPos.y + textPaddingY,
+											textPos.x + textPaddingX + boxHeight,
+											textPos.y + textPaddingY + boxHeight);
 
 										DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
 									}
@@ -502,7 +502,7 @@ void ClickGui::renderCategory(Category category) {
 										// Background
 										const bool areWeFocused = rect.contains(&mousePos);
 
-										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);       // Slider background
+										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);          // Slider background
 										DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);  // Background
 
 										const float minValue = setting->minValue->_float;
@@ -518,6 +518,12 @@ void ClickGui::renderCategory(Category category) {
 										{
 											rect.z = rect.x + value;
 											DrawUtils::fillRectangle(rect, Mc_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
+
+											// Draw Circle
+											//Vec2 circleCenter(rect.x + value, currentYOffset + (textHeight + (textPaddingY * 2.5)) / 2.5);
+											//Vec2 circleRadius(2, 2);               // Adjust the circle radius as needed
+
+											//DrawUtils::drawCircleFilled(circleCenter, circleRadius, Mc_Color(255, 255, 255), 6.0);  // You can adjust the quality
 										}
 
 										// Drag Logic
