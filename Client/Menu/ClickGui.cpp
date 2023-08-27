@@ -349,25 +349,28 @@ void ClickGui::renderCategory(Category category) {
 								// Checkbox
 								{
 									float boxHeight = textHeight - textPaddingY / 0.90;
+									float boxWidth = boxHeight;  // Make the width equal to the height
 									Vec4 boxPos = Vec4(
 										textPos.x + textPaddingX,
 										textPos.y + textPaddingY,
-										textPos.x + textPaddingX + boxHeight,
+										textPos.x + textPaddingX + boxWidth,
 										textPos.y + textPaddingY + boxHeight);
 
 									DrawUtils::drawRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f, 0.5f);
+
 
 									if (setting->value->_bool) {
 										Vec4 boxPos = Vec4(
 											textPos.x + textPaddingX,
 											textPos.y + textPaddingY,
-											textPos.x + textPaddingX + boxHeight,
+											textPos.x + textPaddingX + boxWidth,
 											textPos.y + textPaddingY + boxHeight);
 
 										DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
 									}
 								}
-								textPos.x += textHeight + (textPaddingX * 1.50);
+								textPos.x += textHeight + (textPaddingX * 1.5);
+								textPos.y += textPaddingY;
 								// Text
 								{
 									// Convert first letter to uppercase for more friendlieness

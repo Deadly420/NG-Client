@@ -1401,8 +1401,7 @@ bool Hooks::Actor__isInWall(Entity* ent) {
 
 	return func(ent);
 }
-/*
-void Hooks::testFunction(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4) {
+/*void Hooks::testFunction(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4) {
 	auto func = g_Hooks.testHook->GetFastcall<void, networkhandler*, const void*, Packet*, int>();
 	static auto test = moduleMgr->getModule<TestModule>();
 	

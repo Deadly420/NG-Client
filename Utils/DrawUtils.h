@@ -97,7 +97,8 @@ public:
 	static MatrixStack* getMatrixStack();
 	static float getTextWidth(std::string* textStr, float textSize = 1, Fonts font = Fonts::SMOOTH);
 	static float getFontHeight(float textSize = 1, Fonts font = Fonts::SMOOTH);
-
+	static void drawRoundRectangle(Vec4 pos, const Mc_Color col, float alpha);
+	static void fillRoundRectangle(Vec4 pos, const Mc_Color col, float alpha);
 	static void drawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3);
 	static void drawQuad(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4);
 	static void drawLine(const Vec2& start, const Vec2& end, float lineWidth);  // rgba

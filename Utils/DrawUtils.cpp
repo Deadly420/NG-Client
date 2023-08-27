@@ -184,7 +184,6 @@ void DrawUtils::drawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3) {
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
 
-
 void DrawUtils::drawQuad(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4) {
 	DrawUtils::tess__begin(tessellator, 1, 4);
 
@@ -194,6 +193,33 @@ void DrawUtils::drawQuad(const Vec2& p1, const Vec2& p2, const Vec2& p3, const V
 	tess_vertex(tessellator, p4.x, p4.y, 0);
 
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
+}
+
+void DrawUtils::drawRoundRectangle(Vec4 pos, const Mc_Color col, float alpha) {
+	Mc_Color modifiedCol = col;
+	modifiedCol.a = alpha;
+	DrawUtils::fillRectangle3(Vec4(pos.x, pos.y - 2, pos.z, pos.y - 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x, pos.w + 1, pos.z, pos.w + 2), modifiedCol);
+
+	DrawUtils::fillRectangle3(Vec4(pos.x - 1, pos.y - 1, pos.x, pos.w + 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.z, pos.y - 1, pos.z + 1, pos.w + 1), modifiedCol);
+
+	DrawUtils::fillRectangle3(Vec4(pos.z - 1, pos.w, pos.z, pos.w + 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x, pos.w, pos.x + 1, pos.w + 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.z - 1, pos.y - 1, pos.z, pos.y), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x, pos.y - 1, pos.x + 1, pos.y), modifiedCol);
+}
+
+void DrawUtils::fillRoundRectangle(Vec4 pos, const Mc_Color col, float alpha) {
+	Mc_Color modifiedCol = col;
+	modifiedCol.a = alpha;
+	DrawUtils::fillRectangle3(Vec4(pos.x, pos.y, pos.z, pos.w), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + .5, pos.w, pos.z - .5, pos.w + 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + 1, pos.w + 1, pos.z - 1, pos.w + 1.5), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + 2, pos.w + 1.5, pos.z - 2, pos.w + 2), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + .5, pos.y - 1, pos.z - .5, pos.y), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + 1, pos.y - 1.5f, pos.z - 1, pos.y - 1), modifiedCol);
+	DrawUtils::fillRectangle3(Vec4(pos.x + 2, pos.y - 2, pos.z - 2, pos.y - 1.5), modifiedCol);
 }
 
 void DrawUtils::drawLine(const Vec2& start, const Vec2& end, float lineWidth) {

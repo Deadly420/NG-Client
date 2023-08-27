@@ -42,6 +42,12 @@ void recalculateScale() {
 }
 
 void renderEntity(Entity* currentEntity, bool isRegularEntity) {
+
+	int index = 0;
+	index++;
+	int curIndex = -index * 90;
+	auto color = ColorUtil::getRainbowColor(3.f, 1.f, 1, curIndex * 2);
+
 	LocalPlayer* player = Game.getLocalPlayer();
 	if (currentEntity == nullptr)
 		return;
@@ -71,7 +77,7 @@ void renderEntity(Entity* currentEntity, bool isRegularEntity) {
 		topPad - ((delta.x * s) + (delta.z * c))
 	);
 	if (relPos.x > 0 && relPos.x < size && relPos.y > topPad - cent && relPos.y < topPad + cent) {
-		DrawUtils::fillRectangle(Vec4(relPos.x - pxSize, relPos.y - pxSize, relPos.x + pxSize, relPos.y + pxSize), Mc_Color(rcolors[0], rcolors[1], rcolors[2]), pxOpacity);
+		DrawUtils::fillRectangle(Vec4(relPos.x - pxSize, relPos.y - pxSize, relPos.x + pxSize, relPos.y + pxSize), Mc_Color(color), pxOpacity);
 	}
 }
 
@@ -86,7 +92,7 @@ void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	auto color = ColorUtil::getRainbowColor(3.f, 1.f, 1, curIndex * 2);
 	recalculateScale();
 
-	DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(0, 0, 0), bgOpacity);
+	DrawUtils::fillRoundRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(0, 0, 0), bgOpacity);
 
 	auto pPos = Game.getClientInstance()->levelRenderer->getOrigin();
 	playerPos = pPos;
@@ -108,7 +114,7 @@ void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	int chunkX = int(floor(pPos.x)) & ~(15);
 	int chunkZ = int(floor(pPos.z)) & ~(15);
 	// Draw grid
-	DrawUtils::drawRectangle(Vec4(2, topPad - cent, (float)size, topPad + cent), Mc_Color(color), bgOpacity);
+	DrawUtils::drawRoundRectangle(Vec4(2, topPad - cent, (float)size, topPad + cent), Mc_Color(color), bgOpacity);
 	if (grid)
 	{
 		// we start at the player pos, and clip the grid lines to the view rectangle until the lines are no longer inside, then we repeat the process in the opposite direction, then we do the same for the other axis
