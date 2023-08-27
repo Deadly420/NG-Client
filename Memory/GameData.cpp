@@ -20,7 +20,7 @@ void GameData::retrieveClientInstance() {
 	Game.clientInstance = reinterpret_cast<ClientInstance*>(Utils::readPointer<uintptr_t*>(clientInstanceOffset, {0x0, 0x0, 0x48}));*/
 	static uintptr_t clientInstanceOffset = 0x0;
 	if (clientInstanceOffset == 0x0) {
-		clientInstanceOffset = GetOffsetFromSig("48 8B 15 ? ? ? ? 4C 8B 02 4C 89 06 40 84 FF 74 0C 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B C6 48 8B 4C ? ? 48 33 CC E8 ? ? ? ? 48 8B 5C ? ? 48 8B 74 ? ? 48 83 C4 ? 5F C3 E8 ? ? ? ? 90 CC CC CC CC CC CC CC CC CC 48 89 5C ? ? 48 89 6C", 3);
+		clientInstanceOffset = GetOffsetFromSig("48 89 5c 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8d ac 24 ? ? ? ? 48 81 ec ? ? ? ? 48 8b 05 ? ? ? ? 48 33 c4 48 89 85 ? ? ? ? 44 0f b6 f2 48 8b f1", 3);
 		logF("Client: %llX", clientInstanceOffset);
 	}
 	Game.clientInstance = reinterpret_cast<ClientInstance*>(Utils::readPointer<uintptr_t*>(clientInstanceOffset, {0x0, 0x0, 0x48}));
