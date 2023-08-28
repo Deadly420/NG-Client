@@ -10,8 +10,6 @@ public:
 	float opacity = 0.6f;
 	float cycleSpeed = 3.f;
 	float saturation = 1.f;
-	bool bottom = false;
-	bool keybinds = false;
 	bool modes = true;
 	float scale = 1.f;
 

@@ -14,7 +14,7 @@ Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
 	mode.addEntry("None", 4);
 
 	registerBoolSetting("Modes", &modes, modes);
-	// registerBoolSetting("KeyBinds", &keybinds, keybinds);
+	//registerFloatSetting("Scale", &scale, scale, 0.5f, 1.5f); //todo
 	registerFloatSetting("Opacity", &opacity, opacity, 0, 1);
 	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f);
 	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f);
@@ -47,6 +47,13 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		arrayListX = windowSize.x;
 	}
 
+	
+	if (mode.selected == 0) {
+		Y = 1;
+	} else {
+		Y = 0;
+	}
+
 	if (moduleMgr->isInitialized() && !clickGUI->isEnabled()) {
 		float textSize = 1.f;
 		float textPadding = 0.4f * textSize;
@@ -70,24 +77,10 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				this->backingModule = mod;
 				this->pos = mod->getPos();
 
-				if (keybind == 0x0)
-					moduleName = ModuleNameChr;
-				else {
-					char text[50];
-					sprintf_s(text, 50, "%s%s", ModuleNameChr, arrayList->keybinds ? std::string(" [" + std::string(Utils::getKeybindName(keybind)) + "]").c_str() : "");
-					moduleName = text;
-
-					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
-				}
-
 				if (arrayList->modes) {
 					char text[50];
 					sprintf_s(text, 50, "%s%s%s", ModuleNameChr, std::string(GRAY).c_str(), arrayList->modes ? std::string(mod->getModSettings() == "" ? "" : " " + mod->getModSettings()).c_str() : "");
 					moduleName = text;
-
-					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
 
 				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
@@ -101,12 +94,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		};
 
 		set<ModuleContainer> modContainerList;
-
-		if (mode.selected == 0) {
-			Y = 1;
-		} else {
-			Y = 0;
-		}
 
 		vector<shared_ptr<Module>>* moduleList = moduleMgr->getModuleList();
 		for (auto mod : *moduleList) {

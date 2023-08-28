@@ -25,23 +25,23 @@ void KeyStrokes::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	if (!(Game.getLocalPlayer() == nullptr || !GameData::canUseMoveKeys())) {
 		GameSettingsInput* input = Game.getClientInstance()->getGameSettingsInput();
 		if (flip) {
-			KeyStrokes::CPS(Vec2(4.f, windowSize.y - 90));
-			KeyStrokes::drawRightMouseKeystroke(Vec2(37.f, windowSize.y - 77));
-			KeyStrokes::drawLeftMouseKeystroke(Vec2(4.f, windowSize.y - 77));
-			KeyStrokes::drawKeystroke(*input->spaceBarKey, Vec2(4.f, windowSize.y - 55));
-			KeyStrokes::drawKeystroke(*input->rightKey, Vec2(48.f, windowSize.y - 37));
-			KeyStrokes::drawKeystroke(*input->backKey, Vec2(26.f, windowSize.y - 37));
-			KeyStrokes::drawKeystroke(*input->leftKey, Vec2(4.f, windowSize.y - 37));
-			KeyStrokes::drawKeystroke(*input->forwardKey, Vec2(26.f, windowSize.y - 15));
+			KeyStrokes::CPS(Vec2(11.f, windowSize.y - 87));
+			KeyStrokes::drawRightMouseKeystroke(Vec2(37.f, windowSize.y - 75));
+			KeyStrokes::drawLeftMouseKeystroke(Vec2(11.f, windowSize.y - 75));
+			KeyStrokes::drawKeystroke(*input->spaceBarKey, Vec2(11.f, windowSize.y - 53));
+			KeyStrokes::drawKeystroke(*input->rightKey, Vec2(48.f, windowSize.y - 35));
+			KeyStrokes::drawKeystroke(*input->backKey, Vec2(26.f, windowSize.y - 35));
+			KeyStrokes::drawKeystroke(*input->leftKey, Vec2(11.f, windowSize.y - 35));
+			KeyStrokes::drawKeystroke(*input->forwardKey, Vec2(26.f, windowSize.y - 13));
 		} else {
-			KeyStrokes::drawKeystroke(*input->forwardKey, Vec2(26.f, windowSize.y - 94));
-			KeyStrokes::drawKeystroke(*input->leftKey, Vec2(4.f, windowSize.y - 72));
-			KeyStrokes::drawKeystroke(*input->backKey, Vec2(26.f, windowSize.y - 72));
-			KeyStrokes::drawKeystroke(*input->rightKey, Vec2(48.f, windowSize.y - 72));
-			KeyStrokes::drawKeystroke(*input->spaceBarKey, Vec2(4.f, windowSize.y - 50));
-			KeyStrokes::drawLeftMouseKeystroke(Vec2(4.f, windowSize.y - 37));
-			KeyStrokes::drawRightMouseKeystroke(Vec2(37.f, windowSize.y - 37));
-			KeyStrokes::CPS(Vec2(4.f, windowSize.y - 15));
+			//KeyStrokes::drawKeystroke(*input->forwardKey, Vec2(26.f, windowSize.y - 80));
+			KeyStrokes::drawKeystroke(*input->leftKey, Vec2(11.f, windowSize.y - 91));
+			//KeyStrokes::drawKeystroke(*input->backKey, Vec2(36.f, windowSize.y - 7#));
+			//KeyStrokes::drawKeystroke(*input->rightKey, Vec2(48.f, windowSize.y - 70));
+			KeyStrokes::drawKeystroke(*input->spaceBarKey, Vec2(11.f, windowSize.y - 67.5f));
+			KeyStrokes::drawLeftMouseKeystroke(Vec2(11.f, windowSize.y - 51.5f));
+			KeyStrokes::drawRightMouseKeystroke(Vec2(43.f, windowSize.y - 51.5f));
+			KeyStrokes::CPS(Vec2(11.f, windowSize.y - 26.5f));
 		}
 	}
 }
@@ -71,9 +71,9 @@ void KeyStrokes::drawKeystroke(char key, Vec2 pos) {
 			(rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f),
 			rectPos.y + 7.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
 
-		DrawUtils::fillRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), Key->opacity);
+		DrawUtils::fillRoundRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), Key->opacity);
 		if (Key->keybindsRGB) {
-			DrawUtils::drawRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color() : Mc_Color(color), 1.f);
+			DrawUtils::drawRoundRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color() : Mc_Color(color), 1.f);
 			DrawUtils::drawText(textPos, &keyString, Mc_Color(color), 1.f, 1.f);
 		} else
 			DrawUtils::drawText(textPos, &keyString, Mc_Color(0, 246, 255), 1.f, 1.f);
@@ -91,9 +91,9 @@ void KeyStrokes::drawKeystroke(char key, Vec2 pos) {
 			(rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f),
 			rectPos.y + 10.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
 
-		DrawUtils::fillRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), Key->opacity);
+		DrawUtils::fillRoundRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), Key->opacity);
 		if (Key->keybindsRGB) {
-			DrawUtils::drawRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color() : Mc_Color(color), 1.f);
+			DrawUtils::drawRoundRectangle(rectPos, GameData::isKeyDown(key) ? Mc_Color() : Mc_Color(color), 1.f);
 			DrawUtils::drawText(textPos, &keyString, Mc_Color(color), 1.f, 1.f);
 		} else
 			DrawUtils::drawText(textPos, &keyString, Mc_Color(0, 246, 255), 1.f, 1.f);
@@ -119,12 +119,12 @@ void KeyStrokes::drawLeftMouseKeystroke(Vec2 pos) {
 		pos.y + 4,
 		pos.x + 31.f,
 		pos.y + 20.f);
-	DrawUtils::fillRectangle(rectPos, GameData::GameData::isLeftClickDown() ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), key->opacity);
+	DrawUtils::fillRoundRectangle(rectPos, GameData::isLeftClickDown() ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), key->opacity);
 	Vec2 textPos(
 		(rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f),
 		rectPos.y + 8.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
 	if (key->keybindsRGB) {
-		DrawUtils::drawRectangle(rectPos, GameData::GameData::isLeftClickDown() ? Mc_Color() : Mc_Color(color), 1.f);
+		DrawUtils::drawRoundRectangle(rectPos, GameData::isLeftClickDown() ? Mc_Color() : Mc_Color(color), 1.f);
 		DrawUtils::drawText(textPos, &keyString, Mc_Color(color), 1.f, 1.f);
 	} else
 		DrawUtils::drawText(textPos, &keyString, Mc_Color(0, 246, 255), 1.f, 1.f);
@@ -149,12 +149,12 @@ void KeyStrokes::drawRightMouseKeystroke(Vec2 pos) {
 		pos.y + 4,
 		pos.x + 31.f,
 		pos.y + 20.f);
-	DrawUtils::fillRectangle(rectPos, GameData::GameData::isRightClickDown() ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), key->opacity);
+	DrawUtils::fillRoundRectangle(rectPos, GameData::isRightClickDown() ? Mc_Color(85, 85, 85) : Mc_Color(12, 12, 12), key->opacity);
 	Vec2 textPos(
 		(rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&keyString) / 2.f),
 		rectPos.y + 8.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
 	if (key->keybindsRGB) {
-		DrawUtils::drawRectangle(rectPos, GameData::GameData::isRightClickDown() ? Mc_Color() : Mc_Color(color), 1.f);
+		DrawUtils::drawRoundRectangle(rectPos, GameData::isRightClickDown() ? Mc_Color() : Mc_Color(color), 1.f);
 		DrawUtils::drawText(textPos, &keyString, Mc_Color(color), 1.f, 1.f);
 	} else
 		DrawUtils::drawText(textPos, &keyString, Mc_Color(0, 246, 255), 1.f, 1.f);
@@ -185,9 +185,9 @@ void KeyStrokes::CPS(Vec2 pos) {
 			(rectPos.x + (rectPos.z - rectPos.x) / 2) - (DrawUtils::getTextWidth(&cpsText) / 2.f),
 			rectPos.y + 7.f - DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() / 2.f);
 
-		DrawUtils::fillRectangle(rectPos, Game.getLeftCPS() || Game.getRightCPS() ? Mc_Color(12, 12, 12) : Mc_Color(12, 12, 12), key->opacity);
+		DrawUtils::fillRoundRectangle(rectPos, Game.getLeftCPS() || Game.getRightCPS() ? Mc_Color(12, 12, 12) : Mc_Color(12, 12, 12), key->opacity);
 		if (key->keybindsRGB) {
-			DrawUtils::drawRectangle(rectPos, Game.getLeftCPS() || Game.getRightCPS() ? Mc_Color(color) : Mc_Color(color), 1.f);
+			DrawUtils::drawRoundRectangle(rectPos, Game.getLeftCPS() || Game.getRightCPS() ? Mc_Color(color) : Mc_Color(color), 1.f);
 			DrawUtils::drawText(textPos, &cpsText, Mc_Color(color), 1.f, 1.f);
 		} else
 			DrawUtils::drawText(textPos, &cpsText, Mc_Color(0, 246, 255), 1.f, 1.f);
