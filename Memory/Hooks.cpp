@@ -114,7 +114,7 @@ void Hooks::Init() {
 		void* renderNameTags = reinterpret_cast<void*>(FindSignature("48 8b c4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8d a8 ? ? ? ? 48 81 ec ? ? ? ? 0f 29 70 ? 0f 29 78 ? 44 0f 29 40 ? 48 8b 05 ? ? ? ? 48 33 c4 48 89 85 ? ? ? ? 49 8b f1"));
 		g_Hooks.LevelRendererPlayer__renderNameTagsHook = std::make_unique<FuncHook>(renderNameTags, Hooks::LevelRendererPlayer__renderNameTags);// IDK
 		
-		void* destroySpeed = reinterpret_cast<void*>(FindSignature("48 89 5c 24 ? 48 89 74 24 ? 57 48 83 ec ? 48 8b fa 0f 29 74 24 ? 48 8b 91"));// IDK
+		void* destroySpeed = reinterpret_cast<void*>(FindSignature("48 83 EC 28 49 8B 48 ? 48 85 C9 74 49"));
 		g_Hooks.getDestroySpeedHook = std::make_unique<FuncHook>(destroySpeed, Hooks::getDestroySpeed);
 
 		void* actorisInWall = reinterpret_cast<void*>(FindSignature("40 53 48 83 EC 50 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B 01 48 8D 54 24 ? 0F 57 DB"));
