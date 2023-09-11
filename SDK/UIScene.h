@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TextHolder.h"
+#include "../Utils/Utils.h"
 
 class UIScene {
 public:
@@ -9,6 +10,6 @@ public:
 	}
 
 	void getScreenName(TextHolder* txt) {
-		Utils::CallVFunc<66, void, TextHolder*>(this, txt);
+		Utils::CallVFunc<68, void, TextHolder*>(this, txt);
 	}
 };

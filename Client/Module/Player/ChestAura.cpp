@@ -21,7 +21,7 @@ void ChestAura::onTick(GameMode* gm) {
 		for (int z = (int)pos->z - range; z < pos->z + range; z++) {
 			for (int y = (int)pos->y - range; y < pos->y + range; y++) {
 				Vec3i blockPos = Vec3i(x, y, z);
-				Block* block = gm->player->region->getBlock(blockPos);
+				Block* block = gm->player->getRegion()->getBlock(blockPos);
 				if (block != nullptr && Game.canUseMoveKeys()) {
 					auto id = block->toLegacy()->blockId;
 					bool open = false;

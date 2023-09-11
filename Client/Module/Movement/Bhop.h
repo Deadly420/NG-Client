@@ -22,13 +22,13 @@ public:
 		if (player == nullptr)
 			return;
 		else
-			cashedStepHeignt = player->stepHeight;
+			cashedStepHeignt = player->getMaxAutoStepComponent()->stepHeight;
 	};
 	virtual void onDisable() {
 		auto player = Game.getLocalPlayer();
 		if (player == nullptr)
 			return;
 		else
-			player->stepHeight = cashedStepHeignt;
+			player->getMaxAutoStepComponent()->stepHeight = cashedStepHeignt;
 	};
 };

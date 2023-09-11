@@ -65,8 +65,7 @@ public:
 				// Rots to look down
 				float rotChange = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 2.f)) + 1.f;
 				LocalPlayer* player = Game.getLocalPlayer();
-				C_MovePlayerPacket mpp(player, *player->getPos());
-				mpp.onGround = player->onGround;
+				MovePlayerPacket mpp(player, *player->getPos());
 				mpp.pitch = 90.f - rotChange;
 				Game.getClientInstance()->loopbackPacketSender->sendToServer(&mpp);
 				Level* level = Game.getLocalPlayer()->level;

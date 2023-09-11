@@ -88,22 +88,21 @@ private:
 	std::shared_ptr<void> materialPtr;
 
 public:
-	MaterialPtr(const HashedString& materialName);
+	static MaterialPtr* createMaterial(HashedString materialName);
 };
 }  // namespace mce
 
-class LevelRenderer {
-private:
-	char pad_0x0000[0x58];  //0x0000
+class LevelRendererPlayer {
 public:
-	mce::TextureGroup* textureGroup;  // 0x0058
-private:
-	char pad_0x0060[0xE0];  //0x0060
-public:
-	mce::TexturePtr atlasTexture;  // 0x140
+	BUILD_ACCESS(this, Vec3, origin, 0x514);
+};
 
-	Vec3& getOrigin() {
-		return *(Vec3*)((char*)this + (0x79C));
+class LevelRenderer {
+public:
+	BUILD_ACCESS(this, LevelRendererPlayer*, levelRendererPlayer, 0x2F8);
+
+	Vec3 getOrigin() {
+		return levelRendererPlayer->origin;
 	}
 };
 
@@ -134,18 +133,10 @@ public:
 };
 
 class MinecraftGame {
-private:
-	char pad_0000[312];                     // 0x0000
 public:
-	bool canUseKeys;                        // 0x0138
-private:
-	char pad_0139[3319];                    // 0x0139
-public:
-	FontRepository** fontRepository;  // 0x0E30
-private:
-	char pad_0E38[8];                       // 0x0E38
-public:
-	Font* mcFont;                     // 0x0E40
+	BUILD_ACCESS(this, bool, canUseKeys, 0x130);
+	BUILD_ACCESS(this, FontRepository**, fontRepository, 0xEC8);
+	BUILD_ACCESS(this, Font*, mcFont, 0xED8);
 
 	Font* getTheGoodFontThankYou() {
 		return (*fontRepository)->fontList->fontEntries[7].font;
@@ -219,7 +210,7 @@ public:
 
 struct PtrToGameSettings1 {
 private:
-	char pad_0x0000[0x18];  //0x0000
+	char pad_0x0000[0x20];  //0x0000
 public:
 	PtrToGameSettings2* ptr;
 };
@@ -229,61 +220,61 @@ class CameraManager;
 
 class ClientInstance {
 private:
-	char pad_0x0[0xB8];  // 0x0
+	char pad_0x0[0xC8];  // 0x0
 public:
-	MinecraftGame* minecraftGame;  // 0xB8
-	Minecraft* minecraft;          // 0xC0
-private:
-	char pad_0xC8[0x8];  // 0xC8
-public:
-	LevelRenderer* levelRenderer;  // 0xD0
+	MinecraftGame* minecraftGame;  // 0xC8
+	Minecraft* minecraft;          // 0xD0
 private:
 	char pad_0xD8[0x8];  // 0xD8
 public:
-	LoopbackPacketSender* loopbackPacketSender;  // 0xE0
+	LevelRenderer* levelRenderer;  // 0xE0
 private:
-	char pad_0xE8[0x18];  // 0xE8
+	char pad_0xE8[0x8];  // 0xE8
 public:
-	PtrToGameSettings1* ptr;  // 0x100
+	LoopbackPacketSender* loopbackPacketSender;  // 0xF0
 private:
-	char pad_0x108[0x8];  // 0x108
+	char pad_0xF8[0x18];  // 0xF8
 public:
-	HitDetectSystem* hitDetectSystem;  // 0x110
+	PtrToGameSettings1* ptr;  // 0x110
 private:
-	char pad_0x118[0x3D8];  // 0x118
+	char pad_0x118[0x8];  // 0x118
 public:
-	class ItemInHandRenderer* itemInHandRenderer;  // 0x4F0
+	HitDetectSystem* hitDetectSystem;  // 0x120
+private:
+	char pad_0x128[0x3D8];  // 0x128
+public:
+	class ItemInHandRenderer* itemInHandRenderer;  // 0x500
 
 	glmatrixf* getRefDef() {
-		return reinterpret_cast<glmatrixf*>((uintptr_t)(this) + 0x2F0);
+		return reinterpret_cast<glmatrixf*>((uintptr_t)(this) + 0x300);
 	};
 
 	Vec2* getMousePos() {
-		return reinterpret_cast<Vec2*>((uintptr_t)(this) + 0x458);
+		return reinterpret_cast<Vec2*>((uintptr_t)(this) + 0x468);
 	}
 
 	Vec2 getFov() {
 		Vec2 fov;
-		fov.x = *reinterpret_cast<float*>((uintptr_t)(this) + 0x690);
-		fov.y = *reinterpret_cast<float*>((uintptr_t)(this) + 0x6A4);
+		fov.x = *reinterpret_cast<float*>((uintptr_t)(this) + 0x6A0);
+		fov.y = *reinterpret_cast<float*>((uintptr_t)(this) + 0x6B4);
 		return fov;
 	}
 
 	Font* getFont() {
 		using getFont_t = Font*(__fastcall*)(ClientInstance*);
-		static getFont_t getFontFunc = reinterpret_cast<getFont_t>(FindSignature("40 53 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? FF 90 ? ? ? ? 90 48 8B C8 E8 ? ? ? ? 48 8B D0 48 8B CB E8 ? ? ? ? 90 48 8D 4C 24 ? E8 ? ? ? ? 48 8B C3 48 83 C4 30 5B C3 CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 ?"));
+		static getFont_t getFontFunc = reinterpret_cast<getFont_t>(FindSignature("48 89 5C 24 ? 57 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 90 48 8B 10 48 85 D2 74 65 48 8B 48 08 48 85 C9 74 0B F0 FF 41 08 48 8B 10 48 8B 48 08 48 8B 3A 48 85 C9 74 05 E8 ? ? ? ? 48 8B D7 48 8B CB E8 ? ? ? ? 90 33 C0 48 89 44 24 ? 48 8B 4C 24 ? 48 89 44 24 ? 48 85 C9 74 14 E8 ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 05 E8 ? ? ? ? 48 8B C3 48 8B 5C 24 ? 48 83 C4 30 5F C3 E8 ? ? ? ? 90 CC CC CC 48 83 EC 28"));
 		return getFontFunc(this);
 	}
 
 	Font* getRuneFont() {
 		using getRuneFont_t = Font*(__fastcall*)(ClientInstance*);
-		static getRuneFont_t getRuneFontFunc = reinterpret_cast<getRuneFont_t>(FindSignature("40 53 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? FF 90 ? ? ? ? 90 48 8B C8 E8 ? ? ? ? 48 8B D0 48 8B CB E8 ? ? ? ? 90 48 8D 4C 24 ? E8 ? ? ? ? 48 8B C3 48 83 C4 30 5B C3 CC CC CC CC CC CC CC CC CC CC 40 53 48 83 EC 30"));
+		static getRuneFont_t getRuneFontFunc = reinterpret_cast<getRuneFont_t>(FindSignature("48 89 5C 24 ? 57 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 90 48 8B 10 48 85 D2 74 65 48 8B 48 08 48 85 C9 74 0B F0 FF 41 08 48 8B 10 48 8B 48 08 48 8B 3A 48 85 C9 74 05 E8 ? ? ? ? 48 8B D7 48 8B CB E8 ? ? ? ? 90 33 C0 48 89 44 24 ? 48 8B 4C 24 ? 48 89 44 24 ? 48 85 C9 74 14 E8 ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 05 E8 ? ? ? ? 48 8B C3 48 8B 5C 24 ? 48 83 C4 30 5F C3 E8 ? ? ? ? 90 CC CC CC 48 89 5C 24"));
 		return getRuneFontFunc(this);
 	}
 
 	Font* getUnicodeFont() {
 		using getUnicodeFont_t = Font*(__fastcall*)(ClientInstance*);
-		static getUnicodeFont_t getUnicodeFontFunc = reinterpret_cast<getUnicodeFont_t>(FindSignature("40 53 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? FF 90 ? ? ? ? 90 48 8B C8 E8 ? ? ? ? 48 8B D0 48 8B CB E8 ? ? ? ? 90 48 8D 4C 24 ? E8 ? ? ? ? 48 8B C3 48 83 C4 30 5B C3 CC CC CC CC CC CC CC CC CC CC 40 53 48 83 EC 20"));
+		static getUnicodeFont_t getUnicodeFontFunc = reinterpret_cast<getUnicodeFont_t>(FindSignature("48 89 5C 24 ? 57 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 90 48 8B 10 48 85 D2 74 65 48 8B 48 08 48 85 C9 74 0B F0 FF 41 08 48 8B 10 48 8B 48 08 48 8B 3A 48 85 C9 74 05 E8 ? ? ? ? 48 8B D7 48 8B CB E8 ? ? ? ? 90 33 C0 48 89 44 24 ? 48 8B 4C 24 ? 48 89 44 24 ? 48 85 C9 74 14 E8 ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 05 E8 ? ? ? ? 48 8B C3 48 8B 5C 24 ? 48 83 C4 30 5F C3 E8 ? ? ? ? 90 CC CC CC 40 53"));
 		return getUnicodeFontFunc(this);
 	}
 
@@ -299,30 +290,33 @@ public:
 		return this->getUnicodeFont();
 	}
 
-	MoveInputHandler* getMoveTurnInput() {
-		using GetMoveInputHandlerFunc = MoveInputHandler*(__fastcall*)(ClientInstance*);
-		static GetMoveInputHandlerFunc getMoveInputHandlerFunc = reinterpret_cast<GetMoveInputHandlerFunc>(FindSignature("48 83 EC 28 8D 42 FE"));
-		return getMoveInputHandlerFunc(this);
-	}
-
 	void grabMouse() {
-		return Utils::CallVFunc<284, void>(this);
+		return Utils::CallVFunc<304, void>(this);
 	}
 
 	void releaseMouse() {
-		return Utils::CallVFunc<285, void>(this);
+		return Utils::CallVFunc<305, void>(this);
 	}
 
 	GuiData* getGuiData() {
-		return (GuiData*)*reinterpret_cast<__int64*>(reinterpret_cast<GuiData*>(reinterpret_cast<__int64>(this) + 0x500));
+		return (GuiData*)*reinterpret_cast<__int64*>(reinterpret_cast<GuiData*>(reinterpret_cast<__int64>(this) + 0x510));
 	};
 
 	BlockTessellator* getBlockTesselator() {
-		return (BlockTessellator*)*reinterpret_cast<__int64*>(reinterpret_cast<BlockTessellator*>(reinterpret_cast<__int64>(this) + 0x4C8));
+		return (BlockTessellator*)*reinterpret_cast<__int64*>(reinterpret_cast<BlockTessellator*>(reinterpret_cast<__int64>(this) + 0x4D8));
 	};
 
 	class LocalPlayer* getCILocalPlayer() {
-		return Utils::CallVFunc<24, LocalPlayer*>(this);
+		return Utils::CallVFunc<27, LocalPlayer*>(this);
+	}
+
+	MoveInputHandler* getMoveTurnInput() {
+		auto player = getCILocalPlayer();
+
+		using getMoveInputHandler = MoveInputHandler*(__cdecl*)(__int64*, uint32_t*);
+		static auto func = reinterpret_cast<getMoveInputHandler>(FindSignature("40 53 48 83 EC 20 48 8B DA BA 2E CD 8B 46"));
+		uint32_t id = player->entityId;
+		return func(*player->entityRegistryBase, &id);
 	}
 
 	inline GameSettingsInput* getGameSettingsInput() { return this->ptr->ptr->ptr->settingsInput; };

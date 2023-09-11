@@ -3,40 +3,25 @@
 class PlayerAuthInputPacket;
 
 class MoveInputHandler {
-private:
-	char pad_0x0000[0x8];  // 0x0000
 public:
-	float sideMovement;     // 0x0008
-	float forwardMovement;  // 0x000C
-private:
-	char pad_0x0010[0x39];  // 0x0010
-public:
-	unsigned char isSneakDown;  // 0x0049
-private:
-	char pad_0x004A[0x5];  // 0x004A
-public:
-	unsigned char isJumping;        // 0x004F
-	unsigned char autoJumpInWater;  // 50
-
-private:
-	char pad_0x0051[0xE];  // 0x0051
-public:
-	bool forward;   // 0x005F
-	bool backward;  // 0x0060
-	bool left;      // 0x0061
-	bool right;     // 0x0062
-private:
-	char pad_0x0063[0x2D];  // 0x0063
-public:
-	__int64 clearMovementState() {
-		return Utils::CallVFunc<4, __int64>(this);
-	};
-
-	void fillInputPacket(PlayerAuthInputPacket &result) {
-		return Utils::CallVFunc<14, void>(this); 
-	}
+	BUILD_ACCESS(this, bool, isSneakDownPrev, 0x0);
+	BUILD_ACCESS(this, bool, isJumpingPrev, 0x6);
+	BUILD_ACCESS(this, bool, isSprintingPrev, 0x7);
+	BUILD_ACCESS(this, bool, forwardPrev, 0xA);
+	BUILD_ACCESS(this, bool, backwardPrev, 0xB);
+	BUILD_ACCESS(this, bool, leftPrev, 0xC);
+	BUILD_ACCESS(this, bool, rightPrev, 0xD);
+	BUILD_ACCESS(this, bool, isSneakDown, 0x20);
+	BUILD_ACCESS(this, bool, isJumping, 0x26);
+	BUILD_ACCESS(this, bool, isSprinting, 0x27);
+	BUILD_ACCESS(this, bool, forward, 0x2A);
+	BUILD_ACCESS(this, bool, backward, 0x2B);
+	BUILD_ACCESS(this, bool, left, 0x2C);
+	BUILD_ACCESS(this, bool, right, 0x2D);
+	BUILD_ACCESS(this, float, sideMovement, 0x48);
+	BUILD_ACCESS(this, float, forwardMovement, 0x4C);
 
 	bool isPressed() {
 		return forward || backward || left || right;
-	};
+	}
 };

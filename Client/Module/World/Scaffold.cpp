@@ -19,21 +19,23 @@ Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks 
 }
 
 bool Scaffold::tryScaffold(Vec3 blockBelow) {
-	Vec3 vel = Game.getLocalPlayer()->velocity;
+	Vec3 vel = Game.getLocalPlayer()->entityLocation->velocity;
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
 	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f); // white when placing all the time
 	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f); // Draw a box around the block about to be placed
 
-	BlockSource* region = Game.getLocalPlayer()->region;
+	BlockSource* region = Game.getLocalPlayer()->getRegion();
 	Block* block = region->getBlock(Vec3i(blockBelow));
 	BlockLegacy* blockLegacy = (block->blockLegacy);
-	if (blockLegacy->material->isReplaceable) {
+
+	if (!blockLegacy->isSolid) {
 		Vec3i blok(blockBelow);
 
 		// Find neighbour
 		static std::vector<Vec3i*> checklist;
+
 		if (checklist.empty()) {
 			checklist.push_back(new Vec3i(0, -1, 0));
 			checklist.push_back(new Vec3i(0, 1, 0));
@@ -47,19 +49,24 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 
 		bool foundCandidate = false;
 		int i = 0;
+
 		for (auto current : checklist) {
 			Vec3i calc = blok.sub(*current);
-			bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
-			if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
+
+			if (((region->getBlock(calc)->blockLegacy))->isSolid) {
 				// Found a solid block to click
 				foundCandidate = true;
 				blok = calc;
 				break;
 			}
+
 			i++;
 		}
+
 		if (foundCandidate) {
-			if (autoSelect) findBlock();
+			if (autoSelect)
+				findBlock();
+
 			Game.getGameMode()->buildBlock(&blok, i, false);
 			return true;
 		}
@@ -68,7 +75,7 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 }
 
 bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
-	Vec3 vel = Game.getLocalPlayer()->velocity;
+	Vec3 vel = Game.getLocalPlayer()->entityLocation->velocity;
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
@@ -94,14 +101,15 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 		Vec3i currentBlock = Vec3i(blockBelow).add(blockOffset);
 
 		// Normal tryScaffold after it sorts
-		BlockSource* region = Game.getLocalPlayer()->region;
+		BlockSource* region = Game.getLocalPlayer()->getRegion();
 		Block* block = region->getBlock(Vec3i(currentBlock));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
-		if (blockLegacy->material->isReplaceable) {
+		if (!blockLegacy->isSolid) {
 			Vec3i blok(currentBlock);
 
 			// Find neighbour
 			static std::vector<Vec3i*> checklist;
+
 			if (checklist.empty()) {
 				checklist.push_back(new Vec3i(0, -1, 0));
 				checklist.push_back(new Vec3i(0, 1, 0));
@@ -115,19 +123,24 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 
 			bool foundCandidate = false;
 			int i = 0;
+
 			for (auto current : checklist) {
 				Vec3i calc = blok.sub(*current);
-				bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
-				if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
+
+				if (((region->getBlock(calc)->blockLegacy))->isSolid) {
 					// Found a solid block to click
 					foundCandidate = true;
 					blok = calc;
 					break;
 				}
+
 				i++;
 			}
+
 			if (foundCandidate) {
-				if (autoSelect) findBlock();
+				if (autoSelect)
+					findBlock();
+
 				Game.getGameMode()->buildBlock(&blok, i, false);
 				return true;
 			}
@@ -189,8 +202,8 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 		return;
 	}
 
-	float speed = player->velocity.magnitudexz();
-	Vec3 velocity = player->velocity.normalize();
+	float speed = player->entityLocation->velocity.magnitudexz();
+	Vec3 velocity = player->entityLocation->velocity.normalize();
 
 	if (down)
 		handleScaffoldDown(player, speed, velocity);
@@ -219,7 +232,7 @@ void Scaffold::handleScaffoldUp(Player* player, float speed, const Vec3& velocit
 
 	extendBlock(player, velocity, blockBelow);
 
-	if (player->region->getBlock(Vec3i(blockBelow.floor()))->blockLegacy->material->isReplaceable) {
+	if (player->getRegion()->getBlock(Vec3i(blockBelow.floor()))->blockLegacy->isSolid) {
 		handleReplaceableBlock(player, speed, velocity, blockBelow);
 	} else {
 		handleNonReplaceableBlock(player, speed, velocity, blockBelow);
@@ -227,8 +240,8 @@ void Scaffold::handleScaffoldUp(Player* player, float speed, const Vec3& velocit
 }
 
 Vec3 Scaffold::getBlockBelow(Player* player, float yOffset) {
-	Vec3 blockBelow = player->eyePos0;
-	blockBelow.y -= player->height + yOffset;
+	Vec3 blockBelow = *player->getPos();
+	blockBelow.y -= player->aabb->height + yOffset;
 	return blockBelow;
 }
 
@@ -309,14 +322,14 @@ void Scaffold::onSendPacket(Packet* packet) {
 	auto player = Game.getLocalPlayer();
 	if (player == nullptr) return;
 	if (hive || rotations) {
-		float speed = player->velocity.magnitudexz();
-		Vec3 blockBelow = player->eyePos0;  // Block 1 block below the player
-		blockBelow.y -= player->height;
+		float speed = player->entityLocation->velocity.magnitudexz();
+		Vec3 blockBelow = *player->getPos();  // Block 1 block below the player
+		blockBelow.y -= player->aabb->height;
 		blockBelow.y -= 0.5f;
 
-		if (packet->isInstanceOf<C_MovePlayerPacket>()) {
+		if (packet->isInstanceOf<MovePlayerPacket>()) {
 			if (speed > 0.05f) {
-				auto* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);
+				auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 				Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
 				movePacket->pitch = 83;
 				movePacket->headYaw = angle.y;
@@ -329,16 +342,16 @@ void Scaffold::onSendPacket(Packet* packet) {
 void Scaffold::onPlayerTick(Player* player) {
 	if (player == nullptr) return;
 	if (hive || rotations) {
-		float speed = player->velocity.magnitudexz();
-		Vec3 blockBelow = player->eyePos0;  // Block 1 block below the player
-		blockBelow.y -= player->height;
+		float speed = player->entityLocation->velocity.magnitudexz();
+		Vec3 blockBelow = *player->getPos();  // Block 1 block below the player
+		blockBelow.y -= player->aabb->height;
 		blockBelow.y -= 0.5f;
 
 		if (speed > 0.05f) {
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-			player->pitch = angle.x;
-			player->yawUnused1 = angle.y;
-			player->bodyYaw = angle.y;
+			player->getActorHeadRotationComponent()->rot.x = angle.x;
+			player->getActorRotationComponent()->rot.y = angle.y;
+			player->getMobBodyRotationComponent()->bodyRot = angle.y;
 		}
 	}
 }

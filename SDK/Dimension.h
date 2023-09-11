@@ -28,6 +28,11 @@ public:
 	class Weather *weather;  //0x120
 };
 
+class BlockSource;
+class CompoundTag;
+class Entity;
+class Block;
+
 class Weather {
 private:
 	char pad_0x8[0x44];  //0x8

@@ -19,9 +19,7 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	LocalPlayer* localPlayer = Game.getLocalPlayer();
 	if (localPlayer == nullptr || !GameData::canUseMoveKeys())
 		return;
-	int currentDimension = -1;
-
-	localPlayer->getDimensionId(&currentDimension);
+	int currentDimension = localPlayer->dimension->dimensionId;
 
 	for (auto it = waypoints->begin(); it != waypoints->end(); it++) {
 		Vec3 pos = it->second.pos;
@@ -64,8 +62,8 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 		if (fadeOutAtDistance && dist > 15) {
 				
-			Vec2 angle = localPlayer->currentPos.CalcAngle(pos);
-			float diff = angle.sub(localPlayer->viewAngles).normAngles().magnitude();
+			Vec2 angle = localPlayer->getPos()->CalcAngle(pos);
+			float diff = angle.sub(localPlayer->getActorHeadRotationComponent()->rot).normAngles().magnitude();
 			if (dist > 30) {
 				float neededDiff = lerp(40, 15, std::min((dist - 30) / 300, 1.f));
 				float minAlpha = lerp(0.6f, 0.3f, std::min((dist - 30) / 50, 1.f));

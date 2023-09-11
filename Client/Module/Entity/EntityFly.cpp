@@ -35,15 +35,15 @@ void EntityFly::onTick(GameMode* gm) {
 	if (!targetJoe.empty()) {
 		// keeps you in the air
 		glideModEffective = glideMod;
-		targetJoe[0]->velocity.y = glideModEffective;
+		targetJoe[0]->entityLocation->velocity.y = glideModEffective;
 		GameSettingsInput* input = Game.getClientInstance()->getGameSettingsInput();
 
 		if (Game.canUseMoveKeys() && !targetJoe.empty()) {
 			if (GameData::isKeyDown(VK_DOWN)) {
-				targetJoe[0]->velocity.y -= upspeed;
+				targetJoe[0]->entityLocation->velocity.y -= upspeed;
 			}
 			if (GameData::isKeyDown(VK_UP)) {
-				targetJoe[0]->velocity.y += upspeed;
+				targetJoe[0]->entityLocation->velocity.y += upspeed;
 			}
 		}
 	}
@@ -54,7 +54,7 @@ void EntityFly::onMove(MoveInputHandler* input) {
 	Game.forEachEntity(findJoe);
 
 	if (!targetJoe.empty()) {
-		float yaw = targetJoe[0]->yaw;
+		float yaw = targetJoe[0]->getActorHeadRotationComponent()->rot.y;
 		if (targetJoe[0] && targetJoe[0] == nullptr) return;
 		if (targetJoe[0]->isSneaking())
 			return;
@@ -83,12 +83,12 @@ void EntityFly::onMove(MoveInputHandler* input) {
 		float calcYaw = (yaw + 90.f) * (PI / 180.f);
 		Vec3 moveVec;
 		moveVec.x = cos(calcYaw) * speed2;
-		moveVec.y = targetJoe[0]->velocity.y;
+		moveVec.y = targetJoe[0]->entityLocation->velocity.y;
 		moveVec.z = sin(calcYaw) * speed2;
 		if (pressed) targetJoe[0]->lerpMotion(moveVec);
 		if (!pressed) {
-			targetJoe[0]->velocity.x = 0;
-			targetJoe[0]->velocity.z = 0;
+			targetJoe[0]->entityLocation->velocity.x = 0;
+			targetJoe[0]->entityLocation->velocity.z = 0;
 		}
 	}
 }

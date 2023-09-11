@@ -4,8 +4,7 @@
 #include "../ModuleManager.h"
 
 class Aimbot : public Module {
-public:
-	float range = 4.f;
+private:
 	bool vertical = true;
 	bool sword = false;
 	bool click = false;
@@ -15,10 +14,15 @@ public:
 	float horizontalrange = 60.f;
 	bool lock = false;
 
+public:
+	float range = 4.f;
+	bool mobs = false;
+
 	std::vector<Entity*> targetList;
 
 	Aimbot() : Module(0x0, Category::COMBAT, "Automatically aims at the nearest entity") {
 		registerFloatSetting("range", &range, range, 3.f, 8.f);
+		registerBoolSetting("Mobs", &mobs, mobs);
 		registerBoolSetting("Require click", &click, click);
 		registerBoolSetting("only swords/axes", &sword, sword);
 		registerBoolSetting("vertical", &vertical, vertical);
@@ -65,7 +69,7 @@ public:
 		if (targetList.size() > 0) {
 			std::sort(targetList.begin(), targetList.end(), CompareTargetEnArray());
 			Vec2 angle = origin.CalcAngle(*targetList[0]->getPos());
-			Vec2 appl = angle.sub(localPlayer->viewAngles).normAngles();
+			Vec2 appl = angle.sub(localPlayer->getActorHeadRotationComponent()->rot).normAngles();
 			appl.x = -appl.x;
 			if ((appl.x < verticalrange && appl.x > -verticalrange) && (appl.y < horizontalrange && appl.y > -horizontalrange) && GameData::canUseMoveKeys()) {
 				PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();

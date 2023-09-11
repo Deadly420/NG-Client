@@ -8,6 +8,7 @@ private:
 	bool entityIdCheck = true;
 	bool otherCheck = true;
 	bool extraCheck = false;
+	bool playerCheck = true;
 
 public:
 	AntiBot::AntiBot() : Module(0, Category::PLAYER, "filter bots and non player char") {
@@ -16,6 +17,7 @@ public:
 		registerBoolSetting("EntityID Check", &entityIdCheck, entityIdCheck);
 		registerBoolSetting("Other Check", &otherCheck, otherCheck);
 		registerBoolSetting("Extra Check", &extraCheck, extraCheck);
+		registerBoolSetting("Player Check", &playerCheck, playerCheck);
 	}
 	~AntiBot(){};
 
@@ -36,6 +38,9 @@ public:
 	}
 	inline bool isExtraCheckEnabled() {
 		return this->extraCheck && this->isEnabled();
+	}
+	inline bool isPlayerCheckEnabled() {
+		return playerCheck && isEnabled();
 	}
 
 	virtual const char* getModuleName() override {

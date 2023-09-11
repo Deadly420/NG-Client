@@ -35,9 +35,9 @@ bool Tower::tryTower(Vec3 blockBelow) {
 
 	DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);
 
-	Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(blockBelow));
+	Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(blockBelow));
 	BlockLegacy* blockLegacy = (block->blockLegacy);
-	if (blockLegacy->material->isReplaceable) {
+	if (blockLegacy->isSolid) {
 		Vec3i blok(blockBelow);
 
 		// Find neighbour
@@ -56,7 +56,7 @@ bool Tower::tryTower(Vec3 blockBelow) {
 		int i = 0;
 		for (auto current : checklist) {
 			Vec3i calc = blok.sub(*current);
-			if (!((Game.getLocalPlayer()->region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
+			if (!((Game.getLocalPlayer()->getRegion()->getBlock(calc)->blockLegacy))->isSolid) {
 				// Found a solid block to click
 				foundCandidate = true;
 				blok = calc;
@@ -66,9 +66,9 @@ bool Tower::tryTower(Vec3 blockBelow) {
 		}
 		if (foundCandidate && GameData::isKeyDown(*input->spaceBarKey)) {
 			Vec3 moveVec;
-			moveVec.x = Game.getLocalPlayer()->velocity.x;
+			moveVec.x = Game.getLocalPlayer()->entityLocation->velocity.x;
 			moveVec.y = motion;
-			moveVec.z = Game.getLocalPlayer()->velocity.z;
+			moveVec.z = Game.getLocalPlayer()->entityLocation->velocity.z;
 			Game.getLocalPlayer()->lerpMotion(moveVec);
 			bool idk = true;
 			Game.getGameMode()->buildBlock(&blok, i, idk);
@@ -88,13 +88,13 @@ void Tower::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	if (!selectedItem->isValid() || !(*selectedItem->item)->isBlock())  // Block in hand?
 		return;
 
-	Vec3 blockBelow = Game.getLocalPlayer()->eyePos0;  // Block below the player
-	blockBelow.y -= Game.getLocalPlayer()->height;
+	Vec3 blockBelow = *Game.getLocalPlayer()->getPos();  // Block below the player
+	blockBelow.y -= Game.getLocalPlayer()->aabb->height;
 	blockBelow.y -= 0.5f;
 
 	// Adjustment by velocity
-	float speed = Game.getLocalPlayer()->velocity.magnitudexy();
-	Vec3 vel = Game.getLocalPlayer()->velocity;
+	float speed = Game.getLocalPlayer()->entityLocation->velocity.magnitudexy();
+	Vec3 vel = Game.getLocalPlayer()->entityLocation->velocity;
 	vel.normalize();  // Only use values from 0 - 1
 
 	if (!tryTower(blockBelow)) {

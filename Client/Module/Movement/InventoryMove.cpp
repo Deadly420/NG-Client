@@ -19,9 +19,9 @@ void InventoryMove::onTick(GameMode* gm) {
 		return;
 
 	float speed = 0.325f;
-	float yaw = gm->player->yaw;
+	float yaw = gm->player->getActorHeadRotationComponent()->rot.y;
 
-	if (GameData::isKeyDown(*input->spaceBarKey) && gm->player->onGround) {
+	if (GameData::isKeyDown(*input->spaceBarKey) && gm->player->isOnGround()) {
 		gm->player->jumpFromGround();
 	}
 
@@ -64,7 +64,7 @@ void InventoryMove::onTick(GameMode* gm) {
 	//float calcPitch = (gm->player->pitch) * -(PI / 180);
 	Vec3 moveVec;
 	moveVec.x = cos(calcYaw) * speed;
-	moveVec.y = gm->player->velocity.y;
+	moveVec.y = gm->player->entityLocation->velocity.y;
 	moveVec.z = sin(calcYaw) * speed;
 	if (keyPressed) {
 		gm->player->lerpMotion(moveVec);

@@ -3,7 +3,7 @@
 #include "TextHolder.h"
 #include <vector>
 
-struct Mc_Color;
+struct MC_Color;
 
 class FilePath {
 private:
@@ -77,14 +77,14 @@ public:
 	__int64 drawNineslice(TexturePtr* texturePtr, __int64* ninesliceInfo) {
 		return Utils::CallVFunc<8, __int64, TexturePtr*, __int64*>(this, texturePtr, ninesliceInfo);
 	};
-	__int64 flushImages(Mc_Color& color, float opacity, class HashedString& hashedString) {
-		return Utils::CallVFunc<9, __int64, Mc_Color&, float, class HashedString&>(this, color, opacity, hashedString);
+	__int64 flushImages(MC_Color& color, float opacity, class HashedString& hashedString) {
+		return Utils::CallVFunc<9, __int64, MC_Color&, float, class HashedString&>(this, color, opacity, hashedString);
 	};
-	void drawRectangle(Vec4 const& pos, Mc_Color& color, float alpha, int lineWidth) {
-		return Utils::CallVFunc<12, void, Vec4 const&, Mc_Color&, float, int>(this, pos, color, alpha, lineWidth);
+	void drawRectangle(Vec4 const& pos, MC_Color& color, float alpha, int lineWidth) {
+		return Utils::CallVFunc<12, void, Vec4 const&, MC_Color&, float, int>(this, pos, color, alpha, lineWidth);
 	};
-	void fillRectangle(Vec4 const& pos, Mc_Color& color, float alpha) {
-		return Utils::CallVFunc<13, void, Vec4 const&, Mc_Color&, float>(this, pos, color, alpha);
+	void fillRectangle(Vec4 const& pos, MC_Color& color, float alpha) {
+		return Utils::CallVFunc<13, void, Vec4 const&, MC_Color&, float>(this, pos, color, alpha);
 	};
 	void setClippingRectangle(Vec4 const& pos) {
 		return Utils::CallVFunc<20, void, Vec4 const&>(this, pos);

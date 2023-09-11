@@ -14,13 +14,10 @@ const char* Criticals::getModuleName() {
 void Criticals::onTick(GameMode* gm) {
 	if (test) {
 		LocalPlayer* player = Game.getLocalPlayer();
-		Vec3 pos = player->eyePos0;
+		Vec3 pos = *player->getPos();
 		pos.y += 2.f;
-		C_MovePlayerPacket movePlayerPacket;
-		movePlayerPacket.onGround = false;
-		movePlayerPacket = C_MovePlayerPacket(player, pos);
-		PlayerAuthInputPacket authInputPacket;
-		authInputPacket = PlayerAuthInputPacket(pos, player->pitch, player->yaw, player->yawUnused1);
+		MovePlayerPacket movePlayerPacket(player, pos);    // Call the isOnGround function and store the result
+		PlayerAuthInputPacket authInputPacket(pos, player->getActorHeadRotationComponent()->rot.x, player->getActorHeadRotationComponent()->rot.y, player->getActorHeadRotationComponent()->rot.y);
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&movePlayerPacket);
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&authInputPacket);
 	}
@@ -29,11 +26,10 @@ void Criticals::onTick(GameMode* gm) {
 void Criticals::onSendPacket(Packet* packet) {
 	LocalPlayer* player = Game.getLocalPlayer();
 	if (player != nullptr) {
-		Vec3 pos = player->eyePos0;
+		Vec3 pos = *player->getPos();
 		pos.y += 2.f;
-		if (packet->isInstanceOf<C_MovePlayerPacket>() && player != nullptr) {
-			C_MovePlayerPacket* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);
-			movePacket->onGround = false;
+		if (packet->isInstanceOf<MovePlayerPacket>() && player != nullptr) {
+			MovePlayerPacket* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			movePacket->Position = pos;
 		}
 		if (packet->isInstanceOf<PlayerAuthInputPacket>() && player != nullptr) {

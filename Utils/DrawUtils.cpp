@@ -42,9 +42,8 @@ meshHelper_renderImm_t meshHelper_renderImm;
 bool hasInitializedSigs = false;
 void initializeSigs() {
 	
-	tess_vertex = reinterpret_cast<tess_vertex_t>(FindSignature("40 57 48 83 EC ? 0F 29 74 24 ? 0F 29 7C 24"));
-	meshHelper_renderImm = reinterpret_cast<meshHelper_renderImm_t>(FindSignature("40 53 56 57 48 81 EC ?? ?? ?? ?? 49 8B F0 48 8B DA"));
-	//mce__VertexFormat__disableHalfFloats = reinterpret_cast<mce__VertexFormat__disableHalfFloats_t>(FindSignature("40 53 48 83 EC ?? 48 8B D9 C7 81 ?? ?? ?? ?? 00 00 00 00 C6 81 ?? ?? ?? ?? 00"));
+	tess_vertex = reinterpret_cast<tess_vertex_t>(FindSignature("40 57 48 81 EC ? ? ? ? ? ? 7C 24"));
+	meshHelper_renderImm = reinterpret_cast<meshHelper_renderImm_t>(FindSignature("40 55 53 56 57 41 56 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 49 8B F0"));  // mce__VertexFormat__disableHalfFloats = reinterpret_cast<mce__VertexFormat__disableHalfFloats_t>(FindSignature("40 53 48 83 EC ?? 48 8B D9 C7 81 ?? ?? ?? ?? 00 00 00 00 C6 81 ?? ?? ?? ?? 00"));
 	//Tessellator__initializeFormat = reinterpret_cast<Tessellator__initializeFormat_t>(FindSignature("48 89 74 24 ?? 57 48 83 EC 20 4C 8B 41 ?? 48 8B FA 4C 2B 41 ?? 48 8B F1 48 83 C1 08 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 49 F7 E8 48 D1 FA 48 8B C2 48 C1 E8 3F 48 03 D0 48 3B FA"));
 	hasInitializedSigs = true;
 }
@@ -76,7 +75,7 @@ void DrawUtils::setCtx(MinecraftUIRenderContext* ctx, GuiData* gui) {
 	renderCtx = ctx;
 	screenContext2d = reinterpret_cast<__int64*>(renderCtx)[2];
 
-	tessellator = *reinterpret_cast<Tessellator**>(screenContext2d + 0xB8);
+	tessellator = *reinterpret_cast<Tessellator**>(screenContext2d + 0xC0);
 	colorHolder = *reinterpret_cast<float**>(screenContext2d + 0x30);
 
 	glmatrixf* badrefdef = Game.getClientInstance()->getRefDef();
@@ -88,20 +87,14 @@ void DrawUtils::setCtx(MinecraftUIRenderContext* ctx, GuiData* gui) {
 	if (Game.getClientInstance()->levelRenderer != nullptr)
 		origin = Game.getClientInstance()->levelRenderer->getOrigin();
 
-	if (uiMaterial == nullptr) {
-		// 2 Sigs, wanted one comes first
-		//uintptr_t sigOffset = FindSignature("4C 8D 05 ?? ?? ?? ?? 48 8B D3 48 8B CF 48 8B 5C 24 ?? 0F 28 7C 24 ?? 44 0F 28 44 24 ?? 48");
-		//int offset = *reinterpret_cast<int*>(sigOffset + 3);
-		//uiMaterial = reinterpret_cast<MaterialPtr*>(sigOffset + offset + 7);
-		uiMaterial = reinterpret_cast<MaterialPtr*>(new mce::MaterialPtr(HashedString("ui_fill_color")));
-	}
-	if (entityFlatStaticMaterial == nullptr) {
-		//entityFlatStaticMaterial = reinterpret_cast<MaterialPtr*>(Game.getClientInstance()->itemInHandRenderer->entityLineMaterial.materialPtr);
-		entityFlatStaticMaterial = reinterpret_cast<MaterialPtr*>(new mce::MaterialPtr(HashedString("selection_overlay")));
-	}
-	if (blendMaterial == nullptr) {
-		blendMaterial = reinterpret_cast<MaterialPtr*>(new mce::MaterialPtr(HashedString("fullscreen_cube_overlay_blend")));
-	}
+	if (uiMaterial == nullptr)
+		uiMaterial = reinterpret_cast<MaterialPtr*>(mce::MaterialPtr::createMaterial(HashedString("ui_fill_color")));
+
+	if (entityFlatStaticMaterial == nullptr)
+		entityFlatStaticMaterial = reinterpret_cast<MaterialPtr*>(mce::MaterialPtr::createMaterial(HashedString("selection_overlay")));
+
+	if (blendMaterial == nullptr)
+		blendMaterial = reinterpret_cast<MaterialPtr*>(mce::MaterialPtr::createMaterial(HashedString("fullscreen_cube_overlay_blend")));
 }
 
 void DrawUtils::setColor(float r, float g, float b, float a) {
@@ -140,7 +133,7 @@ Font* DrawUtils::getFont(Fonts font) {
 }
 
 Tessellator* DrawUtils::get3dTessellator() {
-	auto myTess = *reinterpret_cast<Tessellator**>(game3dContext + 0xB8);
+	auto myTess = *reinterpret_cast<Tessellator**>(game3dContext + 0xC0);
 	return myTess;
 }
 
@@ -565,7 +558,7 @@ void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool 
 	float textWidth = getTextWidth(&text, textSize);
 	float textHeight = DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() * textSize;
 
-	if (refdef->OWorldToScreen(origin, ent->eyePos0.add(0, 0.5f, 0), textPos, fov, screenSize)) {
+	if (refdef->OWorldToScreen(origin, ent->getRenderPos().add(0, 0.5f, 0), textPos, fov, screenSize)) {
 		textPos.y -= textHeight;
 		textPos.x -= textWidth / 2.f;
 		rectPos.x = textPos.x - 1.f * textSize;
@@ -583,7 +576,7 @@ void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool 
 
 		static auto nameTagsMod = moduleMgr->getModule<NameTags>();
 
-		if (ent->getEntityTypeId() == 63 && nameTagsMod->displayArmor) {  // is player, show armor
+		if (ent->isPlayer() && nameTagsMod->displayArmor) {  // is player, show armor
 			auto* player = reinterpret_cast<Player*>(ent);
 			float scale = textSize * 0.6f;
 			float spacing = scale + 15.f;
@@ -609,25 +602,25 @@ void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool 
 }
 
 void DrawUtils::drawEntityBox(Entity* ent, float lineWidth, bool fill) {
-	Vec3 end = ent->eyePos0;
+	Vec3 end = *ent->getPos();
 	AABB render;
 	if (ent->isPlayer()) {
-		render = AABB(end, ent->width, ent->height, ent->height);
+		render = AABB(end, ent->aabb->width, ent->aabb->height, ent->aabb->height);
 		render.upper.y += 0.2f;
 		render.lower.y += 0.2f;
 	} else
-		render = AABB(end, ent->width, ent->height, 0);
+		render = AABB(end, ent->aabb->width, ent->aabb->height, 0);
 	render.upper.y += 0.1f;
 
-	float LineWidth = (float)fmax(0.5f, 1 / (float)fmax(1, (float)Game.getLocalPlayer()->eyePos0.dist(end)));
+	float LineWidth = (float)fmax(0.5f, 1 / (float)fmax(1, (float)Game.getLocalPlayer()->getPos()->dist(end)));
 	DrawUtils::drawBox(render.lower, render.upper, lineWidth == 0 ? LineWidth : lineWidth, fill);
 }
 
 void DrawUtils::drawBetterESP(Entity* ent, float lineWidth) {
-	// Vec3* end = ent->getPos();
+	//Vec3* end = ent->getPos();
 	// Vec3 lerped = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
 
-	AABB render(ent->eyePos0, ent->width, ent->height, ent->eyePos0.y - ent->aabb.lower.y);
+	AABB render(ent->getRenderPos(), ent->aabb->width, ent->aabb->height, ent->getRenderPos().y - ent->aabb->lower.y);
 	render.upper.y += 0.1f;
 
 	DrawUtils::drawBox(render.lower, render.upper, lineWidth);
@@ -635,14 +628,14 @@ void DrawUtils::drawBetterESP(Entity* ent, float lineWidth) {
 
 void DrawUtils::draw2D(Entity* ent, float lineWidth) {
 	if (Game.getLocalPlayer() == nullptr) return;
-	Vec3 end = ent->eyePos0;
+	Vec3 end = *ent->getPos();
 	AABB render;
 	if (ent->isPlayer()) {
-		render = AABB(end, ent->width, ent->height, ent->height);
+		render = AABB(end, ent->aabb->width, ent->aabb->height, ent->aabb->height);
 		render.upper.y += 0.2f;
 		render.lower.y += 0.2f;
 	} else
-		render = AABB(end, ent->width, ent->height, 0);
+		render = AABB(end, ent->aabb->width, ent->aabb->height, 0);
 	render.upper.y += 0.1f;
 
 	Vec3 worldPoints[8];
@@ -670,7 +663,7 @@ void DrawUtils::draw2D(Entity* ent, float lineWidth) {
 		if (point.x > resultRect.z) resultRect.z = point.x;
 		if (point.y > resultRect.w) resultRect.w = point.y;
 	}
-	float LineWidth = (float)fmax(0.5f, 1 / (float)fmax(1, (float)Game.getLocalPlayer()->eyePos0.dist(end)));
+	float LineWidth = (float)fmax(0.5f, 1 / (float)fmax(1, (float)Game.getLocalPlayer()->getPos()->dist(end)));
 	DrawUtils::drawRectangle(Vec2(resultRect.x, resultRect.y), Vec2(resultRect.z, resultRect.w), lineWidth == 0 ? LineWidth : lineWidth);
 }
 
@@ -678,15 +671,15 @@ void DrawUtils::drawZephyr(Entity* ent, float lineWidth) {
 	// Vec3* end = ent->getPos();
 	// Vec3 base = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
 
-	float ofs = (Game.getLocalPlayer()->yaw + 90.f) * (PI / 180);
+	float ofs = (Game.getLocalPlayer()->getActorHeadRotationComponent()->rot.y + 90.f) * (PI / 180);
 
 	Vec3 corners[4];
 	Vec2 corners2d[4];
 
-	corners[0] = Vec3(ent->eyePos0.x - ent->width / 1.5f * -sin(ofs), ent->aabb.upper.y + (float)0.1, ent->eyePos0.z - ent->width / 1.5f * cos(ofs));
-	corners[1] = Vec3(ent->eyePos0.x + ent->width / 1.5f * -sin(ofs), ent->aabb.upper.y + (float)0.1, ent->eyePos0.z + ent->width / 1.5f * cos(ofs));
-	corners[2] = Vec3(ent->eyePos0.x - ent->width / 1.5f * -sin(ofs), ent->aabb.lower.y, ent->eyePos0.z - ent->width / 1.5f * cos(ofs));
-	corners[3] = Vec3(ent->eyePos0.x + ent->width / 1.5f * -sin(ofs), ent->aabb.lower.y, ent->eyePos0.z + ent->width / 1.5f * cos(ofs));
+	corners[0] = Vec3(ent->getRenderPos().x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPos().z - ent->aabb->width / 1.5f * cos(ofs));
+	corners[1] = Vec3(ent->getRenderPos().x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPos().z + ent->aabb->width / 1.5f * cos(ofs));
+	corners[2] = Vec3(ent->getRenderPos().x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPos().z - ent->aabb->width / 1.5f * cos(ofs));
+	corners[3] = Vec3(ent->getRenderPos().x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPos().z + ent->aabb->width / 1.5f * cos(ofs));
 
 	if (refdef->OWorldToScreen(origin, corners[0], corners2d[0], fov, screenSize) &&
 		refdef->OWorldToScreen(origin, corners[1], corners2d[1], fov, screenSize) &&

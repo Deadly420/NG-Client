@@ -1,12 +1,13 @@
 #pragma once
 
+#include <memory>
+
+#include "../../SDK/BlockLegacy.h"
 #include "../../Utils/HMath.h"
+#include "JoeConstants.h"
 #include "JoePath.h"
 #include "JoeSegment.h"
 #include "goals/JoeGoal.h"
-#include "../../SDK/BlockLegacy.h"
-#include "JoeConstants.h"
-#include <memory>
 
 class JoePathFinder {
 private:
@@ -14,6 +15,7 @@ private:
 	JoePath currentPath;
 	BlockSource* region;
 	std::shared_ptr<JoeGoal> goal;
+
 public:
 	bool terminateSearch = false;
 	float pathSearchTimeout = 5.f;

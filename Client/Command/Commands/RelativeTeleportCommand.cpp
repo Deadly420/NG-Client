@@ -13,7 +13,7 @@ bool RelativeTeleportCommand::execute(std::vector<std::string>* args) {
 	assertTrue(Game.getLocalPlayer() != nullptr);
 	assertTrue(args->size() >= 4);
 
-	Vec3 pPos = Game.getLocalPlayer()->eyePos0;
+	Vec3 pPos = *Game.getLocalPlayer()->getPos();
 
 	Vec3 pos;
 	pos.x = assertFloat(args->at(1)) + pPos.x;

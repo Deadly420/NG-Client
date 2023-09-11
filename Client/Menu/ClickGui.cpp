@@ -242,7 +242,7 @@ void ClickGui::renderCategory(Category category) {
 				break;
 			}
 
-			std::string textStr = mod->getModuleName();
+			std::string textStr = mod->getRawModuleName();
 
 			Vec2 textPos = Vec2(
 				currentXOffset + textPaddingX,

@@ -54,9 +54,9 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 	if (!targetList.empty()) {
 		std::sort(targetList.begin(), targetList.end(), CompareTargetEnArray());
-		Vec3 origin = Game.getLocalPlayer()->eyePos0;  // TODO: sort list
+		Vec3 origin = Game.getClientInstance()->levelRenderer->getOrigin();  // TODO: sort list
 		Entity* entity = targetList[0];
-		Vec3 pos = entity->aabb.centerPoint();
+		Vec3 pos = entity->aabb->centerPoint();
 		if (predict) {
 			Vec3 velocity = entity->getPos()->sub(*entity->getPosOld());
 			velocity.x *= origin.dist(pos) / 2.f;
@@ -74,7 +74,7 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 		if (silent) {
 			angle = Vec2(pitch, yaw);
-			C_MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+			MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
 			p.pitch = angle.x;
 			p.yaw = angle.y;
 			p.headYaw = angle.y;
@@ -83,7 +83,7 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			if (pitch < 89 && pitch > -89) {
 				Vec2 angles = Vec2(pitch, yaw);
 
-				Vec2 appl = angles.sub(localPlayer->viewAngles).normAngles();
+				Vec2 appl = angles.sub(localPlayer->getActorHeadRotationComponent()->rot).normAngles();
 				appl.x = -appl.x;
 				appl = appl.div(7);  // Smooth dat boi
 
@@ -94,9 +94,9 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 }
 
 void BowAimbot::onSendPacket(Packet* packet) {
-	if (packet->isInstanceOf<C_MovePlayerPacket>() && silent) {
+	if (packet->isInstanceOf<MovePlayerPacket>() && silent) {
 		if (!targetList.empty()) {
-			auto* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);
+			auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			movePacket->pitch = angle.x;
 			movePacket->headYaw = angle.y;
 			movePacket->yaw = angle.y;

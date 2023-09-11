@@ -542,6 +542,8 @@ struct glmatrixf {
 struct AABB {
 	Vec3 lower;
 	Vec3 upper;
+	float width;
+	float height;
 	//bool isZero = false;
 	//char padding[3];
 	AABB() {}

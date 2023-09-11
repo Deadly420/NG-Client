@@ -192,7 +192,7 @@ public:
 	char windowId1;           // 0xC1  DONT USE FOR PACKET SENDING
 	char inventorySlot1;      // 0xC2
 	char hotbarSlot1;         // 0xC3
-	char windowId2;           // 0xC4 ALL OF THIS IS PROBABLY BROKEN, DON'T USE
+	char windowId2;           // 0xC4 ALL OF THIS IS PROBABLY BROKEN, DONT USE
 	char unknown1;
 };
 
@@ -229,12 +229,73 @@ public:
 	TextHolder platformChatId;
 };
 
+class BookEditPacket : public Packet {
+public:
+	BookEditPacket();
+
+	char action; // 0x28
+
+private:
+	char pad2[0x3]; // 0x29
+
+public:
+	char slot; // 0x2C
+
+private:
+	char pad3[0x3]; // 0x2D
+
+public:
+	char page; // 0x30
+
+private:
+	char pad4[0x3]; // 0x31
+
+public:
+	char secondaryPage; // 0x34
+
+private:
+	char pad5[0x3]; // 0x35
+
+public:
+	TextHolder title; // 0x38   Also used as Text
+	TextHolder author; // 0x58   Also used as Photo name
+	TextHolder xuid; // 0x78
+};
+
+class DisconnectPacket : public Packet {
+public:
+	DisconnectPacket();
+	DisconnectPacket(TextHolder reason, bool hideDisconnectScreen);
+
+	bool hideDisconnectScreen; // 0x28
+
+private:
+	char pad2[0xF]; // 0x29
+
+public:
+	TextHolder reason; // 0x38
+};
+
+class ResourcePacksInfoPacket : public Packet {
+public:
+	ResourcePacksInfoPacket();
+
+	bool mustAccept; // 0x28
+	bool scripting; // 0x29
+
+private:
+	char pad2[0x1]; // 0x2A
+
+public:
+	bool forceServerPacks; // 0x2B
+};
+
 #pragma pack(push, 8)
 
-__declspec(align(8)) class C_MovePlayerPacket : public Packet {
+__declspec(align(8)) class MovePlayerPacket : public Packet {
 public:
-	C_MovePlayerPacket();
-	C_MovePlayerPacket(LocalPlayer* player, Vec3 pos);
+	MovePlayerPacket();
+	MovePlayerPacket(LocalPlayer* player, Vec3 pos);
 	
 	__int64 entityRuntimeID;  //0x28
 	Vec3 Position;          //0x30
@@ -242,7 +303,7 @@ public:
 	float yaw;                //0x40
 	float headYaw;            //0x44
 	uint8_t mode;             //0x48
-	bool onGround;
+	bool isOnGround();
 	__int64 ridingEid;
 	int int1;
 	int int2;
@@ -263,10 +324,10 @@ public:
 class MobEffectPacket : public Packet {
 public:
 	MobEffectPacket();
-	MobEffectPacket(__int64 entityRuntimeId, char event, int effectId, int amplifier, bool showParticles, int duration);  // showparticles and duration might be an in a different order
+	MobEffectPacket(__int64 entityRuntimeId, char event, int effectId, int amplifier, bool showParticles, int duration);  // showparticles and duration might be a in a different order
 
 	__int64 eid;
-	char event; // 0: None 1: Add 2: Modify 3: Remove
+	char event; // 0: None 1 : Add 2 : Modify 3 : Remove
 	int effectId;
 	int amplifier;
 	bool showParticles;

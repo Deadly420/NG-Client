@@ -26,8 +26,8 @@ void Crasher::onSendPacket(Packet* packet) {
 		InputPacket->pos.x = static_cast<float>(0xFFFFFFFF);
 		InputPacket->pos.y = static_cast<float>(0xFFFFFFFF);
 		InputPacket->pos.z = static_cast<float>(0xFFFFFFFF);
-	} else if (packet->isInstanceOf<C_MovePlayerPacket>()) {
-		C_MovePlayerPacket* movePacket = reinterpret_cast<C_MovePlayerPacket*>(packet);
+	} else if (packet->isInstanceOf<MovePlayerPacket>()) {
+		MovePlayerPacket* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 		movePacket->Position.x = static_cast<float>(0xFFFFFFFF);
 		movePacket->Position.y = static_cast<float>(0xFFFFFFFF);
 		movePacket->Position.z = static_cast<float>(0xFFFFFFFF);

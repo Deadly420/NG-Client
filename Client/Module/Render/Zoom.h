@@ -17,13 +17,13 @@ public:
 	}
 
 	void onLevelRender() override {
-		if (auto localPlayer = Game.getLocalPlayer())
-			localPlayer->setFieldOfViewModifier(1.f - strength);
+		//if (auto localPlayer = Game.getLocalPlayer())
+		//	localPlayer->setFieldOfViewModifier(1.f - strength);
 	}
 
 	void onDisable() override {
-		if (auto localPlayer = Game.getLocalPlayer())
-			localPlayer->setFieldOfViewModifier(1.0f);
+		//if (auto localPlayer = Game.getLocalPlayer())
+		//	localPlayer->setFieldOfViewModifier(1.0f);
 	}
 
 	bool isFlashMode() override {

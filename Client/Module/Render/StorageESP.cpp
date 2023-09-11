@@ -31,7 +31,7 @@ void StorageESP::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		Vec3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
-		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;
+		auto storageID = Game.getLocalPlayer()->getRegion()->getBlock(blockPos)->toLegacy()->blockId;
 
 		if (storageID == 54) flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);                     // Normal Chest
 		if (storageID == 146) flushColor = Mc_Color(.92f, .14f, .14f, opacity);                 // Trapped Chest
@@ -40,16 +40,16 @@ void StorageESP::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		if (storageID == 205) flushColor = Mc_Color(.49f, .17f, .95f, opacity);                 // Undyed Shulker Box
 		if (storageID == 218) flushColor = Mc_Color(.08f, .91f, .99f, opacity);                 // Shulker Box
 		DrawUtils::setColor(flushColor.r, flushColor.g, flushColor.b, flushColor.a);
-		if (fill && (mode.selected == 0 || mode.selected == 3)) DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->eyePos0.dist(chest.lower))), true);
+		if (fill && (mode.selected == 0 || mode.selected == 3)) DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->getPos()->dist(chest.lower))), true);
 		switch (mode.selected) {
 		case 0:
-			DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->eyePos0.dist(chest.lower))));
+			DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->getPos()->dist(chest.lower))));
 			break;
 		case 2:
-			DrawUtils::drawBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->eyePos0.dist(chest.lower))), fill, 2);
+			DrawUtils::drawBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->getPos()->dist(chest.lower))), fill, 2);
 			break;
 		case 3:
-			DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->eyePos0.dist(chest.lower))), false, true);
+			DrawUtils::draw2DBox(chest.lower, chest.upper, (float)fmax(0.5f, 1 / (float)fmax(1, Game.getLocalPlayer()->getPos()->dist(chest.lower))), false, true);
 			break;
 		}
 	}
@@ -67,7 +67,7 @@ void StorageESP::onLevelRender() {
 		Vec3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
-		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;
+		auto storageID = Game.getLocalPlayer()->getRegion()->getBlock(blockPos)->toLegacy()->blockId;
 
 		if (storageID == 54) flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);                     // Normal Chest
 		if (storageID == 146) flushColor = Mc_Color(.92f, .14f, .14f, opacity);                 // Trapped Chest

@@ -40,7 +40,7 @@ void doRenderStuff(Entity* ent, bool isRegularEntitie) {
 			DrawUtils::setColor(0.9f, 0.9f, 0.9f, (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
 	} else if (espMod->isMobEsp) {
 
-		if (ent->getNameTag()->getTextLength() <= 1 && ent->getEntityTypeId() == 64)
+		if (ent->getNameTag()->getTextLength() <= 1 && ent->isPlayer())
 			return;
 
 		if (ent->isInvisible() || !localPlayer->canAttack(ent, false))
@@ -59,11 +59,11 @@ void doRenderStuff(Entity* ent, bool isRegularEntitie) {
 
 	if (Game.canUseMoveKeys() && Game.isInGame()) {
 		if (espMod->mode.selected == 0)
-			DrawUtils::drawZephyr(ent, (float)fmax(0.4f, 1 / (float)fmax(1, localPlayer->eyePos0.dist(ent->eyePos0) * 3.f)));
+			DrawUtils::drawZephyr(ent, (float)fmax(0.4f, 1 / (float)fmax(1, localPlayer->getPos()->dist(*ent->getPos()) * 3.f)));
 		else if (espMod->mode.selected == 1)
-			DrawUtils::drawBetterESP(ent, (float)fmax(0.2f, 1 / (float)fmax(1, localPlayer->eyePos0.dist(ent->eyePos0))));
+			DrawUtils::drawBetterESP(ent, (float)fmax(0.2f, 1 / (float)fmax(1, localPlayer->getPos()->dist(*ent->getPos()))));
 		else
-			DrawUtils::drawEntityBox(ent, (float)fmax(0.2f, 1 / (float)fmax(1, localPlayer->eyePos0.dist(ent->eyePos0))));
+			DrawUtils::drawEntityBox(ent, (float)fmax(0.2f, 1 / (float)fmax(1, localPlayer->getPos()->dist(*ent->getPos()))));
 	}
 }
 

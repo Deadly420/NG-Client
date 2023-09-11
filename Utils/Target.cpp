@@ -30,7 +30,7 @@ bool Target::isValidTarget(Entity* ent) {
 
 	auto entityTypeId = ent->getEntityTypeId();
 
-	if (antibot->isEntityIdCheckEnabled() && entityTypeId <= 130 && entityTypeId != 63)
+	if (antibot->isEntityIdCheckEnabled() && entityTypeId <= 130 && !ent->isPlayer())
 		return false;
 
 	if (ent->isPlayer()) {
@@ -81,7 +81,7 @@ bool Target::isValidTarget(Entity* ent) {
 		return false;
 
 	if (!hitboxMod->isEnabled() && antibot->isHitboxCheckEnabled())
-		if ((ent->height < 1.5f || ent->width < 0.49f || ent->height > 2.1f || ent->width > 0.9f))
+		if ((ent->aabb->height < 1.5f || ent->aabb->width < 0.49f || ent->aabb->height > 2.1f || ent->aabb->width > 0.9f))
 			return false;
 
 	if (!localPlayer->canAttack(ent, false))

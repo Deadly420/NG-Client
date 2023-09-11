@@ -19,7 +19,7 @@ bool NbtCommand::execute(std::vector<std::string>* args) {
 	}
 
 	Level* level = Game.getLocalPlayer()->level;
-	BlockActor* blockActor = Game.getLocalPlayer()->region->getBlockEntity(level->block);
+	BlockActor* blockActor = Game.getLocalPlayer()->getRegion()->getBlockEntity(level->block);
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
 	Inventory* inv = supplies->inventory;
 	InventoryTransactionManager* manager = Game.getLocalPlayer()->getTransactionManager();

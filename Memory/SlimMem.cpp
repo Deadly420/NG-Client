@@ -19,7 +19,7 @@ namespace SlimUtils {
 
 bool SlimMem::HasProcessHandle() const { return IsProcessHandleValid(m_hProc); }
 
-#pragma region Constructors/Destructors
+#pragma region Constructors /Destructors
 	SlimMem::SlimMem(const SlimMem & copy)
 	{
 		m_dwPID = 0;
@@ -32,7 +32,7 @@ bool SlimMem::HasProcessHandle() const { return IsProcessHandleValid(m_hProc); }
 	}
 #pragma endregion
 
-#pragma region Open/Close
+#pragma region Open /Close
 	void SlimMem::Close()
 	{
 		m_mModules.clear();

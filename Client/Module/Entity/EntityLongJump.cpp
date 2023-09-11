@@ -33,7 +33,7 @@ void EntityLongJump::onMove(MoveInputHandler* input) {
 		auto player = targetOrphan[0];
 		if (player == nullptr) return;
 
-		if (player->isInLava() == 1 || player->isInWater() == 1)
+		if (player->isInWater() == 1)
 			return;
 
 		if (player->isSneaking())
@@ -42,19 +42,19 @@ void EntityLongJump::onMove(MoveInputHandler* input) {
 		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
 		bool pressed = moveVec2d.magnitude() > 0.01f;
 
-		if (player->onGround && pressed)
+		if (player->isOnGround() && pressed)
 			player->jumpFromGround();
 
-		float calcYaw = (player->yaw + 90) * (PI / 180);
+		float calcYaw = (player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
 		Vec3 moveVec;
 		float c = cos(calcYaw);
 		float s = sin(calcYaw);
 		moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
 		moveVec.x = moveVec2d.x * speed;
-		moveVec.y = player->velocity.y;
+		moveVec.y = player->entityLocation->velocity.y;
 		moveVec.z = moveVec2d.y * speed;
 		if (pressed) player->lerpMotion(moveVec);
-		if (player->onGround && pressed && !input->isJumping)
-			player->velocity.y += upVal;
+		if (player->isOnGround() && pressed && !input->isJumping)
+			player->entityLocation->velocity.y += upVal;
 	}
 }

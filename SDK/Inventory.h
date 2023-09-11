@@ -16,48 +16,49 @@ public:
 	// DROPS WHOLE INVENTORY doesnt work tho
 	void dropAll();
 
-	virtual __int64 init();
-	virtual bool serverInitItemStackIds(signed int a2, int a3, __int64 a4);
-	virtual __int64 addContentChangeListener(__int64 a2);
-	virtual __int64 removeContentChangeListener(__int64 a2);
-	virtual ItemStack* getItemStack(int slot);
-	virtual bool hasRoomForItem(ItemStack*);
-	virtual __int64 addItem(ItemStack*);
-	virtual __int64 addItemToFirstEmptySlot(ItemStack*);
-	virtual __int64 setItem(int slot, const ItemStack&);
-	virtual __int64 setItemWithForceBalance(int, const ItemStack&, bool);
-	virtual __int64 removeItem(int, int);
-	virtual __int64 removeAllItems();
-	virtual __int64 dropContents(BlockSource&, const Vec3&, bool);
-	virtual __int64 getContainerSize();
-	virtual __int64 getMaxStackSize();
-	virtual __int64 startOpen(Player&);
-	virtual __int64 stopOpen(Player&);
-	virtual __int64 getSlotCopies();
-	virtual __int64 getSlots();
-	virtual __int64 getItemCount(const ItemStack&);
-	virtual __int64 findFirstSlotForItem(const ItemStack&);
-	virtual __int64 canPushInItem();   // BlockSource &,int,int,ItemInstance const&
-	virtual __int64 canPullOutItem();  // BlockSource &,int,int,ItemInstance const&
-	virtual __int64 setContainerChanged(int);
-	virtual __int64 setContainerMoved();
-	virtual __int64 setCustomName(const TextHolder&);
-	virtual __int64 hasCustomName();
-	virtual __int64 readAdditionalSaveData();    //  CompoundTag const&
-	virtual __int64 addAdditionalSaveData();     //  CompoundTag &
-	virtual __int64 createTransactionContext();  // std::function<void(Inventory&, int, const ItemStack&, const ItemStack&)>, std::function<void(void)>
-	virtual __int64 initializeContainerContents(BlockSource&);
-	virtual bool isEmpty();
-	virtual __int64 add(ItemStack&);
-	virtual __int64 canAdd(const ItemStack&);
-	//virtual void unknown();
-	virtual __int64 clearSlot(int);
-	virtual __int64 clearInventory(int);
-	virtual __int64 load();  // ListTag const&,SemVersion const&,Level &
-	//virtual void unknown2();
-	virtual int getEmptySlotsCount();
-	virtual int getFirstEmptySlot();
-	virtual void setContainerSize();
+	virtual void Destructor();
+	virtual void init(void);
+	virtual void serverInitItemStackIds(int, int, __int64);
+	virtual void addContentChangeListener(__int64 *);
+	virtual void removeContentChangeListener(__int64 *);
+	virtual ItemStack *getItemStack(int);
+	virtual bool hasRoomForItem(ItemStack const &);
+	virtual void addItem(ItemStack *);
+	virtual void addItemWithForceBalance(ItemStack &);
+	virtual void addItemToFirstEmptySlot(ItemStack *);
+	virtual void setItem(int slot, ItemStack const &);
+	virtual void setItemWithForceBalance(int, ItemStack const &, bool);
+	virtual void removeItem(int slot, int count);
+	virtual void removeAllItems(void);
+	virtual void removeAllItemsWithForceBalance(void);
+	virtual void dropContents(BlockSource &, Vec3 const &, bool);
+	virtual __int64 getContainerSize(void);
+	virtual __int64 getMaxStackSize(void);
+	virtual void startOpen(Player &);
+	virtual void stopOpen(Player &);
+	virtual int getSlotCopies(void);
+	virtual int getSlots(void);
+	virtual int getEmptySlotsCount(void);
+	virtual int getItemCount(ItemStack const &);
+	virtual void findFirstSlotForItem(ItemStack const &);
+	virtual void canPushInItem(int, int, ItemStack const &);
+	virtual void canPullOutItem(int, int, ItemStack const &);
+	virtual void setContainerChanged(int);
+	virtual void setContainerMoved(void);
+	virtual void setCustomName(std::string const &);
+	virtual void hasCustomName(void);
+	virtual void readAdditionalSaveData(CompoundTag const &);
+	virtual void addAdditionalSaveData(CompoundTag &);
+	virtual void createTransactionContext(__int64);
+	virtual void initializeContainerContents(BlockSource &);
+	virtual bool isEmpty(void);
+	virtual void add(ItemStack &);
+	virtual void canAdd(ItemStack const &);
+	virtual void clearSlot(int);
+	virtual void clearInventory(int);
+	virtual void load(__int64 const &, __int64 const &, Level &);
+	virtual int getFirstEmptySlot(void);
+	virtual void setContainerSize(int);
 
 	void moveItem(int from, int to);
 	void swapSlots(int from, int to);
@@ -80,14 +81,9 @@ public:
 };
 
 class PlayerInventoryProxy {
-private:
-	char pad_0x0[0x10];  // 0x0
 public:
-	int selectedHotbarSlot;  // 0x10
-private:
-	char pad_0x14[0xAC];  // 0x14
-public:
-	Inventory* inventory;  // 0xC0
+	BUILD_ACCESS(this, int, selectedHotbarSlot, 0x10);
+	BUILD_ACCESS(this, Inventory *, inventory, 0xC0);
 };
 
 //Im not sure exactly where these unknown's go but the funcs we use work.
@@ -95,6 +91,7 @@ public:
 class ContainerScreenController {
 private:
 	virtual __int64 destructor();
+	virtual __int64 unknown2();
 	virtual __int64 tick(void);
 	virtual __int64 handleEvent(__int64&);
 	virtual __int64 getRoute(void);
@@ -113,8 +110,6 @@ private:
 	virtual __int64 areControllerTabsEnabled(void);
 	virtual __int64 onCreation(void);
 	virtual __int64 logCreationTime(std::string const&, double, double, unsigned char);
-	virtual __int64 unknown2();
-	virtual __int64 unknown3();
 
 public:
 	virtual __int64 onLeave(void);
@@ -128,17 +123,19 @@ private:
 	virtual __int64 onDictationEvent(std::string const&);
 
 public:
-	virtual __int64 getCallbackInterval(void);
-	virtual void setAssociatedBlockPos(Vec3i const&);
+	virtual void setAssociatedBlockPos(Vec3i const &);
 	virtual void setAssociatedEntityUniqueID(__int64);
 	virtual void setSuspendInput(bool);
+	virtual __int64 getCallbackInterval(void);
 	virtual __int64 onRender(void);
+	virtual __int64 unknown3();
 	virtual __int64 addStaticScreenVars(__int64&);
 	virtual __int64 getAdditionalScreenInfo(void);
 	virtual __int64 getTelemetryOverride(void);
 	virtual __int64 addEventProperties(__int64) const;
 	virtual __int64 getSceneType(void);
 	virtual __int64 getScreenVersion(void);
+	virtual __int64 unknown4();
 	virtual __int64 screenHandlesGamepadMenuButton(void);
 	virtual __int64 getProxy(void);
 	virtual __int64 onEntered(void);
@@ -148,6 +145,8 @@ public:
 	virtual __int64 _getGamepadHelperVisible(void);
 	virtual __int64 _getMixedHelperVisible(void);
 	virtual __int64 _getKeyboardHelperVisible(void);
+	virtual __int64 unknown5();
+	virtual __int64 unknown6();
 	virtual __int64 _getButtonADescription(void);
 	virtual __int64 _getButtonBDescription(void);
 	virtual __int64 _getButtonXDescription(void);
@@ -164,6 +163,14 @@ public:
 	virtual __int64 _handlePlaceOne(std::string const&, int);
 	virtual __int64 _handleSelectSlot(std::string const&, int);
 	virtual __int64 _getSelectedSlotInfo(void);
+
+private:
+	virtual __int64 unknown7();
+	virtual __int64 unknown8();
+	virtual __int64 unknown9();
+	virtual __int64 unknown10();
+
+public:
 	virtual ItemStack* _getItemStack(TextHolder, int) const;
 
 private:
@@ -173,6 +180,7 @@ private:
 	virtual __int64 _onContainerSlotSelected(std::string const&, int);
 	virtual __int64 _onContainerSlotPressed(std::string const&, int);
 	virtual __int64 _shouldSwap(std::string const&, int, std::string const&, int);
+	virtual __int64 unknown11();
 	virtual __int64 _getCollectionName(__int64*);
 	virtual __int64 _canSplit(std::string const&, int);
 	virtual __int64 _sendFlyingItem(__int64 const&, std::string const&, int, std::string const&, int);

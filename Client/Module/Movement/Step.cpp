@@ -12,9 +12,9 @@ const char* Step::getModuleName() {
 }
 
 void Step::onTick(GameMode* gm) {
-	gm->player->stepHeight = height;
+	gm->player->getMaxAutoStepComponent()->stepHeight = height;
 }
 void Step::onDisable() {
 	if (Game.getLocalPlayer() != nullptr)
-		Game.getLocalPlayer()->stepHeight = 0.5625f;
+		Game.getLocalPlayer()->getMaxAutoStepComponent()->stepHeight = 0.563f;
 }

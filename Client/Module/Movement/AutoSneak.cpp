@@ -28,7 +28,7 @@ void AutoSneak::onDisable() {
 
 	PlayerActionPacket p;
 	p.action = 12;  //stop crouch packet
-	p.entityRuntimeId = Game.getLocalPlayer()->entityRuntimeId;
+	p.entityRuntimeId = Game.getLocalPlayer()->getRuntimeIDComponent()->runtimeID;
 	Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);
 }
 
@@ -39,7 +39,7 @@ void AutoSneak::onEnable() {
 	if (doSilent) {
 		PlayerActionPacket p;
 		p.action = 11;  //start crouch packet
-		p.entityRuntimeId = Game.getLocalPlayer()->entityRuntimeId;
+		p.entityRuntimeId = Game.getLocalPlayer()->getRuntimeIDComponent()->runtimeID;
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);
 	}
 }

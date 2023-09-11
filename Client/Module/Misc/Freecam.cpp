@@ -18,7 +18,7 @@ void Freecam::onEnable() {
 	auto Player = Game.getLocalPlayer();
 	if (cameraAddr != nullptr) NopBytes((BYTE*)((uintptr_t)cameraAddr), 33);
 
-	if (Player != nullptr) initialViewAngles = Vec2(Player->pitch, Player->yaw);
+	if (Player != nullptr) initialViewAngles = Vec2(Player->getActorHeadRotationComponent()->rot.x, Player->getActorHeadRotationComponent()->rot.y);
 }
 
 void Freecam::onDisable() {
@@ -34,7 +34,7 @@ void Freecam::onPreRender(MinecraftUIRenderContext* rcx) {
 
 	if (Player == nullptr)
 		return;
-	yaw = Player->bodyYaw;
+	//yaw = Player->bodyYaw;
 
 	bool isForwardKeyDown = GameData::isKeyDown(*input->forwardKey);
 	bool isBackKeyDown = GameData::isKeyDown(*input->backKey);

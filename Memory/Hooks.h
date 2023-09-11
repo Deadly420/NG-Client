@@ -116,7 +116,7 @@ private:
 	static __int8* BlockLegacy_getLightEmission(BlockLegacy* _this, __int8* a2);
 	static __int64 LevelRenderer_renderLevel(__int64 _this, __int64 a2, __int64 a3);
 	static void ClickFunc(__int64 a1, char a2, char a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7, char a8);
-	static __int64 MoveInputHandler_tick(MoveInputHandler* _this, Entity* a2);
+	static void MoveInputHandler_tick(__int64 a1, int* a2, uint32_t* a3, __int64* a4, MoveInputHandler* input, int a6);
 	static __int64 ChestScreenController_tick(ChestScreenController* _this);
 	static float GetGamma(uintptr_t* a1);
 	static bool Actor_isInWater(Entity* _this);
@@ -126,7 +126,7 @@ private:
 	static void Actor_startSwimming(Entity* _this);
 	static float GameMode_getPickRange(GameMode* _this, __int64 a2, char a3);
 	static __int64 GameMode_attack(GameMode* _this, Entity*);
-	static __int64 ConnectionRequest_create(__int64 _this, __int64 privateKeyManager, void* a3, TextHolder* selfSignedId, TextHolder* serverAddress, __int64 clientRandomId, TextHolder* skinId, SkinData* skinData, __int64 capeData, CoolSkinData* coolSkinStuff, TextHolder* deviceId, int inputMode, int uiProfile, int guiScale, TextHolder* languageCode, bool sendEduModeParams, TextHolder* tenantId, __int64 unused, TextHolder* platformUserId, TextHolder* thirdPartyName, bool thirdPartyNameOnly, TextHolder* platformOnlineId, TextHolder* platformOfflineId, TextHolder* capeId);
+	static __int64 ConnectionRequest_create(__int64 _this, __int64 privateKeyManager, void* a3, TextHolder* selfSignedId, TextHolder* serverAddress, __int64 clientRandomId, TextHolder* skinId, SkinData* skinData, __int64 capeData, __int64* serializedSkin, TextHolder* deviceId, int inputMode, int uiProfile, int guiScale, TextHolder* languageCode, bool sendEduModeParams, char a17, TextHolder* tenantId, __int64 a19, TextHolder* platformUserId, TextHolder* thirdPartyName, bool thirdPartyNameOnly, TextHolder* platformOnlineId, TextHolder* platformOfflineId, TextHolder* capeId, char a26);
 	static void InventoryTransactionManager_addAction(InventoryTransactionManager* a1, InventoryAction* a2);
 	static bool DirectoryPackAccessStrategy__isTrusted(__int64 _this);
 	static bool ReturnTrue(__int64 _this);
@@ -137,14 +137,16 @@ private:
 	static void LocalPlayer__updateFromCamera(__int64 a1, Camera* camera, __int64* a3, Entity* a4);
 	static bool Mob__isImmobile(Entity*);
 	static void Actor__setRot(Entity* _this, Vec2& angle);
-	static bool playerCallBack(Player* lp, __int64 a2, __int64 a3);
+	static bool Actor_intersects(Entity* _this, Vec3 lower, Vec3 upper);
 	static void InventoryTransactionManager__addAction(Player* _this, InventoryAction* a2, char a3);
 	static void LevelRendererPlayer__renderNameTags(__int64 a1, __int64 a2, TextHolder* name, __int64 a4);
 	static void KeyMapHookCallback(unsigned char key, bool isDown);
 	static float getDestroySpeed(Player* _this, Block& block);
+	static bool Actor_canSee(Entity* _this, Entity& entity);
+	static bool Actor_shouldRender(Entity* _this);
 	static bool Actor__isInWall(Entity* ent);
-	//static void testFunction(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4);
-	
+	// static void testFunction(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4);
+
 	std::unique_ptr<FuncHook> Actor_rotationHook;
 	std::unique_ptr<FuncHook> setPosHook;
 	std::unique_ptr<FuncHook> Actor_baseTickHook;
@@ -157,7 +159,7 @@ private:
 	std::unique_ptr<FuncHook> Dimension_getSunIntensityHook;
 	std::unique_ptr<FuncHook> ChestBlockActor_tickHook;
 	std::unique_ptr<FuncHook> Actor_lerpMotionHook;
-	std::unique_ptr<FuncHook> playerCallBack_Hook;
+	std::unique_ptr<FuncHook> Actor_intersectsHook;
 	std::unique_ptr<FuncHook> AppPlatform_getGameEditionHook;
 	std::unique_ptr<FuncHook> PleaseAutoCompleteHook;
 	std::unique_ptr<FuncHook> LoopbackPacketSender_sendToServerHook;
@@ -201,8 +203,11 @@ private:
 	std::unique_ptr<FuncHook> InventoryTransactionManager__addActionHook;
 	std::unique_ptr<FuncHook> LevelRendererPlayer__renderNameTagsHook;
 	std::unique_ptr<FuncHook> KeyMapHook;
+	std::unique_ptr<FuncHook> testyHook;
+	std::unique_ptr<FuncHook> Actor_canSeeHook;
+	std::unique_ptr<FuncHook> Actor_shouldRenderHook;
 	std::unique_ptr<FuncHook> ActorisInWallHook;
-	//std::unique_ptr<FuncHook> testFunctionHook;
+	// std::unique_ptr<FuncHook> testFunctionHook;
 };
 
 extern Hooks g_Hooks;
@@ -255,7 +260,7 @@ public:
 			logF("enableHook() called with nullptr func!");
 		}
 	}
-	~FuncHook() {Restore();}
+	~FuncHook() { Restore(); }
 	// Restore the hook
 	void Restore() {
 		if (funcPtr != nullptr) {

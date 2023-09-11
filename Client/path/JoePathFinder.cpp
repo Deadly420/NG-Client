@@ -110,7 +110,7 @@ __forceinline bool canStandOn(const Vec3i& pos, BlockSource* reg, bool inWater =
 		auto swimIn = reg->getBlock(swimPos)->toLegacy();
 		validWater = swimIn->hasWater(reg, swimPos);
 	}
-	if (!standOn->material->isSolid && !validWater)
+	if (!standOn->isSolid && !validWater)
 		return false;
 	if (isDangerous(pos, reg, inWater))
 		return false;

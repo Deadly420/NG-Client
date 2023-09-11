@@ -1,6 +1,8 @@
 #include "BlockLegacy.h"
 
 #include "../Memory/GameData.h"
+#include "../Utils/Logger.h"
+#include "../Utils/Utils.h"
 
 bool BlockLegacy::getCollisionShape(AABB* collShapeOut, Block* block, BlockSource* blockSource, const Vec3i* pos, Entity* actor) {
 	return Utils::CallVFunc<5, bool, AABB*, Block*, BlockSource*, const Vec3i*, Entity*>(this, collShapeOut, block, blockSource, pos, 0);

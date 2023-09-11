@@ -35,7 +35,7 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 
 	if (!targetNutz.empty()) {
 		Entity* player = targetNutz[0];
-		if (player == nullptr || player->isInLava() || player->isInWater() || player->isSneaking())
+		if (player == nullptr || player->isInWater() || player->isSneaking())
 			return;
 
 		std::vector<Vec3i> sideBlocks;
@@ -47,7 +47,7 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 			return;
 		moveVec2d = moveVec2d.normalized();
 
-		float calcYaw = (player->yaw + 90) * (PI / 180);
+		float calcYaw = (player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
 		Vec3 moveVec;
 		float c = cos(calcYaw);
 		float s = sin(calcYaw);
@@ -65,7 +65,7 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 		}
 
 		Vec3 pPos = *player->getPos();
-		pPos.y = player->aabb.lower.y;
+		pPos.y = player->aabb->lower.y;
 		Vec3i pPosI = Vec3i(pPos.floor());
 
 		auto isObstructed = [&](int yOff, AABB* obstructingBlock = nullptr, bool ignoreYcoll = false) {
@@ -73,16 +73,16 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 				Vec3i side = pPosI.add(0, yOff, 0).add(current);
 				if (side.y < 0 || side.y >= 256)
 					break;
-				Block* block = player->region->getBlock(side);
+				Block* block = player->getRegion()->getBlock(side);
 				if (block == nullptr || block->blockLegacy == nullptr)
 					continue;
 				BlockLegacy* blockLegacy = block->toLegacy();
 				if (blockLegacy == nullptr)
 					continue;
 				AABB collisionVec;
-				if (!blockLegacy->getCollisionShape(&collisionVec, block, player->region, &side, player))
+				if (!blockLegacy->getCollisionShape(&collisionVec, block, player->getRegion(), &side, player))
 					continue;
-				bool intersects = ignoreYcoll ? collisionVec.intersectsXZ(player->aabb.expandedXZ(0.1f)) : collisionVec.intersects(player->aabb.expandedXZ(0.1f));
+				bool intersects = ignoreYcoll ? collisionVec.intersectsXZ(player->aabb->expandedXZ(0.1f)) : collisionVec.intersects(player->aabb->expandedXZ(0.1f));
 
 				if (intersects) {
 					if (obstructingBlock != nullptr)
@@ -136,16 +136,16 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 			if (targetDist <= 0)
 				return;
 
-			auto [curDist, curYVel, curT] = distanceError(player->velocity.y, targetDist);
+			auto [curDist, curYVel, curT] = distanceError(player->entityLocation->velocity.y, targetDist);
 
 			if (curDist <= 0.01f)
 				return;
 
-			if (player->velocity.y < speed) {
+			if (player->entityLocation->velocity.y < speed) {
 				auto secondTrajectory = distanceError(speed, targetDist);
 				if (std::get<0>(secondTrajectory) <= 0) {
 					float error = curDist;
-					float startSpeed = player->velocity.y;
+					float startSpeed = player->entityLocation->velocity.y;
 
 					float error2 = std::get<0>(secondTrajectory);
 					float startSpeed2 = speed;
@@ -167,8 +167,8 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 		}
 
 		if (upperObstructed || lowerObstructed) {
-			if (player->velocity.y < targetSpeed)
-				player->velocity.y = targetSpeed;
+			if (player->entityLocation->velocity.y < targetSpeed)
+				player->entityLocation->velocity.y = targetSpeed;
 		}
 	}
 }

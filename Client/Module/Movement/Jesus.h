@@ -17,19 +17,19 @@ public:
 	void Jesus::onTick(GameMode* gm) {
 		if (gm->player->isSneaking()) return;
 
-		if (gm->player->hasEnteredWater()) {
-			gm->player->velocity.y = sink;
-			gm->player->onGround = true;
+		if (gm->player->isInWater()) {
+			gm->player->entityLocation->velocity.y = 0.06f;
+			gm->player->setOnGround(true);
 			wasInWater = true;
 		} else if (gm->player->isInWater()) {  // || gm->player->isInLava()) {
-			gm->player->velocity.y = sink;
-			gm->player->onGround = true;
+			gm->player->entityLocation->velocity.y = sink;
+			gm->player->setOnGround(true);
 			wasInWater = true;
 		} else {
 			if (wasInWater) {
 				wasInWater = false;
-				gm->player->velocity.x *= 1.2f;
-				gm->player->velocity.x *= 1.2f;
+				gm->player->entityLocation->velocity.x *= 1.2f;
+				gm->player->entityLocation->velocity.x *= 1.2f;
 			}
 		}
 		if (mode.selected == 1) return;
@@ -40,70 +40,70 @@ public:
 			Vec3 pos = *gm->player->getPos();
 			pos.y -= 1.62f;
 
-			pos.z = gm->player->aabb.upper.z;
-			pos.x = gm->player->aabb.upper.x;  // upper upper
+			pos.z = gm->player->aabb->upper.z;
+			pos.x = gm->player->aabb->upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
+			if (blockLegacy->material->isLiquid && gm->player->entityLocation->velocity.y <= 0) {
 				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
 				gm->player->setPos(pos);
-				gm->player->onGround = true;
-				gm->player->velocity.y = 0.f;
+				gm->player->setOnGround(true);
+				gm->player->entityLocation->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb.lower.x;
-			pos.z = gm->player->aabb.lower.z;  // lower lower
+			pos.x = gm->player->aabb->lower.x;
+			pos.z = gm->player->aabb->lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
+			if (blockLegacy->material->isLiquid && gm->player->entityLocation->velocity.y <= 0) {
 				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
 				gm->player->setPos(pos);
-				gm->player->onGround = true;
-				gm->player->velocity.y = 0.f;
+				gm->player->setOnGround(true);
+				gm->player->entityLocation->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb.upper.x;  // upper x and lower z
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			pos.x = gm->player->aabb->upper.x;  // upper x and lower z
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
+			if (blockLegacy->material->isLiquid && gm->player->entityLocation->velocity.y <= 0) {
 				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
 				gm->player->setPos(pos);
-				gm->player->velocity.y = 0.f;
+				gm->player->entityLocation->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb.lower.x;
-			pos.z = gm->player->aabb.upper.z;  // lower x and upper z
+			pos.x = gm->player->aabb->lower.x;
+			pos.z = gm->player->aabb->upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isLiquid && gm->player->velocity.y <= 0) {
+			if (blockLegacy->material->isLiquid && gm->player->entityLocation->velocity.y <= 0) {
 				Vec3 pos = *gm->player->getPos();
 				pos.y -= 0.62f;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.61f;
 				gm->player->setPos(pos);
-				gm->player->onGround = true;
-				gm->player->velocity.y = 0.f;
+				gm->player->setOnGround(true);
+				gm->player->entityLocation->velocity.y = 0.f;
 			}
 
 			if (gm->player->isInWater()) {
-				gm->player->velocity.y = 0.1f;
-				gm->player->onGround = true;
+				gm->player->entityLocation->velocity.y = 0.1f;
+				gm->player->setOnGround(true);
 			}
 		}
 	}

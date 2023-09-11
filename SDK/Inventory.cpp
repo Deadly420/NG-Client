@@ -1,7 +1,7 @@
 #include "Inventory.h"
 
 #include "../Memory/GameData.h"
-
+#include "../Utils/Utils.h"
 void Inventory::dropSlot(int slot) {
 	// FillingContainer::dropSlot
 	using drop_t = void(__fastcall*)(Inventory*, int, char);
@@ -32,7 +32,7 @@ bool Inventory::isFull() {
 
 void ContainerScreenController::handleAutoPlace(std::string name, int slot) {
 	using ContainerScreenController__autoPlace = __int64(__stdcall*)(ContainerScreenController*, uintptr_t, TextHolder, int);
-	static ContainerScreenController__autoPlace autoPlaceFunc = reinterpret_cast<ContainerScreenController__autoPlace>(FindSignature("40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 45 8B E1 4D 8B F0"));
+	static ContainerScreenController__autoPlace autoPlaceFunc = reinterpret_cast<ContainerScreenController__autoPlace>(FindSignature("40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 45 8B E1 4D 8B F0"));
 
 	TextHolder txt = TextHolder(name);
 

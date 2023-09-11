@@ -23,29 +23,29 @@ void Fly::onEnable() {
 	switch (mode.selected) {
 	case 5:
 		if (Game.getLocalPlayer() != nullptr)
-		Game.getLocalPlayer()->setPos((*Game.getLocalPlayer()->getPos()).add(Vec3(0, 1, 0)));
+			Game.getLocalPlayer()->setPos((*Game.getLocalPlayer()->getPos()).add(Vec3(0, 1, 0)));
 		break;
 	}
 }
 
 void Fly::onTick(GameMode *gm) {
-	++gameTick;
+	gameTick++;
 
 	switch (mode.selected) {
 	case 0:
-		gm->player->canFly = true;
+		gm->player->setStatusFlag(CAN_FLY, true);
 		break;
 	case 1: {
-		float calcYaw = (gm->player->yaw + 90) * (PI / 180);
+		float calcYaw = (gm->player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
 
 		gameTick++;
 
 		Vec3 pos = *Game.getLocalPlayer()->getPos();
 		pos.y += 1.3f;
-		C_MovePlayerPacket a(Game.getLocalPlayer(), pos);
+		MovePlayerPacket a(Game.getLocalPlayer(), pos);
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&a);
 		pos.y -= 1.3f;
-		C_MovePlayerPacket a2(Game.getLocalPlayer(), pos);
+		MovePlayerPacket a2(Game.getLocalPlayer(), pos);
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&a2);
 
 		Vec3 moveVec;
@@ -56,7 +56,7 @@ void Fly::onTick(GameMode *gm) {
 
 		if (gameTick >= 5) {
 			gameTick = 0;
-			float yaw = gm->player->yaw * (PI / 180);
+			float yaw = gm->player->getActorHeadRotationComponent()->rot.y * (PI / 180);
 			float length = 4.f;
 
 			float x = -sin(yaw) * length;
@@ -66,12 +66,12 @@ void Fly::onTick(GameMode *gm) {
 		}
 	} break;
 	case 2:
-		gm->player->velocity = Vec3(0, 0, 0);
+		gm->player->entityLocation->velocity = Vec3(0, 0, 0);
 		break;
 
 	case 3: {
-		float calcYaw = (gm->player->yaw + 90) * (PI / 180);
-		float calcPitch = (gm->player->pitch) * -(PI / 180);
+		float calcYaw = (gm->player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
+		float calcPitch = (gm->player->getActorRotationComponent()->rot.x) * -(PI / 180);
 
 		Vec3 moveVec;
 		moveVec.x = cos(calcYaw) * cos(calcPitch) * horizontalSpeed;
@@ -83,23 +83,23 @@ void Fly::onTick(GameMode *gm) {
 
 	case 4: {
 		if (gameTick >= 5) {
-			float calcYaw = (gm->player->yaw + 90) * (PI / 180);
-			float calcPitch = (gm->player->pitch) * -(PI / 180);
+			float calcYaw = (gm->player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
+			float calcPitch = (gm->player->getActorRotationComponent()->rot.x) * -(PI / 180);
 
 			Vec3 pos = *Game.getLocalPlayer()->getPos();
-			C_MovePlayerPacket a(Game.getLocalPlayer(), pos);
+			MovePlayerPacket a(Game.getLocalPlayer(), pos);
 			Game.getClientInstance()->loopbackPacketSender->sendToServer(&a);
 			pos.y += 0.35f;
-			a = C_MovePlayerPacket(Game.getLocalPlayer(), pos);
+			a = MovePlayerPacket(Game.getLocalPlayer(), pos);
 			Game.getClientInstance()->loopbackPacketSender->sendToServer(&a);
 
-			gm->player->velocity.y = 0.465f;
+			gm->player->entityLocation->velocity.y = 0.465f;
 			Vec3 moveVec;
 			moveVec.x = cos(calcYaw) * cos(calcPitch) * horizontalSpeed;
 			moveVec.z = sin(calcYaw) * cos(calcPitch) * horizontalSpeed;
 
-			gm->player->velocity.x = moveVec.x;
-			gm->player->velocity.z = moveVec.z;
+			gm->player->entityLocation->velocity.x = moveVec.x;
+			gm->player->entityLocation->velocity.z = moveVec.z;
 
 			float teleportX = cos(calcYaw) * cos(calcPitch) * 0.00000005f;
 			float teleportZ = sin(calcYaw) * cos(calcPitch) * 0.00000005f;
@@ -107,12 +107,12 @@ void Fly::onTick(GameMode *gm) {
 			pos = *gm->player->getPos();
 			Game.getLocalPlayer()->setPos(Vec3(pos.x + teleportX, pos.y - 0.15f, pos.z + teleportZ));
 
-			gm->player->velocity.y -= 0.15f;
+			gm->player->entityLocation->velocity.y -= 0.15f;
 			gameTick = 0;
 		}
 	}
 	case 5:
-		gm->player->velocity = Vec3(0, 0, 0);
+		gm->player->entityLocation->velocity = Vec3(0, 0, 0);
 	}
 }
 
@@ -122,11 +122,11 @@ void Fly::onDisable() {
 
 	switch (mode.selected) {
 	case 0:
-		if (Game.getLocalPlayer()->gamemode != 1)
-			Game.getLocalPlayer()->canFly = false;
+		if (Game.getLocalPlayer()->getActorGameTypeComponent()->gameType != GameType::Creative)
+			Game.getLocalPlayer()->setStatusFlag(CAN_FLY, false);
 		break;
 	case 1:
-		Game.getLocalPlayer()->velocity = Vec3(0, 0, 0);
+		Game.getLocalPlayer()->entityLocation->velocity = Vec3(0, 0, 0);
 	}
 }
 
@@ -139,17 +139,15 @@ void Fly::onMove(MoveInputHandler *input) {
 	case 5: {
 		Vec3 *localPlayerPos = localPlayer->getPos();
 
-		float yaw = localPlayer->yaw;
+		float yaw = localPlayer->getActorHeadRotationComponent()->rot.y;
 		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
 		bool pressed = moveVec2d.magnitude() > 0.01f;
 
 		if (input->isJumping) {
-			localPlayer->velocity.y += verticalSpeed;
-			localPlayer->fallDistance = 0.f;
+			localPlayer->entityLocation->velocity.y += verticalSpeed;
 		}
 		if (input->isSneakDown) {
-			localPlayer->velocity.y -= verticalSpeed;
-			localPlayer->fallDistance = 0.f;
+			localPlayer->entityLocation->velocity.y -= verticalSpeed;
 		}
 		if (input->right) {
 			yaw += 90.f;
@@ -171,7 +169,7 @@ void Fly::onMove(MoveInputHandler *input) {
 			float calcYaw = (yaw + 90.f) * (PI / 180.f);
 			Vec3 moveVec;
 			moveVec.x = cos(calcYaw) * horizontalSpeed;
-			moveVec.y = localPlayer->velocity.y;
+			moveVec.y = localPlayer->entityLocation->velocity.y;
 			moveVec.z = sin(calcYaw) * horizontalSpeed;
 			localPlayer->lerpMotion(moveVec);
 		}

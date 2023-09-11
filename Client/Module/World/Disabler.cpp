@@ -38,7 +38,7 @@ void Disabler::onTick(GameMode* gm) {
 		}
 	}
 	if (disablerMode.selected == 2) {
-		C_MovePlayerPacket onG(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+		MovePlayerPacket onG(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&onG);
 	}
 }
