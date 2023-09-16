@@ -2,7 +2,7 @@
 #include "../../../Utils/DrawUtils.h"
 
 Tower::Tower() : Module(0x0, Category::WORLD, "Like scaffold, but vertically and a lot faster.") {
-	registerFloatSetting("Motion", &motion, motion, 0.3f, 1.f);
+	registerFloatSetting("Motion", &motion, motion, 0.3f, 1.f, "");
 	registerBoolSetting("Hive", &hive, hive);
 }
 

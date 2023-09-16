@@ -749,7 +749,7 @@ public:
 	virtual void openNpcInteractScreen(std::shared_ptr<__int64>);
 	virtual void openInventory(void);
 	virtual void displayChatMessage(std::string const &, std::string const &);
-	virtual void displayClientMessage(TextHolder *);
+	virtual void displayClientMessage(TextHolder*);
 	virtual void displayTextObjectMessage(__int64 const &, std::string const &, std::string const &);
 	virtual void displayTextObjectWhisperMessage(__int64 const &, std::string const &, std::string const &);
 	virtual void displayTextObjectWhisperMessage(std::string const &, std::string const &, std::string const &);

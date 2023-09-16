@@ -3,7 +3,7 @@
 #include "../../../Utils/HMath.h"
 
 Bhop::Bhop() : Module(0, Category::MOVEMENT, "Hop around like a bunny!") {
-	registerFloatSetting("Speed", &speed, speed, 0.1f, 0.8f);
+	registerFloatSetting("Speed", &speed, speed, 0.1f, 0.8f, "");
 	registerBoolSetting("Hive", &hive, hive);
 }
 

@@ -5,7 +5,7 @@
 #include "../ModuleManager.h"
 
 Watermark::Watermark() : Module(0x0, Category::RENDER, "Show Watermark") {
-	registerFloatSetting("Opacity", &opacity, opacity, 0.f, 1.f);
+	registerFloatSetting("Opacity", &opacity, opacity, 0.f, 1.f, "");
 }
 
 Watermark::~Watermark() {

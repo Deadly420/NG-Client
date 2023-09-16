@@ -548,6 +548,15 @@ void ClickGui::renderCategory(Category category) {
 											setting->value->_float = value;
 											setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
 										}
+
+										if (areWeFocused) {
+											// Check if the tooltip text is not empty
+											std::string tooltipText = std::string(setting->tooltip);
+											if (!tooltipText.empty()) {
+												// Render the tooltip
+												renderTooltip(&tooltipText);
+											}
+										}
 									}
 									currentYOffset += textHeight + (textPaddingY * 2);
 								}

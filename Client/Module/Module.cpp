@@ -83,10 +83,10 @@ Module::Module(int key, Category c, const char* tooltip) {
 	this->ModulePos = Vec2(0.f, 0.f);
 }
 
-void Module::registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue) {
+void Module::registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue, const char* tooltip) {
 #ifdef DEBUG
 	if (minValue > maxValue)
-		__debugbreak();  // Minimum value is bigger than maximum value
+		__debugbreak();  // Minimum value is bigger than the maximum value
 #endif
 
 	SettingEntry* setting = new SettingEntry();
@@ -109,9 +109,13 @@ void Module::registerFloatSetting(std::string name, float* floatPtr, float defau
 	maxVal->_float = maxValue;
 	setting->maxValue = maxVal;
 
-	strcpy_s(setting->name, 19, name.c_str());  // Name
+	// Name
+	strcpy_s(setting->name, 19, name.c_str());
 
-	settings.push_back(setting);  // Add to list
+	// Tooltip
+	strcpy_s(setting->tooltip, 255, tooltip);
+
+	settings.push_back(setting);  // Add to the list
 }
 
 void Module::registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue) {

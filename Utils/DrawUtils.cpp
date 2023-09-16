@@ -601,6 +601,21 @@ void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool 
 	}
 }
 
+void DrawUtils::drawGlow(const Vec4& pos, const Mc_Color& col, float alpha, int layers, float blurRadius) {
+	float dAlpha = alpha / layers;  // kakureiya- no alpha
+	for (int i = 0; i < layers; i++) {
+		float layerAlpha = alpha - dAlpha * i;          // alpha
+		float layerRadius = (blurRadius / layers) * i;  // range
+		DrawUtils::setColor(col.r, col.g, col.b, layerAlpha);
+		Vec4 layerPos = pos;  // kakudai draw
+		layerPos.x -= layerRadius;
+		layerPos.y -= layerRadius;
+		layerPos.z += layerRadius;
+		layerPos.w += layerRadius;
+		DrawUtils::drawQuad({layerPos.x, layerPos.w}, {layerPos.z, layerPos.w}, {layerPos.z, layerPos.y}, {layerPos.x, layerPos.y});
+	}
+}
+
 void DrawUtils::drawEntityBox(Entity* ent, float lineWidth, bool fill) {
 	Vec3 end = *ent->getPos();
 	AABB render;

@@ -1,7 +1,7 @@
 #include "EntitySpeed.h"
 
 EntitySpeed::EntitySpeed() : Module(0x0, Category::ENTITY, "Makes rideable entities faster when riding them") {
-	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f);  // allows you to ajust your speed.
+	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f, "");  // allows you to ajust your speed.
 }
 
 EntitySpeed::~EntitySpeed() {

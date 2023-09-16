@@ -18,10 +18,10 @@ float bgOpacity = 0.2f;
 Radar::Radar() : Module(0x0, Category::RENDER, "Radar") {
 	registerBoolSetting("Show Grid", &grid, true);
 	registerIntSetting("Size", &size, size, 50, 200);
-	registerFloatSetting("Pixel Size", &pixelSize, pixelSize, 2, 4);
-	registerFloatSetting("Zoom", &zoom, zoom, 1.0f / 4.0f, 4.0f);
-	registerFloatSetting("Background Opacity", &bgOpacity, bgOpacity, 0.1f, 1.0f);
-	registerFloatSetting("Pixel Opacity", &pxOpacity, pxOpacity, 0.1f, 1.0f);
+	registerFloatSetting("Pixel Size", &pixelSize, pixelSize, 2, 4, "");
+	registerFloatSetting("Zoom", &zoom, zoom, 1.0f / 4.0f, 4.0f, "");
+	registerFloatSetting("Background Opacity", &bgOpacity, bgOpacity, 0.1f, 1.0f, "");
+	registerFloatSetting("Pixel Opacity", &pxOpacity, pxOpacity, 0.1f, 1.0f, "");
 }
 
 const char* Radar::getModuleName() {

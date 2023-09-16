@@ -1,15 +1,15 @@
 #include "Fly.h"
 
 Fly::Fly() : Module('F', Category::MOVEMENT, "Fly to the sky") {
-	mode.addEntry(EnumEntry("Creative", 0))
-	.addEntry(EnumEntry("CubeGlide", 1))
-	.addEntry(EnumEntry("AirStuck", 2))
-	.addEntry(EnumEntry("Jetpack", 3))
-	.addEntry(EnumEntry("Jetpack2", 4))
-	.addEntry(EnumEntry("Motion", 5));
+	mode.addEntry("Creative", 0);
+	mode.addEntry("CubeGlide", 1);
+	mode.addEntry("AirStuck", 2);
+	mode.addEntry("Jetpack", 3);
+	mode.addEntry("Jetpack2", 4);
+	mode.addEntry("Motion", 5);
 	registerEnumSetting("Mode", &mode, 0);
-	registerFloatSetting("Horizontal Speed", &horizontalSpeed, horizontalSpeed, 0.1f, 10.f);
-	registerFloatSetting("Vertical Speed", &verticalSpeed, verticalSpeed, 0.1f, 10.f);
+	registerFloatSetting("Horizontal Speed", &horizontalSpeed, horizontalSpeed, 0.1f, 10.f, "");
+	registerFloatSetting("Vertical Speed", &verticalSpeed, verticalSpeed, 0.1f, 10.f, "");
 }
 
 Fly::~Fly() {

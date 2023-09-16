@@ -130,6 +130,7 @@ public:
 	static void drawImage(std::string filePath, Vec2& ImagePos, Vec2& ImageDimension, Vec2& idk);
 
 	static void drawText(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH);
+	static void drawGlow(const Vec4& pos, const Mc_Color& col, float alpha, int layers, float blurRadius);
 	static void drawTextShadow(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH, bool drawShadow = true);
 	static void drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, int mode = 1);
 	static void drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline = false);

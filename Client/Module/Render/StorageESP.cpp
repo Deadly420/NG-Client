@@ -3,11 +3,11 @@
 #include "../../../Utils/DrawUtils.h"
 
 StorageESP::StorageESP() : Module(0x0, Category::RENDER, "ESP for but storage blocks.") {
-	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1.f);
-	mode.addEntry(EnumEntry("2D", 0))
-		.addEntry(EnumEntry("3D", 1))
-		.addEntry(EnumEntry("Outline", 2))
-		.addEntry(EnumEntry("Corners", 3));
+	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1.f, "");
+	mode.addEntry("2D", 0);
+	mode.addEntry("3D", 1);
+	mode.addEntry("Outline", 2);
+	mode.addEntry("Corners", 3);
 	registerEnumSetting("Mode", &mode, 2);
 	registerBoolSetting("Fill", &fill, fill);
 }

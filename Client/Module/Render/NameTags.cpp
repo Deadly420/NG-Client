@@ -6,7 +6,7 @@
 NameTags::NameTags() : Module(0x0, Category::RENDER, "Shows better nametags.") {
 	registerBoolSetting("Underline", &underline, underline);
 	registerBoolSetting("Armor", &displayArmor, displayArmor);
-	registerFloatSetting("Opacity", &opacity, opacity, 0.f, 1.f);
+	registerFloatSetting("Opacity", &opacity, opacity, 0.f, 1.f, "");
 }
 
 NameTags::~NameTags() {

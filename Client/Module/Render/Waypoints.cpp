@@ -3,7 +3,7 @@
 #include <algorithm>
 
 Waypoints::Waypoints() : Module(0x0, Category::RENDER, "Shows holograms for user-defined coordinates.") {
-	registerFloatSetting("Size", &size, size, 0.3f, 1.6f);
+	registerFloatSetting("Size", &size, size, 0.3f, 1.6f, "");
 	registerBoolSetting("Interdimensional", &interdimensional, interdimensional);
 	registerBoolSetting("Show Coordinates", &showCoordinates, showCoordinates);
 }

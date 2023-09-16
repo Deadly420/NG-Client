@@ -1,7 +1,7 @@
 #include "EntitySpider.h"
 
 EntitySpider::EntitySpider() : Module(0x0, Category::ENTITY, "Climb walls with mobs!") {
-	registerFloatSetting("Speed", &speed, 0.6f, 0.1f, 3.f);
+	registerFloatSetting("Speed", &speed, 0.6f, 0.1f, 3.f, "");
 	registerBoolSetting("Avoid Overshooting", &dontOvershoot, true);
 }
 

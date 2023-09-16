@@ -1002,11 +1002,31 @@ void Hooks::ClickFunc(__int64 a1, char mouseButton, char isDown, __int16 mouseX,
 		if (mouseButton != 0)  // Mouse click event
 			return;
 	}
-	if (imgui->isEnabled() && mouseButton > 0 && mouseButton < 3)
-		ImGui::GetIO().MouseDown[0] = isDown;
 
-	if (imgui->isEnabled() && !ImGui::GetIO().WantCaptureMouse)
-		return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
+	if (ImGui::GetCurrentContext() != nullptr) {
+		ImGuiIO& io = ImGui::GetIO();
+		io.MousePos = ImVec2(mouseX, mouseY);
+
+		switch (mouseButton) {
+		case 1:
+			io.MouseDown[0] = isDown;
+			break;
+		case 2:
+			io.MouseDown[1] = isDown;
+			break;
+		case 3:
+			io.MouseDown[2] = isDown;
+			break;
+		case 4:
+			io.MouseWheel = isDown < 0 ? -0.5f : 0.5f;  // For scrolling
+			break;
+		default:
+			break;
+		}
+
+		if (!io.WantCaptureMouse)
+			return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
+	}
 
 	return oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);
 }
@@ -1346,23 +1366,21 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 	auto deviceType = ID3D_Device_Type::INVALID_DEVICE_TYPE;
 	auto window = (HWND)FindWindowA(nullptr, (LPCSTR) "Minecraft");
 	if (window == NULL) {
-		logF("Failed to get Window HWND by name!");
 		goto out;
-	}
+	};
 	if (SUCCEEDED(ppSwapChain->GetDevice(IID_PPV_ARGS(&d3d11Device)))) {
 		deviceType = ID3D_Device_Type::D3D11;
 	} else if (SUCCEEDED(ppSwapChain->GetDevice(IID_PPV_ARGS(&d3d12Device)))) {
 		deviceType = ID3D_Device_Type::D3D12;
-	}
+	};
 	if (deviceType == ID3D_Device_Type::INVALID_DEVICE_TYPE) {
-		logF("Failed to get device!");
 		goto out;
-	}
+	};
 	if (deviceType == ID3D_Device_Type::D3D11) {
 		if (!initContext) {
 			ImGui::CreateContext();
 			initContext = true;
-		}
+		};
 		ID3D11DeviceContext* ppContext = nullptr;
 		d3d11Device->GetImmediateContext(&ppContext);
 		ID3D11Texture2D* pBackBuffer;
@@ -1376,9 +1394,6 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		if (moduleMgr != nullptr)
-			moduleMgr->onImGuiRender();
-
 		ImGui::Render();
 		ppContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -1391,11 +1406,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		ppSwapChain->GetDesc(&sdesc);
 		sdesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 		sdesc.OutputWindow = window;
-		if ((GetWindowLongPtr(window, GWL_STYLE) & WS_POPUP) != 0) {
-			sdesc.Windowed = false;
-		} else {
-			sdesc.Windowed = true;
-		}
+		sdesc.Windowed = ((GetWindowLongPtr(window, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
 		buffersCounts = sdesc.BufferCount;
 		frameContext = new FrameContext[buffersCounts];
 		D3D12_DESCRIPTOR_HEAP_DESC descriptorImGuiRender = {};
@@ -1409,7 +1420,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 			return false;
 		for (size_t i = 0; i < buffersCounts; i++) {
 			frameContext[i].commandAllocator = allocator;
-		}
+		};
 		if (d3d12Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator, NULL, IID_PPV_ARGS(&d3d12CommandList)) != S_OK ||
 			d3d12CommandList->Close() != S_OK)
 			return false;
@@ -1430,7 +1441,7 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 			frameContext[i].main_render_target_resource = pBackBuffer;
 			rtvHandle.ptr += rtvDescriptorSize;
 			pBackBuffer->Release();
-		}
+		};
 		if (!initContext) {
 			ImGui_ImplWin32_Init(window);
 			ImGui_ImplDX12_Init(d3d12Device, buffersCounts,
@@ -1439,15 +1450,12 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 								d3d12DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
 								d3d12DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
 			initContext = true;
-		}
+		};
 		if (d3d12CommandQueue == nullptr)
 			goto out;
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-
-		if (moduleMgr != nullptr)
-			moduleMgr->onImGuiRender();
 
 		FrameContext& currentFrameContext = frameContext[ppSwapChain->GetCurrentBackBufferIndex()];
 		currentFrameContext.commandAllocator->Reset();
@@ -1477,11 +1485,11 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		currentFrameContext.commandAllocator->Release();
 		d3d12Device->Release();
 		delete frameContext;
-	}
+	};
 	goto out;
 out:
 	return oPresentD3D12(ppSwapChain, syncInterval, flags);
-}
+};
 
 typedef void(__thiscall* ExecuteCommandListsD3D12)(ID3D12CommandQueue*, UINT, ID3D12CommandList*);
 ExecuteCommandListsD3D12 oExecuteCommandListsD3D12;
@@ -1491,7 +1499,7 @@ void hookExecuteCommandListsD3D12(ID3D12CommandQueue* queue, UINT NumCommandList
 		d3d12CommandQueue = queue;
 
 	oExecuteCommandListsD3D12(queue, NumCommandLists, ppCommandLists);
-}
+};
 
 void Hooks::InitImGui() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success)
@@ -1499,7 +1507,6 @@ void Hooks::InitImGui() {
 
 	if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
 		logF("Created hook for SwapChain::Present (DX11)!");
-
 	kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
 	kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);
 }

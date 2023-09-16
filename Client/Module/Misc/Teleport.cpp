@@ -3,7 +3,7 @@
 Teleport::Teleport() : Module(0x0, Category::MISC, "Click a block to teleport to it.") {
 	registerBoolSetting("Only Hand", &onlyHand, onlyHand);
 	registerBoolSetting("Lerp", &lerp, lerp);
-	registerFloatSetting("Lerp Speed", &lerpSpeed, 0.1f, 0.01f, 1.f);
+	registerFloatSetting("Lerp Speed", &lerpSpeed, 0.1f, 0.01f, 1.f, "");
 }
 
 Teleport::~Teleport() {}

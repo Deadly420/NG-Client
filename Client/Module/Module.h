@@ -76,6 +76,7 @@ struct SettingValue {
 
 struct SettingEntry {
 	char name[0x20] = "";
+	char tooltip[255];  // Added tooltip field
 	ValueType valueType;
 	SettingValue* value = nullptr;
 	SettingValue* defaultValue = nullptr;
@@ -104,8 +105,8 @@ private:
 protected:
 	Module(int key, Category c, const char* tooltip);
 
-	void registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue);
-	void registerIntSetting(std::string name, int* intpTr, int defaultValue, int minValue, int maxValue);
+	void registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue, const char* tooltip);
+	void registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue);
 	void registerEnumSetting(std::string name, SettingEnum* intPtr, int defaultValue);
 	void registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue);
 

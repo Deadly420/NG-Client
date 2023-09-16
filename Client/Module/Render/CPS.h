@@ -8,9 +8,9 @@ public:
 	float cpsY = 290.5f;
 
 	CPS() : Module(0x0, Category::RENDER, "Clicks Per Second") {
-		registerFloatSetting("Pos-X", &cpsX, cpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x);
-		registerFloatSetting("Pos-Y", &cpsY, cpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y);
-		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f);
+		registerFloatSetting("Pos-X", &cpsX, cpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "");
+		registerFloatSetting("Pos-Y", &cpsY, cpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "");
+		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "");
 	};
 	~CPS(){};
 

@@ -10,7 +10,7 @@ public:
 		registerEnumSetting("Mode", &mode, 0);
 		mode.addEntry("Solid", 0);
 		mode.addEntry("Bounce", 1);
-		registerFloatSetting("Height", &sink, 0.1f, 0.0f, 1.f);
+		registerFloatSetting("Height", &sink, 0.1f, 0.0f, 1.f, "");
 	};
 	~Jesus(){};
 

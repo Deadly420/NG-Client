@@ -5,7 +5,7 @@
 #include "../../../Utils/Utils.h"
 
 Reach::Reach() : Module(0x0, Category::COMBAT, "Increases your reach.") {
-	registerFloatSetting("Reach Value", &reachValue, reachValue, 3.f, 7.f);
+	registerFloatSetting("Reach Value", &reachValue, reachValue, 3.f, 7.f, "Increases With The Slider");
 }
 
 Reach::~Reach() {

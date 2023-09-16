@@ -1,7 +1,7 @@
 #include "EntityJesus.h"
 
 EntityJesus::EntityJesus() : Module(0x0, Category::ENTITY, "Allows entities to walk on water and lava!") {
-	registerFloatSetting("Height", &upness, upness, 0.01f, 1.00f);
+	registerFloatSetting("Height", &upness, upness, 0.01f, 1.00f, "");
 }
 
 EntityJesus::~EntityJesus() {

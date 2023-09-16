@@ -11,7 +11,7 @@ public:
 	~XP(){};
 	void onTick(GameMode* gm) {
 		LocalPlayer* player = Game.getLocalPlayer();
-		player->addLevels(amount);
+		player->addExperience(amount);
 	}
 
 	virtual const char* getModuleName() override {

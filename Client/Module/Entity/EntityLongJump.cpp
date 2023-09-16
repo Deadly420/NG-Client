@@ -1,8 +1,8 @@
 #include "EntityLongJump.h"
 
 EntityLongJump::EntityLongJump() : Module(0x0, Category::ENTITY, "even funnier") {
-	registerFloatSetting("Speed", &speed, speed, 0.05f, 1.5f);
-	registerFloatSetting("Up Value", &upVal, upVal, 0.05f, 1.5f);
+	registerFloatSetting("Speed", &speed, speed, 0.05f, 1.5f, "");
+	registerFloatSetting("Up Value", &upVal, upVal, 0.05f, 1.5f, "");
 }
 
 EntityLongJump::~EntityLongJump() {

@@ -1,8 +1,8 @@
 #include "EntityFly.h"
 
 EntityFly::EntityFly() : Module(0x0, Category::ENTITY, "Fly will riding entities, use up and down arrows to move!") {
-	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f);  // allows you to ajust your speed.
-	registerFloatSetting("Vertical Speed", &upspeed, upspeed, 0.50f, 10.00f);  // allows you to ajust your speed
+	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f, "");  // allows you to ajust your speed.
+	registerFloatSetting("Vertical Speed", &upspeed, upspeed, 0.50f, 10.00f, "");  // allows you to ajust your speed
 }
 
 EntityFly::~EntityFly() {

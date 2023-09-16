@@ -1,7 +1,7 @@
 #include "BlockReach.h"
 
 BlockReach::BlockReach() : Module(0x0, Category::PLAYER, "Exteneded reach for placing/breaking blocks.") {
-	registerFloatSetting(std::string("Reach"), &blockReach, blockReach, 7, 255);
+	registerFloatSetting("Reach", &blockReach, blockReach, 7, 255, "Exteneded Reach With The Slider");
 }
 
 BlockReach::~BlockReach() {

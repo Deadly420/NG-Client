@@ -14,10 +14,9 @@ Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
 	mode.addEntry("None", 4);
 
 	registerBoolSetting("Modes", &modes, modes);
-	// registerBoolSetting("KeyBinds", &keybinds, keybinds);
-	registerFloatSetting("Opacity", &opacity, opacity, 0, 1);
-	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f);
-	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f);
+	registerFloatSetting("Opacity", &opacity, opacity, 0, 1, "pp");
+	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f, "");
+	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f, "");
 }
 
 Arraylist::~Arraylist() {
@@ -59,27 +58,13 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			float textWidth;
 			bool enabled;
 			Vec2* pos;
-			int ticks;
-			int keybind;
 
 			ModuleContainer(shared_ptr<Module> mod) {
 				auto arrayList = moduleMgr->getModule<Arraylist>();
 				const char* ModuleNameChr = mod->getModuleName();
 				this->enabled = mod->isEnabled();
-				this->keybind = mod->getKeybind();
 				this->backingModule = mod;
 				this->pos = mod->getPos();
-
-				if (keybind == 0x0)
-					moduleName = ModuleNameChr;
-				else {
-					char text[50];
-					sprintf_s(text, 50, "%s%s", ModuleNameChr, arrayList->keybinds ? std::string(" [" + std::string(Utils::getKeybindName(keybind)) + "]").c_str() : "");
-					moduleName = text;
-
-					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
-				}
 
 				if (arrayList->modes) {
 					char text[50];
@@ -89,9 +74,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
-
-				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-				if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 			}
 
 			bool operator<(const ModuleContainer& other) const {
@@ -141,7 +123,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				mod->pos->x = 0.f;
 				mod->pos->y = 0.f;
 			}
-
 			auto textPos = Vec2(xOffset - 1 + textPadding, yOffset + textPadding);
 			auto rectPos = Vec4(xOffset - 3, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding), yOffset + textPadding - 0.50f + textHeight);
 			auto rectPos2 = Vec4(xOffset - 4.5f, yOffset, isOnRightSide ? windowSize.x : textWidth + (textPadding * 2), yOffset + textPadding * 2 + textHeight);
@@ -154,32 +135,32 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				if (index == 1) DrawUtils::fillRectangle3(topLine, color);
 				DrawUtils::fillRectangle3(leftRect, color);
 				DrawUtils::fillRectangle3(underline, color);
 				DrawUtils::fillRectangle3(Bar, color);
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 1:
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
 				DrawUtils::fillRectangle3(underline, color);
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 2:
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				break;
 			case 3:
+				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
-				DrawUtils::fillRectangle3(FluxBar, color);
-				DrawUtils::drawTextShadow(Vec2(textPos.x - 1.5f, textPos.y), &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::fillRectangle3(Bar, color);
 				break;
 			case 4:
-				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				break;
 			}
 
