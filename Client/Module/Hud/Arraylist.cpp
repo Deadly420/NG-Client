@@ -58,13 +58,27 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			float textWidth;
 			bool enabled;
 			Vec2* pos;
+			int ticks;
+			int keybind;
 
 			ModuleContainer(shared_ptr<Module> mod) {
 				auto arrayList = moduleMgr->getModule<Arraylist>();
 				const char* ModuleNameChr = mod->getModuleName();
 				this->enabled = mod->isEnabled();
+				this->keybind = mod->getKeybind();
 				this->backingModule = mod;
 				this->pos = mod->getPos();
+
+				if (keybind == 0x0)
+					moduleName = ModuleNameChr;
+				else {
+					char text[50];
+					sprintf_s(text, 50, "%s%s", ModuleNameChr, arrayList->keybinds ? std::string(" [" + std::string(Utils::getKeybindName(keybind)) + "]").c_str() : "");
+					moduleName = text;
+
+					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
+					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
+				}
 
 				if (arrayList->modes) {
 					char text[50];
@@ -74,6 +88,9 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
 					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 				}
+
+				textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
+				if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
 			}
 
 			bool operator<(const ModuleContainer& other) const {

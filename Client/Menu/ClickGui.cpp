@@ -123,48 +123,47 @@ void ClickGui::renderTooltip(std::string* text) {
 void ClickGui::renderCategory(Category category) {
 	static auto clickGuiMod = moduleMgr->getModule<ClickGuiMod>();
 	const char* categoryName = ClickGui::catToName(category);
-
 	const std::shared_ptr<ClickWindow> ourWindow = getWindow(categoryName);
 
 	// Reset Windows to pre-set positions to avoid confusion
-	if(clickGuiMod->resetStartPos && (clickGuiMod->resetOnInject || clickGuiMod->resetOnOpen)) {
-			float yot = Game.getGuiData()->windowSize.x;
-			ourWindow->pos.y = 4;
-			switch (category) {
-			case Category::COMBAT:
-				ourWindow->pos.x = 6;
-				ourWindow->pos.y = 1;
-				break;
-			case Category::RENDER:
-				ourWindow->pos.x = yot / 11.f;
-				ourWindow->pos.y = 1;
-				break;
-			case Category::MOVEMENT:
-				ourWindow->pos.x = yot / 11.f * 2.f;
-				ourWindow->pos.y = 1; 
-				break;
-			case Category::PLAYER:
-				ourWindow->pos.x = yot / 11.f * 3.f;
-				ourWindow->pos.y = 1;
-				break;
-			case Category::ENTITY:
-				ourWindow->pos.x = yot / 11.f * 4.f;
-				ourWindow->pos.y = 1;
-				break;
-			case Category::MISC:
-				ourWindow->pos.x = yot / 11.f * 5.08f;
-				ourWindow->pos.y = 1;
-				break;
-			case Category::WORLD:
-				ourWindow->pos.x = yot / 11.f * 3.f;
-				ourWindow->pos.y = 148.f;
-				break;
-			case Category::HUD:
-				ourWindow->pos.x = yot / 11.f * 4.f;
-				ourWindow->pos.y = 78.f;
-				break;
-			default:
-				break;
+	if (clickGuiMod->resetStartPos && (clickGuiMod->resetOnInject || clickGuiMod->resetOnOpen)) {
+		float yot = Game.getGuiData()->windowSize.x;
+		ourWindow->pos.y = 4;
+		switch (category) {
+		case Category::COMBAT:
+			ourWindow->pos.x = 0;
+			ourWindow->pos.y = 0;
+			break;
+		case Category::RENDER:
+			ourWindow->pos.x = yot / 10.f;
+			ourWindow->pos.y = 0;
+			break;
+		case Category::MOVEMENT:
+			ourWindow->pos.x = yot / 10.f * 2.f;
+			ourWindow->pos.y = 1;
+			break;
+		case Category::PLAYER:
+			ourWindow->pos.x = yot / 10.f * 3.f;
+			ourWindow->pos.y = 0;
+			break;
+		case Category::ENTITY:
+			ourWindow->pos.x = yot / 10.f * 4.f;
+			ourWindow->pos.y = 0;
+			break;
+		case Category::MISC:
+			ourWindow->pos.x = yot / 10.f * 5.08f;
+			ourWindow->pos.y = 0;
+			break;
+		case Category::WORLD:
+			ourWindow->pos.x = yot / 10.f * 3.f;
+			ourWindow->pos.y = 148.f;
+			break;
+		case Category::HUD:
+			ourWindow->pos.x = yot / 10.f * 4.f;
+			ourWindow->pos.y = 78.f;
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -231,27 +230,21 @@ void ClickGui::renderCategory(Category category) {
 			if (moduleIndex < ourWindow->yOffset)
 				continue;
 			float probableYOffset = (moduleIndex - ourWindow->yOffset) * (textHeight + (textPaddingY * 2));
-			
-			if (ourWindow->isInAnimation) { // Estimate, we don't know about module settings yet
+
+			if (ourWindow->isInAnimation) {  // Estimate, we don't know about module settings yet
 				if (probableYOffset > cutoffHeight) {
 					overflowing = true;
 					break;
 				}
-			}else if ((currentYOffset - ourWindow->pos.y) > cutoffHeight || currentYOffset > Game.getGuiData()->heightGame - 5) {
+			} else if ((currentYOffset - ourWindow->pos.y) > cutoffHeight || currentYOffset > Game.getGuiData()->heightGame - 5) {
 				overflowing = true;
 				break;
 			}
 
 			std::string textStr = mod->getRawModuleName();
 
-			Vec2 textPos = Vec2(
-				currentXOffset + textPaddingX,
-				currentYOffset + textPaddingY);
-			Vec4 rectPos = Vec4(
-				currentXOffset,
-				currentYOffset,
-				xEnd,
-				currentYOffset + textHeight + (textPaddingY * 2));
+			Vec2 textPos = Vec2(currentXOffset + textPaddingX,currentYOffset + textPaddingY);
+			Vec4 rectPos = Vec4(currentXOffset, currentYOffset, xEnd, currentYOffset + textHeight + (textPaddingY * 2));
 
 			bool allowRender = currentYOffset >= categoryHeaderYOffset;
 
@@ -269,7 +262,6 @@ void ClickGui::renderCategory(Category category) {
 					}
 				} else {
 					DrawUtils::fillRectangle(rectPos, mod->isEnabled() ? Mc_Color(30, 30, 30) : Mc_Color(18, 18, 18), backgroundAlpha);
-				
 				}
 			}
 
@@ -283,24 +275,33 @@ void ClickGui::renderCategory(Category category) {
 				auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
 				if (settings->size() > 2 && allowRender) {
 					std::shared_ptr<ClickModule> clickMod = getClickModule(ourWindow, mod->getRawModuleName());
+					bool resizeOccurred = false;  // Initialize the flag to false
+
 					if (rectPos.contains(&mousePos) && DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
 						DrawUtils::shouldToggleRightClick = false;
 						clickMod->isExtended = !clickMod->isExtended;
+
 						// update window size so it changes properly when closing settings
 						float newX = 0;
 						for (auto& it : moduleList) {
-							std::string label = "EntityLongJump";
+							std::string label = "";
 							newX = fmax(newX, DrawUtils::getTextWidth(&label, textSize));
 						}
 						windowSize->x = newX;
+
+						// Set the flag to true when resizing occurs
+						resizeOccurred = true;
 					}
-					if (clickguiMod->mode.selected == 0) {
-						if (!clickMod->isExtended)
-							GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
-						else
-							GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
-					} else {
-						GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !clickMod->isExtended);
+
+					if (!resizeOccurred) {
+						if (clickguiMod->mode.selected == 0) {
+							if (!clickMod->isExtended)
+								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
+							else
+								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
+						} else {
+							GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !clickMod->isExtended);
+						}
 					}
 
 					currentYOffset += textHeight + (textPaddingY * 2);
@@ -311,16 +312,10 @@ void ClickGui::renderCategory(Category category) {
 							if (strcmp(setting->name, "enabled") == 0 || strcmp(setting->name, "keybind") == 0)
 								continue;
 
-							Vec2 textPos = Vec2(
-								currentXOffset + textPaddingX + 5,
-								currentYOffset + textPaddingY);
+							Vec2 textPos = Vec2(currentXOffset + textPaddingX + 5, currentYOffset + textPaddingY);
 
 							// Incomplete, because we don't know the endY yet
-							Vec4 rectPos = Vec4(
-								currentXOffset,
-								currentYOffset,
-								xEnd,
-								0);
+							Vec4 rectPos = Vec4(currentXOffset, currentYOffset, xEnd, 0);
 
 							if ((currentYOffset - ourWindow->pos.y) > cutoffHeight) {
 								overflowing = true;
@@ -330,6 +325,7 @@ void ClickGui::renderCategory(Category category) {
 							switch (setting->valueType) {
 							case ValueType::BOOL: {
 								rectPos.w = currentYOffset + textHeight + (textPaddingY * 2);
+
 								// Background of bool setting
 								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
 								Vec4 selectableSurface = Vec4(
@@ -339,83 +335,72 @@ void ClickGui::renderCategory(Category category) {
 									textPos.y + textHeight - textPaddingY);
 
 								bool isFocused = selectableSurface.contains(&mousePos);
+
 								// Logic
-								{
-									if (isFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
-										DrawUtils::shouldToggleLeftClick = false;
-										setting->value->_bool = !setting->value->_bool;
-									}
+								if (isFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
+									DrawUtils::shouldToggleLeftClick = false;
+									setting->value->_bool = !setting->value->_bool;
 								}
+
 								// Checkbox
-								{
-									float boxHeight = textHeight - textPaddingY / 0.90;
-									Vec4 boxPos = Vec4(
-										textPos.x + textPaddingX,
-										textPos.y + textPaddingY,
-										textPos.x + textPaddingX + boxHeight,
-										textPos.y + textPaddingY + boxHeight);
+								float boxHeight = textHeight - textPaddingY / 0.90;
+								Vec4 boxPos = Vec4(
+									textPos.x + textPaddingX,
+									textPos.y + textPaddingY,
+									textPos.x + textPaddingX + boxHeight,
+									textPos.y + textPaddingY + boxHeight);
 
-									DrawUtils::drawRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f, 0.5f);
+								DrawUtils::drawRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f, 0.5f);
 
-									if (setting->value->_bool) {
-										Vec4 boxPos = Vec4(
-											textPos.x + textPaddingX,
-											textPos.y + textPaddingY,
-											textPos.x + textPaddingX + boxHeight,
-											textPos.y + textPaddingY + boxHeight);
-
-										DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
-									}
+								if (setting->value->_bool) {
+									DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
 								}
+
 								textPos.x += textHeight + (textPaddingX * 1.50);
-								// Text
-								{
-									// Convert first letter to uppercase for more friendlieness
-									char name[0x21];
-									sprintf_s(name, 0x21, "%s", setting->name);
-									if (name[0] != 0)
-										name[0] = toupper(name[0]);
 
-									std::string elTexto = name;
-									windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 10 /* because we add 10 to text padding + checkbox*/);
-									DrawUtils::drawText(textPos, &elTexto, isFocused ? Mc_Color(255, 255, 255) : Mc_Color(0.8f, 0.8f, 0.8f), textSize);
-									currentYOffset += textHeight + (textPaddingY * 2);
-								}
+								// Text
+								char name[0x21];
+								sprintf_s(name, 0x21, "%s", setting->name);
+								if (name[0] != 0)
+									name[0] = toupper(name[0]);
+
+								std::string elTexto = name;
+								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 10 /* because we add 10 to text padding + checkbox*/);
+								DrawUtils::drawText(textPos, &elTexto, isFocused ? Mc_Color(255, 255, 255) : Mc_Color(0.8f, 0.8f, 0.8f), textSize);
+								currentYOffset += textHeight + (textPaddingY * 2);
 								break;
 							}
 							case ValueType::ENUM: {
 								// Text and background
-								{
-									EnumEntry& i = ((SettingEnum*)setting->extraData)->GetSelectedEntry();
-									char str[0x21];
-									sprintf_s(str, 0x21, " %s", i.GetName().c_str());
-									if (str[0] != 0) str[0] = toupper(str[0]);
-									std::string text = str;
+								EnumEntry& i = ((SettingEnum*)setting->extraData)->GetSelectedEntry();
+								char str[0x21];
+								sprintf_s(str, 0x21, " %s", i.GetName().c_str());
+								if (str[0] != 0) str[0] = toupper(str[0]);
+								std::string text = str;
 
-									char name[0x22];
-									sprintf_s(name, "%s:", setting->name);
-									// Convert first letter to uppercase for more friendlieness
-									if (name[0] != 0)
-										name[0] = toupper(name[0]);
+								char name[0x22];
+								sprintf_s(name, "%s:", setting->name);
+								if (name[0] != 0)
+									name[0] = toupper(name[0]);
 
-									std::string elTexto = name + text;
-									rectPos.w = currentYOffset + textHeight + (textPaddingY * 2);
-									windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 8 /* because we add 5 to text padding*/ + crossSize);
-									// Background of enum setting
+								std::string elTexto = name + text;
+								rectPos.w = currentYOffset + textHeight + (textPaddingY * 2);
+								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 8 /* because we add 5 to text padding*/ + crossSize);
 
-									if (rectPos.contains(&mousePos)) {
-										DrawUtils::fillRectangle(rectPos, Mc_Color(50, 50, 50), backgroundAlpha);
-										if (DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
-											DrawUtils::shouldToggleRightClick = false;
-											setting->minValue->_bool = !setting->minValue->_bool;
-										}
-									} else
-										DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
-
-									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
-
-									currentYOffset += textHeight + (textPaddingY * 2);
+								// Background of enum setting
+								if (rectPos.contains(&mousePos)) {
+									DrawUtils::fillRectangle(rectPos, Mc_Color(50, 50, 50), backgroundAlpha);
+									if (DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
+										DrawUtils::shouldToggleRightClick = false;
+										setting->minValue->_bool = !setting->minValue->_bool;
+									}
+								} else {
+									DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
 								}
+
+								DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
+								currentYOffset += textHeight + (textPaddingY * 2);
+
 								if (setting->minValue->_bool) {
 									int e = 0;
 									auto enumData = reinterpret_cast<SettingEnum*>(setting->extraData);
@@ -431,13 +416,10 @@ void ClickGui::renderCategory(Category category) {
 										EnumEntry i = *it._Ptr;
 										char name[0x21];
 										sprintf_s(name, 0x21, "   %s", i.GetName().c_str());
-										// Convert first letter to uppercase for more friendlieness
 										if (name[0] != 0)
 											name[0] = toupper(name[0]);
 										std::string elTexto = name;
-										windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(
-																				&elTexto, textSize) +
-																				5);  // because we add 5 to text padding
+										windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 5);  // because we add 5 to text padding
 										textPos.y = currentYOffset + textPaddingY;
 										Vec4 selectableSurface = Vec4(
 											textPos.x,
@@ -466,182 +448,159 @@ void ClickGui::renderCategory(Category category) {
 							}
 							case ValueType::FLOAT: {
 								// Text and background
-								{
-									char str[10];
-									sprintf_s(str, 10, "%.2f", setting->value->_float);
-									std::string text = str;
+								char str[10];
+								sprintf_s(str, 10, "%.2f", setting->value->_float);
+								std::string text = str;
 
-									char name[0x22];
-									sprintf_s(name, "%s: ", setting->name);
-									if (name[0] != 0)
-										name[0] = toupper(name[0]);
-									std::string elTexto = name + text;
+								char name[0x22];
+								sprintf_s(name, "%s: ", setting->name);
+								if (name[0] != 0)
+									name[0] = toupper(name[0]);
+								std::string elTexto = name + text;
 
-									windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 5 /* because we add 5 to text padding*/);
-									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
-									currentYOffset += textPaddingY + textHeight;
-									rectPos.w = currentYOffset;
-									DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
-								}
+								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 5 /* because we add 5 to text padding*/);
+								DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
+								currentYOffset += textPaddingY + textHeight;
+								rectPos.w = currentYOffset;
+								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
+
 								if ((currentYOffset - ourWindow->pos.y) > cutoffHeight) {
 									overflowing = true;
 									break;
 								}
+
 								// Slider
-								{
-									Vec4 rect = Vec4(
-										currentXOffset + textPaddingX + 5,
-										currentYOffset + textPaddingY + 1,
-										xEnd - textPaddingX,
-										currentYOffset - textPaddingY + textHeight);
+								Vec4 rect = Vec4(
+									currentXOffset + textPaddingX + 5,
+									currentYOffset + textPaddingY + 1,
+									xEnd - textPaddingX,
+									currentYOffset - textPaddingY + textHeight);
 
-									// Visuals & Logic
-									{
-										rectPos.y = currentYOffset;
-										rectPos.w += textHeight + (textPaddingY * 2);
-										// Background
-										const bool areWeFocused = rect.contains(&mousePos);
+								// Visuals & Logic
+								rectPos.y = currentYOffset;
+								rectPos.w += textHeight + (textPaddingY * 2);
+								// Background
+								const bool areWeFocused = rect.contains(&mousePos);
 
-										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);          // Slider background
-										DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);  // Background
+								DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);          // Slider background
+								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);  // Background
 
-										const float minValue = setting->minValue->_float;
-										const float maxValue = setting->maxValue->_float - minValue;
-										float value = (float) fmax(0, setting->value->_float - minValue);  // Value is now always > 0 && < maxValue
-										if (value > maxValue)
-											value = maxValue;
-										value /= maxValue;  // Value is now in range 0 - 1
-										const float endXlol = (xEnd - textPaddingX) - (currentXOffset + textPaddingX + 5);
-										value *= endXlol;  // Value is now pixel diff between start of bar and end of progress
+								const float minValue = setting->minValue->_float;
+								const float maxValue = setting->maxValue->_float - minValue;
+								float value = (float)fmax(0, setting->value->_float - minValue);  // Value is now always > 0 && < maxValue
+								if (value > maxValue)
+									value = maxValue;
+								value /= maxValue;  // Value is now in range 0 - 1
+								const float endXlol = (xEnd - textPaddingX) - (currentXOffset + textPaddingX + 5);
+								value *= endXlol;  // Value is now pixel diff between start of bar and end of progress
 
-										// Draw Progress
-										{
-											rect.z = rect.x + value;
-											DrawUtils::fillRectangle(rect, Mc_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
+								// Draw Progress
+								rect.z = rect.x + value;
+								DrawUtils::fillRectangle(rect, Mc_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
 
-											// Draw Circle
-											//Vec2 circleCenter(rect.x + value, currentYOffset + (textHeight + (textPaddingY * 2.5)) / 2.5);
-											//Vec2 circleRadius(2, 2);               // Adjust the circle radius as needed
-
-											//DrawUtils::drawCircleFilled(circleCenter, circleRadius, Mc_Color(255, 255, 255), 6.0);  // You can adjust the quality
-										}
-
-										// Drag Logic
-										{
-											if (setting->isDragging) {
-												if (DrawUtils::isLeftClickDown && !DrawUtils::isRightClickDown)
-													value = mousePos.x - rect.x;
-												else
-													setting->isDragging = false;
-											} else if (areWeFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
-												DrawUtils::shouldToggleLeftClick = false;
-												setting->isDragging = true;
-											}
-										}
-
-										// Save Value
-										{
-											value /= endXlol;  // Now in range 0 - 1
-											value *= maxValue;
-											value += minValue;
-
-											setting->value->_float = value;
-											setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
-										}
-
-										if (areWeFocused) {
-											// Check if the tooltip text is not empty
-											std::string tooltipText = std::string(setting->tooltip);
-											if (!tooltipText.empty()) {
-												// Render the tooltip
-												renderTooltip(&tooltipText);
-											}
-										}
-									}
-									currentYOffset += textHeight + (textPaddingY * 2);
+								// Drag Logic
+								if (setting->isDragging) {
+									if (DrawUtils::isLeftClickDown && !DrawUtils::isRightClickDown)
+										value = mousePos.x - rect.x;
+									else
+										setting->isDragging = false;
+								} else if (areWeFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
+									DrawUtils::shouldToggleLeftClick = false;
+									setting->isDragging = true;
 								}
-							} break;
+
+								// Save Value
+								value /= endXlol;  // Now in range 0 - 1
+								value *= maxValue;
+								value += minValue;
+
+								setting->value->_float = value;
+								setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
+
+								if (areWeFocused) {
+									// Check if the tooltip text is not empty
+									std::string tooltipText = std::string(setting->tooltip);
+									if (!tooltipText.empty()) {
+										// Render the tooltip
+										renderTooltip(&tooltipText);
+									}
+								}
+
+								currentYOffset += textHeight + (textPaddingY * 2);
+								break;
+							}
 							case ValueType::INT: {
 								// Text and background
-								{
-									char str[10];
-									sprintf_s(str, 10, "%i", setting->value->_int);
-									std::string text = str;
+								char str[10];
+								sprintf_s(str, 10, "%i", setting->value->_int);
+								std::string text = str;
 
-									char name[0x22];
-									sprintf_s(name, "%s: ", setting->name);
-									if (name[0] != 0)
-										name[0] = toupper(name[0]);
-									std::string elTexto = name + text;
+								char name[0x22];
+								sprintf_s(name, "%s: ", setting->name);
+								if (name[0] != 0)
+									name[0] = toupper(name[0]);
+								std::string elTexto = name + text;
 
-									windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 5 /* because we add 5 to text padding*/);
-									DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
-									currentYOffset += textPaddingY + textHeight;
-									rectPos.w = currentYOffset;
-									DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
-								}
+								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 5 /* because we add 5 to text padding*/);
+								DrawUtils::drawText(textPos, &elTexto, whiteColor, textSize);
+								currentYOffset += textPaddingY + textHeight;
+								rectPos.w = currentYOffset;
+								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
+
 								if ((currentYOffset - ourWindow->pos.y) > (Game.getGuiData()->heightGame * 0.75)) {
 									overflowing = true;
 									break;
 								}
+
 								// Slider
-								{
-									Vec4 rect = Vec4(
-										currentXOffset + textPaddingX + 5,
-										currentYOffset + textPaddingY,
-										xEnd - textPaddingX,
-										currentYOffset - textPaddingY + textHeight);
+								Vec4 rect = Vec4(
+									currentXOffset + textPaddingX + 5,
+									currentYOffset + textPaddingY,
+									xEnd - textPaddingX,
+									currentYOffset - textPaddingY + textHeight);
 
-									// Visuals & Logic
-									{
-										rectPos.y = currentYOffset;
-										rectPos.w += textHeight + (textPaddingY * 2);
-										// Background
-										const bool areWeFocused = rect.contains(&mousePos);
-										DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
-										DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);  // Slider background
+								// Visuals & Logic
+								rectPos.y = currentYOffset;
+								rectPos.w += textHeight + (textPaddingY * 2);
+								// Background
+								const bool areWeFocused = rect.contains(&mousePos);
+								DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
+								DrawUtils::drawRectangle(rect, whiteColor, 1.f, backgroundAlpha);  // Slider background
 
-										const float minValue = (float)setting->minValue->_int;
-										const float maxValue = (float)setting->maxValue->_int - minValue;
-										float value = (float)fmax(0, setting->value->_int - minValue);  // Value is now always > 0 && < maxValue
-										if (value > maxValue)
-											value = maxValue;
-										value /= maxValue;  // Value is now in range 0 - 1
-										const float endXlol = (xEnd - textPaddingX) - (currentXOffset + textPaddingX + 5);
-										value *= endXlol;  // Value is now pixel diff between start of bar and end of progress
+								const float minValue = (float)setting->minValue->_int;
+								const float maxValue = (float)setting->maxValue->_int - minValue;
+								float value = (float)fmax(0, setting->value->_int - minValue);  // Value is now always > 0 && < maxValue
+								if (value > maxValue)
+									value = maxValue;
+								value /= maxValue;  // Value is now in range 0 - 1
+								const float endXlol = (xEnd - textPaddingX) - (currentXOffset + textPaddingX + 5);
+								value *= endXlol;  // Value is now pixel diff between start of bar and end of progress
 
-										// Draw Progress
-										{
-											rect.z = rect.x + value;
-											DrawUtils::fillRectangle(rect, Mc_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
-										}
+								// Draw Progress
+								rect.z = rect.x + value;
+								DrawUtils::fillRectangle(rect, Mc_Color(50, 50, 50), (areWeFocused || setting->isDragging) ? 1.f : 0.8f);
 
-										// Drag Logic
-										{
-											if (setting->isDragging) {
-												if (DrawUtils::isLeftClickDown && !DrawUtils::isRightClickDown)
-													value = mousePos.x - rect.x;
-												else
-													setting->isDragging = false;
-											} else if (areWeFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
-												DrawUtils::shouldToggleLeftClick = false;
-												setting->isDragging = true;
-											}
-										}
-
-										// Save Value
-										{
-											value /= endXlol;  // Now in range 0 - 1
-											value *= maxValue;
-											value += minValue;
-
-											setting->value->_int = (int)roundf(value);
-											setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
-										}
-									}
-									currentYOffset += textHeight + (textPaddingY * 2);
+								// Drag Logic
+								if (setting->isDragging) {
+									if (DrawUtils::isLeftClickDown && !DrawUtils::isRightClickDown)
+										value = mousePos.x - rect.x;
+									else
+										setting->isDragging = false;
+								} else if (areWeFocused && DrawUtils::shouldToggleLeftClick && !ourWindow->isInAnimation) {
+									DrawUtils::shouldToggleLeftClick = false;
+									setting->isDragging = true;
 								}
-							} break;
+
+								// Save Value
+								value /= endXlol;  // Now in range 0 - 1
+								value *= maxValue;
+								value += minValue;
+
+								setting->value->_int = (int)roundf(value);
+								setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
+								currentYOffset += textHeight + (textPaddingY * 2);
+								break;
+							}
 							default: {
 								char alc[100];
 								sprintf_s(alc, 100, "Not implemented (%s)", setting->name);
@@ -718,7 +677,7 @@ void ClickGui::renderCategory(Category category) {
 		// Dragging Logic
 		{
 			if (isDragging && Utils::getCrcHash(categoryName) == draggedWindow) {  // WE are being dragged
-				if (DrawUtils::isLeftClickDown) {                                      // Still dragging
+				if (DrawUtils::isLeftClickDown) {                                  // Still dragging
 					Vec2 diff = Vec2(mousePos).sub(dragStart);
 					ourWindow->pos = ourWindow->pos.add(diff);
 					dragStart = mousePos;
@@ -741,7 +700,7 @@ void ClickGui::renderCategory(Category category) {
 			DrawUtils::drawTextShadow(textPos, &textStr, whiteColor, categorytextSize, 1.f, Fonts::SMOOTH, true);
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
 			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
-			
+
 			// Draw Dash
 			if (clickguiMod->mode.selected == 0) {
 				if (!ourWindow->isExtended)

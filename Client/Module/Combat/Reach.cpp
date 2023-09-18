@@ -5,14 +5,14 @@
 #include "../../../Utils/Utils.h"
 
 Reach::Reach() : Module(0x0, Category::COMBAT, "Increases your reach.") {
-	registerFloatSetting("Reach Value", &reachValue, reachValue, 3.f, 7.f, "Increases With The Slider");
+	registerFloatSetting("Reach Value", &reachValue, reachValue, 3.f, 7.f, "Increases Your Reach With The Slider");
 }
 
 Reach::~Reach() {
 }
 
 const char* Reach::getModuleName() {
-	return ("Reach");
+	return "Reach";
 }
 
 std::string Reach::getModSettings() {
@@ -28,7 +28,7 @@ void Reach::onTick(GameMode* gm) {
 void Reach::onEnable() {
 	static uintptr_t sigOffset = 0x0;
 	if (sigOffset == 0x0) {
-		sigOffset = FindSignature("F3 0F 10 ? ? ? ? ? F3 0F 10 ? ? ? ? ? 0F 29 70 ? 0F 57 F6");
+		sigOffset = FindSignature("48 83 ec ? e8 ? ? ? ? 48 83 c4 ? e9 ? ? ? ? cc cc cc cc cc cc cc cc cc cc cc cc cc cc e9");
 
 		if (sigOffset != 0x0) {
 			int offset = *reinterpret_cast<int*>((sigOffset + 4));  // Get Offset from code
@@ -38,7 +38,7 @@ void Reach::onEnable() {
 	}
 	if (!VirtualProtect(reachPtr, sizeof(float), PAGE_EXECUTE_READWRITE, &oldProtect)) {
 #ifdef _DEBUG
-		logF("couldnt unprotect memory send help");
+		logF("couldnt unprotect memory send help pls");
 		__debugbreak();
 #endif
 	}
@@ -46,7 +46,6 @@ void Reach::onEnable() {
 
 void Reach::onDisable() {
 	*reachPtr = originalReach;
-
 	if (reachPtr != 0)
 		VirtualProtect(reachPtr, sizeof(float), oldProtect, &oldProtect);
 }

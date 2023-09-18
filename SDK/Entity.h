@@ -860,9 +860,11 @@ public:
 		TurnFunc(this, viewAngles);
 	}
 	GameMode *getGameMode() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int *>(FindSignature("48 8B BE ? ? ? ? 48 8B 8E ? ? ? ? 48 89 6C") + 3);
+		static unsigned int offset = 0xEF8;
+		/*if (offset == NULL)
+			offset = *reinterpret_cast<int *>(FindSignature("48 8B 8B ? ? ? ? 48 8D 54 24 ? F2 0F 10 41"));// 1.19.51 : 48 8B 8B ? ? ? ? 48 8D 54 24 ? F2 0F 10 41
+		if (offset == 0x0)
+			logF("getGameMode sig is dead");*/
 		return *reinterpret_cast<GameMode **>((uintptr_t)(this) + offset);
 	}
 	void applyTurnDelta(Vec2 *viewAngleDelta);

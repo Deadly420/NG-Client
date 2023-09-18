@@ -36,15 +36,15 @@ bool DrawUtils::shouldToggleRightClick = false;
 
 tess_vertex_t tess_vertex;
 meshHelper_renderImm_t meshHelper_renderImm;
-//mce__VertexFormat__disableHalfFloats_t mce__VertexFormat__disableHalfFloats;
-//Tessellator__initializeFormat_t Tessellator__initializeFormat;
+// mce__VertexFormat__disableHalfFloats_t mce__VertexFormat__disableHalfFloats;
+// Tessellator__initializeFormat_t Tessellator__initializeFormat;
 
 bool hasInitializedSigs = false;
 void initializeSigs() {
-	
 	tess_vertex = reinterpret_cast<tess_vertex_t>(FindSignature("40 57 48 81 EC ? ? ? ? ? ? 7C 24"));
-	meshHelper_renderImm = reinterpret_cast<meshHelper_renderImm_t>(FindSignature("40 55 53 56 57 41 56 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 49 8B F0"));  // mce__VertexFormat__disableHalfFloats = reinterpret_cast<mce__VertexFormat__disableHalfFloats_t>(FindSignature("40 53 48 83 EC ?? 48 8B D9 C7 81 ?? ?? ?? ?? 00 00 00 00 C6 81 ?? ?? ?? ?? 00"));
-	//Tessellator__initializeFormat = reinterpret_cast<Tessellator__initializeFormat_t>(FindSignature("48 89 74 24 ?? 57 48 83 EC 20 4C 8B 41 ?? 48 8B FA 4C 2B 41 ?? 48 8B F1 48 83 C1 08 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 49 F7 E8 48 D1 FA 48 8B C2 48 C1 E8 3F 48 03 D0 48 3B FA"));
+	meshHelper_renderImm = reinterpret_cast<meshHelper_renderImm_t>(FindSignature("40 55 53 56 57 41 56 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 49 8B F0"));
+	// mce__VertexFormat__disableHalfFloats = reinterpret_cast<mce__VertexFormat__disableHalfFloats_t>(FindSignature("40 53 48 83 EC ?? 48 8B D9 C7 81 ?? ?? ?? ?? 00 00 00 00 C6 81 ?? ?? ?? ?? 00"));
+	// Tessellator__initializeFormat = reinterpret_cast<Tessellator__initializeFormat_t>(FindSignature("48 89 74 24 ?? 57 48 83 EC 20 4C 8B 41 ?? 48 8B FA 4C 2B 41 ?? 48 8B F1 48 83 C1 08 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 49 F7 E8 48 D1 FA 48 8B C2 48 C1 E8 3F 48 03 D0 48 3B FA"));
 	hasInitializedSigs = true;
 }
 
@@ -59,10 +59,10 @@ void DrawUtils::setCtx(MinecraftUIRenderContext* ctx, GuiData* gui) {
 
 	ElapsedMicroseconds.QuadPart *= 1000000;
 	int ticksPerSecond = 20;
-	if(Game.getClientInstance()->minecraft)
+	if (Game.getClientInstance()->minecraft)
 		if (Game.getClientInstance()->minecraft->simTimer != nullptr)
 			ticksPerSecond = (int)*Game.getClientInstance()->minecraft->simTimer;
-	if(ticksPerSecond < 1)
+	if (ticksPerSecond < 1)
 		ticksPerSecond = 1;
 	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart / ticksPerSecond;
 	lerpT = (ElapsedMicroseconds.QuadPart / 1000000.f);
@@ -176,7 +176,6 @@ void DrawUtils::drawTriangle(const Vec2& p1, const Vec2& p2, const Vec2& p3) {
 
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
-
 
 void DrawUtils::drawQuad(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4) {
 	DrawUtils::tess__begin(tessellator, 1, 4);
@@ -345,7 +344,7 @@ void DrawUtils::drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, b
 				}
 			}
 
-			// Follow the outer line
+			// Follow outer line
 			std::vector<int> indices;
 
 			auto current = start;
@@ -535,17 +534,17 @@ void DrawUtils::drawImage(std::string filePath, Vec2& imagePos, Vec2& ImageDimen
 	if (texturePtr == nullptr) {
 		texturePtr = new TexturePtr();
 		FilePath file(filePath);
-		//renderCtx->getTexture(texturePtr, file);
+		// renderCtx->getTexture(texturePtr, file);
 	}
 
 	__int64 yot = 0;
 	static unsigned __int64 hashedString = 0xA99285D21E94FC80;
-	static uintptr_t flushImageAddr = FindSignature("48 8b c4 48 89 58 ? 48 89 70 ? 55 57 41 54 41 56 41 57 48 8d a8 ? ? ? ? 48 81 ec ? ? ? ? 0f 29 70 ? 48 8b 05 ? ? ? ? 48 33 c4 48 89 85 ? ? ? ? 4d 8b e1");
+	static uintptr_t flushImageAddr = FindSignature("48 8B C4 55 56 57 41 54 41 55 41 56 41 57 ?? ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? ?? ?? ?? 48 89 58 ?? 0F 29 70 ?? 0F 29 78 ?? 44 0F 29 40 ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 ?? ?? ?? ?? ?? ?? ?? 4D 8B E1 44 0F 28 C2 4C 8B F2 4C 8B F9");
 
 	if (texturePtr != nullptr) {
-		//renderCtx->drawImage(texturePtr, imagePos, ImageDimension, yot, idk);
+		// renderCtx->drawImage(texturePtr, imagePos, ImageDimension, yot, idk);
 		Mc_Color col(1.f, 1.f, 1.f);
-		//renderCtx->flushImages(col, (float)flushImageAddr, (__int64)&hashedString);
+		// renderCtx->flushImages(col, (float)flushImageAddr, (__int64)&hashedString);
 	}
 }
 
@@ -632,8 +631,8 @@ void DrawUtils::drawEntityBox(Entity* ent, float lineWidth, bool fill) {
 }
 
 void DrawUtils::drawBetterESP(Entity* ent, float lineWidth) {
-	//Vec3* end = ent->getPos();
-	// Vec3 lerped = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
+	// Vec3* end = ent->getPos();
+	//  Vec3 lerped = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
 
 	AABB render(ent->getRenderPos(), ent->aabb->width, ent->aabb->height, ent->getRenderPos().y - ent->aabb->lower.y);
 	render.upper.y += 0.1f;
@@ -724,7 +723,7 @@ Vec2 DrawUtils::worldToScreen(const Vec3& world) {
 	return ret;
 }
 void DrawUtils::drawLine3d(const Vec3& start, const Vec3& end, bool onUi) {
-	if(game3dContext == 0 || entityFlatStaticMaterial == 0)
+	if (game3dContext == 0 || entityFlatStaticMaterial == 0)
 		return;
 
 	auto myTess = DrawUtils::get3dTessellator();
@@ -777,25 +776,25 @@ void DrawUtils::drawBox3d(const Vec3& lower, const Vec3& upper, float scale, boo
 	tess_vertex(myTess, n.x, n.y, n.z);
 
 	// Top square
-	line(vertices[4], vertices[5])
-	line(vertices[5], vertices[7])
-	line(vertices[7], vertices[6])
-	line(vertices[6], vertices[4])
+	line(vertices[4], vertices[5]);
+	line(vertices[5], vertices[7]);
+	line(vertices[7], vertices[6]);
+	line(vertices[6], vertices[4]);
 
 	// Bottom Square
-	line(vertices[0], vertices[1])
-	line(vertices[1], vertices[3])
-	line(vertices[3], vertices[2])
-	line(vertices[2], vertices[0])
+	line(vertices[0], vertices[1]);
+	line(vertices[1], vertices[3]);
+	line(vertices[3], vertices[2]);
+	line(vertices[2], vertices[0]);
 
 	// Sides
-	line(vertices[0], vertices[4])
-	line(vertices[1], vertices[5])
-	line(vertices[2], vertices[6])
-	line(vertices[3], vertices[7])
+	line(vertices[0], vertices[4]);
+	line(vertices[1], vertices[5]);
+	line(vertices[2], vertices[6]);
+	line(vertices[3], vertices[7]);
 
 #undef line
-	
+
 	meshHelper_renderImm(game3dContext, myTess, onUi ? uiMaterial : blendMaterial);
 }
 
@@ -836,22 +835,22 @@ void DrawUtils::drawBox3dFilled(const Vec3& lower, const Vec3& upper, float scal
 	tess_vertex(myTess, n.x, n.y, n.z);
 
 	// Top square
-	line(vertices[4], vertices[5])
-	line(vertices[5], vertices[7])
-	line(vertices[7], vertices[6])
-	line(vertices[6], vertices[4])
+	line(vertices[4], vertices[5]);
+	line(vertices[5], vertices[7]);
+	line(vertices[7], vertices[6]);
+	line(vertices[6], vertices[4]);
 
 	// Bottom Square
-	line(vertices[0], vertices[1])
-	line(vertices[1], vertices[3])
-	line(vertices[3], vertices[2])
-	line(vertices[2], vertices[0])
+	line(vertices[0], vertices[1]);
+	line(vertices[1], vertices[3]);
+	line(vertices[3], vertices[2]);
+	line(vertices[2], vertices[0]);
 
 	// Sides
-	line(vertices[0], vertices[4])
-	line(vertices[1], vertices[5])
-	line(vertices[2], vertices[6])
-	line(vertices[3], vertices[7])
+	line(vertices[0], vertices[4]);
+	line(vertices[1], vertices[5]);
+	line(vertices[2], vertices[6]);
+	line(vertices[3], vertices[7]);
 
 #undef line
 	meshHelper_renderImm(game3dContext, myTess, onUi ? uiMaterial : blendMaterial);
@@ -940,7 +939,7 @@ Vec3 DrawUtils::getOrigin() {
 	return origin;
 }
 void DrawUtils::drawLinestrip3d(const std::vector<Vec3>& points) {
-	if(game3dContext == 0 || entityFlatStaticMaterial == 0)
+	if (game3dContext == 0 || entityFlatStaticMaterial == 0)
 		return;
 
 	auto myTess = DrawUtils::get3dTessellator();
@@ -955,11 +954,10 @@ void DrawUtils::drawLinestrip3d(const std::vector<Vec3>& points) {
 	 * 5: line strip (7)
 	 */
 
-	for(const auto& p : points){
+	for (const auto& p : points) {
 		auto pD = p.sub(origin);
 		tess_vertex(myTess, pD.x, pD.y, pD.z);
 	}
-	
 
 	meshHelper_renderImm(game3dContext, myTess, entityFlatStaticMaterial);
 }

@@ -23,21 +23,30 @@ void listEnts() {
 	}
 }
 
-void itemId() {
-	LocalPlayer* player = Game.getLocalPlayer();
-	PlayerInventoryProxy* supplies = player->getSupplies();
-	Inventory* inv = supplies->inventory;
-	int n = supplies->selectedHotbarSlot;
-	ItemStack* stack = inv->getItemStack(n);
-	if (stack != nullptr && stack->item != nullptr) {
-		int64_t id = stack->getItem()->itemId;
-		const char* name = stack->getItem()->name.getText();
-		Game.getGuiData()->displayClientMessageF("---------------");
-		Game.getGuiData()->displayClientMessageF("Item Name: %s", name);
-		Game.getGuiData()->displayClientMessageF("Item ID: %lld", id);
-		Game.getGuiData()->displayClientMessageF("---------------");
-	}
-}
+//void itemId() {
+//	LocalPlayer* player = Game.getLocalPlayer();
+//	if (player == nullptr) {
+//		return;
+//	}
+//	PlayerInventoryProxy* supplies = player->getSupplies();
+//	if (supplies == nullptr) {
+//		return;
+//	}
+//	Inventory* inv = supplies->inventory;
+//	if (inv == nullptr) {
+//		return;
+//	}
+//	int n = supplies->selectedHotbarSlot;
+//	ItemStack* stack = inv->getItemStack(n);
+//	if (stack != nullptr && stack->item != nullptr) {
+//		int64_t id = stack->getItem()->itemId;
+//		const char* name = stack->getItem()->name.getText();
+//		Game.getGuiData()->displayClientMessageF("---------------");
+//		Game.getGuiData()->displayClientMessageF("Item Name: %s", name);
+//		Game.getGuiData()->displayClientMessageF("Item ID: %lld", id);
+//		Game.getGuiData()->displayClientMessageF("---------------");
+//	}
+//}
 
 void showAimedBlockInfo() {
 	LocalPlayer* player = Game.getLocalPlayer();
@@ -55,7 +64,7 @@ void showAimedBlockInfo() {
 
 bool TestCommand::execute(std::vector<std::string>* args) {
 	listEnts();
-	itemId();
+	//itemId();
 	showAimedBlockInfo();
 	return true;
 }

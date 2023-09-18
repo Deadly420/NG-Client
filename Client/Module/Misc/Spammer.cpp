@@ -3,8 +3,11 @@
 
 Spammer::Spammer() : Module(0x0, Category::MISC, "Spams a message in a specified delay.") {
 	registerIntSetting("Delay", &delay, delay, 1, 10);
-	registerIntSetting("Length", &length, length, 1, 60);
 	registerBoolSetting("Bypass", &bypass, bypass);
+
+	if (bypass) {
+		registerIntSetting("Length", &length, length, 1, 60);
+	}
 }
 
 Spammer::~Spammer() {

@@ -414,6 +414,10 @@
     <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="PCH.h" />
+    <ClInclude Include="SDK\ActorFlags.h" />
+    <ClInclude Include="SDK\Components.h" />
+    <ClInclude Include="SDK\GameType.h" />
+    <ClInclude Include="SDK\PlayerMovementProxy.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />

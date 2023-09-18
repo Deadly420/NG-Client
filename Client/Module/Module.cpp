@@ -6,7 +6,7 @@
 
 using json = nlohmann::json;
 
-#pragma getRegion() EnumEntry
+#pragma region EnumEntry
 EnumEntry::EnumEntry(const std::string _name, const unsigned char value) {
 	name = _name;
 	val = value;

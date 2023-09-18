@@ -14,11 +14,12 @@ public:
 	};
 	~MinecraftRGB(){};
 
-	float* opacityAddress = (float*)(Utils::getBase() + 0x4b7745c);
-	float* redAddress = (float*)(Utils::getBase() + 0x4b77450);
-	float* greenAddress = (float*)(Utils::getBase() + 0x4b77454);
-	float* blueAddress = (float*)(Utils::getBase() + 0x4b77458);
-	void onTick(GameMode* gm) {
+	float* opacityAddress = (float*)(Utils::getBase() + 0x4E37BAC);
+	float* redAddress = (float*)(Utils::getBase() + 0x4E37BA0);
+	float* greenAddress = (float*)(Utils::getBase() + 0x4E37BA4);
+	float* blueAddress = (float*)(Utils::getBase() + 0x4E37BA8);
+	void onWorldTick(GameMode* gm) {
+		*opacityAddress = 0;
 		*opacityAddress = Opacity;
 		*redAddress = Red;
 		*greenAddress = Green;

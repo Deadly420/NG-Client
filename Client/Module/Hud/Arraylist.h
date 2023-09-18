@@ -12,6 +12,7 @@ public:
 	float saturation = 1.f;
 	bool bottom = false;
 	bool modes = true;
+	bool keybinds = false;
 	float scale = 1.f;
 
 	Arraylist();

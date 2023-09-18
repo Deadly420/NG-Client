@@ -114,12 +114,6 @@ void Hooks::Init() {
 		void* destroySpeed = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 57 48 83 EC ? 48 8B FA ? ? 74 24 ? 48 8B 91"));
 		g_Hooks.getDestroySpeedHook = std::make_unique<FuncHook>(destroySpeed, Hooks::getDestroySpeed);
 
-		//void* Actor_canSee = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 56 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 ? ? ? ? ? 48 8B F1 48 8B DA"));
-		//g_Hooks.Actor_canSeeHook = std::make_unique<FuncHook>(Actor_canSee, Hooks::Actor_canSee);
-
-		//void* Actor_shouldRender = reinterpret_cast<void*>(FindSignature("48 83 EC ? 48 8B 01 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 84 C0 0F 94 C0 48 83 C4 ? C3 CC CC 48 89 5C"));
-		//g_Hooks.Actor_shouldRenderHook = std::make_unique<FuncHook>(Actor_shouldRender, Hooks::Actor_shouldRender);
-
 		void* actorisInWall = reinterpret_cast<void*>(FindSignature("40 53 48 83 EC 50 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B 01 48 8D 54 24"));
 		g_Hooks.ActorisInWallHook = std::make_unique<FuncHook>(actorisInWall, Hooks::Actor__isInWall);
 
@@ -202,9 +196,9 @@ void Hooks::Init() {
 
 		// LocalPlayer::vtable
 		{
-			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8D 05 ? ? ? ? 48 89 01 48 8B 05 ? ? ? ? FF 15 ? ? ? ? 4C 8B C0", 3);
+			uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getLocalPlayer());
 			if (localPlayerVtable == 0x0)
-				logF("LocalPlayer signature not working!!!");
+				logF("LocalPlayer not working!!!");
 			else {
 				g_Hooks.Actor_startSwimmingHook = std::make_unique<FuncHook>(localPlayerVtable[195], Hooks::Actor_startSwimming);
 
@@ -464,7 +458,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					DrawUtils::drawTextShadow(text, &string, white, 2.0f, 1.0f, Fonts::SMOOTH, true);
 
 					text.y += 18.0f;
-					string = "Version: 1.18.31.4";
+					string = "Version: 1.20.0.1";
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 					text.y += 15.0f;
 					string =

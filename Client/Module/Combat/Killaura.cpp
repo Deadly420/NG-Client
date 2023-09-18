@@ -17,7 +17,7 @@ Killaura::~Killaura() {
 }
 
 const char* Killaura::getModuleName() {
-	return ("Killaura");
+	return "Killaura";
 }
 
 static std::vector<Entity*> targetList;
