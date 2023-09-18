@@ -195,7 +195,7 @@ void Hooks::Init() {
 		} else logF("LoopbackPacketSender is null");
 
 		// LocalPlayer::vtable
-		{
+		if (Game.isInGame() || Game.canUseMoveKeys()) {
 			uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getLocalPlayer());
 			if (localPlayerVtable == 0x0)
 				logF("LocalPlayer not working!!!");
