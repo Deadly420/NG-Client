@@ -27,9 +27,9 @@ void Watermark::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	const float textHeight = 1.22f * DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight();
 
 	// Check if the local player is valid and can use move keys
-	if (auto player = Game.getLocalPlayer(); player != nullptr && Game.isInGame() || Game.canUseMoveKeys) {
+	if (Game.isInGame() || Game.canUseMoveKeys) {
 		// Get the player's name
-		std::string playername = player->getNameTag()->getText();
+		std::string playername = Game.getLocalPlayer()->getNameTag()->getText();
 
 		// Create the watermark text
 		std::string watermarkText = "NG Client | " + playername;

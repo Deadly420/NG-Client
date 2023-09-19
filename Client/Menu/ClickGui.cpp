@@ -708,7 +708,7 @@ void ClickGui::renderCategory(Category category) {
 				else
 					GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
 			} else {
-				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !ourWindow->isExtended);
+				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !ourWindow->isExtended);
 			}
 		}
 	}
