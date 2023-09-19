@@ -61,7 +61,6 @@ DWORD WINAPI start(LPVOID lpParam) {
 
 	Hooks::Enable();
 	logF("Hooks enabled");
-	Hooks::InitImGui();
 	ClickGui::init();
 
 	std::thread countThread([] {
@@ -78,6 +77,9 @@ DWORD WINAPI start(LPVOID lpParam) {
 	countThread.detach();
 
 	logF("Count thread started");
+
+	Hooks::InitImGui();
+	logF("Initialized ImGui");
 
 	ExitThread(0);
 }

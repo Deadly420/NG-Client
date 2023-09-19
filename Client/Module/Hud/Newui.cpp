@@ -192,7 +192,7 @@ void NewUI::onImGuiRender() {
 
 	ImGuiWindowFlags TargetFlags;
 	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
-
+	ImGui::GetBackgroundDrawList()->AddText(ImVec2(100, 100), ImColor(0.f, 0.f, 1.f, 1.f), "Nigger");
 	if (ImGui::Begin("NG Client", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(360.f, 330.f));
 
