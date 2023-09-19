@@ -14,9 +14,9 @@ Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
 	mode.addEntry("None", 4);
 
 	registerBoolSetting("Modes", &modes, modes);
-	registerFloatSetting("Opacity", &opacity, opacity, 0, 1, "pp");
-	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f, "");
-	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f, "");
+	registerFloatSetting("Opacity", &opacity, opacity, 0, 1, "Opacity: Adjust transparency from invisible (0) to solid (1)");
+	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f, "Color Speed: Set the speed of color change (1 to 5)");
+	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f, "Saturation: Control color vividness (0 to 1).");
 }
 
 Arraylist::~Arraylist() {
@@ -33,7 +33,6 @@ std::string Arraylist::getModSettings() {
 void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSizeReal = Game.getClientInstance()->getGuiData()->windowSizeReal;
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
 
 	static constexpr bool isOnRightSide = true;

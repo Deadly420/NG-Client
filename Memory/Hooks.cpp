@@ -1387,7 +1387,9 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-
+		if (moduleMgr->isInitialized()) {
+			moduleMgr->onImGuiRender();
+		}
 		ImGui::Render();
 		ppContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -1450,7 +1452,9 @@ HRESULT hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT f
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-
+		if (moduleMgr->isInitialized()) {
+			moduleMgr->onImGuiRender();
+		}
 		FrameContext& currentFrameContext = frameContext[ppSwapChain->GetCurrentBackBufferIndex()];
 		currentFrameContext.commandAllocator->Reset();
 		D3D12_RESOURCE_BARRIER barrier;
@@ -1496,11 +1500,18 @@ void hookExecuteCommandListsD3D12(ID3D12CommandQueue* queue, UINT NumCommandList
 };
 
 void Hooks::InitImGui() {
-	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success)
+	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success) {
+		kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
+		kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);
 		logF("Created hook for SwapChain::Present (DX12)!");
-
-	if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
+	} else if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
+		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
 		logF("Created hook for SwapChain::Present (DX11)!");
-	kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
-	kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);
+	} else if (kiero::init(kiero::RenderType::D3D10) == kiero::Status::Success) {
+		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
+		logF("Created hook for SwapChain::Present (DX10)!");
+	} else if (kiero::init(kiero::RenderType::D3D9) == kiero::Status::Success) {
+		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
+		logF("Created hook for SwapChain::Present (DX10)!");
+	}
 }

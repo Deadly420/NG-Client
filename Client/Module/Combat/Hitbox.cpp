@@ -12,34 +12,23 @@ const char* Hitbox::getModuleName() {
 	return ("Hitbox");
 }
 
-void findTarget(Entity* currentEntity, bool isRegularEntity) {
+void findTarget(Entity* currentEntity, bool isRegularEntitie) {
 	static auto hitboxMod = moduleMgr->getModule<Hitbox>();
 
-	// Skip the local player
-	if (currentEntity == Game.getLocalPlayer()) {
+	if (currentEntity == Game.getLocalPlayer())  // Skip Local player
 		return;
-	}
-
-	// Skip if currentEntity is null or not alive, or if damageTime exceeds the threshold
-	if (currentEntity == nullptr || !currentEntity->isAlive() || currentEntity->damageTime >= 7) {
+	if (currentEntity == 0)
 		return;
-	}
-
-	// Check if currentEntity is a valid target
-	if (!Target::isValidTarget(currentEntity)) {
+	if (!currentEntity->isAlive() || currentEntity->damageTime >= 7)
 		return;
-	}
-
+	if (!Target::isValidTarget(currentEntity))
+		return;
 	float dist = (*currentEntity->getPos()).dist(*Game.getLocalPlayer()->getPos());
-
-	// Adjust the entity's AABB if it is within the range
 	if (dist < hitboxMod->range) {
 		currentEntity->aabb->width = hitboxMod->width;
 		currentEntity->aabb->height = hitboxMod->height;
 	}
 }
-
-
 void Hitbox::onTick(GameMode* gm) {
 	Game.forEachEntity(findTarget);
 }

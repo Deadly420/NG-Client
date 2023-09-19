@@ -46,7 +46,6 @@ DWORD WINAPI start(LPVOID lpParam) {
 	MH_Initialize();
 	GameData::initGameData(gameModule, &mem, (HMODULE)lpParam);
 	Target::init(Game.getPtrLocalPlayer());
-	Hooks::InitImGui();
 	Hooks::Init();
 
 	DWORD ejectThreadId;
@@ -61,9 +60,9 @@ DWORD WINAPI start(LPVOID lpParam) {
 	logF("Initialized config manager");
 
 	Hooks::Enable();
-	ClickGui::init();
-
 	logF("Hooks enabled");
+	Hooks::InitImGui();
+	ClickGui::init();
 
 	std::thread countThread([] {
 		while (Loader::isRunning) {
