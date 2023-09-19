@@ -31,6 +31,16 @@ void NewUI::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	DrawUtils::fillRectangle(Vec4(0, 0, Game.getGuiData()->widthGame, Game.getGuiData()->heightGame), Mc_Color(0, 0, 0), Opacity / 100.f);
 }
 
+void getModuleListByCategoryName(Category category, std::vector<std::shared_ptr<Module>>* modList) {
+	auto lock = moduleMgr->lockModuleList();
+	std::vector<std::shared_ptr<Module>>* moduleList = moduleMgr->getModuleList();
+
+	for (auto& it : *moduleList) {
+		if (it->getCategory() == category)
+			modList->push_back(it);
+	}
+}
+
 void NewUI::onImGuiRender() {
 	// Hud
 	auto TogglesSoundsMod = moduleMgr->getModule<ToggleSounds>();
@@ -193,135 +203,87 @@ void NewUI::onImGuiRender() {
 	ImGuiWindowFlags TargetFlags;
 	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(100, 100), ImColor(0.f, 0.f, 1.f, 1.f), "Nigger");
+
+
 	if (ImGui::Begin("NG Client", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(360.f, 330.f));
 
-		auto toggleModState = [](bool currentState, const char* labelOn, const char* labelOff) {
-			if (ImGui::Button(currentState ? labelOn : labelOff)) {
+		auto toggleModState = [](bool currentState, const char* modName) {
+			if (ImGui::Button(currentState ? std::string(std::string(modName) + std::string(" (ON)")).c_str() : std::string(std::string(modName) + std::string(" (OFF)")).c_str())) {
 				currentState = !currentState;
 			}
 			return currentState;
 		};
 
 		if (ImGui::CollapsingHeader("Combat")) {
-			CrystalAuraMod->setEnabled(toggleModState(CrystalAuraMod->isEnabled(), "CrystalAura (ON)", "CrystalAura (OFF)"));
-			AutoClickerMod->setEnabled(toggleModState(AutoClickerMod->isEnabled(), "AutoClicker (ON)", "AutoClicker (OFF)"));
-			BowAimbotMod->setEnabled(toggleModState(BowAimbotMod->isEnabled(), "BowAimbot (ON)", "BowAimbot (OFF)"));
-			AutoTotemMod->setEnabled(toggleModState(AutoTotemMod->isEnabled(), "AutoTotem (ON)", "AutoTotem (OFF)"));
-			KillauraMod->setEnabled(toggleModState(KillauraMod->isEnabled(), "Killaura (ON)", "Killaura (OFF)"));
-			FastBowMod->setEnabled(toggleModState(FastBowMod->isEnabled(), "Fast Bow (ON)", "Fast Bow (OFF)"));
-			CrasherMod->setEnabled(toggleModState(CrasherMod->isEnabled(), "Crasher (ON)", "Crasher (OFF)"));
-			AutoPotMod->setEnabled(toggleModState(AutoPotMod->isEnabled(), "AutoPot (ON)", "AutoPot (OFF)"));
-			HitboxMod->setEnabled(toggleModState(HitboxMod->isEnabled(), "Hitbox (ON)", "Hitbox (OFF)"));
-			AimbotMod->setEnabled(toggleModState(AimbotMod->isEnabled(), "Aimbot (ON)", "Aimbot (OFF)"));
-			TeamsMod->setEnabled(toggleModState(TeamsMod->isEnabled(), "Teams (ON)", "Teams (OFF)"));
-			ReachMod->setEnabled(toggleModState(ReachMod->isEnabled(), "Reach (ON)", "Reach (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::COMBAT, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("Render")) {
-			MincecraftRGBMod->setEnabled(toggleModState(MincecraftRGBMod->isEnabled(), "Mincecraft-RGB (ON)", "Mincecraft-RGB (OFF)"));
-			TimeChangerMod->setEnabled(toggleModState(TimeChangerMod->isEnabled(), "TimeChanger (ON)", "TimeChanger (OFF)"));
-			StorageESPMod->setEnabled(toggleModState(StorageESPMod->isEnabled(), "Storage-ESP (ON)", "Storage-ESP (OFF)"));
-			FullBrightMod->setEnabled(toggleModState(FullBrightMod->isEnabled(), "FullBright (ON)", "FullBright (OFF)"));
-			TargetHUDMod->setEnabled(toggleModState(TargetHUDMod->isEnabled(), "TargetHUD (ON)", "TargetHUD (OFF)"));
-			CustomSkyMod->setEnabled(toggleModState(CustomSkyMod->isEnabled(), "CustomSky (ON)", "CustomSky (OFF)"));
-			WaypointsMod->setEnabled(toggleModState(WaypointsMod->isEnabled(), "Waypoints (ON)", "Waypoints (OFF)"));
-			NoHurtCamMod->setEnabled(toggleModState(NoHurtCamMod->isEnabled(), "NoHurtCam (ON)", "NoHurtCam (OFF)"));
-			ViewModelMod->setEnabled(toggleModState(ViewModelMod->isEnabled(), "ViewModel (ON)", "ViewModel (OFF)"));
-			NightModeMod->setEnabled(toggleModState(NightModeMod->isEnabled(), "NightMode (ON)", "NightMode (OFF)"));
-			NameTagsMod->setEnabled(toggleModState(NameTagsMod->isEnabled(), "NameTags (ON)", "NameTags (OFF)"));
-			FreelookMod->setEnabled(toggleModState(FreelookMod->isEnabled(), "Freelook (ON)", "Freelook (OFF)"));
-			CompassMod->setEnabled(toggleModState(CompassMod->isEnabled(), "Compass (ON)", "Compass (OFF)"));
-			TracerMod->setEnabled(toggleModState(TracerMod->isEnabled(), "Tracer (ON)", "Tracer (OFF)"));
-			RadarMod->setEnabled(toggleModState(RadarMod->isEnabled(), "Radar (ON)", "Radar (OFF)"));
-			ZoomMod->setEnabled(toggleModState(ZoomMod->isEnabled(), "Zoom (ON)", "Zoom (OFF)"));
-			XrayMod->setEnabled(toggleModState(XrayMod->isEnabled(), "Xray (ON)", "Xray (OFF)"));
-			ESPMod->setEnabled(toggleModState(ESPMod->isEnabled(), "ESP (ON)", "ESP (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::RENDER, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("Movement")) {
-			AntiImmobileMod->setEnabled(toggleModState(AntiImmobileMod->isEnabled(), "Anti-Immobile (ON)", "Anti-Immobile (OFF)"));
-			NoSlowdownMod->setEnabled(toggleModState(NoSlowdownMod->isEnabled(), "NoSlowdown (ON)", "NoSlowdown (OFF)"));
-			FastLadderMod->setEnabled(toggleModState(FastLadderMod->isEnabled(), "FastLadder (ON)", "FastLadder (OFF)"));
-			FollowPathMod->setEnabled(toggleModState(FollowPathMod->isEnabled(), "FollowPath (ON)", "FollowPath (OFF)"));
-			AutoSprintMod->setEnabled(toggleModState(AutoSprintMod->isEnabled(), "AutoSprint (ON)", "AutoSprint (OFF)"));
-			AutoSneakMod->setEnabled(toggleModState(AutoSneakMod->isEnabled(), "AutoSneak (ON)", "AutoSneak (OFF)"));
-			HighJumpMod->setEnabled(toggleModState(HighJumpMod->isEnabled(), "HighJump (ON)", "HighJump (OFF)"));
-			FastStopMod->setEnabled(toggleModState(FastStopMod->isEnabled(), "FastStop (ON)", "FastStop (OFF)"));
-			AntiVoidMod->setEnabled(toggleModState(AntiVoidMod->isEnabled(), "Anti-Void (ON)", "Anti-Void (OFF)"));
-			VelocityMod->setEnabled(toggleModState(VelocityMod->isEnabled(), "Velocity (ON)", "Velocity (OFF)"));
-			InvMoveMod->setEnabled(toggleModState(InvMoveMod->isEnabled(), "InvMove (ON)", "InvMove (OFF)"));
-			AirSwimMod->setEnabled(toggleModState(AirSwimMod->isEnabled(), "AirSwim (ON)", "AirSwim (OFF)"));
-			AirJumpMod->setEnabled(toggleModState(AirJumpMod->isEnabled(), "AirJump (ON)", "AirJump (OFF)"));
-			SpiderMod->setEnabled(toggleModState(SpiderMod->isEnabled(), "Spider (ON)", "Spider (OFF)"));
-			NoWebMod->setEnabled(toggleModState(NoWebMod->isEnabled(), "NoWeb (ON)", "NoWeb (OFF)"));
-			TwerkMod->setEnabled(toggleModState(TwerkMod->isEnabled(), "Twerk (ON)", "Twerk (OFF)"));
-			SpeedMod->setEnabled(toggleModState(SpeedMod->isEnabled(), "Speed (ON)", "Speed (OFF)"));
-			PhaseMod->setEnabled(toggleModState(PhaseMod->isEnabled(), "Phase (ON)", "Phase (OFF)"));
-			JesusMod->setEnabled(toggleModState(JesusMod->isEnabled(), "Jesus (ON)", "Jesus (OFF)"));
-			GlideMod->setEnabled(toggleModState(GlideMod->isEnabled(), "Glide (ON)", "Glide (OFF)"));
-			StepMod->setEnabled(toggleModState(StepMod->isEnabled(), "Step (ON)", "Step (OFF)"));
-			BhopMod->setEnabled(toggleModState(BhopMod->isEnabled(), "Bhop (ON)", "Bhop (OFF)"));
-			FlyMod->setEnabled(toggleModState(FlyMod->isEnabled(), "Fly (ON)", "Fly (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::MOVEMENT, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("Player")) {
-			StackableItemMod->setEnabled(toggleModState(StackableItemMod->isEnabled(), "StackableItem (ON)", "StackableItem (OFF)"));
-			InvCleanerMod->setEnabled(toggleModState(InvCleanerMod->isEnabled(), "InvCleaner (ON)", "Inv Cleaner (OFF)"));
-			ChestStealerMod->setEnabled(toggleModState(ChestStealerMod->isEnabled(), "ChestStealer (ON)", "ChestStealer (OFF)"));
-			BlockReachMod->setEnabled(toggleModState(BlockReachMod->isEnabled(), "BlockReach (ON)", "BlockReach (OFF)"));
-			NoFriendsMod->setEnabled(toggleModState(NoFriendsMod->isEnabled(), "NoFriends (ON)", "NoFriends (OFF)"));
-			ChestAuraMod->setEnabled(toggleModState(ChestAuraMod->isEnabled(), "ChestAura (ON)", "ChestAura (OFF)"));
-			AutoArmorMod->setEnabled(toggleModState(AutoArmorMod->isEnabled(), "AutoArmor (ON)", "AutoArmor (OFF)"));
-			MidClickMod->setEnabled(toggleModState(MidClickMod->isEnabled(), "MidClick (ON)", "MidClick (OFF)"));
-			NoSwingMod->setEnabled(toggleModState(NoSwingMod->isEnabled(), "NoSwing (ON)", "NoSwing (OFF)"));
-			AntiBotMod->setEnabled(toggleModState(AntiBotMod->isEnabled(), "Anti-Bot (ON)", "Anti-Bot (OFF)"));
-			NoFallMod->setEnabled(toggleModState(NoFallMod->isEnabled(), "NoFall (ON)", "NoFall (OFF)"));
-			BlinkMod->setEnabled(toggleModState(BlinkMod->isEnabled(), "Blink (ON)", "Blink (OFF)"));
-			XPMod->setEnabled(toggleModState(XPMod->isEnabled(), "XP (ON)", "XP (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::PLAYER, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("World")) {
-			InstaBreakMod->setEnabled(toggleModState(InstaBreakMod->isEnabled(), "InstaBreak (ON)", "InstaBreak (OFF)"));
-			ScaffoldMod->setEnabled(toggleModState(ScaffoldMod->isEnabled(), "Scaffold (ON)", "Scaffold (OFF)"));
-			DisablerMod->setEnabled(toggleModState(DisablerMod->isEnabled(), "Disabler (ON)", "Disabler (OFF)"));
-			TowerMod->setEnabled(toggleModState(TowerMod->isEnabled(), "Tower (ON)", "Tower (OFF)"));
-			NukerMod->setEnabled(toggleModState(NukerMod->isEnabled(), "Nuker (ON)", "Nuker (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::WORLD, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("Entity")) {
-			EntityLongJumpMod->setEnabled(toggleModState(EntityLongJumpMod->isEnabled(), "EntityLongJump (ON)", "EntityLongJump (OFF)"));
-			EntitySpiderMod->setEnabled(toggleModState(EntitySpiderMod->isEnabled(), "EntitySpider (ON)", "Entity pider (OFF)"));
-			EntityJesusMod->setEnabled(toggleModState(EntityJesusMod->isEnabled(), "EntityJesus (ON)", "EntityJesus (OFF)"));
-			EntitySpeedMod->setEnabled(toggleModState(EntitySpeedMod->isEnabled(), "EntitySpeed (ON)", "EntitySpeed (OFF)"));
-			EntityBhopMod->setEnabled(toggleModState(EntityBhopMod->isEnabled(), "EntityBhop (ON)", "EntityBhop (OFF)"));
-			EntityFlyMod->setEnabled(toggleModState(EntityFlyMod->isEnabled(), "EntityFly (ON)", "EntityFly (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::ENTITY, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("HUD")) {
-			TogglesSoundsMod->setEnabled(toggleModState(TogglesSoundsMod->isEnabled(), "TogglesSounds (ON)", "TogglesSounds (OFF)"));
-			CustomFontMod->setEnabled(toggleModState(CustomFontMod->isEnabled(), "CustomFont (ON)", "CustomFont (OFF)"));
-			ArrayListMod->setEnabled(toggleModState(ArrayListMod->isEnabled(), "ArrayList (ON)", "ArrayList (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::HUD, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 
 		if (ImGui::CollapsingHeader("Misc")) {
-			OffhandAllowMod->setEnabled(toggleModState(OffhandAllowMod->isEnabled(), "Offhand Allow (ON)", "Offhand Allow (OFF)"));
-			EditionFakerMod->setEnabled(toggleModState(EditionFakerMod->isEnabled(), "Edition Faker (ON)", "Edition Faker (OFF)"));
-			TeleportMod->setEnabled(toggleModState(TeleportMod->isEnabled(), "Teleport (ON)", "Teleport (OFF)"));
-			NoPacketMod->setEnabled(toggleModState(NoPacketMod->isEnabled(), "No Packet (ON)", "No Packet (OFF)"));
-			SpammerMod->setEnabled(toggleModState(SpammerMod->isEnabled(), "Spammer (ON)", "Spammer (OFF)"));
-			FreecamMod->setEnabled(toggleModState(FreecamMod->isEnabled(), "Freecam (ON)", "Freecam (OFF)"));
-			CrasherMod->setEnabled(toggleModState(CrasherMod->isEnabled(), "Crasher (ON)", "Crasher (OFF)"));
-			BreakerMod->setEnabled(toggleModState(BreakerMod->isEnabled(), "Breaker (ON)", "Breaker (OFF)"));
-			TimerMod->setEnabled(toggleModState(TimerMod->isEnabled(), "Timer (ON)", "Timer (OFF)"));
-			DerpMod->setEnabled(toggleModState(DerpMod->isEnabled(), "Derp (ON)", "Derp (OFF)"));
+			std::vector<std::shared_ptr<Module>> moduleList;
+			getModuleListByCategoryName(Category::MISC, &moduleList);
+			for (auto& mod : moduleList) {
+				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+			}
 			ImGui::Spacing();
 		}
 	}
