@@ -1,8 +1,8 @@
 #include "BoatFly.h"
 
 BoatFly::BoatFly() : Module(0x0, Category::MOVEMENT, "Fly A Boat (UP Arrow, Down Arrow)") {
-	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f, "");
-	registerFloatSetting("Vertical Speed", &upspeed, upspeed, 0.50f, 10.00f, "");
+	registerFloatSetting("Horizontal Speed", &speed2, speed2, 0.01f, 10.00f, "Horizontal Speed: Adjust the horizontal speed from 0.01 to 10.00");
+	registerFloatSetting("Vertical Speed", &upspeed, upspeed, 0.50f, 10.00f, "Vertical Speed: Control the vertical speed from 0.50 to 10.00");
 }
 
 BoatFly::~BoatFly() {

@@ -1,7 +1,7 @@
 #include "NightMode.h"
 
 NightMode::NightMode() : Module(0x0, Category::RENDER, "Darkens the environment.") {
-	//registerFloatSetting("modifier", &modifier, modifier, 0.1f, 1.f);
+	//registerFloatSetting("modifier", &modifier, modifier, 0.1f, 1.f, "Modifier: Adjust the modifier from 0.1 to 1.0");
 }
 
 NightMode::~NightMode() {

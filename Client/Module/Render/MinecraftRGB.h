@@ -7,10 +7,10 @@ class MinecraftRGB : public Module {
 public:
 	float Opacity = 1.f, Red = 1.f, Green = 1.f, Blue = 1.f;
 	MinecraftRGB() : Module(0x0, Category::RENDER, "Modifies Minecrafts colors and opacity") {
-		registerFloatSetting("Text Opacity", &Opacity, Opacity, 0.f, 1.f, "");
-		registerFloatSetting("Red", &Red, Red, 0.f, 1.f, "");
-		registerFloatSetting("Green", &Green, Green, 0.f, 1.f, "");
-		registerFloatSetting("Blue", &Blue, Blue, 0.f, 1.f, "");
+		registerFloatSetting("Text Opacity", &Opacity, Opacity, 0.f, 1.f, "Text Opacity: Adjust text opacity from 0.0 to 1.0");
+		registerFloatSetting("Red", &Red, Red, 0.f, 1.f, "Red: Modify the red component from 0.0 to 1.0");
+		registerFloatSetting("Green", &Green, Green, 0.f, 1.f, "Green: Modify the green component from 0.0 to 1.0");
+		registerFloatSetting("Blue", &Blue, Blue, 0.f, 1.f, "Blue: Modify the blue component from 0.0 to 1.0");
 	};
 	~MinecraftRGB(){};
 

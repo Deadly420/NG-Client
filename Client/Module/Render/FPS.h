@@ -8,9 +8,9 @@ public:
 	float fpsY = 280.5f;
 
 	FPS() : Module(0x0, Category::RENDER, "Frames Per Second") {
-		registerFloatSetting("Pos-X", &fpsX, fpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "");
-		registerFloatSetting("Pos-Y", &fpsY, fpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "");
-		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "");
+		registerFloatSetting("Pos-X", &fpsX, fpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "Pos-X: Set the horizontal position from 0 to the window width");
+		registerFloatSetting("Pos-Y", &fpsY, fpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "Pos-Y: Set the vertical position from 0 to the window height");
+		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "Size: Adjust the size from 0.1 to 1.5");
 	};
 	~FPS(){};
 

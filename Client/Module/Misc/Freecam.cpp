@@ -1,8 +1,8 @@
 #include "Freecam.h"
 #include "../../../Utils/Utils.h"
 
-Freecam::Freecam() : Module('V', Category::MISC, "Move your camera without moving the player.") {
-	registerFloatSetting("Speed", &speed, speed, 0.50f, 1.25f, "");
+Freecam::Freecam() : Module(0x0, Category::MISC, "Move your camera without moving the player.") {
+	registerFloatSetting("Speed", &speed, speed, 0.50f, 1.25f, "Speed: Adjust the speed from 0.50 to 1.25");
 }
 
 Freecam::~Freecam() {

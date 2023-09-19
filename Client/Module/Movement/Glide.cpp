@@ -1,7 +1,7 @@
 #include "Glide.h"
 
 Glide::Glide() : Module(0x0, Category::MOVEMENT, "Float down like a chicken.") {
-	registerFloatSetting("Value", &glideMod, glideMod, -2, 1, "");
+	registerFloatSetting("Value", &glideMod, glideMod, -2, 1, "Value: Modify the setting from -2 to 1");
 }
 
 Glide::~Glide() {}

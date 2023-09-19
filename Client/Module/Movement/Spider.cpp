@@ -1,7 +1,7 @@
 #include "Spider.h"
 
 Spider::Spider() : Module(0x0, Category::MOVEMENT, "Climb walls like a spider.") {
-	registerFloatSetting("Speed", &speed, 0.6f, 0.1f, 1.f, "Changes The Speed For Going Up Walls");
+	registerFloatSetting("Speed", &speed, 0.6f, 0.1f, 1.f, "Speed: Adjust the speed for going up walls from 0.1 to 1.0");
 	registerBoolSetting("Avoid Overshooting", &dontOvershoot, true);
 }
 

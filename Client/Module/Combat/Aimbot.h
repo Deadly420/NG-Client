@@ -21,15 +21,15 @@ public:
 	std::vector<Entity*> targetList;
 
 	Aimbot() : Module(0x0, Category::COMBAT, "Automatically aims at the nearest entity") {
-		registerFloatSetting("range", &range, range, 3.f, 8.f, "");
+		registerFloatSetting("range", &range, range, 3.f, 8.f, "Range: Define a range from 3.0 to 8.0");
 		registerBoolSetting("Mobs", &mobs, mobs);
 		registerBoolSetting("Require click", &click, click);
 		registerBoolSetting("only swords/axes", &sword, sword);
 		registerBoolSetting("vertical", &vertical, vertical);
-		registerFloatSetting("horizontal speed", &horizontalspeed, horizontalspeed, 10.f, 90.f, "");
-		registerFloatSetting("vertical speed", &verticalspeed, verticalspeed, 10.f, 90.f, "");
-		registerFloatSetting("horizontal range", &horizontalrange, horizontalrange, 20.f, 180.f, "");
-		registerFloatSetting("vertical range", &verticalrange, verticalrange, 20.f, 180.f, "");
+		registerFloatSetting("horizontal speed", &horizontalspeed, horizontalspeed, 10.f, 90.f, "Horizontal Speed: Set speed between 10 and 90");
+		registerFloatSetting("vertical speed", &verticalspeed, verticalspeed, 10.f, 90.f, "Adjust speed from 10 to 90");
+		registerFloatSetting("horizontal range", &horizontalrange, horizontalrange, 20.f, 180.f, "Horizontal Range: Specify a range between 20 and 180");
+		registerFloatSetting("vertical range", &verticalrange, verticalrange, 20.f, 180.f, "Vertical Range: Define a range from 20 to 180");
 		registerBoolSetting("aimlock", &lock, lock);
 	}
 	~Aimbot(){};

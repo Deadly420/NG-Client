@@ -8,9 +8,9 @@
 KeyStrokes::KeyStrokes() : Module(0x0, Category::RENDER, "Renders Keystrokes on your screen") {
 	registerBoolSetting("Keystrokes RGB", &keybindsRGB, keybindsRGB);
 	registerBoolSetting("Flip Keystrokes", &flip, flip);
-	registerFloatSetting("keystrokesX", &keystrokesX, keystrokesX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "");
-	registerFloatSetting("keystrokesY", &keystrokesY, keystrokesY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "");
-	registerFloatSetting("Opacity", &opacity, opacity, 0.0f, 1.f, "");
+	registerFloatSetting("keystrokesX", &keystrokesX, keystrokesX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "keystrokesX: Set the horizontal position from 0 to the window width");
+	registerFloatSetting("keystrokesY", &keystrokesY, keystrokesY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "keystrokesY: Set the vertical position from 0 to the window height");
+	registerFloatSetting("Opacity", &opacity, opacity, 0.0f, 1.f, "Opacity: Adjust the opacity from 0.0 to 1.0");
 }
 
 KeyStrokes::~KeyStrokes() {

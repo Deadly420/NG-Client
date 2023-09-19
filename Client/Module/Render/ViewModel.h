@@ -33,18 +33,19 @@ public:
 		registerBoolSetting("Translate", &doTranslate, doTranslate);
 		registerBoolSetting("Scale", &doScale, doScale);
 
-		registerFloatSetting("TranslateX", &xTrans, 0.f, -2.f, 2.f, "");
-		registerFloatSetting("TranslateY", &yTrans, 0.f, -2.f, 2.f, "");
-		registerFloatSetting("TranslateZ", &zTrans, 0.f, -2.f, 2.f, "");
+		registerFloatSetting("TranslateX", &xTrans, 0.f, -2.f, 2.f, "TranslateX: Translate along the X-axis from -2.0 to 2.0");
+		registerFloatSetting("TranslateY", &yTrans, 0.f, -2.f, 2.f, "Translate along the Y-axis");
+		registerFloatSetting("TranslateZ", &zTrans, 0.f, -2.f, 2.f, "Translate along the Z-axis");
 
-		registerFloatSetting("ScaleX", &xMod, 1.f, -2.f, 2.f, "");
-		registerFloatSetting("ScaleY", &yMod, 1.f, -2.f, 2.f, "");
-		registerFloatSetting("ScaleZ", &zMod, 1.f, -2.f, 2.f, "");
+		registerFloatSetting("ScaleX", &xMod, 1.f, -2.f, 2.f, "Scale along the X-axis");
+		registerFloatSetting("ScaleY", &yMod, 1.f, -2.f, 2.f, "Scale along the Y-axis");
+		registerFloatSetting("ScaleZ", &zMod, 1.f, -2.f, 2.f, "Scale along the Z-axis");
 
-		registerFloatSetting("RotateX", &xRotate, 1.f, -2.f, 2.f, "");
-		registerFloatSetting("RotateY", &yRotate, 1.f, -2.f, 2.f, "");
-		registerFloatSetting("RotateZ", &zRotate, 1.f, -2.f, 2.f, "");
-		registerFloatSetting("RotatePos", &RotatePosition, 1.f, 0.01f, 6.4f, "");
+		registerFloatSetting("RotateX", &xRotate, 1.f, -2.f, 2.f, "Rotate around the X-axis");
+		registerFloatSetting("RotateY", &yRotate, 1.f, -2.f, 2.f, "Rotate around the Y-axis");
+		registerFloatSetting("RotateZ", &zRotate, 1.f, -2.f, 2.f, "Rotate around the Z-axis");
+		registerFloatSetting("RotatePos", &RotatePosition, 1.f, 0.01f, 6.4f, "Rotate position");
+
 	};
 	~ViewModel(){};
 

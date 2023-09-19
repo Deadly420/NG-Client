@@ -2,7 +2,7 @@
 
 Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around you automatically.") {
 	registerBoolSetting("Target Mobs", &targetMobs, targetMobs);
-	registerFloatSetting("Range", &range, range, 2.f, 20.f, "");
+	registerFloatSetting("Range", &range, range, 2.f, 20.f, "Range: Adjust the range from 2.0 to 20.0");
 	registerIntSetting("MinDelay", &minD, 0, 0, 20);
 	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
 

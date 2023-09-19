@@ -8,9 +8,9 @@ public:
 	float bpsY = 270.5f;
 
 	BPS() : Module(0x0, Category::RENDER, "Blocks Per Second") {
-		registerFloatSetting("Pos-X", &bpsX, bpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "");
-		registerFloatSetting("Pos-Y", &bpsY, bpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "");
-		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "");
+		registerFloatSetting("Pos-X", &bpsX, bpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "Pos-X: Adjust the horizontal position from 0 to the window width");
+		registerFloatSetting("Pos-Y", &bpsY, bpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "Pos-Y: Modify the vertical position from 0 to the window height");
+		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "Size: Control the size from 0.1 to 1.5");
 	};
 	~BPS(){};
 

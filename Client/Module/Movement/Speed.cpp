@@ -1,7 +1,7 @@
 #include "Speed.h"
 
-Speed::Speed() : Module(VK_NUMPAD2, Category::MOVEMENT, "Speed up!") {
-	registerFloatSetting("Speed", &speed, 1, 0.01f, 3.f, "");
+Speed::Speed() : Module(0x0, Category::MOVEMENT, "Speed up!") {
+	registerFloatSetting("Speed", &speed, 1, 0.01f, 3.f, "Speed: Adjust the speed from 0.01 to 3.0");
 }
 
 Speed::~Speed() {}
