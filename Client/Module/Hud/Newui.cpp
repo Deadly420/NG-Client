@@ -42,111 +42,6 @@ void getModuleListByCategoryName(Category category, std::vector<std::shared_ptr<
 }
 
 void NewUI::onImGuiRender() {
-	// Hud
-	auto TogglesSoundsMod = moduleMgr->getModule<ToggleSounds>();
-	auto CustomFontMod = moduleMgr->getModule<FontChanger>();
-	auto ArrayListMod = moduleMgr->getModule<Arraylist>();
-
-	// Misc
-	auto OffhandAllowMod = moduleMgr->getModule<OffhandAllow>();
-	auto EditionFakerMod = moduleMgr->getModule<EditionFaker>();
-	auto TeleportMod = moduleMgr->getModule<Teleport>();
-	auto NoPacketMod = moduleMgr->getModule<NoPacket>();
-	auto SpammerMod = moduleMgr->getModule<Spammer>();
-	auto FreecamMod = moduleMgr->getModule<Freecam>();
-	auto CrasherMod = moduleMgr->getModule<Crasher>();
-	auto BreakerMod = moduleMgr->getModule<Breaker>();
-	auto TimerMod = moduleMgr->getModule<Timer>();
-	auto DerpMod = moduleMgr->getModule<Derp>();
-
-	// Entity
-	auto EntityLongJumpMod = moduleMgr->getModule<EntityLongJump>();
-	auto EntitySpiderMod = moduleMgr->getModule<EntitySpider>();
-	auto EntityJesusMod = moduleMgr->getModule<EntityJesus>();
-	auto EntitySpeedMod = moduleMgr->getModule<EntitySpeed>();
-	auto EntityBhopMod = moduleMgr->getModule<EntityBhop>();
-	auto EntityFlyMod = moduleMgr->getModule<EntityFly>();
-
-	// World
-	auto InstaBreakMod = moduleMgr->getModule<InstaBreak>();
-	auto ScaffoldMod = moduleMgr->getModule<Scaffold>();
-	auto DisablerMod = moduleMgr->getModule<Disabler>();
-	auto TowerMod = moduleMgr->getModule<Tower>();
-	auto NukerMod = moduleMgr->getModule<Nuker>();
-
-	// Player
-	auto StackableItemMod = moduleMgr->getModule<StackableItem>();
-	auto InvCleanerMod = moduleMgr->getModule<InventoryCleaner>();
-	auto ChestStealerMod = moduleMgr->getModule<ChestStealer>();
-	auto BlockReachMod = moduleMgr->getModule<BlockReach>();
-	auto NoFriendsMod = moduleMgr->getModule<NoFriends>();
-	auto ChestAuraMod = moduleMgr->getModule<ChestAura>();
-	auto AutoArmorMod = moduleMgr->getModule<AutoArmor>();
-	auto MidClickMod = moduleMgr->getModule<MidClick>();
-	auto NoSwingMod = moduleMgr->getModule<NoSwing>();
-	auto AntiBotMod = moduleMgr->getModule<AntiBot>();
-	auto NoFallMod = moduleMgr->getModule<NoFall>();
-	auto BlinkMod = moduleMgr->getModule<Blink>();
-	auto XPMod = moduleMgr->getModule<XP>();
-
-	// Movement
-	auto FollowPathMod = moduleMgr->getModule<FollowPathModule>();
-	auto AntiImmobileMod = moduleMgr->getModule<AntiImmobile>();
-	auto NoSlowdownMod = moduleMgr->getModule<NoSlowDown>();
-	auto InvMoveMod = moduleMgr->getModule<InventoryMove>();
-	auto FastLadderMod = moduleMgr->getModule<FastLadder>();
-	auto AutoSprintMod = moduleMgr->getModule<AutoSprint>();
-	auto AutoSneakMod = moduleMgr->getModule<AutoSneak>();
-	auto VelocityMod = moduleMgr->getModule<Velocity>();
-	auto HighJumpMod = moduleMgr->getModule<HighJump>();
-	auto FastStopMod = moduleMgr->getModule<FastStop>();
-	auto AntiVoidMod = moduleMgr->getModule<AntiVoid>();
-	auto AirSwimMod = moduleMgr->getModule<AirSwim>();
-	auto AirJumpMod = moduleMgr->getModule<AirJump>();
-	auto SpiderMod = moduleMgr->getModule<Spider>();
-	auto TwerkMod = moduleMgr->getModule<Twerk>();
-	auto SpeedMod = moduleMgr->getModule<Speed>();
-	auto PhaseMod = moduleMgr->getModule<Phase>();
-	auto NoWebMod = moduleMgr->getModule<NoWeb>();
-	auto JesusMod = moduleMgr->getModule<Jesus>();
-	auto GlideMod = moduleMgr->getModule<Glide>();
-	auto StepMod = moduleMgr->getModule<Step>();
-	auto BhopMod = moduleMgr->getModule<Bhop>();
-	auto FlyMod = moduleMgr->getModule<Fly>();
-
-	// Render
-	auto MincecraftRGBMod = moduleMgr->getModule<MinecraftRGB>();
-	auto TimeChangerMod = moduleMgr->getModule<TimeChanger>();
-	auto StorageESPMod = moduleMgr->getModule<StorageESP>();
-	auto FullBrightMod = moduleMgr->getModule<FullBright>();
-	auto CustomSkyMod = moduleMgr->getModule<RainbowSky>();
-	auto WaypointsMod = moduleMgr->getModule<Waypoints>();
-	auto ViewModelMod = moduleMgr->getModule<ViewModel>();
-	auto NoHurtCamMod = moduleMgr->getModule<NoHurtcam>();
-	auto NightModeMod = moduleMgr->getModule<NightMode>();
-	auto TargetHUDMod = moduleMgr->getModule<TargetHUD>();
-	auto NameTagsMod = moduleMgr->getModule<NameTags>();
-	auto FreelookMod = moduleMgr->getModule<Freelook>();
-	auto CompassMod = moduleMgr->getModule<Compass>();
-	auto TracerMod = moduleMgr->getModule<Tracer>();
-	auto RadarMod = moduleMgr->getModule<Radar>();
-	auto ZoomMod = moduleMgr->getModule<Zoom>();
-	auto XrayMod = moduleMgr->getModule<Xray>();
-	auto ESPMod = moduleMgr->getModule<ESP>();
-
-	// Combat
-	auto CrystalAuraMod = moduleMgr->getModule<CrystalAura>();
-	auto AutoClickerMod = moduleMgr->getModule<AutoClicker>();
-	auto BowAimbotMod = moduleMgr->getModule<BowAimbot>();
-	auto AutoTotemMod = moduleMgr->getModule<AutoTotem>();
-	auto KillauraMod = moduleMgr->getModule<Killaura>();
-	auto FastBowMod = moduleMgr->getModule<FastUse>();
-	auto AutoPotMod = moduleMgr->getModule<AutoPot>();
-	auto HitboxMod = moduleMgr->getModule<Hitbox>();
-	auto AimbotMod = moduleMgr->getModule<Aimbot>();
-	auto TeamsMod = moduleMgr->getModule<Teams>();
-	auto ReachMod = moduleMgr->getModule<Reach>();
-
 	// Main Window
 	ImGuiStyle* style = &ImGui::GetStyle();
 
@@ -202,8 +97,6 @@ void NewUI::onImGuiRender() {
 
 	ImGuiWindowFlags TargetFlags;
 	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
-	//ImGui::GetBackgroundDrawList()->AddText(ImVec2(100, 100), ImColor(0.f, 0.f, 1.f, 1.f), "Nigger");
-
 
 	if (ImGui::Begin("NG Client", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(360.f, 330.f));
