@@ -20,28 +20,29 @@ void Watermark::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	int curIndex = -index * 90;
 	auto color = ColorUtil::getRainbowColor(3.0f, 1.0f, 1, curIndex * 2);
 
+	// Get the window size
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-	//
-	static const float textHeight = (1.22f) * DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight();
-	//
-	if (!(Game.getLocalPlayer() == nullptr || !GameData::canUseMoveKeys())) {
-		auto player = Game.getLocalPlayer();
+
+	// Calculate text height
+	const float textHeight = 1.22f * DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight();
+
+	// Check if the local player is valid and can use move keys
+	if (auto player = Game.getLocalPlayer(); player != nullptr && Game.isInGame() || Game.canUseMoveKeys) {
+		// Get the player's name
 		std::string playername = player->getNameTag()->getText();
 
-		std::string name = "NG Client | " + playername;
-		float nameLength = DrawUtils::getTextWidth(&name, 0.8f);
+		// Create the watermark text
+		std::string watermarkText = "NG Client | " + playername;
+		const float nameLength = DrawUtils::getTextWidth(&watermarkText, 0.8f);
 
-		if (rgb) {
-			DrawUtils::drawTextShadow(Vec2(windowSize.x / windowSize.x + 1.0f, windowSize.y / windowSize.y + 2.0f), &name, Mc_Color(color), 0.8f, true);
+		// Define watermark position and size
+		const Vec2 watermarkPosition(windowSize.x / windowSize.x + 1.0f, windowSize.y / windowSize.y + 2.0f);
+		const Vec4 watermarkBackgroundRect(windowSize.x / windowSize.x, windowSize.y / windowSize.y, nameLength + 4, 12);
+		const Vec4 watermarkBarRect(windowSize.x / windowSize.x, windowSize.y / windowSize.y, nameLength + 4, 2);
 
-			DrawUtils::fillRectangle(Vec4(windowSize.x / windowSize.x, windowSize.y / windowSize.y, + nameLength + 4, 12), Mc_Color(0, 0, 0), opacity);
-			DrawUtils::fillRectangle(Vec4(windowSize.x / windowSize.x, windowSize.y / windowSize.y, + nameLength + 4, 2), Mc_Color(color), 1.f);
-		} else {
-			DrawUtils::drawText(Vec2(windowSize.x / windowSize.x + 1.0f, windowSize.y / windowSize.y + 2.0f), &name, Mc_Color(color), 0.8f);
-			DrawUtils::drawText(Vec2(windowSize.x / windowSize.x + 1.0f, windowSize.y / windowSize.y + 1.5f), &name, Mc_Color(255, 255, 255), 0.8f);
-
-			DrawUtils::fillRectangle(Vec4(windowSize.x / windowSize.x, windowSize.y / windowSize.y, + nameLength + 4, 12), Mc_Color(0, 0, 0), opacity);
-			DrawUtils::fillRectangle(Vec4(windowSize.x / windowSize.x, windowSize.y / windowSize.y, + nameLength + 4, 2), Mc_Color(color), 1.f);
-		}
+		// Draw the watermark
+		DrawUtils::drawTextShadow(watermarkPosition, &watermarkText, Mc_Color(color), 0.8f, true);
+		DrawUtils::fillRectangle(watermarkBackgroundRect, Mc_Color(0, 0, 0), opacity);
+		DrawUtils::fillRectangle(watermarkBarRect, Mc_Color(color), 1.f);
 	}
 }
