@@ -76,142 +76,142 @@ void renderEntity(Entity* currentEntity, bool isRegularEntity) {
 }
 
 void Radar::onPreRender(MinecraftUIRenderContext* renderCtx) {
-	LocalPlayer* player = Game.getLocalPlayer();
+	if (Game.isInGame() && Game.canUseMoveKeys()) {
+		LocalPlayer* player = Game.getLocalPlayer();
 
-	if (player == nullptr) return;
+		if (player == nullptr) return;
 
-	int index = 0;
-	index++;
-	int curIndex = -index * 90;
-	auto color = ColorUtil::getRainbowColor(3.f, 1.f, 1, curIndex * 2);
-	recalculateScale();
+		int index = 0;
+		index++;
+		int curIndex = -index * 90;
+		auto color = ColorUtil::getRainbowColor(3.f, 1.f, 1, curIndex * 2);
+		recalculateScale();
 
-	DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(0, 0, 0), bgOpacity);
+		DrawUtils::fillRectangle(Vec4(0, topPad - cent, (float)size, topPad + cent), Mc_Color(1, 1, 1), bgOpacity);
 
-	auto pPos = Game.getClientInstance()->levelRenderer->getOrigin();
-	playerPos = pPos;
+		auto pPos = Game.getClientInstance()->levelRenderer->getOrigin();
+		playerPos = pPos;
 
-	angle = (180.0f - player->getActorHeadRotationComponent()->rot.y) + 180.0f;
-	if (angle < 0) angle += 360;
-	angle *= RAD_DEG;
+		angle = (180.0f - player->getActorHeadRotationComponent()->rot.y) + 180.0f;
+		if (angle < 0) angle += 360;
+		angle *= RAD_DEG;
 
-	s = sin(angle) * effectiveZoom;
-	c = cos(angle) * effectiveZoom;
+		s = sin(angle) * effectiveZoom;
+		c = cos(angle) * effectiveZoom;
 
-	auto computePos = [=](Vec2 pos) {
-		auto delta = pos.sub(pPos.x, pPos.z);
-		return Vec2(
-			cent - ((delta.x * c) - (delta.y * s)),
-			topPad - ((delta.x * s) + (delta.y * c)));
-	};
-
-	int chunkX = int(floor(pPos.x)) & ~(15);
-	int chunkZ = int(floor(pPos.z)) & ~(15);
-	// Draw grid
-	DrawUtils::drawRectangle(Vec4(2, topPad - cent, (float)size, topPad + cent), Mc_Color(color), bgOpacity);
-	if (grid)
-	{
-		// we start at the player pos, and clip the grid lines to the view rectangle until the lines are no longer inside, then we repeat the process in the opposite direction, then we do the same for the other axis
-
-		struct FiniteLine {
-			Vec2 a, b;
-
-			// copied straight from wikipedia line-line intersections
-			bool intersectionPointWithInfOther(Vec2 oa, Vec2 ob, Vec2& out) {
-				float den = (a.x - b.x) * (oa.y - ob.y) - (a.y - b.y) * (oa.x - ob.x);
-				if (den == 0)  // lines are parallel
-					return false;
-
-				float t = ((a.x - oa.x) * (oa.y - ob.y) - (a.y - oa.y) * (oa.x - ob.x)) / den;
-				if (t >= 0 && t <= 1) {
-					out = {a.x + t * (b.x - a.x),
-						   a.y + t * (b.y - a.y)};
-					return true;
-				}
-				return false;
-			}
+		auto computePos = [=](Vec2 pos) {
+			auto delta = pos.sub(pPos.x, pPos.z);
+			return Vec2(
+				cent - ((delta.x * c) - (delta.y * s)),
+				topPad - ((delta.x * s) + (delta.y * c)));
 		};
 
-		std::array<Vec2, 4> clipRectPoints = {Vec2{0.f, topPad - cent}, Vec2{(float)size, topPad - cent}, Vec2{(float)size, topPad + cent}, Vec2{0.f, topPad + cent}};
-		std::array<FiniteLine, 4> clipRectLines;
-		auto last = clipRectPoints[3];
+		int chunkX = int(floor(pPos.x)) & ~(15);
+		int chunkZ = int(floor(pPos.z)) & ~(15);
+		// Draw grid
+		DrawUtils::drawRectangle(Vec4(2, topPad - cent, (float)size, topPad + cent), Mc_Color(color), bgOpacity);
+		if (grid) {
+			// we start at the player pos, and clip the grid lines to the view rectangle until the lines are no longer inside, then we repeat the process in the opposite direction, then we do the same for the other axis
 
-		for (int i = 0; i < 4; i++) {
-			auto cur = clipRectPoints[i];
+			struct FiniteLine {
+				Vec2 a, b;
 
-			clipRectLines[i] = {last, cur};
-			last = cur;
-		}
+				// copied straight from wikipedia line-line intersections
+				bool intersectionPointWithInfOther(Vec2 oa, Vec2 ob, Vec2& out) {
+					float den = (a.x - b.x) * (oa.y - ob.y) - (a.y - b.y) * (oa.x - ob.x);
+					if (den == 0)  // lines are parallel
+						return false;
 
-		std::vector<FiniteLine> lines;
-
-		auto computeRectIntersections = [&](Vec2 p1, Vec2 p2) {
-			Vec2 a, b;
-			bool hadIntersection = false;
-			for (int i = 0; i < (hadIntersection ? 4 : 3); i++) {
-				auto& line = clipRectLines[i];
-				bool didIntersect = line.intersectionPointWithInfOther(p1, p2, hadIntersection ? b : a);
-				if (didIntersect) {
-					if (hadIntersection) {
-						lines.push_back({a, b});
+					float t = ((a.x - oa.x) * (oa.y - ob.y) - (a.y - oa.y) * (oa.x - ob.x)) / den;
+					if (t >= 0 && t <= 1) {
+						out = {a.x + t * (b.x - a.x),
+							   a.y + t * (b.y - a.y)};
 						return true;
 					}
-					hadIntersection = true;
+					return false;
 				}
+			};
+
+			std::array<Vec2, 4> clipRectPoints = {Vec2{0.f, topPad - cent}, Vec2{(float)size, topPad - cent}, Vec2{(float)size, topPad + cent}, Vec2{0.f, topPad + cent}};
+			std::array<FiniteLine, 4> clipRectLines;
+			auto last = clipRectPoints[3];
+
+			for (int i = 0; i < 4; i++) {
+				auto cur = clipRectPoints[i];
+
+				clipRectLines[i] = {last, cur};
+				last = cur;
 			}
-			return false;
-		};
 
-		//x axis
-		for (int gridX = chunkX; true; gridX += 16) {
-			Vec2 p1 = computePos({gridX, chunkZ}), p2 = computePos({gridX, chunkZ + 1});
-			if (!computeRectIntersections(p1, p2))
-				break;
-		}
-		for (int gridX = chunkX - 16; true; gridX -= 16) {
-			Vec2 p1 = computePos({gridX, chunkZ}), p2 = computePos({gridX, chunkZ + 1});
-			if (!computeRectIntersections(p1, p2))
-				break;
+			std::vector<FiniteLine> lines;
+
+			auto computeRectIntersections = [&](Vec2 p1, Vec2 p2) {
+				Vec2 a, b;
+				bool hadIntersection = false;
+				for (int i = 0; i < (hadIntersection ? 4 : 3); i++) {
+					auto& line = clipRectLines[i];
+					bool didIntersect = line.intersectionPointWithInfOther(p1, p2, hadIntersection ? b : a);
+					if (didIntersect) {
+						if (hadIntersection) {
+							lines.push_back({a, b});
+							return true;
+						}
+						hadIntersection = true;
+					}
+				}
+				return false;
+			};
+
+			// x axis
+			for (int gridX = chunkX; true; gridX += 16) {
+				Vec2 p1 = computePos({gridX, chunkZ}), p2 = computePos({gridX, chunkZ + 1});
+				if (!computeRectIntersections(p1, p2))
+					break;
+			}
+			for (int gridX = chunkX - 16; true; gridX -= 16) {
+				Vec2 p1 = computePos({gridX, chunkZ}), p2 = computePos({gridX, chunkZ + 1});
+				if (!computeRectIntersections(p1, p2))
+					break;
+			}
+
+			// z axis
+			for (int gridZ = chunkZ; true; gridZ += 16) {
+				Vec2 p1 = computePos({chunkX, gridZ}), p2 = computePos({chunkX + 1, gridZ});
+				if (!computeRectIntersections(p1, p2))
+					break;
+			}
+			for (int gridZ = chunkZ - 16; true; gridZ -= 16) {
+				Vec2 p1 = computePos({chunkX, gridZ}), p2 = computePos({chunkX + 1, gridZ});
+				if (!computeRectIntersections(p1, p2))
+					break;
+			}
+
+			DrawUtils::setColor(0.7f, 0.7f, 0.7f, 0.1f);
+			// draw all lines
+			for (auto line : lines) {
+				DrawUtils::drawLine(line.a, line.b, 0.25f);
+			}
 		}
 
-		//z axis
-		for (int gridZ = chunkZ; true; gridZ += 16) {
-			Vec2 p1 = computePos({chunkX, gridZ}), p2 = computePos({chunkX + 1, gridZ});
-			if (!computeRectIntersections(p1, p2))
-				break;
-		}
-		for (int gridZ = chunkZ - 16; true; gridZ -= 16) {
-			Vec2 p1 = computePos({chunkX, gridZ}), p2 = computePos({chunkX + 1, gridZ});
-			if (!computeRectIntersections(p1, p2))
-				break;
+		// Draw the chunk the player is in
+		if (grid) {
+			DrawUtils::setColor(0.9f, 0.9f, 0.9f, 0.6f);
+			std::array<Vec2, 4> rect = {computePos({chunkX, chunkZ}), computePos({chunkX + 16, chunkZ}), computePos({chunkX + 16, chunkZ + 16}), computePos({chunkX, chunkZ + 16})};
+			auto last = rect[3];
+
+			for (int i = 0; i < 4; i++) {
+				auto cur = rect[i];
+
+				DrawUtils::drawLine(last, cur, 0.25f);
+				last = cur;
+			}
 		}
 
-		DrawUtils::setColor(0.7f, 0.7f, 0.7f, 0.1f);
-		// draw all lines
-		for (auto line : lines) {
-			DrawUtils::drawLine(line.a, line.b, 0.25f);
-		}
+		Game.forEachEntity(renderEntity);
+
+		const float pxSize = pixelSize * 0.75f * effectiveZoom;
+		DrawUtils::setColor(1, 1, 1, pxOpacity);
+		Vec2 center(cent, topPad);
+		DrawUtils::drawTriangle(center.add(-pxSize * 0.9f, pxSize * 2.f), center.add(pxSize * 0.9f, pxSize * 2.f), center);
 	}
-
-	// Draw the chunk the player is in
-	if (grid)
-	{
-		DrawUtils::setColor(0.9f, 0.9f, 0.9f, 0.6f);
-		std::array<Vec2, 4> rect = {computePos({chunkX, chunkZ}), computePos({chunkX + 16, chunkZ}), computePos({chunkX + 16, chunkZ + 16}), computePos({chunkX, chunkZ + 16})};
-		auto last = rect[3];
-		
-		for (int i = 0; i < 4; i++) {
-			auto cur = rect[i];
-			
-			DrawUtils::drawLine(last, cur, 0.25f);
-			last = cur;
-		}
-	}
-
-	Game.forEachEntity(renderEntity);
-
-	const float pxSize = pixelSize * 0.75f * effectiveZoom;
-	DrawUtils::setColor(1, 1, 1, pxOpacity);
-	Vec2 center(cent, topPad);
-	DrawUtils::drawTriangle(center.add(-pxSize * 0.9f, pxSize * 2.f), center.add(pxSize * 0.9f, pxSize * 2.f), center);
 }

@@ -7,6 +7,9 @@
 
 using namespace std;
 Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
+	registerFloatSetting("Padding", &padding, padding, 0.0f, 1.0f, "Padding: Adjust text padding from 0 to 1");
+	registerFloatSetting("Scale", &scale, scale, 0.5f, 2.0f, "Scale: Adjust text scale from 0.5 to 2.0");
+
 	registerEnumSetting("Mode", &mode, 0, "Changes The Arraylist Type");
 	mode.addEntry("Full", 0);
 	mode.addEntry("Outline", 1);
@@ -36,6 +39,11 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 	auto clickGUI = moduleMgr->getModule<ClickGuiMod>();
 
+	int index = 0;
+	index++;
+	int curIndex = -index * 90;
+	auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
+
 	static constexpr bool isOnRightSide = true;
 	int arrayListX = X;
 	int yOffset = Y;
@@ -58,27 +66,13 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			float textWidth;
 			bool enabled;
 			Vec2* pos;
-			int ticks;
-			int keybind;
 
 			ModuleContainer(shared_ptr<Module> mod) {
 				auto arrayList = moduleMgr->getModule<Arraylist>();
 				const char* ModuleNameChr = mod->getModuleName();
 				this->enabled = mod->isEnabled();
-				this->keybind = mod->getKeybind();
 				this->backingModule = mod;
 				this->pos = mod->getPos();
-
-				if (keybind == 0x0)
-					moduleName = ModuleNameChr;
-				else {
-					char text[50];
-					sprintf_s(text, 50, "%s%s", ModuleNameChr, arrayList->keybinds ? std::string(" [" + std::string(Utils::getKeybindName(keybind)) + "]").c_str() : "");
-					moduleName = text;
-
-					textWidth = DrawUtils::getTextWidth(&moduleName, 1.f) + 2.f;
-					if (!enabled && (*pos) == Vec2(0.f, 0.f)) shouldRender = false;
-				}
 
 				if (arrayList->modes) {
 					char text[50];
@@ -115,12 +109,9 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 
 		float lastModuleLength = 0.f;
 		Vec4 underline;
-		int index = 0;
 
 		for (std::set<ModuleContainer>::iterator mod = modContainerList.begin(); mod != modContainerList.end(); ++mod) {
 			if (!mod->shouldRender) continue;
-			index++;
-			int curIndex = -index * 90;
 
 			std::string textStr = mod->moduleName;
 			float textWidth = mod->textWidth;
@@ -149,7 +140,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			auto topLine = Vec4(rectPos.x - 1.f, rectPos.y - 1.f, rectPos.z, rectPos.y);
 			underline = Vec4(windowSize.x - (lastModuleLength + 4.f + (textPadding * 2.f)), leftRect.y, leftRect.x, leftRect.y + 1.f);
 
-			auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
 				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
@@ -185,10 +175,6 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			lastModuleLength = textWidth;
 			underline = Vec4(windowSize.x - (textWidth + 4.f + (textPadding * 2.f)), leftRect.w, windowSize.x + 1.f, leftRect.w + 1.f);
 		}
-		index++;
-		int curIndex = -index * 90;
-
-		auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 
 		if (mode.getSelectedValue() == 0 || mode.getSelectedValue() == 1) DrawUtils::fillRectangle(underline, color, 1.f);
 		modContainerList.clear();
