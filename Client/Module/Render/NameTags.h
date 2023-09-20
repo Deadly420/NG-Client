@@ -18,6 +18,7 @@ public:
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;
+	static void drawNameTags(Entity* ent, float textSize);
 	virtual void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onDisable() override;
 };

@@ -1,16 +1,15 @@
 #include "Nuker.h"
 
 Nuker::Nuker() : Module(VK_NUMPAD5, Category::WORLD, "Break multiple blocks at once.") {
-	registerIntSetting("Radius", &nukerRadius, nukerRadius, 1, 10);
-	registerBoolSetting("Veinminer", &veinMiner, veinMiner);
-	registerBoolSetting("Autodestroy", &autodestroy, autodestroy);
+	registerIntSetting("Radius", &nukerRadius, nukerRadius, 1, 10, "Radius: Set the radius from 1 to 10");
+	registerBoolSetting("Veinminer", &veinMiner, veinMiner, "Veinminer: Enable or disable vein mining");
+	registerBoolSetting("Autodestroy", &autodestroy, autodestroy, "Autodestroy: Automatically destroy blocks");
 }
 
-Nuker::~Nuker() {
-}
+Nuker::~Nuker() {}
 
 const char* Nuker::getModuleName() {
-	return ("Nuker");
+	return "Nuker";
 }
 
 void Nuker::onTick(GameMode* gm) {

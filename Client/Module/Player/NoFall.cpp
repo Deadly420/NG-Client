@@ -6,7 +6,7 @@ NoFall::NoFall() : Module(VK_NUMPAD3, Category::PLAYER, "Prevents you from takin
 		.addEntry(EnumEntry("CubeCraft", 2))
 		.addEntry(EnumEntry("Nukkit", 3))
 		.addEntry(EnumEntry("AuthGroundPos", 4));
-	registerEnumSetting("Mode", &mode, 0);
+	registerEnumSetting("Mode", &mode, 0, "Mode: Select the desired mode from the available options");
 }
 
 NoFall::~NoFall() {}

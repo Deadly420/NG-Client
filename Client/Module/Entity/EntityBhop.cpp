@@ -2,7 +2,7 @@
 
 EntityBhop::EntityBhop() : Module(0x0, Category::ENTITY, "so funny") {
 	registerFloatSetting("Speed", &speed, speed, 0.1f, 1.5f, "Speed: Adjust the speed from 0.1 to 1.5");
-	registerBoolSetting("Lowhop", &lowhop, lowhop);
+	registerBoolSetting("Lowhop", &lowhop, lowhop, "Lowhop: Enable or disable low hopping");
 	registerFloatSetting("Lowhop UpValue", &upVal, upVal, 0.05f, 0.50f, "Lowhop UpValue: Set the upward value from 0.05 to 0.50");
 }
 

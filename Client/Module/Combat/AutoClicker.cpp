@@ -1,12 +1,15 @@
 #include "AutoClicker.h"
 
 AutoClicker::AutoClicker() : Module(0, Category::COMBAT, "A simple autoclicker, automatically clicks for you.") {
-	registerBoolSetting("RightClick", &rightclick, rightclick);
-	registerBoolSetting("Only Weapons", &weapons, weapons);
-	registerBoolSetting("Break Blocks", &breakBlocks, breakBlocks);
-	registerIntSetting("MinDelay", &minD, 0, 0, 20);
-	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
-	registerBoolSetting("Hold", &hold, hold);
+	// Registering Boolean Settings with Tooltips
+	registerBoolSetting("RightClick", &rightclick, rightclick, "Toggle right-click feature");
+	registerBoolSetting("Only Weapons", &weapons, weapons, "Toggle only weapons");
+	registerBoolSetting("Break Blocks", &breakBlocks, breakBlocks, "Toggle block-breaking");
+	registerBoolSetting("Hold", &hold, hold, "Toggle hold mode");
+
+	// Registering Integer Settings
+	registerIntSetting("MinDelay", &minD, minD, 0, 20, "Minimum delay setting");
+	registerIntSetting("MaxDelay", &maxD, maxD, 0, 20, "Maximum delay setting");
 }
 
 AutoClicker::~AutoClicker() {}

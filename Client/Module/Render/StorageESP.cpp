@@ -8,8 +8,8 @@ StorageESP::StorageESP() : Module(0x0, Category::RENDER, "ESP for but storage bl
 	mode.addEntry("3D", 1);
 	mode.addEntry("Outline", 2);
 	mode.addEntry("Corners", 3);
-	registerEnumSetting("Mode", &mode, 2);
-	registerBoolSetting("Fill", &fill, fill);
+	registerEnumSetting("Mode", &mode, 2, "Select the mode for this setting");
+	registerBoolSetting("Fill", &fill, fill, "Toggle fill mode on/off");
 }
 
 StorageESP::~StorageESP() {

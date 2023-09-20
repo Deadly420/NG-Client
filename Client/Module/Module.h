@@ -106,9 +106,9 @@ protected:
 	Module(int key, Category c, const char* tooltip);
 
 	void registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue, const char* tooltip);
-	void registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue);
-	void registerEnumSetting(std::string name, SettingEnum* intPtr, int defaultValue);
-	void registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue);
+	void registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue, const char* tooltip);
+	void registerEnumSetting(std::string name, SettingEnum* intPtr, int defaultValue, const char* tooltip);
+	void registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue, const char* tooltip);
 
 	void clientMessageF(const char* fmt, ...);
 

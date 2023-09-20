@@ -29,7 +29,7 @@ private:
 
 public:
 	AutoPot() : Module(0x0, Category::COMBAT, "Auto throws potions at the selected health") {
-		registerIntSetting("Health", &health, health, 1, 20);
+		registerIntSetting("Health", &health, health, 1, 20, "Set the health value");
 	}
 	~AutoPot() {}
 

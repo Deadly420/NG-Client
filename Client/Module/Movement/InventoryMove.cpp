@@ -1,13 +1,11 @@
 #include "InventoryMove.h"
 
-InventoryMove::InventoryMove() : Module(0x0, Category::MOVEMENT, "Move even when you have your inventory open.") {
-}
+InventoryMove::InventoryMove() : Module(0x0, Category::MOVEMENT, "Move even when you have your inventory open.") {}
 
-InventoryMove::~InventoryMove() {
-}
+InventoryMove::~InventoryMove() {}
 
 const char* InventoryMove::getModuleName() {
-	return ("InvMove");
+	return "InvMove";
 }
 
 void InventoryMove::onTick(GameMode* gm) {

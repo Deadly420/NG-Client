@@ -4,8 +4,8 @@
 
 Waypoints::Waypoints() : Module(0x0, Category::RENDER, "Shows holograms for user-defined coordinates.") {
 	registerFloatSetting("Size", &size, size, 0.3f, 1.6f, "Adjust the size of the holograms");
-	registerBoolSetting("Interdimensional", &interdimensional, interdimensional);
-	registerBoolSetting("Show Coordinates", &showCoordinates, showCoordinates);
+	registerBoolSetting("Interdimensional", &interdimensional, interdimensional, "Interdimensional: Enable or disable interdimensional functionality");
+	registerBoolSetting("Show Coordinates", &showCoordinates, showCoordinates, "Show Coordinates: Toggle the display of coordinates");
 }
 
 Waypoints::~Waypoints() {

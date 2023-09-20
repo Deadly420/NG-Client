@@ -3,8 +3,9 @@
 #include "../../../Utils/Target.h"
 
 TriggerBot::TriggerBot() : Module(0x0, Category::COMBAT, "Attacks player you're looking at.") {
-	registerIntSetting("MinDelay", &minD, 0, 0, 20);
-	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
+	// Registering Integer Settings
+	registerIntSetting("MinDelay", &minD, minD, 0, 20, "Minimum delay setting");
+	registerIntSetting("MaxDelay", &maxD, maxD, 0, 20, "Maximum delay setting");
 }
 
 TriggerBot::~TriggerBot() {

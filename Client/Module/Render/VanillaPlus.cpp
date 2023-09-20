@@ -7,10 +7,10 @@
 unsigned char flyingItemsPrevCodeBuf[26];
 unsigned char* flyingItemsFuncPtr = 0;
 
-bool lastFastFlyingItems = false;
+bool lastFastFlyingItems = true;
 
 VanillaPlus::VanillaPlus() : Module(0x0, Category::MISC, "Tweaks the minecraft experience.") {
-	registerBoolSetting("Fast Item Lerp", &fastFlyingItems, true);
+	registerBoolSetting("Fast Item Lerp", &fastFlyingItems, fastFlyingItems, "Enable fast item lerp for quicker item animations");
 }
 
 const char* VanillaPlus::getModuleName() {

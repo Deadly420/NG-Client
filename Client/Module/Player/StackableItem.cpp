@@ -1,7 +1,7 @@
 #include "StackableItem.h"
 
 StackableItem::StackableItem() : Module(0x0, Category::PLAYER, "Stack items you normally wouldn't be able to stack (e.g. swords).") {
-	registerIntSetting("MaxItemAmount", &maxAmount, maxAmount, 1, 255);
+	registerIntSetting("MaxItemAmount", &maxAmount, maxAmount, 1, 255, "MaxItemAmount: Set the maximum item amount from 1 to 255");
 }
 
 StackableItem::~StackableItem() {}

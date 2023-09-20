@@ -1,16 +1,20 @@
 #include "Killaura.h"
 
 Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around you automatically.") {
-	registerBoolSetting("Target Mobs", &targetMobs, targetMobs);
-	registerFloatSetting("Range", &range, range, 2.f, 20.f, "Range: Adjust the range from 2.0 to 20.0");
-	registerIntSetting("MinDelay", &minD, 0, 0, 20);
-	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
+	// Registering Boolean Settings with Tooltips
+	registerBoolSetting("Target Mobs", &targetMobs, targetMobs, "Toggle targeting mobs");
+	registerBoolSetting("MultiAura", &isMulti, isMulti, "Toggle multi-aura");
+	registerBoolSetting("Rotations", &rotations, rotations, "Toggle rotations");
+	registerBoolSetting("Silent Rotations", &silent, silent, "Toggle silent rotations");
+	registerBoolSetting("Hurttime", &hurttime, hurttime, "Toggle hurttime");
+	registerBoolSetting("AutoWeapon", &autoweapon, autoweapon, "Toggle auto-weapon");
 
-	registerBoolSetting("MultiAura", &isMulti, isMulti);
-	registerBoolSetting("Rotations", &rotations, rotations);
-	registerBoolSetting("Silent Rotations", &silent, silent);
-	registerBoolSetting("Hurttime", &hurttime, hurttime);
-	registerBoolSetting("AutoWeapon", &autoweapon, autoweapon);
+	// Registering Float Settings with Tooltips
+	registerFloatSetting("Range", &range, range, 2.f, 20.f, "Range: Adjust the range from 2.0 to 20.0");
+
+	// Registering Integer Settings
+	registerIntSetting("MinDelay", &minD, minD, 0, 20, "MinDelay: Adjust the minimum delay from 0 to 20");
+	registerIntSetting("MaxDelay", &maxD, maxD, 0, 20, "MaxDelay: Adjust the maximum delay from 0 to 20");
 }
 
 Killaura::~Killaura() {

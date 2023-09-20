@@ -1,14 +1,13 @@
 #include "TargetHUD.h"
 
 TargetHUD::TargetHUD() : Module(0, Category::RENDER, "TargetHUD") {
-	registerBoolSetting("Animation", &animation, animation);
+	registerBoolSetting("Animation", &animation, animation, "Toggle animation on/off");
 }
 
-TargetHUD::~TargetHUD() {
-}
+TargetHUD::~TargetHUD() {}
 
 const char* TargetHUD::getModuleName() {
-	return ("TargetHUD");
+	return "TargetHUD";
 }
 
 static std::vector<Entity*> targetList3;

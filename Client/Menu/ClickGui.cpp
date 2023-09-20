@@ -366,6 +366,17 @@ void ClickGui::renderCategory(Category category) {
 
 								std::string elTexto = name;
 								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 10 /* because we add 10 to text padding + checkbox*/);
+
+								// Tooltip handling
+								if (isFocused) {
+									// Check if the tooltip text is not empty
+									std::string tooltipText = std::string(setting->tooltip);
+									if (!tooltipText.empty()) {
+										// Render the tooltip
+										renderTooltip(&tooltipText);
+									}
+								}
+
 								DrawUtils::drawText(textPos, &elTexto, isFocused ? Mc_Color(255, 255, 255) : Mc_Color(0.8f, 0.8f, 0.8f), textSize);
 								currentYOffset += textHeight + (textPaddingY * 2);
 								break;
@@ -388,11 +399,19 @@ void ClickGui::renderCategory(Category category) {
 								windowSize->x = fmax(windowSize->x, DrawUtils::getTextWidth(&elTexto, textSize) + 8 /* because we add 5 to text padding*/ + crossSize);
 
 								// Background of enum setting
-								if (rectPos.contains(&mousePos)) {
+								bool areWeFocused = rectPos.contains(&mousePos);  // Define areWeFocused here
+
+								if (areWeFocused) {
 									DrawUtils::fillRectangle(rectPos, Mc_Color(50, 50, 50), backgroundAlpha);
 									if (DrawUtils::shouldToggleRightClick && !ourWindow->isInAnimation) {
 										DrawUtils::shouldToggleRightClick = false;
 										setting->minValue->_bool = !setting->minValue->_bool;
+									}
+									// Tooltip handling
+									std::string tooltipText = std::string(setting->tooltip);
+									if (!tooltipText.empty()) {
+										// Render the tooltip
+										renderTooltip(&tooltipText);
 									}
 								} else {
 									DrawUtils::fillRectangle(rectPos, Mc_Color(18, 18, 18), backgroundAlpha);
@@ -441,6 +460,7 @@ void ClickGui::renderCategory(Category category) {
 											DrawUtils::shouldToggleLeftClick = false;
 											setting->value->_int = e;
 										}
+
 										currentYOffset += textHeight + (textPaddingY * 2);
 									}
 								}
@@ -598,6 +618,16 @@ void ClickGui::renderCategory(Category category) {
 
 								setting->value->_int = (int)roundf(value);
 								setting->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
+
+								if (areWeFocused) {
+									// Check if the tooltip text is not empty
+									std::string tooltipText = std::string(setting->tooltip);
+									if (!tooltipText.empty()) {
+										// Render the tooltip
+										renderTooltip(&tooltipText);
+									}
+								}
+
 								currentYOffset += textHeight + (textPaddingY * 2);
 								break;
 							}
@@ -742,9 +772,9 @@ void ClickGui::render() {
 
 	static auto clickGuiMod = moduleMgr->getModule<ClickGuiMod>();
 
-	int fadeSpeed = 2;
+	int fadeSpeed = 1;
 
-	if (clickGuiMod->Opacity < 55)
+	if (clickGuiMod->Opacity < 87)
 		clickGuiMod->Opacity += fadeSpeed;
 
 	// Fill Background

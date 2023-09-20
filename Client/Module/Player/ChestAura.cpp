@@ -1,8 +1,8 @@
 #include "ChestAura.h"
 
 ChestAura::ChestAura() : Module(0x0, Category::PLAYER, "Aura but for opening chests.") {
-	registerIntSetting("Range", &range, range, 1, 10);
-	registerBoolSetting("EnderChests", &enderchests, enderchests);
+	registerIntSetting("Range", &range, range, 1, 10, "Range: Set the range from 1 to 10");
+	registerBoolSetting("EnderChests", &enderchests, enderchests, "EnderChests: Enable or disable Ender Chest checking");
 }
 
 ChestAura::~ChestAura() {

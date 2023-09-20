@@ -4,7 +4,7 @@
 
 Bhop::Bhop() : Module(0, Category::MOVEMENT, "Hop around like a bunny!") {
 	registerFloatSetting("Speed", &speed, speed, 0.1f, 0.8f, "Speed: Set the speed from 0.1 to 0.8");
-	registerBoolSetting("Hive", &hive, hive);
+	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable the hive feature");
 }
 
 Bhop::~Bhop() {

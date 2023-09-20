@@ -8,5 +8,5 @@ BlockReach::~BlockReach() {
 }
 
 const char* BlockReach::getModuleName() {
-	return ("BlockReach");
+	return "BlockReach";
 }

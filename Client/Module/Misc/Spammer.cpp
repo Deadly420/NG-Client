@@ -2,12 +2,9 @@
 #include "../../../Utils/Utils.h"
 
 Spammer::Spammer() : Module(0x0, Category::MISC, "Spams a message in a specified delay.") {
-	registerIntSetting("Delay", &delay, delay, 1, 10);
-	registerBoolSetting("Bypass", &bypass, bypass);
-
-	if (bypass) {
-		registerIntSetting("Length", &length, length, 1, 60);
-	}
+	registerIntSetting("Delay", &delay, delay, 1, 10, "Set the delay value between 1 and 10");
+	registerBoolSetting("Bypass", &bypass, bypass, "Enable or disable bypass mode");
+	registerIntSetting("Length", &length, length, 1, 60, "Set the length value between 1 and 60");
 }
 
 Spammer::~Spammer() {

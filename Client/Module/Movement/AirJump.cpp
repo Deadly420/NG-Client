@@ -1,7 +1,7 @@
 #include "AirJump.h"
 
-AirJump::AirJump() : Module('G', Category::MOVEMENT, "Jump even you're not on the ground.") {
-	registerBoolSetting("Legacy", &legacyMode, legacyMode);
+AirJump::AirJump() : Module(0x0, Category::MOVEMENT, "Jump even you're not on the ground.") {
+	registerBoolSetting("Legacy", &legacyMode, legacyMode, "Legacy: Enable or disable legacy mode");
 }
 
 AirJump::~AirJump() {

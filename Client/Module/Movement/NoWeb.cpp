@@ -1,13 +1,11 @@
 #include "NoWeb.h"
 
-NoWeb::NoWeb() : Module(0x0, Category::MOVEMENT, "Ignore cobwebs slowdown.") {
-}
+NoWeb::NoWeb() : Module(0x0, Category::MOVEMENT, "Ignore cobwebs slowdown.") {}
 
-NoWeb ::~NoWeb() {
-}
+NoWeb ::~NoWeb() {}
 
 const char* NoWeb::getModuleName() {
-	return ("NoWeb");
+	return "NoWeb";
 }
 
 void NoWeb::onTick(GameMode* gm) {

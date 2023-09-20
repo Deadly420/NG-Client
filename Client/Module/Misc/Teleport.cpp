@@ -1,9 +1,9 @@
 #include "Teleport.h"
 
 Teleport::Teleport() : Module(0x0, Category::MISC, "Click a block to teleport to it.") {
-	registerBoolSetting("Only Hand", &onlyHand, onlyHand);
-	registerBoolSetting("Lerp", &lerp, lerp);
-	registerFloatSetting("Lerp Speed", &lerpSpeed, 0.1f, 0.01f, 1.f, "Lerp Speed: Set the lerp speed from 0.01 to 1.0");
+	registerBoolSetting("Only Hand", &onlyHand, onlyHand, "Only Hand: Enable or disable the 'Only Hand' option");
+	registerBoolSetting("Lerp", &lerp, lerp, "Lerp: Enable or disable the 'Lerp' option");
+	registerFloatSetting("Lerp Speed", &lerpSpeed, 0.1f, 0.01f, 1.f, "Lerp Speed: Adjust the lerp speed from 0.01 to 1.0");
 }
 
 Teleport::~Teleport() {}

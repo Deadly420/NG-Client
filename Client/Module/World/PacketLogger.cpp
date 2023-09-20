@@ -1,17 +1,18 @@
 #include "PacketLogger.h"
 
 PacketLogger::PacketLogger() : Module(0x0, Category::WORLD, "Logs packets, PacketAddr shows the CE or IDA address for packet, AuthChunk shows PAIP and SCRP and SetTitle shows STP") {
-	registerEnumSetting("Packet Type", &packetType, 0);
+	registerEnumSetting("Packet Type", &packetType, 0, "Packet Type: Select whether to use server or client packets");
 	packetType = SettingEnum(this)
-			.addEntry(EnumEntry("Server", 0))
-			.addEntry(EnumEntry("Client", 1));
-	registerBoolSetting("SetTitle", &setTitle, setTitle);
-	registerBoolSetting("Packet Addr", &packetadd, &packetadd);
-	registerBoolSetting("Auth & Chunk", &authchunk, authchunk);
-	registerEnumSetting("Mode", &addressType, 0);
+					 .addEntry(EnumEntry("Server", 0))
+					 .addEntry(EnumEntry("Client", 1));
+
+	registerBoolSetting("SetTitle", &setTitle, setTitle, "SetTitle: Enable or disable setting the title");
+	registerBoolSetting("Packet Addr", &packetadd, &packetadd, "Packet Addr: Enable or disable packet address");
+	registerBoolSetting("Auth & Chunk", &authchunk, authchunk, "Auth & Chunk: Enable or disable authentication and chunk loading");
+	registerEnumSetting("Mode", &addressType, 0, "Mode: Select the address type");
 	addressType = SettingEnum(this)
-			.addEntry(EnumEntry("CE Address", 0))
-			.addEntry(EnumEntry("IDA Address", 1));
+					  .addEntry(EnumEntry("CE Address", 0))
+					  .addEntry(EnumEntry("IDA Address", 1));
 }
 
 PacketLogger::~PacketLogger() {}

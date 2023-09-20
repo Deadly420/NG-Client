@@ -1,7 +1,7 @@
 #include "AntiVoid.h"
 
 AntiVoid::AntiVoid() : Module(0x0, Category::MOVEMENT, "Automatically teleports you back up if you fall down more than X blocks.") {
-	registerIntSetting("Distance", &distance, distance, 1, 20);
+	registerIntSetting("Distance", &distance, distance, 1, 20, "Distance: Adjust the distance from 1 to 20");
 }
 
 AntiVoid::~AntiVoid() {

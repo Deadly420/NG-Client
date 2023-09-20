@@ -24,14 +24,12 @@ public:
 	int m_slot = 0;
 };
 
-AutoArmor::AutoArmor() : Module(0x0, Category::PLAYER, "Automatically equips the best armor.") {
-}
+AutoArmor::AutoArmor() : Module(0x0, Category::PLAYER, "Automatically equips the best armor.") {}
 
-AutoArmor::~AutoArmor() {
-}
+AutoArmor::~AutoArmor() {}
 
 const char* AutoArmor::getModuleName() {
-	return ("AutoArmor");
+	return "AutoArmor";
 }
 
 void AutoArmor::onTick(GameMode* gm) {

@@ -78,8 +78,8 @@ Module::Module(int key, Category c, const char* tooltip) {
 	this->keybind = key;
 	this->category = c;
 	this->tooltip = tooltip;
-	this->registerIntSetting(std::string("keybind"), &this->keybind, this->keybind, 0, 0xFF);
-	this->registerBoolSetting(std::string("enabled"), &this->enabled, false);
+	this->registerIntSetting(std::string("keybind"), &this->keybind, this->keybind, 0, 0xFF, "");
+	this->registerBoolSetting(std::string("enabled"), &this->enabled, false, "");
 	this->ModulePos = Vec2(0.f, 0.f);
 }
 
@@ -118,7 +118,7 @@ void Module::registerFloatSetting(std::string name, float* floatPtr, float defau
 	settings.push_back(setting);  // Add to the list
 }
 
-void Module::registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue) {
+void Module::registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue, const char* tooltip) {
 #ifdef DEBUG
 	if (minValue > maxValue)
 		__debugbreak();  // Minimum value is bigger than maximum value
@@ -146,10 +146,13 @@ void Module::registerIntSetting(std::string name, int* intPtr, int defaultValue,
 	// Name
 	strcpy_s(setting->name, 19, name.c_str());
 
+	// Tooltip
+	strcpy_s(setting->tooltip, 255, tooltip);
+
 	settings.push_back(setting);  // Add to list
 }
 
-void Module::registerEnumSetting(std::string name, SettingEnum* ptr, int defaultValue) {
+void Module::registerEnumSetting(std::string name, SettingEnum* ptr, int defaultValue, const char* tooltip) {
 	SettingEntry* setting = new SettingEntry();
 	setting->valueType = ValueType::ENUM;
 	if (defaultValue < 0 || defaultValue >= ptr->GetCount())
@@ -172,11 +175,16 @@ void Module::registerEnumSetting(std::string name, SettingEnum* ptr, int default
 	// Enum data
 	setting->extraData = ptr;
 
+	// Name
 	strcpy_s(setting->name, 19, name.c_str());
+
+	// Tooltip
+	strcpy_s(setting->tooltip, 255, tooltip);
+
 	settings.push_back(setting);
 }
 
-void Module::registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue) {
+void Module::registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue, const char* tooltip) {
 	SettingEntry* setting = new SettingEntry();
 	setting->valueType = ValueType::BOOL;
 
@@ -186,7 +194,11 @@ void Module::registerBoolSetting(std::string name, bool* boolPtr, bool defaultVa
 	defaultVal->_bool = defaultValue;
 	setting->defaultValue = defaultVal;
 
-	strcpy_s(setting->name, 19, name.c_str());  // Name
+	// Name
+	strcpy_s(setting->name, 19, name.c_str());
+
+	// Tooltip
+	strcpy_s(setting->tooltip, 255, tooltip);
 
 	settings.push_back(setting);  // Add to list
 }

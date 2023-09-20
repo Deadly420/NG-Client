@@ -32,9 +32,9 @@ using json = nlohmann::json;
 TestModule::TestModule() : Module(0x0, Category::MISC, "For testing purposes only!") {
 	enum1.addEntry(EnumEntry("1", 1)).addEntry(EnumEntry("2", 2)).addEntry(EnumEntry("3", 3));
 	registerFloatSetting("float1", &float1, 0, -10, 10, "float1: Adjust the value from -10 to 10");
-	registerIntSetting("int1", &int1, 0, -10, 10);
-	registerEnumSetting("Enum1", &enum1, 0);
-	registerBoolSetting("bool1", &bool1, true);
+	registerIntSetting("int1", &int1, 0, -10, 10, "int1: Adjust the value from -10 to 10");
+	registerEnumSetting("Enum1", &enum1, 0, "Enum1: Select an option from the list");
+	registerBoolSetting("bool1", &bool1, true, "bool1: Enable or disable this option");
 }
 
 TestModule::~TestModule() {

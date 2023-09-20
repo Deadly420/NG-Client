@@ -7,7 +7,7 @@ public:
 	float sink = 0.1f;
 	SettingEnum mode = this;
 	Jesus() : Module(0x0, Category::MOVEMENT, "Walk over water, like Jesus") {
-		registerEnumSetting("Mode", &mode, 0);
+		registerEnumSetting("Mode", &mode, 0, "Mode: Select the desired mode from the available options");
 		mode.addEntry("Solid", 0);
 		mode.addEntry("Bounce", 1);
 		registerFloatSetting("Height", &sink, 0.1f, 0.0f, 1.f, "Height: Control the sink level, ranging from 0.0 to 1.0");

@@ -2,13 +2,13 @@
 #include "../../Menu/ClickGui.h"
 
 ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggle everything just by clicking on it!") {
-	registerEnumSetting("Mode", &mode, 0);
+	registerEnumSetting("Mode", &mode, 0, "Mode: Select the mode (New or Old).");
 	mode.addEntry("New", 0);
 	mode.addEntry("Old", 1);
 
-	registerBoolSetting("Reset On Inject", &resetOnInject, resetOnInject);
-	registerBoolSetting("Reset On Open", &resetOnOpen, resetOnOpen);
-	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips);
+	registerBoolSetting("Reset On Inject", &resetOnInject, resetOnInject, "Reset On Inject: Enable or disable resetting on injection");
+	registerBoolSetting("Reset On Open", &resetOnOpen, resetOnOpen, "Reset On Open: Enable or disable resetting on opening");
+	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips, "Show This");
 }
 
 ClickGuiMod::~ClickGuiMod() {

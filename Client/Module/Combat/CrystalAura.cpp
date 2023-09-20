@@ -1,15 +1,18 @@
 #include "CrystalAura.h"
 
 CrystalAura::CrystalAura() : Module(VK_NUMPAD0, Category::COMBAT, "Destroys nearby End Crystals.") {
-	registerIntSetting("Range", &range, range, 1, 10);
-	registerIntSetting("Crystal Range", &cRange, cRange, 1, 15);
-	registerIntSetting("Place Range", &eRange, eRange, 1, 5);
-	registerIntSetting("Player Range", &pRange, pRange, 1, 10);
-	registerBoolSetting("Autoselect", &AutoSelect, AutoSelect);
-	registerBoolSetting("Autoplace", &autoplace, autoplace);
-	registerBoolSetting("Enhance Slace", &pEnhanced, pEnhanced);
-	registerBoolSetting("Enhance Destroy", &dEnhanced, dEnhanced);
-	registerBoolSetting("Preview", &Preview, Preview);
+	// Registering Integer Settings with Tooltips
+	registerIntSetting("Range", &range, range, 1, 10, "Set the range value");
+	registerIntSetting("Crystal Range", &cRange, cRange, 1, 15, "Set the crystal range value");
+	registerIntSetting("Place Range", &eRange, eRange, 1, 5, "Set the place range value");
+	registerIntSetting("Player Range", &pRange, pRange, 1, 10, "Set the player range value");
+
+	// Registering Boolean Settings with Tooltips
+	registerBoolSetting("Autoselect", &AutoSelect, AutoSelect, "Toggle autoselect feature");
+	registerBoolSetting("Autoplace", &autoplace, autoplace, "Toggle autoplace feature");
+	registerBoolSetting("Enhance Slace", &pEnhanced, pEnhanced, "Toggle enhance slace feature");
+	registerBoolSetting("Enhance Destroy", &dEnhanced, dEnhanced, "Toggle enhance destroy feature");
+	registerBoolSetting("Preview", &Preview, Preview, "Toggle preview mode");
 	delay = 0;
 }
 CrystalAura::~CrystalAura() {

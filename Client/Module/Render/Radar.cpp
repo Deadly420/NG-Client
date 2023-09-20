@@ -16,8 +16,8 @@ bool grid = true;
 float bgOpacity = 0.2f;
 
 Radar::Radar() : Module(0x0, Category::RENDER, "Radar") {
-	registerBoolSetting("Show Grid", &grid, true);
-	registerIntSetting("Size", &size, size, 50, 200);
+	registerBoolSetting("Show Grid", &grid, grid, "Toggle to show/hide the grid");
+	registerIntSetting("Size", &size, size, 50, 200, "Adjust the size of the grid (50 to 200)");
 	registerFloatSetting("Pixel Size", &pixelSize, pixelSize, 2, 4, "Pixel Size: Adjust pixel size from 2 to 4");
 	registerFloatSetting("Zoom", &zoom, zoom, 1.0f / 4.0f, 4.0f, "Zoom: Set zoom level from 0.25x to 4x");
 	registerFloatSetting("Background Opacity", &bgOpacity, bgOpacity, 0.1f, 1.0f, "Background Opacity: Modify background opacity from 0.1 to 1.0");

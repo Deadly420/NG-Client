@@ -1,8 +1,8 @@
 #include "Derp.h"
 
 Derp::Derp() : Module(0x0, Category::MISC, "lol you stupid.") {
-	registerBoolSetting("ihaveastroke", &epicStroke, epicStroke);
-	registerBoolSetting("packet mode", &packetMode, packetMode);
+	registerBoolSetting("ihaveastroke", &epicStroke, epicStroke, "ihaveastroke: Toggle epic stroke mode");
+	registerBoolSetting("packet mode", &packetMode, packetMode, "packet mode: Toggle packet mode");
 }
 
 Derp::~Derp() {

@@ -530,91 +530,6 @@ void DrawUtils::draw2DBox(const Vec3& lower, const Vec3& upper, float lineWidth,
 	}
 }
 
-void DrawUtils::drawImage(std::string filePath, Vec2& imagePos, Vec2& ImageDimension, Vec2& idk) {
-	if (texturePtr == nullptr) {
-		texturePtr = new TexturePtr();
-		FilePath file(filePath);
-		// renderCtx->getTexture(texturePtr, file);
-	}
-
-	__int64 yot = 0;
-	static unsigned __int64 hashedString = 0xA99285D21E94FC80;
-	static uintptr_t flushImageAddr = FindSignature("48 8B C4 55 56 57 41 54 41 55 41 56 41 57 ?? ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? ?? ?? ?? 48 89 58 ?? 0F 29 70 ?? 0F 29 78 ?? 44 0F 29 40 ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 ?? ?? ?? ?? ?? ?? ?? 4D 8B E1 44 0F 28 C2 4C 8B F2 4C 8B F9");
-
-	if (texturePtr != nullptr) {
-		// renderCtx->drawImage(texturePtr, imagePos, ImageDimension, yot, idk);
-		Mc_Color col(1.f, 1.f, 1.f);
-		// renderCtx->flushImages(col, (float)flushImageAddr, (__int64)&hashedString);
-	}
-}
-
-void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool useUnicodeFont) {
-	Vec2 textPos;
-	Vec4 rectPos;
-	std::string text = ent->getNameTag()->getText();
-	text = Utils::sanitize(text);
-
-	float textWidth = getTextWidth(&text, textSize);
-	float textHeight = DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() * textSize;
-
-	if (refdef->OWorldToScreen(origin, ent->getRenderPos().add(0, 0.5f, 0), textPos, fov, screenSize)) {
-		textPos.y -= textHeight;
-		textPos.x -= textWidth / 2.f;
-		rectPos.x = textPos.x - 1.f * textSize;
-		rectPos.y = textPos.y - 1.f * textSize;
-		rectPos.z = textPos.x + textWidth + 1.f * textSize;
-		rectPos.w = textPos.y + textHeight + 2.f * textSize;
-		Vec4 subRectPos = rectPos;
-		subRectPos.y = subRectPos.w - 1.f * textSize;
-		static auto nametagsMod = moduleMgr->getModule<NameTags>();
-		fillRectangle(rectPos, Mc_Color(0, 0, 0), nametagsMod->opacity);
-		if (nametagsMod->underline) {
-			fillRectangle(subRectPos, Mc_Color(0, 246, 255), 0.9f);
-		}
-		drawText(textPos, &text, Mc_Color(255, 255, 255), textSize);
-
-		static auto nameTagsMod = moduleMgr->getModule<NameTags>();
-
-		if (ent->isPlayer() && nameTagsMod->displayArmor) {  // is player, show armor
-			auto* player = reinterpret_cast<Player*>(ent);
-			float scale = textSize * 0.6f;
-			float spacing = scale + 15.f;
-			float x = rectPos.x + 1.f * textSize;
-			float y = rectPos.y - 20.f * scale;
-			// armor
-			for (int i = 0; i < 4; i++) {
-				ItemStack* stack = player->getArmor(i);
-				if (stack->item != nullptr) {
-					DrawUtils::drawItem(stack, Vec2(x, y), 1.f, scale, stack->isEnchanted());
-					x += scale * spacing;
-				}
-			}
-			// item
-			{
-				ItemStack* stack = player->getSelectedItem();
-				if (stack->item != nullptr) {
-					DrawUtils::drawItem(stack, Vec2(rectPos.z - 1.f - 15.f * scale, y), 1.f, scale, stack->isEnchanted());
-				}
-			}
-		}
-	}
-}
-
-void DrawUtils::drawGlow(const Vec4& pos, const Mc_Color& col, float alpha, int layers, float blurRadius) {
-	float dAlpha = alpha / layers;  // kakureiya- no alpha
-	for (int i = 0; i < layers; i++) {
-		float layerAlpha = alpha - dAlpha * i;          // alpha
-		float layerRadius = (blurRadius / layers) * i;  // range
-		DrawUtils::setColor(col.r, col.g, col.b, layerAlpha);
-		Vec4 layerPos = pos;  // kakudai draw
-		layerPos.x -= layerRadius;
-		layerPos.y -= layerRadius;
-		layerPos.z += layerRadius;
-		layerPos.w += layerRadius;
-		DrawUtils::drawQuad({layerPos.x, layerPos.w}, {layerPos.z, layerPos.w}, {layerPos.z, layerPos.y}, {layerPos.x, layerPos.y});
-	}
-}
-
 void DrawUtils::drawEntityBox(Entity* ent, float lineWidth, bool fill) {
 	Vec3 end = *ent->getPos();
 	AABB render;
@@ -894,8 +809,7 @@ void DrawUtils::fillRectangle(const Vec4& pos, const Mc_Color& col, float alpha)
 }
 
 void DrawUtils::fillRectangle3(Vec4 pos, Mc_Color col) {
-	DrawUtils::setColor(col.r, col.g, col.b, col.a);
-	DrawUtils::drawQuad({pos.x, pos.w}, {pos.z, pos.w}, {pos.z, pos.y}, {pos.x, pos.y});
+	DrawUtils::fillRectangle(pos, col, col.a);
 }
 
 void DrawUtils::drawBoxBottom(const Vec4& pos, const Mc_Color& col, float alpha, float thickness) {

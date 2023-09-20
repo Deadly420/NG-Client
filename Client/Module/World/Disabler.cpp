@@ -4,7 +4,7 @@
 #include <queue>
 
 Disabler::Disabler() : Module(0x0, Category::WORLD, "Disabler for servers") {
-	registerEnumSetting("disabler Types", &disablerMode, 0);
+	registerEnumSetting("Disabler Types", &disablerMode, 0, "Disabler Types: Choose a disabler type from the options");
 	disablerMode.addEntry("Hive", 0);
 	disablerMode.addEntry("CubeCraft", 1);
 	disablerMode.addEntry("Mineplex", 2);

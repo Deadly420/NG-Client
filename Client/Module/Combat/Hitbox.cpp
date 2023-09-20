@@ -1,6 +1,7 @@
 #include "Hitbox.h"
 
 Hitbox::Hitbox() : Module(0x0, Category::COMBAT, "Increase an entitys hitbox size.") {
+	// Registering Float Settings with Tooltips
 	registerFloatSetting("Height", &height, height, 1.8f, 10, "Height: Set the height from 1.8 to 10");
 	registerFloatSetting("Width", &width, width, 0.6f, 10, "Width: Adjust the width from 0.6 to 10");
 }

@@ -3,17 +3,18 @@
 #include "../../../Utils/DrawUtils.h"
 #include "../../../Utils/ColorUtil.h"
 #include "../ModuleManager.h"
+#include "../Module.h"
 
 using namespace std;
 Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
-	registerEnumSetting("Mode", &mode, 0);
+	registerEnumSetting("Mode", &mode, 0, "Changes The Arraylist Type");
 	mode.addEntry("Full", 0);
 	mode.addEntry("Outline", 1);
 	mode.addEntry("Horion", 2);
 	mode.addEntry("FluxBar", 3);
 	mode.addEntry("None", 4);
 
-	registerBoolSetting("Modes", &modes, modes);
+	registerBoolSetting("Modes", &modes, modes, "Toggles The Module And Info (Reach 7.0)");
 	registerFloatSetting("Opacity", &opacity, opacity, 0, 1, "Opacity: Adjust transparency from invisible (0) to solid (1)");
 	registerFloatSetting("Color Speed", &cycleSpeed, cycleSpeed, 1.f, 5.f, "Color Speed: Set the speed of color change (1 to 5)");
 	registerFloatSetting("Saturation", &saturation, saturation, 0.f, 1.f, "Saturation: Control color vividness (0 to 1).");

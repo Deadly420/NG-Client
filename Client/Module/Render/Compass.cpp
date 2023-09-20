@@ -4,8 +4,8 @@
 
 Compass::Compass() : Module(0x0, Category::RENDER, "Compass.") {
 	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1, "Opacity: Adjust the opacity level from 0.1 to 1");
-	registerIntSetting("Range", &range, range, 45, 180);
-	registerBoolSetting("Show Waypoints", &showWaypoints, showWaypoints);
+	registerIntSetting("Range", &range, range, 45, 180, "Range: Adjust the range from 45 to 180");
+	registerBoolSetting("Show Waypoints", &showWaypoints, showWaypoints, "Show Waypoints: Toggle visibility of waypoints");
 }
 
 Compass::~Compass() {

@@ -127,10 +127,8 @@ public:
 		fillRectangle(Vec4(pos.z - lineWidth, pos.y, pos.z + lineWidth, pos.w), col, alpha);                          //
 		fillRectangle(Vec4(pos.x - lineWidth, pos.w - lineWidth, pos.z + lineWidth, pos.w + lineWidth), col, alpha);
 	}
-	static void drawImage(std::string filePath, Vec2& ImagePos, Vec2& ImageDimension, Vec2& idk);
 
 	static void drawText(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH);
-	static void drawGlow(const Vec4& pos, const Mc_Color& col, float alpha, int layers, float blurRadius);
 	static void drawTextShadow(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH, bool drawShadow = true);
 	static void drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, int mode = 1);
 	static void drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline = false);
@@ -139,7 +137,6 @@ public:
 	static void drawBetterESP(Entity* ent, float lineWidth);
 	static void draw2D(Entity* ent, float lineWidth);
 	static void drawZephyr(Entity* ent, float lineWidth);
-	static void drawNameTags(Entity* ent, float textSize, bool drawHealth = false, bool useUnicodeFont = false);
 	static void drawItem(ItemStack* item, const Vec2& ItemPos, float opacity, float scale, bool isEnchanted);
 	static float getLerpTime();
 	static Vec3 getOrigin();

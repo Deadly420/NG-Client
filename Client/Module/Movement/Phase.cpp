@@ -1,13 +1,11 @@
 #include "Phase.h"
 
-Phase::Phase() : Module(0x0, Category::MOVEMENT, "Walk straight through walls.") {
-}
+Phase::Phase() : Module(0x0, Category::MOVEMENT, "Walk straight through walls.") {}
 
-Phase::~Phase() {
-}
+Phase::~Phase() {}
 
 const char* Phase::getModuleName() {
-	return ("Phase");
+	return "Phase";
 }
 
 void Phase::onTick(GameMode* gm) {

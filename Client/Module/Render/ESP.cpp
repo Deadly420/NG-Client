@@ -4,11 +4,11 @@
 #include "../../FriendList/FriendsManager.h"
 
 ESP::ESP() : Module(0x0, Category::RENDER, "Makes it easier to find entities around you") {
-	registerBoolSetting("rainbow", &doRainbow, doRainbow);
-	registerBoolSetting("MobEsp", &isMobEsp, isMobEsp);
-	// registerBoolSetting("ItemEsp", &item, item);
+	registerBoolSetting("Rainbow", &doRainbow, doRainbow, "Rainbow: Enable or disable rainbow effect.");
+	registerBoolSetting("Mob ESP", &isMobEsp, isMobEsp, "Mob ESP: Enable or disable mob ESP.");
+	// registerBoolSetting("Item ESP", &item, item, "Item ESP: Enable or disable item ESP.");
 
-	registerEnumSetting("Mode", &mode, 0);
+	registerEnumSetting("Mode", &mode, 0, "Mode: Select the desired mode");
 	mode.addEntry("2D", 0);
 	mode.addEntry("3D", 1);
 }
@@ -35,9 +35,9 @@ void doRenderStuff(Entity* ent, bool isRegularEntitie) {
 
 	if (Target::isValidTarget(ent)) {
 		if (espMod->doRainbow)
-			DrawUtils::setColor(rcolors[0], rcolors[1], rcolors[2], (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
+			DrawUtils::setColor(rcolors[0], rcolors[1], rcolors[2], 1);
 		else
-			DrawUtils::setColor(0.9f, 0.9f, 0.9f, (float)fmax(0.1f, (float)fmin(1.f, 15 / (ent->damageTime + 1))));
+			DrawUtils::setColor(0.9f, 0.9f, 0.9f, 1);
 	} else if (espMod->isMobEsp) {
 
 		if (ent->getNameTag()->getTextLength() <= 1 && ent->isPlayer())

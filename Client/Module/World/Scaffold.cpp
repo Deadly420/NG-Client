@@ -4,18 +4,15 @@
 #include "../../../Utils/DrawUtils.h"
 #include "../../Module/ModuleManager.h"
 
-uintptr_t HiveBypass1 = Utils::getBase() + 0x8F3895;  // Second one of 89 41 ? 0F B6 42 ? 88 41 ? F2 0F 10 42 ? F2 0F 11 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 89 41 ? 8B 42 ? 48 83 C2 ? 89 41 ? 48 83 C1 ? E8 ? ? ? ? 0F B6 43
-uintptr_t HiveBypass2 = Utils::getBase() + 0x8F87C7;  // C7 40 ? ? ? ? ? 48 8B 8D ? ? ? ? 48 33 CC E8 ? ? ? ? 4C 8D 9C 24
-
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
-	registerBoolSetting("AutoSelect", &autoSelect, autoSelect);
-	registerBoolSetting("Down", &down, down);
-	registerBoolSetting("Highlight", &highlight, highlight);
-	registerBoolSetting("Hive", &hive, hive);
-	registerBoolSetting("Rotations", &rotations, rotations);
-	registerBoolSetting("Y Lock", &Ylock, Ylock);
-	registerBoolSetting("Block Count", &Count, Count);
-	registerIntSetting("Extend", &extend, extend, 0, 8);
+	registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
+	registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
+	registerBoolSetting("Highlight", &highlight, highlight, "Highlight: Enable or disable highlighting");
+	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable hive functionality");
+	registerBoolSetting("Rotations", &rotations, rotations, "Rotations: Enable or disable rotations");
+	registerBoolSetting("Y Lock", &Ylock, Ylock, "Y Lock: Enable or disable Y-axis lock");
+	registerBoolSetting("Block Count", &Count, Count, "Block Count: Enable or disable block counting");
+	registerIntSetting("Extend", &extend, extend, 0, 8, "Extend: Set the extend value from 0 to 8");
 }
 
 bool Scaffold::tryScaffold(Vec3 blockBelow) {

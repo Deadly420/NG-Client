@@ -9,7 +9,7 @@ public:
 	bool hold = true;
 
 	Freelook() : Module(0x0, Category::RENDER, "Look around freely without moving your rotation.") {
-		registerBoolSetting("Hold", &hold, hold);
+		registerBoolSetting("Hold", &hold, hold, "Hold: Enable or disable the 'Hold' feature.");
 	}
 	~Freelook(){};
 

@@ -24,14 +24,14 @@ public:
 	float RotatePosition = 0.f;
 
 	ViewModel() : Module(0x0, Category::RENDER, "Custom item view model") {
-		registerEnumSetting("Mode", &mode, 1);
+		registerEnumSetting("Mode", &mode, 1, "Mode: Select the desired mode");
 		mode.addEntry(EnumEntry("None", 0))
 			.addEntry(EnumEntry("1.7", 1))
 			.addEntry(EnumEntry("Spin", 2));
 
-		registerBoolSetting("Reset", &Reset, Reset);
-		registerBoolSetting("Translate", &doTranslate, doTranslate);
-		registerBoolSetting("Scale", &doScale, doScale);
+		registerBoolSetting("Reset", &Reset, Reset, "Reset: Reset the setting to its default value");
+		registerBoolSetting("Translate", &doTranslate, doTranslate, "Translate: Enable translation");
+		registerBoolSetting("Scale", &doScale, doScale, "Scale: Enable scaling");
 
 		registerFloatSetting("TranslateX", &xTrans, 0.f, -2.f, 2.f, "TranslateX: Translate along the X-axis from -2.0 to 2.0");
 		registerFloatSetting("TranslateY", &yTrans, 0.f, -2.f, 2.f, "Translate along the Y-axis");

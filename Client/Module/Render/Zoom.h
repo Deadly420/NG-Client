@@ -8,7 +8,7 @@ public:
 	float strength = 0.5f;
 
 	Zoom() : Module(0x0, Category::RENDER, "Zoom in or out!") {
-		registerFloatSetting("Strength", &strength, strength, 0.f, 1.f, "");
+		registerFloatSetting("Strength", &strength, strength, 0.f, 1.f, "Strength: Adjust the strength from 0.0 to 1.0");
 	};
 	~Zoom(){};
 

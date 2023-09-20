@@ -1,6 +1,6 @@
 #include "FastUse.h"
 FastUse::FastUse() : Module(0x0, Category::COMBAT, "Uses Bow Faster") {
-	registerIntSetting("Delay", &charge, charge, 1, 20);
+	registerIntSetting("Delay", &charge, charge, 1, 20, "Set the delay value");
 }
 FastUse::~FastUse() {
 }

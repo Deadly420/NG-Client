@@ -21,16 +21,20 @@ public:
 	std::vector<Entity*> targetList;
 
 	Aimbot() : Module(0x0, Category::COMBAT, "Automatically aims at the nearest entity") {
-		registerFloatSetting("range", &range, range, 3.f, 8.f, "Range: Define a range from 3.0 to 8.0");
-		registerBoolSetting("Mobs", &mobs, mobs);
-		registerBoolSetting("Require click", &click, click);
-		registerBoolSetting("only swords/axes", &sword, sword);
-		registerBoolSetting("vertical", &vertical, vertical);
-		registerFloatSetting("horizontal speed", &horizontalspeed, horizontalspeed, 10.f, 90.f, "Horizontal Speed: Set speed between 10 and 90");
-		registerFloatSetting("vertical speed", &verticalspeed, verticalspeed, 10.f, 90.f, "Adjust speed from 10 to 90");
-		registerFloatSetting("horizontal range", &horizontalrange, horizontalrange, 20.f, 180.f, "Horizontal Range: Specify a range between 20 and 180");
-		registerFloatSetting("vertical range", &verticalrange, verticalrange, 20.f, 180.f, "Vertical Range: Define a range from 20 to 180");
-		registerBoolSetting("aimlock", &lock, lock);
+		registerFloatSetting("Range", &range, range, 3.f, 8.f, "Range: Define a range from 3.0 to 8.0");
+
+		// Registering Boolean Settings
+		registerBoolSetting("Mobs", &mobs, mobs, "Toggle rendering mobs");
+		registerBoolSetting("Require click", &click, click, "Toggle requirement for clicking");
+		registerBoolSetting("Only swords/axes", &sword, sword, "Toggle only swords and axes");
+		registerBoolSetting("Vertical", &vertical, vertical, "Toggle vertical mode");
+		registerBoolSetting("Aimlock", &lock, lock, "Toggle aimlock");
+
+		// Registering More Float Settings
+		registerFloatSetting("Horizontal Speed", &horizontalspeed, horizontalspeed, 10.f, 90.f, "Horizontal Speed: Set speed between 10 and 90");
+		registerFloatSetting("Vertical Speed", &verticalspeed, verticalspeed, 10.f, 90.f, "Vertical Speed: Adjust speed from 10 to 90");
+		registerFloatSetting("Horizontal Range", &horizontalrange, horizontalrange, 20.f, 180.f, "Horizontal Range: Specify a range between 20 and 180");
+		registerFloatSetting("Vertical Range", &verticalrange, verticalrange, 20.f, 180.f, "Vertical Range: Define a range from 20 to 180");
 	}
 	~Aimbot(){};
 	struct CompareTargetEnArray {

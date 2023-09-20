@@ -3,7 +3,7 @@
 
 Tower::Tower() : Module(0x0, Category::WORLD, "Like scaffold, but vertically and a lot faster.") {
 	registerFloatSetting("Motion", &motion, motion, 0.3f, 1.f, "Motion: Control the motion speed from 0.3 to 1.0. (Vertical scaffold)");
-	registerBoolSetting("Hive", &hive, hive);
+	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable the Hive functionality");
 }
 
 Tower::~Tower() {

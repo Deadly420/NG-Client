@@ -6,7 +6,7 @@
 
 bool old = false;
 Tracer::Tracer() : Module(0x0, Category::RENDER, "Draws lines to ESP highlighted entities.") {
-	registerBoolSetting("3D Tracers", &old, old);
+	registerBoolSetting("3D Tracers", &old, old, "Enable 3D tracers for enhanced visualization");
 }
 
 Tracer::~Tracer() {

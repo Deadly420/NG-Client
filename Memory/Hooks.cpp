@@ -140,27 +140,32 @@ void Hooks::Init() {
 			
 			matrix = View;
 			if (animations->isEnabled()) {
-				if (animations->doTranslate)
-					matrix = glm::translate<float>(matrix, glm::vec3(animations->xTrans, animations->yTrans, animations->zTrans));
+				if (animations->doTranslate) {
+					glm::vec3 translationVector(animations->xTrans, animations->yTrans, animations->zTrans);
+					matrix = glm::translate<float>(matrix, translationVector);
+				}
 
-				if (animations->doScale)
-					matrix = glm::scale<float>(matrix, glm::vec3(animations->xMod, animations->yMod, animations->zMod));
+				if (animations->doScale) {
+					glm::vec3 scaleVector(animations->xMod, animations->yMod, animations->zMod);
+					matrix = glm::scale<float>(matrix, scaleVector);
+				}
 
-				// 1.7
 				if (animations->mode.getSelectedValue() == 1) {
 					lerpT = 0.f;
-					matrix = glm::translate<float>(matrix, glm::vec3(0.62222223281, 0.0, -0.26666666269302368));
-					matrix = glm::translate<float>(matrix, glm::vec3(0.82f, -0.20f, -0.80f));
+					glm::vec3 translation1(0.62222223281, 0.0, -0.26666666269302368);
+					glm::vec3 translation2(0.82f, -0.20f, -0.80f);
+
+					matrix = glm::translate<float>(matrix, translation1);
+					matrix = glm::translate<float>(matrix, translation2);
 					blockRotate(matrix, 0.25f);
 				}
-				// Spin
+
 				if (animations->mode.getSelectedValue() == 2) {
 					auto player = Game.getLocalPlayer();
 					float degrees = fmodf(player->getPosOld()->lerp(player->getPos(), lerpT).x, 5) - 2.5f;
 					degrees *= 180 / 2.5f;
 
 					auto pos = Game.getClientInstance()->levelRenderer->getOrigin();
-
 					glm::mat4 View = matrix;
 
 					matrix = View;

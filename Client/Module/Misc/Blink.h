@@ -8,9 +8,8 @@ public:
 	inline std::vector<MovePlayerPacket*>* getMovePlayerPacketHolder() { return &MovePlayerPacketHolder; };
 	inline std::vector<PlayerAuthInputPacket*>* getPlayerAuthInputPacketHolder() { return &PlayerAuthInputPacketHolder; };
 
-	Blink() : Module(0x0, Category::PLAYER, "Stops you from sending packets and then sends them in a bunch"){
+	Blink() : Module(0x0, Category::PLAYER, "Stops you from sending packets and then sends them in a bunch") {};
 
-			  };
 	~Blink() {
 		if (!Game.canUseMoveKeys()) return;
 		getMovePlayerPacketHolder()->clear();

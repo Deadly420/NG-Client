@@ -1,13 +1,13 @@
 #include "Breaker.h"
 
 Breaker::Breaker() : Module(0x0, Category::MISC, "Destroys certain blocks around you.") {
-	registerIntSetting("Range", &range, range, 1, 10);
-	registerBoolSetting("Beds", &beds, beds);
-	registerBoolSetting("Eggs", &eggs, eggs);
-	registerBoolSetting("Cakes", &cakes, cakes);
-	registerBoolSetting("Treasures", &treasures, treasures);
-	registerBoolSetting("Chests", &chests, chests);
-	registerBoolSetting("Barrels", &barrels, barrels);
+	registerIntSetting("Range", &range, range, 1, 10, "Range: Set the range from 1 to 10");
+	registerBoolSetting("Beds", &beds, beds, "Beds: Toggle beds");
+	registerBoolSetting("Eggs", &eggs, eggs, "Eggs: Toggle eggs");
+	registerBoolSetting("Cakes", &cakes, cakes, "Cakes: Toggle cakes");
+	registerBoolSetting("Treasures", &treasures, treasures, "Treasures: Toggle treasures");
+	registerBoolSetting("Chests", &chests, chests, "Chests: Toggle chests");
+	registerBoolSetting("Barrels", &barrels, barrels, "Barrels: Toggle barrels");
 }
 
 Breaker::~Breaker() {
