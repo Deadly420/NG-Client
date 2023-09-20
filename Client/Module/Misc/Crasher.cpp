@@ -7,7 +7,7 @@ Crasher::~Crasher() {
 }
 
 const char* Crasher::getModuleName() {
-	return ("Crasher");
+	return "Crasher";
 }
 
 void Crasher::onEnable() {

@@ -103,7 +103,7 @@ private:
 	std::vector<SettingEntry*> settings;
 
 protected:
-	Module(int key, Category c, const char* tooltip);
+	Module(int key, Category cat, const char* tooltip);
 
 	void registerFloatSetting(std::string name, float* floatPtr, float defaultValue, float minValue, float maxValue, const char* tooltip);
 	void registerIntSetting(std::string name, int* intPtr, int defaultValue, int minValue, int maxValue, const char* tooltip);

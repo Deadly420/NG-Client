@@ -1,15 +1,14 @@
 #include "Freecam.h"
 #include "../../../Utils/Utils.h"
 
-Freecam::Freecam() : Module(0x0, Category::MISC, "Move your camera without moving the player.") {
+Freecam::Freecam() : Module(0x0, Category::MISC, "Move your camera without moving the player") {
 	registerFloatSetting("Speed", &speed, speed, 0.50f, 1.25f, "Speed: Adjust the speed from 0.50 to 1.25");
 }
 
-Freecam::~Freecam() {
-}
+Freecam::~Freecam() {}
 
 const char* Freecam::getModuleName() {
-	return ("Freecam");
+	return "Freecam";
 }
 
 void* cameraAddr = (void*)FindSignature("f3 0f 11 43 ? f3 0f 10 44 24 ? f3 0f 11 43");

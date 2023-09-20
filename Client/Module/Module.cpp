@@ -71,12 +71,12 @@ int SettingEnum::getSelectedValue() {
 }
 int SettingEnum::GetCount() {
 	return (int)Entrys.size();
-}
-#pragma endregion
+} 
 
-Module::Module(int key, Category c, const char* tooltip) {
+#pragma endregion
+Module::Module(int key, Category cat, const char* tooltip) {
 	this->keybind = key;
-	this->category = c;
+	this->category = cat;
 	this->tooltip = tooltip;
 	this->registerIntSetting(std::string("keybind"), &this->keybind, this->keybind, 0, 0xFF, "");
 	this->registerBoolSetting(std::string("enabled"), &this->enabled, false, "");
