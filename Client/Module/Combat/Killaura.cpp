@@ -1,16 +1,15 @@
 #include "Killaura.h"
 
-Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around you automatically.") {
-	registerBoolSetting("Target Mobs", &targetMobs, targetMobs);
+Killaura::Killaura() : Module('P', Category::COMBAT, "Attacks entities around you automatically.") {
+	registerBoolSetting("MultiAura", &isMulti, isMulti);
+	registerBoolSetting("MobAura", &targetMobs, targetMobs);
 	registerFloatSetting("Range", &range, range, 2.f, 20.f, "Range: Adjust the range from 2.0 to 20.0");
 	registerIntSetting("MinDelay", &minD, 0, 0, 20);
 	registerIntSetting("MaxDelay", &maxD, 0, 0, 20);
-
-	registerBoolSetting("MultiAura", &isMulti, isMulti);
-	registerBoolSetting("Rotations", &rotations, rotations);
-	registerBoolSetting("Silent Rotations", &silent, silent);
 	registerBoolSetting("Hurttime", &hurttime, hurttime);
 	registerBoolSetting("AutoWeapon", &autoweapon, autoweapon);
+	registerBoolSetting("Rotations", &rotations, rotations);
+	registerBoolSetting("Silent Rotations", &silent, silent);
 }
 
 Killaura::~Killaura() {
@@ -24,27 +23,41 @@ static std::vector<Entity*> targetList;
 void findEntity(Entity* currentEntity, bool isRegularEntity) {
 	static auto killauraMod = moduleMgr->getModule<Killaura>();
 
-	if (currentEntity == nullptr || currentEntity == Game.getLocalPlayer() ||
-		!Game.getLocalPlayer()->canAttack(currentEntity, false) || !Game.getLocalPlayer()->isAlive() ||
-		!currentEntity->isAlive() || currentEntity->getEntityTypeId() == 66 ||  // falling block
-		currentEntity->getEntityTypeId() == 69                                  // XP
-	) {
+	if (currentEntity == nullptr)
 		return;
-	}
+
+	if (currentEntity == Game.getLocalPlayer())  // Skip Local player
+		return;
+
+	if (!Game.getLocalPlayer()->canAttack(currentEntity, false))
+		return;
+
+	if (!Game.getLocalPlayer()->isAlive())
+		return;
+
+	if (!currentEntity->isAlive())
+		return;
+
+	if (currentEntity->getEntityTypeId() == 66)  // falling block
+		return;
+
+	if (currentEntity->getEntityTypeId() == 69)  // XP
+		return;
 
 	if (killauraMod->targetMobs) {
-		if (currentEntity->getNameTag()->getTextLength() <= 1 && currentEntity->isPlayer() ||
-			currentEntity->aabb->width <= 0.01f || currentEntity->aabb->height <= 0.01f ||  // Don't hit this pesky antibot on 2b2e.org
-			currentEntity->getEntityTypeId() == 64 ||                           // item
-			currentEntity->getEntityTypeId() == 301 ||                           // Arrows
-			currentEntity->getEntityTypeId() == 307                             // NPC
-		) {
+		if (currentEntity->getNameTag()->getTextLength() <= 1 && currentEntity->isPlayer())
 			return;
-		}
+		if (currentEntity->aabb->width <= 0.01f || currentEntity->aabb->height <= 0.01f)  // Don't hit this pesky antibot on 2b2e.org
+			return;
+		if (currentEntity->getEntityTypeId() == 64)  // item
+			return;
+		if (currentEntity->getEntityTypeId() == 80)  // Arrows
+			return;
+		if (currentEntity->getEntityTypeId() == 51)  // NPC
+			return;
 	} else {
-		if (!Target::isValidTarget(currentEntity)) {
+		if (!Target::isValidTarget(currentEntity))
 			return;
-		}
 	}
 
 	float dist = (*currentEntity->getPos()).dist(*Game.getLocalPlayer()->getPos());
@@ -53,7 +66,6 @@ void findEntity(Entity* currentEntity, bool isRegularEntity) {
 		targetList.push_back(currentEntity);
 	}
 }
-
 
 void Killaura::findWeapon() {
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
@@ -75,7 +87,7 @@ void Killaura::findWeapon() {
 
 void Killaura::onTick(GameMode* gm) {
 	targetListEmpty = targetList.empty();
-	//Loop through all our players and retrieve their information
+	// Loop through all our players and retrieve their information
 	targetList.clear();
 
 	Game.forEachEntity(findEntity);

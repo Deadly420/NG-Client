@@ -17,6 +17,7 @@
 
 Hooks g_Hooks;
 bool isTicked = false;
+bool sent = false;
 bool overrideStyledReturn = false;
 TextHolder styledReturnText;
 //#define TEST_DEBUG
@@ -30,11 +31,12 @@ void blockRotate(glm::mat4& matrix, float upper) {
 }
 
 void Hooks::Init() {
+	auto startTime = std::chrono::high_resolution_clock::now();
 	logF("Setting up Hooks...");
 	// clang-format off
 
 	// Signatures
-	{
+	 {
 		// vtables better than sigs
 
 		void* _renderCtx = reinterpret_cast<void*>(FindSignature("48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 4C 8B F2 48 89 54 ? ? 4C 8B E9"));
@@ -61,7 +63,7 @@ void Hooks::Init() {
 		void* chestTick = reinterpret_cast<void*>(FindSignature("40 53 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 ? ? 48 83 79"));
 		g_Hooks.ChestBlockActor_tickHook = std::make_unique<FuncHook>(chestTick, Hooks::ChestBlockActor_tick);
 
-		void* getRenderLayer = reinterpret_cast<void*>(FindSignature("8B 81 ? ? ? ? C3 CC CC CC CC CC CC CC CC CC F3 0F 10 81"));
+		void* getRenderLayer = reinterpret_cast<void*>(FindSignature("8b 81 ? ? ? ? c3 cc cc cc cc cc cc cc cc cc f3 0f 10 81 ? ? ? ? c3 cc cc cc cc cc cc cc 41 0f b6 41"));
 		g_Hooks.BlockLegacy_getRenderLayerHook = std::make_unique<FuncHook>(getRenderLayer, Hooks::BlockLegacy_getRenderLayer);
 
 		void* getLightEmission = reinterpret_cast<void*>(FindSignature("0F B6 81 ? ? ? ? 88 02 48 8B C2 C3"));
@@ -181,7 +183,7 @@ void Hooks::Init() {
 	}
 
 	// Vtables
-	{
+	std::thread HooksThread([] {
 		// LoopbackPacketSender::vtable
 		if (Game.getClientInstance()->loopbackPacketSender != nullptr) {
 			uintptr_t** packetSenderVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getClientInstance()->loopbackPacketSender);
@@ -263,8 +265,19 @@ void Hooks::Init() {
 			g_Hooks.SkinRepository___checkSignatureFileInPack = std::make_unique<FuncHook>(FindSignature("48 89 5C 24 ? 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B 79"), Hooks::ReturnTrue);
 		}
 		logF("Vtables initialized");
-	}
+	});
+	HooksThread.detach();
 
+	auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    if (!sent) {
+        logF("Injection took %lld milliseconds", duration);
+        if (Game.getLocalPlayer() != nullptr) {
+            GuiData* guiData = Game.getGuiData();
+            if (guiData != nullptr && !GameData::shouldHide()) guiData->displayClientMessageF("%sWelcome %s!", GREEN, Game.getLocalPlayer()->getNameTag()->getText());
+        }
+        sent = true;
+    }
 	// clang-format on
 }
 
