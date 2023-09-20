@@ -55,28 +55,28 @@ public:
 	}
 
 	// Credits to hacker hansen for this
-	std::vector<Entity *> getMiscEntityList() {
-        static uintptr_t entityListAddr = 0x0;
+	std::vector<Entity *> getMiscEntityList() { // Level::getRuntimeActorList
+		static uintptr_t sig = 0x0;
 
-        if (entityListAddr == 0)
-			entityListAddr = FindSignature("40 53 48 83 EC ? 48 81 C1 ? ? ? ? 48 8B DA E8 ? ? ? ? 48 8B C3 48 83 C4 ? 5B C3 CC CC 48 8B 81");
+		if (sig == 0)
+			sig = FindSignature("40 53 48 83 EC ? 48 81 C1 ? ? ? ? 48 8B DA E8 ? ? ? ? 48 8B C3 48 83 C4 ? 5B C3 CC CC 48 8B 8");
 
-        using entityList_t = std::int64_t *(__fastcall *)(Level *, void *);
-        static entityList_t func = reinterpret_cast<entityList_t>(entityListAddr);
-        if (func != nullptr) {
-            std::unique_ptr<char[]> alloc = std::make_unique<char[]>(0x18);
-            std::int64_t *listStart = func(this, alloc.get());
-            std::size_t listSize = ((*reinterpret_cast<std::int64_t *>(reinterpret_cast<std::int64_t>(listStart) + 0x8)) - (*listStart)) / 0x8;
+		using entityList_t = std::int64_t *(__fastcall *)(Level *, void *);
+		static entityList_t func = reinterpret_cast<entityList_t>(sig);
+		if (func != nullptr) {
+			std::unique_ptr<char[]> alloc = std::make_unique<char[]>(0x18);
+			std::int64_t *listStart = func(this, alloc.get());
+			std::size_t listSize = ((*reinterpret_cast<std::int64_t *>(reinterpret_cast<std::int64_t>(listStart) + 0x8)) - (*listStart)) / 0x8;
 			Entity **entityList = reinterpret_cast<Entity **>(*listStart);
 			std::vector<Entity *> res;
-            res.reserve(listSize);
-            if (listSize > 0 && listSize < 5000) {
-                for (std::size_t i = 0; i < listSize; i++) res.push_back(entityList[i]);
-            }
-            return res;
-        }
-        return {};
-    }
+			res.reserve(listSize);
+			if (listSize > 0 && listSize < 5000) {
+				for (std::size_t i = 0; i < listSize; i++) res.push_back(entityList[i]);
+			}
+			return res;
+		}
+		return {};
+	}
 };
 
 class Player;
