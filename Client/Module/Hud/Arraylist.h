@@ -7,12 +7,12 @@ public:
 
 	int X = static_cast<int>(Game.getClientInstance()->getGuiData()->windowSize.x);
 	int Y = 1;
-	float padding = 0.4f;  // Initial padding value
-	float scale = 1.0f;    // Initial scale value
+	float padding = 0.f;  // Initial padding value
 	float opacity = 0.6f;
 	float cycleSpeed = 3.f;
 	float saturation = 1.f;
 	bool modes = true;
+	float scale = 1.f;
 
 	Arraylist();
 	~Arraylist();
