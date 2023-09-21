@@ -158,8 +158,7 @@ public:
 		fillRectangle(Vec4(pos.x - lineWidth, pos.w - lineWidth, pos.z + lineWidth, pos.w + lineWidth), col, alpha);
 	}
 
-	static void drawText(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH);
-	static void drawTextShadow(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH, bool drawShadow = true);
+	static void drawText(const Vec2& pos, std::string* text, const Mc_Color& color, float textSize = 1, float alpha = 1, Fonts font = Fonts::SMOOTH, bool drawShadow = true);
 	static void drawBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, int mode = 1);
 	static void drawBoxv2(const Vec3& lower, const Vec3& upper, float lineWidth, bool outline = false);
 	static void draw2DBox(const Vec3& lower, const Vec3& upper, float lineWidth, bool fill = false, bool corners = false);

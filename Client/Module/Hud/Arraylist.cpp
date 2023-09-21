@@ -142,7 +142,7 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 			auto color = ColorUtil::getRainbowColor(cycleSpeed, saturation, 1, curIndex * 2);
 			switch (mode.getSelectedValue()) {
 			case 0:
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				if (index == 1) DrawUtils::fillRectangle3(topLine, color);
 				DrawUtils::fillRectangle3(leftRect, color);
@@ -150,23 +150,23 @@ void Arraylist::onPostRender(MinecraftUIRenderContext* renderCtx) {
 				DrawUtils::fillRectangle3(Bar, color);
 				break;
 			case 1:
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
 				DrawUtils::fillRectangle3(underline, color);
 				break;
 			case 2:
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(leftRect, color);
 				break;
 			case 3:
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				DrawUtils::fillRectangle3(Bar, color);
 				break;
 			case 4:
-				DrawUtils::drawTextShadow(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
+				DrawUtils::drawText(textPos, &textStr, color, textSize, 1.f, Fonts::SMOOTH, true);
 				DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), opacity);
 				break;
 			}

@@ -326,25 +326,7 @@ void DrawUtils::drawLine(const Vec2& start, const Vec2& end, float lineWidth) {
 	meshHelper_renderImm(screenContext2d, tessellator, uiMaterial);
 }
 
-void DrawUtils::drawText(const Vec2& pos, std::string* textStr, const Mc_Color& color, float textSize, float alpha, Fonts font) {
-	TextHolder text(*textStr);
-	Font* fontPtr = getFont(font);
-	static uintptr_t caretMeasureData = 0xFFFFFFFF;
-
-	float posF[4];  // Vec4(startX, startY, endX, endY);
-	posF[0] = pos.x;
-	posF[1] = pos.x + 1000;
-	posF[2] = pos.y - 1;
-	posF[3] = pos.y + 1000;
-
-	TextMeasureData textMeasure{};
-	memset(&textMeasure, 0, sizeof(TextMeasureData));
-	textMeasure.textSize = textSize;
-
-	renderCtx->drawText(fontPtr, posF, &text, color.arr, alpha, 0, &textMeasure, &caretMeasureData);
-}
-
-void DrawUtils::drawTextShadow(const Vec2& pos, std::string* textStr, const Mc_Color& color, float textSize, float alpha, Fonts font, bool drawShadow) {
+void DrawUtils::drawText(const Vec2& pos, std::string* textStr, const Mc_Color& color, float textSize, float alpha, Fonts font, bool drawShadow) {
 	TextHolder text(*textStr);
 	Font* fontPtr = getFont(font);
 	static uintptr_t caretMeasureData = 0xFFFFFFFF;

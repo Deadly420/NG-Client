@@ -727,7 +727,7 @@ void ClickGui::renderCategory(Category category) {
 			// Draw Text
 			std::string textStr = categoryName;
 			auto clickguiMod = moduleMgr->getModule<ClickGuiMod>();
-			DrawUtils::drawTextShadow(textPos, &textStr, whiteColor, categorytextSize, 1.f, Fonts::SMOOTH, true);
+			DrawUtils::drawText(textPos, &textStr, whiteColor, categorytextSize, 1.f, Fonts::SMOOTH, true);
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
 			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
 
@@ -774,7 +774,7 @@ void ClickGui::render() {
 
 	int fadeSpeed = 1;
 
-	if (clickGuiMod->Opacity < 57)
+	if (clickGuiMod->Opacity < 60)
 		clickGuiMod->Opacity += fadeSpeed;
 
 	// Fill Background

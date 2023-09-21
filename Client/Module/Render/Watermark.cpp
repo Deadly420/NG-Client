@@ -40,7 +40,7 @@ void Watermark::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		const Vec4 watermarkBarRect(windowSize.x / windowSize.x, windowSize.y / windowSize.y, nameLength + 4, 2);
 
 		// Draw the watermark
-		DrawUtils::drawTextShadow(watermarkPosition, &watermarkText, Mc_Color(color), 0.8f, true);
+		DrawUtils::drawText(watermarkPosition, &watermarkText, Mc_Color(color), 0.8f, true);
 		DrawUtils::fillRectangle(watermarkBackgroundRect, Mc_Color(0, 0, 0), opacity);
 		DrawUtils::fillRectangle(watermarkBarRect, Mc_Color(color), 1.f);
 	}

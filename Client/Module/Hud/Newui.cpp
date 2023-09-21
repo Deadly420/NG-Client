@@ -25,7 +25,7 @@ void NewUI::onDisable() {
 
 void NewUI::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	if (Opacity < 60)
-	 	Opacity++;
+		Opacity++;
 
 	// Fill Background
 	DrawUtils::fillRectangle(Vec4(0, 0, Game.getGuiData()->widthGame, Game.getGuiData()->heightGame), Mc_Color(0, 0, 0), Opacity / 100.f);
@@ -96,11 +96,8 @@ void NewUI::onImGuiRender() {
 	style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 
 	ImGuiWindowFlags TargetFlags;
-	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse;
+	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 
-
-
-	float yot = Game.getGuiData()->windowSize.x;
 
 	auto toggleModState = [](bool currentState, const char* modName) {
 		if (ImGui::Button(currentState ? std::string(std::string(modName) + std::string(" (ON)")).c_str() : std::string(std::string(modName) + std::string(" (OFF)")).c_str())) {
@@ -108,12 +105,9 @@ void NewUI::onImGuiRender() {
 		}
 		return currentState;
 	};
-
-	D2DUI::setFont(L"Comic Sans MS");
-	D2DUI::drawText(L"THIS IS DX11-DX12", Vec2(200, 200), D2D1::ColorF(D2D1::ColorF::White), true, 20.0f);
-
 	if (ImGui::Begin("Combat", 0, TargetFlags)) {
-		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+		ImGui::SetWindowSize(ImVec2(200.f, 410.f));
+		ImGui::SetWindowPos(ImVec2(100, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::COMBAT, &moduleList);
@@ -124,7 +118,8 @@ void NewUI::onImGuiRender() {
 	}
 
 	if (ImGui::Begin("Render", 0, TargetFlags)) {
-		ImGui::SetWindowSize(ImVec2(200.f, 530.f));
+		ImGui::SetWindowSize(ImVec2(200.f, 630.f));
+		ImGui::SetWindowPos(ImVec2(350, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::RENDER, &moduleList);
@@ -135,7 +130,8 @@ void NewUI::onImGuiRender() {
 	}
 
 	if (ImGui::Begin("Movement", 0, TargetFlags)) {
-		ImGui::SetWindowSize(ImVec2(200.f, 530.f));
+		ImGui::SetWindowSize(ImVec2(200.f, 630.f));
+		ImGui::SetWindowPos(ImVec2(600, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::MOVEMENT, &moduleList);
@@ -146,7 +142,8 @@ void NewUI::onImGuiRender() {
 	}
 
 	if (ImGui::Begin("Player", 0, TargetFlags)) {
-		ImGui::SetWindowSize(ImVec2(200.f, 330.f));
+		ImGui::SetWindowSize(ImVec2(200.f, 410.f));
+		ImGui::SetWindowPos(ImVec2(850, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::PLAYER, &moduleList);
@@ -158,6 +155,7 @@ void NewUI::onImGuiRender() {
 
 	if (ImGui::Begin("World", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+		ImGui::SetWindowPos(ImVec2(850, 530.f));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::WORLD, &moduleList);
@@ -169,6 +167,7 @@ void NewUI::onImGuiRender() {
 
 	if (ImGui::Begin("Entity", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 220.f));
+		ImGui::SetWindowPos(ImVec2(1100, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::ENTITY, &moduleList);
@@ -180,6 +179,7 @@ void NewUI::onImGuiRender() {
 
 	if (ImGui::Begin("HUD", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+		ImGui::SetWindowPos(ImVec2(1100, 340));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::HUD, &moduleList);
@@ -191,6 +191,7 @@ void NewUI::onImGuiRender() {
 
 	if (ImGui::Begin("Misc", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 430.f));
+		ImGui::SetWindowPos(ImVec2(1350, 100));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::MISC, &moduleList);

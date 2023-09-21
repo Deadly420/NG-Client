@@ -460,7 +460,7 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					std::string string;
 
 					string = "NG Client";
-					DrawUtils::drawTextShadow(text, &string, white, 2.0f, 1.0f, Fonts::SMOOTH, true);
+					DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
 
 					text.y += 18.0f;
 					string = "Version: 1.20.0.1";
@@ -468,17 +468,13 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					text.y += 15.0f;
 					string =
 						// Changelogs
-						"Changelogs:\n\n"
+						// "Changelogs:\n\n"
 						// Credits
 						"Credits:\n"
 						"DeadtrosGaming\n"
-						"Sentinel\n"
 						"User0092\n"
-						"Founder\n"
-						"Intop\n"
-						"2474\n"
-						"NRG\n"
-						"deq\n";
+						"Yeen\n"
+						"NRG\n";
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 				}
 			} else {

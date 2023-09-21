@@ -8,7 +8,7 @@ ClickGuiMod::ClickGuiMod() : Module(VK_TAB, Category::HUD, "The clickgui - toggl
 
 	registerBoolSetting("Reset On Inject", &resetOnInject, resetOnInject, "Reset On Inject: Enable or disable resetting on injection");
 	registerBoolSetting("Reset On Open", &resetOnOpen, resetOnOpen, "Reset On Open: Enable or disable resetting on opening");
-	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips, "Show This");
+	registerBoolSetting("Show Tooltips", &showTooltips, showTooltips, "Show's This");
 }
 
 ClickGuiMod::~ClickGuiMod() {
