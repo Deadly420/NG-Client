@@ -458,7 +458,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 
 					Mc_Color white(255, 255, 255);
 					std::string string;
-
 					string = "NG Client";
 					DrawUtils::drawText(text, &string, white, 2.0f, 1.0f);
 
@@ -649,7 +648,7 @@ void Hooks::Actor_lerpMotion(Entity* _this, Vec3 motVec) {
 	if (noKnockbackmod->isEnabled()) {
 		static void* networkSender = nullptr;
 		if (!networkSender)
-			networkSender = reinterpret_cast<void*>(9 + FindSignature("48 8B CB 48 8B 80 ? ? ? ? FF 15 ? ? ? ? C6 46 11 ? 48 8B 5C ? ? 48 83 C4"));
+			networkSender = reinterpret_cast<void*>(16 + FindSignature("48 8B CB 48 8B 80 ? ? ? ? FF 15 ? ? ? ? C6 46 ? ? 48 8B 5C 24"));
 
 		if (networkSender == _ReturnAddress()) {
 			motVec = _this->entityLocation->velocity.lerp(motVec, noKnockbackmod->xModifier, noKnockbackmod->yModifier, noKnockbackmod->xModifier);
@@ -903,24 +902,22 @@ int Hooks::BlockLegacy_getRenderLayer(BlockLegacy* a1) {
 	static auto xrayMod = moduleMgr->getModule<Xray>();
 	if (xrayMod->isEnabled()) {
 		char* text = a1->name.getText();
-		if (strstr(text, "ore") == NULL &&
-			strcmp(text, "lava") != NULL &&
-			strcmp(text, "water") != NULL &&
-			strcmp(text, "portal") != NULL &&
-			strcmp(text, "amethyst_block") != NULL &&
-			strcmp(text, "ancient_debris") != NULL &&
-			strcmp(text, "command_block") != NULL &&
-			strcmp(text, "repeating_command_block") != NULL &&
-			strcmp(text, "chain_command_block") != NULL &&
-			strcmp(text, "structure_block") != NULL &&
-			strcmp(text, "deny") != NULL &&
-			strcmp(text, "allow") != NULL &&
-			strcmp(text, "bedrock") != NULL &&
-			strcmp(text, "border_block") != NULL) {
-			return 10;
-		}
+		if (strstr(text, "ore") == NULL)
+			if (strcmp(text, "lava") != NULL)
+				if (strcmp(text, "water") != NULL)
+					if (strcmp(text, "portal") != NULL)
+						if (strcmp(text, "amethyst_block") != NULL)
+							if (strcmp(text, "ancient_debris") != NULL)
+								if (strcmp(text, "command_block") != NULL)
+									if (strcmp(text, "repeating_command_block") != NULL)
+										if (strcmp(text, "chain_command_block") != NULL)
+											if (strcmp(text, "structure_block") != NULL)
+												if (strcmp(text, "deny") != NULL)
+													if (strcmp(text, "allow") != NULL)
+														if (strcmp(text, "bedrock") != NULL)
+															if (strcmp(text, "border_block") != NULL)
+																return 10;
 	}
-
 	return oFunc(a1);
 }
 
@@ -1058,8 +1055,8 @@ float Hooks::GetGamma(uintptr_t* a1) {
 		uintptr_t* info = *(uintptr_t**)((uintptr_t)list[i] + 8);
 		if (info == nullptr) continue;
 
-		TextHolder* translateName = (TextHolder*)((uintptr_t)info + 0x158);
-		TextHolder* settingname = (TextHolder*)((uintptr_t)info + 0x108);
+		TextHolder* translateName = (TextHolder*)((uintptr_t)info + 0x108);
+		TextHolder* settingname = (TextHolder*)((uintptr_t)info + 0x158);
 
 		if (!strcmp(translateName->getText(), "options.smoothlighting")) {
 			if (hadIt) continue;

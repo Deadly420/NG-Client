@@ -28,27 +28,41 @@ static std::vector<Entity*> targetList;
 void findEntity(Entity* currentEntity, bool isRegularEntity) {
 	static auto killauraMod = moduleMgr->getModule<Killaura>();
 
-	if (currentEntity == nullptr || currentEntity == Game.getLocalPlayer() ||
-		!Game.getLocalPlayer()->canAttack(currentEntity, false) || !Game.getLocalPlayer()->isAlive() ||
-		!currentEntity->isAlive() || currentEntity->getEntityTypeId() == 66 ||  // falling block
-		currentEntity->getEntityTypeId() == 69                                  // XP
-	) {
+	if (currentEntity == nullptr)
 		return;
-	}
+
+	if (currentEntity == Game.getLocalPlayer())  // Skip Local player
+		return;
+
+	if (!Game.getLocalPlayer()->canAttack(currentEntity, false))
+		return;
+
+	if (!Game.getLocalPlayer()->isAlive())
+		return;
+
+	if (!currentEntity->isAlive())
+		return;
+
+	if (currentEntity->getEntityTypeId() == 66)  // falling block
+		return;
+
+	if (currentEntity->getEntityTypeId() == 69)  // XP
+		return;
 
 	if (killauraMod->targetMobs) {
-		if (currentEntity->getNameTag()->getTextLength() <= 1 && currentEntity->isPlayer() ||
-			currentEntity->aabb->width <= 0.01f || currentEntity->aabb->height <= 0.01f ||  // Don't hit this pesky antibot on 2b2e.org
-			currentEntity->getEntityTypeId() == 64 ||                           // item
-			currentEntity->getEntityTypeId() == 301 ||                           // Arrows
-			currentEntity->getEntityTypeId() == 307                             // NPC
-		) {
+		if (currentEntity->getNameTag()->getTextLength() <= 1 && currentEntity->getEntityTypeId() == 63)
 			return;
-		}
+		if (currentEntity->aabb->width <= 0.01f || currentEntity->aabb->height <= 0.01f)  // Don't hit this pesky antibot on 2b2e.org
+			return;
+		if (currentEntity->getEntityTypeId() == 64)  // item
+			return;
+		if (currentEntity->getEntityTypeId() == 80)  // Arrows
+			return;
+		if (currentEntity->getEntityTypeId() == 51)  // NPC
+			return;
 	} else {
-		if (!Target::isValidTarget(currentEntity)) {
+		if (!Target::isValidTarget(currentEntity))
 			return;
-		}
 	}
 
 	float dist = (*currentEntity->getPos()).dist(*Game.getLocalPlayer()->getPos());
@@ -57,7 +71,6 @@ void findEntity(Entity* currentEntity, bool isRegularEntity) {
 		targetList.push_back(currentEntity);
 	}
 }
-
 
 void Killaura::findWeapon() {
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
@@ -79,7 +92,7 @@ void Killaura::findWeapon() {
 
 void Killaura::onTick(GameMode* gm) {
 	targetListEmpty = targetList.empty();
-	//Loop through all our players and retrieve their information
+	// Loop through all our players and retrieve their information
 	targetList.clear();
 
 	Game.forEachEntity(findEntity);
@@ -87,31 +100,31 @@ void Killaura::onTick(GameMode* gm) {
 	delay++;
 	if (minD <= maxD) {
 		if (!targetList.empty() && delay >= random(minD, maxD)) {
-			if (autoweapon) findWeapon();
+		if (autoweapon) findWeapon();
 
-			if (Game.getLocalPlayer()->entityLocation->velocity.squaredxzlen() < 0.01) {
-				MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
-				Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
-			}
+		if (Game.getLocalPlayer()->entityLocation->velocity.squaredxzlen() < 0.01) {
+			MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+			Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
+		}
 
-			// Attack all entitys in targetList
-			if (isMulti) {
-				for (auto& i : targetList) {
-					if (!(i->damageTime > 1 && hurttime)) {
-						Game.getLocalPlayer()->swing();
-						Game.getGameMode()->attack(i);
-					}
-				}
-			} else {
-				if (!(targetList[0]->damageTime > 1 && hurttime)) {
+		// Attack all entitys in targetList
+		if (isMulti) {
+			for (auto& i : targetList) {
+				if (!(i->damageTime > 1 && hurttime)) {
 					Game.getLocalPlayer()->swing();
-					Game.getGameMode()->attack(targetList[0]);
+					Game.getGameMode()->attack(i);
 				}
 			}
-			if (rotations) {
-				angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
+		} else {
+			if (!(targetList[0]->damageTime > 1 && hurttime)) {
+				Game.getLocalPlayer()->swing();
+				Game.getGameMode()->attack(targetList[0]);
 			}
-			delay = 0;
+		}
+		if (rotations) {
+			angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
+		}
+		delay = 0;
 		}
 	}
 }
@@ -124,7 +137,7 @@ void Killaura::onEnable() {
 void Killaura::onSendPacket(Packet* packet) {
 	if (packet->isInstanceOf<MovePlayerPacket>() && Game.getLocalPlayer() != nullptr && silent) {
 		if (!targetList.empty()) {
-			auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
+		auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
 			movePacket->pitch = angle.x;
 			movePacket->headYaw = angle.y;

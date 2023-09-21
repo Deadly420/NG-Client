@@ -75,7 +75,7 @@ void NewUI::onImGuiRender() {
 	style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
 	style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-	style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+	style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
 	style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
@@ -120,7 +120,7 @@ void NewUI::onImGuiRender() {
 	if (ImGui::Begin("Render", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 630.f));
 		ImGui::SetWindowPos(ImVec2(350, 100));
-
+		
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::RENDER, &moduleList);
 		for (auto& mod : moduleList) {
