@@ -109,9 +109,11 @@ void NewUI::onImGuiRender() {
 		return currentState;
 	};
 
+	D2DUI::setFont(L"Comic Sans MS");
+	D2DUI::drawText(L"THIS IS DX11-DX12", Vec2(200, 200), D2D1::ColorF(D2D1::ColorF::White), true, 20.0f);
+
 	if (ImGui::Begin("Combat", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
-		ImGui::SetWindowPos(ImVec2(0.f, 0.f));
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::COMBAT, &moduleList);
