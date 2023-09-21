@@ -115,9 +115,9 @@ void ClickGui::renderTooltip(std::string* text) {
 		currentTooltipPos.x + (textPaddingX * 2) + textWidth + 2.f,
 		currentTooltipPos.y + textHeight + 2.f);
 
-	DrawUtils::fillRectangle(rectPos, moduleColor, backgroundAlpha);		  // tooltips
-	DrawUtils::drawBoxBottom(rectPosbottom, Mc_Color(184, 0, 255), 1, 0.5);  // tooltips
-	DrawUtils::drawText(textPos, text, Mc_Color(0, 246, 255), textSize);    // tooltips
+	DrawUtils::fillRectangle(rectPos, moduleColor, backgroundAlpha);			 // tooltips
+	DrawUtils::drawBoxBottom(rectPosbottom, Mc_Color(184, 0, 255), 1, 0.5);		 // tooltips
+	DrawUtils::drawText(textPos, text, Mc_Color(0, 246, 255), textSize);		 // tooltips
 }
 
 void ClickGui::renderCategory(Category category) {
@@ -140,7 +140,7 @@ void ClickGui::renderCategory(Category category) {
 			break;
 		case Category::MOVEMENT:
 			ourWindow->pos.x = yot / 10.f * 2.f;
-			ourWindow->pos.y = 1;
+			ourWindow->pos.y = 0;
 			break;
 		case Category::PLAYER:
 			ourWindow->pos.x = yot / 10.f * 3.f;
@@ -774,7 +774,7 @@ void ClickGui::render() {
 
 	int fadeSpeed = 1;
 
-	if (clickGuiMod->Opacity < 87)
+	if (clickGuiMod->Opacity < 57)
 		clickGuiMod->Opacity += fadeSpeed;
 
 	// Fill Background

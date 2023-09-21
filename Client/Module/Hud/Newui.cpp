@@ -96,91 +96,107 @@ void NewUI::onImGuiRender() {
 	style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 
 	ImGuiWindowFlags TargetFlags;
-	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse;
 
-	if (ImGui::Begin("NG Client", 0, TargetFlags)) {
-		ImGui::SetWindowSize(ImVec2(360.f, 330.f));
 
-		auto toggleModState = [](bool currentState, const char* modName) {
-			if (ImGui::Button(currentState ? std::string(std::string(modName) + std::string(" (ON)")).c_str() : std::string(std::string(modName) + std::string(" (OFF)")).c_str())) {
-				currentState = !currentState;
-			}
-			return currentState;
-		};
 
-		if (ImGui::CollapsingHeader("Combat")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::COMBAT, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
+	float yot = Game.getGuiData()->windowSize.x;
+
+	auto toggleModState = [](bool currentState, const char* modName) {
+		if (ImGui::Button(currentState ? std::string(std::string(modName) + std::string(" (ON)")).c_str() : std::string(std::string(modName) + std::string(" (OFF)")).c_str())) {
+			currentState = !currentState;
 		}
+		return currentState;
+	};
 
-		if (ImGui::CollapsingHeader("Render")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::RENDER, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
+	if (ImGui::Begin("Combat", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+		ImGui::SetWindowPos(ImVec2(0.f, 0.f));
 
-		if (ImGui::CollapsingHeader("Movement")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::MOVEMENT, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::COMBAT, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
 		}
-
-		if (ImGui::CollapsingHeader("Player")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::PLAYER, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
-
-		if (ImGui::CollapsingHeader("World")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::WORLD, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
-
-		if (ImGui::CollapsingHeader("Entity")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::ENTITY, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
-
-		if (ImGui::CollapsingHeader("HUD")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::HUD, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
-
-		if (ImGui::CollapsingHeader("Misc")) {
-			std::vector<std::shared_ptr<Module>> moduleList;
-			getModuleListByCategoryName(Category::MISC, &moduleList);
-			for (auto& mod : moduleList) {
-				mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
-			}
-			ImGui::Spacing();
-		}
+		ImGui::End();
 	}
-	ImGui::End();
+
+	if (ImGui::Begin("Render", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 530.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::RENDER, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("Movement", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 530.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::MOVEMENT, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("Player", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 330.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::PLAYER, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("World", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::WORLD, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("Entity", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 220.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::ENTITY, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("HUD", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::HUD, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
+
+	if (ImGui::Begin("Misc", 0, TargetFlags)) {
+		ImGui::SetWindowSize(ImVec2(200.f, 430.f));
+
+		std::vector<std::shared_ptr<Module>> moduleList;
+		getModuleListByCategoryName(Category::MISC, &moduleList);
+		for (auto& mod : moduleList) {
+			mod->setEnabled(toggleModState(mod->isEnabled(), mod->getModuleName()));
+		}
+		ImGui::End();
+	}
 }
 
 void NewUI::onKeyUpdate(int key, bool isDown) {
