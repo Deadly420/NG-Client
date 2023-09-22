@@ -206,28 +206,28 @@ void Hooks::Init() {
 		} else logF("LoopbackPacketSender is null");
 
 		// LocalPlayer::vtable
-		if (Game.isInGame() || Game.canUseMoveKeys()) {
-			uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getLocalPlayer());
+		{
+			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8D 05 ? ? ? ? 48 89 01 B8 ? ? ? ? 8D 50 FA 44 8D 48 ? 44 8D 40 ? 66 89 44 ? ? E8 ? ? ? ? 48 8B 8B", 3);
 			if (localPlayerVtable == 0x0)
-				logF("LocalPlayer not working!!!");
+				logF("LocalPlayer signature not working!!!");
 			else {
 				g_Hooks.Actor_startSwimmingHook = std::make_unique<FuncHook>(localPlayerVtable[195], Hooks::Actor_startSwimming);
 
 				g_Hooks.Actor_ascendLadderHook = std::make_unique<FuncHook>(localPlayerVtable[331], Hooks::Actor_ascendLadder);
 				
-				//g_Hooks.Actor__setRotHook = std::make_unique<FuncHook>(localPlayerVtable[27], Hooks::Actor__setRot); // Removed :(
+				// g_Hooks.Actor__setRotHook = std::make_unique<FuncHook>(localPlayerVtable[27], Hooks::Actor__setRot); // Removed from vtable
 
 				g_Hooks.Actor_swingHook = std::make_unique<FuncHook>(localPlayerVtable[213], Hooks::Actor_swing);
 
-				//g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); //jump from ground with movement proxy
+				// g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); //jump from ground with movement proxy
 
-				//g_Hooks.setPosHook = std::make_unique<FuncHook>(localPlayerVtable[19], Hooks::setPos);
+				// g_Hooks.setPosHook = std::make_unique<FuncHook>(localPlayerVtable[19], Hooks::setPos); // Removed from vtable
 
 				g_Hooks.Actor_lerpMotionHook = std::make_unique<FuncHook>(localPlayerVtable[46], Hooks::Actor_lerpMotion);
 
 				g_Hooks.Actor_baseTickHook = std::make_unique<FuncHook>(localPlayerVtable[49], Hooks::Actor_baseTick);
 
-				g_Hooks.Mob__isImmobileHook = std::make_unique<FuncHook>(localPlayerVtable[90], Hooks::Mob__isImmobile);
+				g_Hooks.Mob__isImmobileHook = std::make_unique<FuncHook>(localPlayerVtable[91], Hooks::Mob__isImmobile);
 
 				g_Hooks.Actor_isInWaterHook = std::make_unique<FuncHook>(localPlayerVtable[70], Hooks::Actor_isInWater);
 
@@ -908,22 +908,24 @@ int Hooks::BlockLegacy_getRenderLayer(BlockLegacy* a1) {
 	static auto xrayMod = moduleMgr->getModule<Xray>();
 	if (xrayMod->isEnabled()) {
 		char* text = a1->name.getText();
-		if (strstr(text, "ore") == NULL)
-			if (strcmp(text, "lava") != NULL)
-				if (strcmp(text, "water") != NULL)
-					if (strcmp(text, "portal") != NULL)
-						if (strcmp(text, "amethyst_block") != NULL)
-							if (strcmp(text, "ancient_debris") != NULL)
-								if (strcmp(text, "command_block") != NULL)
-									if (strcmp(text, "repeating_command_block") != NULL)
-										if (strcmp(text, "chain_command_block") != NULL)
-											if (strcmp(text, "structure_block") != NULL)
-												if (strcmp(text, "deny") != NULL)
-													if (strcmp(text, "allow") != NULL)
-														if (strcmp(text, "bedrock") != NULL)
-															if (strcmp(text, "border_block") != NULL)
-																return 10;
+		if (strstr(text, "ore") == NULL &&
+			strcmp(text, "lava") != 0 &&
+			strcmp(text, "water") != 0 &&
+			strcmp(text, "portal") != 0 &&
+			strcmp(text, "amethyst_block") != 0 &&
+			strcmp(text, "ancient_debris") != 0 &&
+			strcmp(text, "command_block") != 0 &&
+			strcmp(text, "repeating_command_block") != 0 &&
+			strcmp(text, "chain_command_block") != 0 &&
+			strcmp(text, "structure_block") != 0 &&
+			strcmp(text, "deny") != 0 &&
+			strcmp(text, "allow") != 0 &&
+			strcmp(text, "bedrock") != 0 &&
+			strcmp(text, "border_block") != 0) {
+			return 10;
+		}
 	}
+
 	return oFunc(a1);
 }
 
@@ -1039,8 +1041,8 @@ void Hooks::MoveInputHandler_tick(__int64 a1, int* a2, uint32_t* a3, __int64* a4
 __int64 Hooks::ChestScreenController_tick(ChestScreenController* a1) {
 	static auto oFunc = g_Hooks.ChestScreenController_tickHook->GetFastcall<__int64, ChestScreenController*>();
 
-	static auto chestStealerMod = moduleMgr->getModule<ChestStealer>();
-	if (chestStealerMod->isEnabled()) chestStealerMod->chestScreenController_tick(a1);
+	// static auto chestStealerMod = moduleMgr->getModule<ChestStealer>();
+	// if (chestStealerMod->isEnabled()) chestStealerMod->chestScreenController_tick(a1);
 
 	return oFunc(a1);
 }
@@ -1629,16 +1631,16 @@ void Hooks::InitImGui() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success) {
 		kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
 		kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);
-		//
-		kiero::bind(140, (void**)&original_present, PresentD3D);
-		kiero::bind(145, (void**)&original_resize_buffers, ResizeBuffersD3D);
+		// D2D
+		// kiero::bind(140, (void**)&original_present, PresentD3D);
+		// kiero::bind(145, (void**)&original_resize_buffers, ResizeBuffersD3D);
 		logF("Created hook for SwapChain::Present (DX12)!");
 	} else if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
 		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
-		//
-		kiero::bind(8, (void**)&original_present, PresentD3D);
-		kiero::bind(13, (void**)&original_resize_buffers, ResizeBuffersD3D);
-		kiero::bind(73, (void**)&original_draw_indexed, DrawIndexedD3D11);
+		// D2D
+		// kiero::bind(8, (void**)&original_present, PresentD3D);
+		// kiero::bind(13, (void**)&original_resize_buffers, ResizeBuffersD3D);
+		// kiero::bind(73, (void**)&original_draw_indexed, DrawIndexedD3D11);
 		logF("Created hook for SwapChain::Present (DX11)!");
 	} else {
 		logF("uhhhhh, fuck... didnt make one for anything :)");

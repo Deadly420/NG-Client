@@ -64,7 +64,7 @@ void ModuleManager::initModules() {
 		// moduleList.emplace_back(new NameTags());
 		// moduleList.emplace_back(new HighJump());
 		moduleList.emplace_back(new NoPacket());
-		moduleList.emplace_back(new Scaffold());
+		// moduleList.emplace_back(new Scaffold());
 		moduleList.emplace_back(new Velocity());
 		moduleList.emplace_back(new Killaura());
 		moduleList.emplace_back(new FastUse());
