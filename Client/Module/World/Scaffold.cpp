@@ -26,7 +26,7 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 	BlockSource* region = Game.getLocalPlayer()->region;
 	Block* block = region->getBlock(Vec3i(blockBelow));
 	BlockLegacy* blockLegacy = (block->blockLegacy);
-	if (blockLegacy->material->isReplaceable) {
+	if (blockLegacy->material->isSolid) {
 		Vec3i blok(blockBelow);
 
 		// Find neighbour
@@ -47,8 +47,8 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 		int i = 0;
 		for (auto current : checklist) {
 			Vec3i calc = blok.sub(*current);
-			bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
-			if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
+			bool Y = ((region->getBlock(calc)->blockLegacy))->material->isSolid;
+			if (!((region->getBlock(calc)->blockLegacy))->material->isSolid) {
 				// Found a solid block to click
 				foundCandidate = true;
 				blok = calc;
@@ -95,7 +95,7 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 		BlockSource* region = Game.getLocalPlayer()->region;
 		Block* block = region->getBlock(Vec3i(currentBlock));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
-		if (blockLegacy->material->isReplaceable) {
+		if (blockLegacy->material->isSolid) {
 			Vec3i blok(currentBlock);
 
 			// Find neighbour
@@ -115,8 +115,8 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 			int i = 0;
 			for (auto current : checklist) {
 				Vec3i calc = blok.sub(*current);
-				bool Y = ((region->getBlock(calc)->blockLegacy))->material->isReplaceable;
-				if (!((region->getBlock(calc)->blockLegacy))->material->isReplaceable) {
+				bool Y = ((region->getBlock(calc)->blockLegacy))->material->isSolid;
+				if (!((region->getBlock(calc)->blockLegacy))->material->isSolid) {
 					// Found a solid block to click
 					foundCandidate = true;
 					blok = calc;

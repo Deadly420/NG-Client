@@ -36,7 +36,6 @@ void Hooks::Init() {
 	// Signatures
 	{
 		// vtables better than sigs
-
 		void* _renderCtx = reinterpret_cast<void*>(FindSignature("48 8B ? 48 89 ? ? 55 56 57 41 ? 41 ? 41 ? 41 ? 48 8D ? ? ? ? ? 48 81 EC ? ? ? ? 0F 29 ? ? 0F 29 ? ? 48 8B ? ? ? ? ? 48 33 ? 48 89 ? ? ? ? ? 4C 8B ? 48 89 ? ? ? 4C 8B"));
 		g_Hooks.RenderTextHook = std::make_unique<FuncHook>(_renderCtx, Hooks::RenderText);
 
@@ -113,7 +112,7 @@ void Hooks::Init() {
 
 		void* renderNameTags = reinterpret_cast<void*>(FindSignature("48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 44 0F 29 40 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B F1"));
 		g_Hooks.LevelRendererPlayer__renderNameTagsHook = std::make_unique<FuncHook>(renderNameTags, Hooks::LevelRendererPlayer__renderNameTags);
-		
+
 		void* destroySpeed = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 57 48 83 EC ? 48 8B FA ? ? 74 24 ? 48 8B 91"));
 		g_Hooks.getDestroySpeedHook = std::make_unique<FuncHook>(destroySpeed, Hooks::getDestroySpeed);
 
@@ -1238,8 +1237,8 @@ __int64 Hooks::GameMode_attack(GameMode* _this, Entity* ent) {
 
 void Hooks::LocalPlayer__updateFromCamera(__int64 a1, Camera* camera, __int64* a3, Entity* a4) {
 	static auto func = g_Hooks.LocalPlayer__updateFromCameraHook->GetFastcall<__int64, __int64, Camera*, __int64*, Entity*>();
-	auto freecamMod = moduleMgr->getModule<Freecam>();
-	freecamMod->camera = camera;
+	// auto freecamMod = moduleMgr->getModule<Freecam>();
+	// freecamMod->camera = camera;
 	// camera->nearClippingPlane = 0.000001;
 	// camera->farClippingPlane = -5;
 	func(a1, camera, a3, a4);
@@ -1247,10 +1246,10 @@ void Hooks::LocalPlayer__updateFromCamera(__int64 a1, Camera* camera, __int64* a
 
 bool Hooks::Mob__isImmobile(Entity* ent) {
 	static auto func = g_Hooks.Mob__isImmobileHook->GetFastcall<bool, Entity*>();
-	static auto freecamMod = moduleMgr->getModule<Freecam>();
+	// static auto freecamMod = moduleMgr->getModule<Freecam>();
 	static auto antiImmobileMod = moduleMgr->getModule<AntiImmobile>();
-	if (freecamMod->isEnabled())
-		return true;
+	// if (freecamMod->isEnabled())
+	//	 return true;
 	if (antiImmobileMod->isEnabled() && ent == Game.getLocalPlayer())
 		return false;
 
@@ -1260,15 +1259,15 @@ bool Hooks::Mob__isImmobile(Entity* ent) {
 void Hooks::Actor__setRot(Entity* _this, Vec2& angle) {
 	static auto func = g_Hooks.Actor__setRotHook->GetFastcall<void, Entity*, Vec2&>();
 	static auto killauraMod = moduleMgr->getModule<Killaura>();
-	static auto freelookMod = moduleMgr->getModule<Freelook>();
-	static auto freecamMod = moduleMgr->getModule<Freecam>();
+	//static auto freelookMod = moduleMgr->getModule<Freelook>();
+	//static auto freecamMod = moduleMgr->getModule<Freecam>();
 	if (_this == Game.getLocalPlayer()) {
-		if (freecamMod->isEnabled()) {
-			freecamMod->yaw = angle.y;
-			angle = {freecamMod->initialViewAngles.x, freecamMod->initialViewAngles.y};
-		}
+		//if (freecamMod->isEnabled()) {
+		//	freecamMod->yaw = angle.y;
+		//	angle = {freecamMod->initialViewAngles.x, freecamMod->initialViewAngles.y};
+		//}
 		if (killauraMod->isEnabled() && !killauraMod->targetListEmpty && killauraMod->rotations) angle = killauraMod->angle;
-		if (freelookMod->isEnabled()) angle = freelookMod->oldPos;
+		//if (freelookMod->isEnabled()) angle = freelookMod->oldPos;
 	}
 	func(_this, angle);
 }
@@ -1320,9 +1319,9 @@ bool Hooks::Actor__isInWall(Entity* ent) {
 	static auto func = g_Hooks.ActorisInWallHook->GetFastcall<bool, Entity*>();
 	static auto nofallMod = moduleMgr->getModule<NoFall>();
 
-	if (nofallMod->isEnabled() && nofallMod->mode.selected == 4 /*&& Game.getLocalPlayer() == ent*/) {
-		return false;
-	}
+	// if (nofallMod->isEnabled() && nofallMod->mode.selected == 4 /*&& Game.getLocalPlayer() == ent*/) {
+	// 	return false;
+	//}
 
 	return func(ent);
 }

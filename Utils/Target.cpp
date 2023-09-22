@@ -34,7 +34,7 @@ bool Target::isValidTarget(Entity* ent) {
 		return false;
 
 	if (ent->isPlayer()) {
-		if (teams->isColorCheckEnabled()) {
+		if (Game.isInGame() && teams->isColorCheckEnabled()) {
 			std::string targetName = ent->getNameTag()->getText();
 			std::string localName = localPlayer->getNameTag()->getText();
 
