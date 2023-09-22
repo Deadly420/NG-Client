@@ -19,7 +19,7 @@ bool NbtCommand::execute(std::vector<std::string>* args) {
 	}
 
 	Level* level = Game.getLocalPlayer()->level;
-	BlockActor* blockActor = Game.getLocalPlayer()->getRegion()->getBlockEntity(level->block);
+	BlockActor* blockActor = Game.getLocalPlayer()->region->getBlockEntity(level->block);
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
 	Inventory* inv = supplies->inventory;
 	InventoryTransactionManager* manager = Game.getLocalPlayer()->getTransactionManager();
@@ -36,7 +36,7 @@ bool NbtCommand::execute(std::vector<std::string>* args) {
 			delete boy;
 		} else {
 			if (level->getEntity() != nullptr) {
-				if (Game.getRakNetInstance()->serverIp.getTextLength() >= 1) {
+				if (Game.getRakNetConnector()->serverIp.getTextLength() >= 1) {
 					clientMessageF("%sNBT tags for mobs only works in local world!", RED);
 					return true;
 				}

@@ -2,19 +2,8 @@
 
 #include "Packet.h"
 
-class NetworkHandler {
-private:
-	char pad_0x0[0x70];  // 0x0
-public:
-	class RakNetInstance* rakNetInstance;  // 0x70
-};
-
 class LoopbackPacketSender {
-private:
-	char pad_0x8[0x8];  // 0x8
 public:
-	class NetworkHandler* networkHandler;  // 0x10
-
 	virtual ~LoopbackPacketSender();
 	//Duplicate contructor
 	virtual __int64 send(Packet* packet);

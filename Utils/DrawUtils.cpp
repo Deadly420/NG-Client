@@ -5,10 +5,6 @@
 #include "../Utils/Logger.h"
 #include <glm/ext/matrix_transform.hpp>
 
-class MaterialPtr {
-	char padding[0x138];
-};
-
 using tess_vertex_t = void(__fastcall*)(Tessellator* _this, float v1, float v2, float v3);
 using meshHelper_renderImm_t = void(__fastcall*)(__int64, Tessellator* tessellator, MaterialPtr*);
 
@@ -174,8 +170,8 @@ void DrawUtils::setCtx(MinecraftUIRenderContext* ctx, GuiData* gui) {
 	ElapsedMicroseconds.QuadPart *= 1000000;
 	int ticksPerSecond = 20;
 	if (Game.getClientInstance()->minecraft)
-		if (Game.getClientInstance()->minecraft->simTimer != nullptr)
-			ticksPerSecond = (int)*Game.getClientInstance()->minecraft->simTimer;
+		if (Game.getClientInstance()->minecraft->timer != nullptr)
+			ticksPerSecond = (int)*Game.getClientInstance()->minecraft->timer;
 	if (ticksPerSecond < 1)
 		ticksPerSecond = 1;
 	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart / ticksPerSecond;
@@ -645,7 +641,7 @@ void DrawUtils::drawBetterESP(Entity* ent, float lineWidth) {
 	// Vec3* end = ent->getPos();
 	//  Vec3 lerped = ent->getPosPrev()->lerp(ent->getPos(), getLerpTime());
 
-	AABB render(ent->getRenderPos(), ent->aabb->width, ent->aabb->height, ent->getRenderPos().y - ent->aabb->lower.y);
+	AABB render(ent->getRenderPositionComponent()->renderPos, ent->aabb->width, ent->aabb->height, ent->getRenderPositionComponent()->renderPos.y - ent->aabb->lower.y);
 	render.upper.y += 0.1f;
 
 	DrawUtils::drawBox(render.lower, render.upper, lineWidth);
@@ -701,10 +697,10 @@ void DrawUtils::drawZephyr(Entity* ent, float lineWidth) {
 	Vec3 corners[4];
 	Vec2 corners2d[4];
 
-	corners[0] = Vec3(ent->getRenderPos().x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPos().z - ent->aabb->width / 1.5f * cos(ofs));
-	corners[1] = Vec3(ent->getRenderPos().x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPos().z + ent->aabb->width / 1.5f * cos(ofs));
-	corners[2] = Vec3(ent->getRenderPos().x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPos().z - ent->aabb->width / 1.5f * cos(ofs));
-	corners[3] = Vec3(ent->getRenderPos().x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPos().z + ent->aabb->width / 1.5f * cos(ofs));
+	corners[0] = Vec3(ent->getRenderPositionComponent()->renderPos.x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPositionComponent()->renderPos.z - ent->aabb->width / 1.5f * cos(ofs));
+	corners[1] = Vec3(ent->getRenderPositionComponent()->renderPos.x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->upper.y + (float)0.1, ent->getRenderPositionComponent()->renderPos.z + ent->aabb->width / 1.5f * cos(ofs));
+	corners[2] = Vec3(ent->getRenderPositionComponent()->renderPos.x - ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPositionComponent()->renderPos.z - ent->aabb->width / 1.5f * cos(ofs));
+	corners[3] = Vec3(ent->getRenderPositionComponent()->renderPos.x + ent->aabb->width / 1.5f * -sin(ofs), ent->aabb->lower.y, ent->getRenderPositionComponent()->renderPos.z + ent->aabb->width / 1.5f * cos(ofs));
 
 	if (refdef->OWorldToScreen(origin, corners[0], corners2d[0], fov, screenSize) &&
 		refdef->OWorldToScreen(origin, corners[1], corners2d[1], fov, screenSize) &&
@@ -724,7 +720,7 @@ void DrawUtils::drawItem(ItemStack* item, const Vec2& itemPos, float opacity, fl
 	__int64 scnCtx = reinterpret_cast<__int64*>(renderCtx)[2];
 	auto* screenCtx = reinterpret_cast<ScreenContext*>(scnCtx);
 	BaseActorRenderContext baseActorRenderCtx(screenCtx, Game.getClientInstance(), Game.getClientInstance()->minecraftGame);
-	ItemRenderer* renderer = baseActorRenderCtx.renderer;
+	ItemRenderer* renderer = baseActorRenderCtx.itemRenderer;
 	renderer->renderGuiItemNew(&baseActorRenderCtx, item, 0, itemPos.x, itemPos.y, opacity, scale, isEnchanted);
 }
 
@@ -935,7 +931,7 @@ void DrawUtils::setGameRenderContext(std::int64_t ctx) {
 		ElapsedMicroseconds.QuadPart *= 1000000;
 		int ticksPerSecond = 20;
 		if (Game.getClientInstance()->minecraft)
-			ticksPerSecond = (int)*Game.getClientInstance()->minecraft->simTimer;
+			ticksPerSecond = (int)*Game.getClientInstance()->minecraft->timer;
 		ticksPerSecond = std::max(ticksPerSecond, 1);
 		ElapsedMicroseconds.QuadPart /= Frequency.QuadPart / ticksPerSecond;
 		lerpT = (ElapsedMicroseconds.QuadPart / 1000000.f);

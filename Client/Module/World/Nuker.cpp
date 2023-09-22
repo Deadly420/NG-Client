@@ -1,6 +1,6 @@
 #include "Nuker.h"
 
-Nuker::Nuker() : Module(VK_NUMPAD5, Category::WORLD, "Break multiple blocks at once.") {
+Nuker::Nuker() : Module(0x0, Category::WORLD, "Break multiple blocks at once.") {
 	registerIntSetting("Radius", &nukerRadius, nukerRadius, 1, 10, "Radius: Set the radius from 1 to 10");
 	registerBoolSetting("Veinminer", &veinMiner, veinMiner, "Veinminer: Enable or disable vein mining");
 	registerBoolSetting("Autodestroy", &autodestroy, autodestroy, "Autodestroy: Automatically destroy blocks");
@@ -21,7 +21,7 @@ void Nuker::onTick(GameMode* gm) {
 				tempPos.x = (int)gm->player->getPos()->x + x;
 				tempPos.y = (int)gm->player->getPos()->y + y;
 				tempPos.z = (int)gm->player->getPos()->z + z;
-				if (tempPos.y > -64 && gm->player->getRegion()->getBlock(tempPos)->toLegacy()->isSolid) {
+				if (tempPos.y > -64 && gm->player->region->getBlock(tempPos)->toLegacy()->material->isSolid) {
 					gm->destroyBlock(&tempPos, 1);
 				}
 			}

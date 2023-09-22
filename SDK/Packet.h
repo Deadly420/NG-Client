@@ -292,6 +292,8 @@ public:
 
 #pragma pack(push, 8)
 
+class LocalPlayer;
+
 __declspec(align(8)) class MovePlayerPacket : public Packet {
 public:
 	MovePlayerPacket();
@@ -303,7 +305,7 @@ public:
 	float yaw;                //0x40
 	float headYaw;            //0x44
 	uint8_t mode;             //0x48
-	bool isOnGround();
+	bool onGround;
 	__int64 ridingEid;
 	int int1;
 	int int2;

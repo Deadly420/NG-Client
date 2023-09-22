@@ -38,7 +38,7 @@
 #include "../SDK/GameMode.h"
 #include "../SDK/MinecraftUIRenderContext.h"
 #include "../SDK/MoveInputHandler.h"
-#include "../SDK/RakNetInstance.h"
+#include "../SDK/RakNetConnector.h"
 #include "../SDK/TextHolder.h"
 #include "../SDK/UIScene.h"
 #include "../Utils/Logger.h"
@@ -119,6 +119,7 @@ private:
 	static void MoveInputHandler_tick(__int64 a1, int* a2, uint32_t* a3, __int64* a4, MoveInputHandler* input, int a6);
 	static __int64 ChestScreenController_tick(ChestScreenController* _this);
 	static float GetGamma(uintptr_t* a1);
+	static void RakNetConnector_tick(RakNetConnector* _this);
 	static bool Actor_isInWater(Entity* _this);
 	static void JumpPower(Entity* _this, float a2);
 	static void Actor_ascendLadder(Entity* _this);
@@ -174,6 +175,7 @@ private:
 	std::unique_ptr<FuncHook> MoveInputHandler_tickHook;
 	std::unique_ptr<FuncHook> ChestScreenController_tickHook;
 	std::unique_ptr<FuncHook> GetGammaHook;
+	std::unique_ptr<FuncHook> RakNetConnector_tickHook;
 	std::unique_ptr<FuncHook> Actor_isInWaterHook;
 	std::unique_ptr<FuncHook> JumpPowerHook;
 	std::unique_ptr<FuncHook> RMBManagerThingyHook;

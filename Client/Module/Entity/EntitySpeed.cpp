@@ -40,7 +40,7 @@ void EntitySpeed::onTick(GameMode* gm) {
 		float speed = speed2;
 		float yaw = targetDeez[0]->getActorHeadRotationComponent()->rot.y;
 
-		if (GameData::isKeyDown(*input->spaceBarKey) && targetDeez[0]->isOnGround())
+		if (GameData::isKeyDown(*input->spaceBarKey) && targetDeez[0]->getMovementProxy()->isOnGround())
 			targetDeez[0]->jumpFromGround();
 
 		if (GameData::isKeyDown(*input->forwardKey) && GameData::isKeyDown(*input->backKey))
@@ -79,7 +79,7 @@ void EntitySpeed::onTick(GameMode* gm) {
 		float calcYaw = (yaw + 90) * (PI / 180);
 		Vec3 moveVec;
 		moveVec.x = cos(calcYaw) * speed;
-		moveVec.y = targetDeez[0]->entityLocation->velocity.y;
+		moveVec.y = targetDeez[0]->location->velocity.y;
 		moveVec.z = sin(calcYaw) * speed;
 
 		if (keyPressed) {

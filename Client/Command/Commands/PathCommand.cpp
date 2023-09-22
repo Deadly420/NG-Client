@@ -76,7 +76,7 @@ bool PathCommand::execute(std::vector<std::string>* args) {
 			if (name.find(nameOfPlayerLower) == std::string::npos)
 				return;
 
-			pos = e->getRenderPos();
+			pos = e->getRenderPositionComponent()->renderPos;
 		};
 		Game.forEachEntity(playerFinder);
 

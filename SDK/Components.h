@@ -1,46 +1,77 @@
 #pragma once
-
 #include "../Utils/HMath.h"
-
-#include "GameType.h"
-#include "PlayerMovementProxy.h"
-
-struct MobBodyRotationComponent {
-	float bodyRot;
-	float prevBodyRot;
-};
-
+// The variable names in both of these 2 classes could be wrong I am not sure it shouldn't be hard to figure them out
 struct ActorRotationComponent {
-	Vec2 rot;
-	Vec2 rotPrev;
+public:
+	union {
+		struct {
+			float pitch;
+			float yaw;
+		};
+		Vec2 rot;
+	};
+	union {
+		struct {
+			float prevPitch;
+			float prevYaw;
+		};
+		Vec2 rotPrev;
+	};
 };
 
 struct ActorHeadRotationComponent {
-	Vec2 rot;
+public:
+	union {
+		struct {
+			float pitch;
+			float yaw;
+		};
+		Vec2 rot;
+	};
+};
+
+struct ActorGameTypeComponent {
+public:
+	int gameType;
+};
+
+struct FallDistanceComponent {
+public:
+	float fallDistance;
+};
+
+struct SwimSpeedMultiplierComponent {
+public:
+	float swimSpeedMultiplier;
+};
+
+struct RenderPositionComponent {
+public:
+	Vec3 renderPos;
+};
+
+struct RenderRotationComponent {
+public:
+	Vec2 renderRot;
+};
+
+struct AbilitiesComponent {
+public:
+	BUILD_ACCESS(this, bool, isFlying, 0x158);
+	BUILD_ACCESS(this, bool, canFly, 0x164);
+};
+
+struct FlySpeedComponent {
+public:
+	float flySpeed; // it's more like in air speed then fly speed
 };
 
 struct RuntimeIDComponent {
+public:
 	int64_t runtimeID;
 };
 
 struct MaxAutoStepComponent {
+public:
 	float stepHeight;
-};
-
-struct FallDistanceComponent {
-	float fallDistance;
-};
-
-class PlayerMovementProxy;
-
-struct ActorMovementProxyComponent {
-	PlayerMovementProxy* movementProxy;
-};
-
-struct BlockSourceComponent {
-	BlockSource* region;
-};
-
-struct ActorGameTypeComponent {
-	enum GameType gameType;
 };

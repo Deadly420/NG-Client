@@ -45,7 +45,7 @@ void EntityBhop::onMove(MoveInputHandler* input) {
 		Vec2 moveVec2d = {input->forwardMovement, -input->sideMovement};
 		bool pressed = moveVec2d.magnitude() > 0.01f;
 
-		if (player->isOnGround() && pressed)
+		if (player->getMovementProxy()->isOnGround() && pressed)
 			player->jumpFromGround();
 
 		float calcYaw = (player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
@@ -54,10 +54,10 @@ void EntityBhop::onMove(MoveInputHandler* input) {
 		float s = sin(calcYaw);
 		moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
 		moveVec.x = moveVec2d.x * speed;
-		moveVec.y = player->entityLocation->velocity.y;
+		moveVec.y = player->location->velocity.y;
 		moveVec.z = moveVec2d.y * speed;
 		if (pressed) player->lerpMotion(moveVec);
-		if (player->isOnGround() && pressed && !input->isJumping && lowhop)
-			player->entityLocation->velocity.y -= upVal;
+		if (player->getMovementProxy()->isOnGround() && pressed && !input->isJumping && lowhop)
+			player->location->velocity.y -= upVal;
 	}
 }

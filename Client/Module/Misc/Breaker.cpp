@@ -25,7 +25,7 @@ void Breaker::onTick(GameMode* gm) {
 				Vec3i blockPos = Vec3i(x, y, z);
 				bool destroy = false;
 				bool eat = false;
-				auto id = gm->player->getRegion()->getBlock(blockPos)->toLegacy()->blockId;
+				auto id = gm->player->region->getBlock(blockPos)->toLegacy()->blockId;
 
 				if (id == 26 && beds) destroy = true;      // Beds
 				if (id == 122 && eggs) destroy = true;     // Dragon Eggs

@@ -37,7 +37,7 @@ void Bhop::onMove(MoveInputHandler* input) {
 		player->getMaxAutoStepComponent()->stepHeight = 0.f;
 		static bool useVelocity = false;
 		if (0.4000000059604645 >= 0.385) {
-			if (player->isOnGround() && pressed) player->jumpFromGround();
+			if (player->getMovementProxy()->isOnGround() && pressed) player->jumpFromGround();
 			useVelocity = false;
 		} else
 			useVelocity = true;
@@ -45,21 +45,21 @@ void Bhop::onMove(MoveInputHandler* input) {
 		speedFriction *= 0.9535499811172485;
 		if (pressed) {
 			player->setSprinting(true);
-			if (player->isOnGround()) {
-				if (useVelocity && !input->isJumping) player->entityLocation->velocity.y = 0.4000000059604645;
+			if (player->getMovementProxy()->isOnGround()) {
+				if (useVelocity && !input->isJumping) player->location->velocity.y = 0.4000000059604645;
 				speedFriction = RandomFloat(0.4190652072429657, 0.48381298780441284);
 			} else {
 				moveVec.x = moveVec2d.x * speedFriction;
-				moveVec.y = player->entityLocation->velocity.y;
+				moveVec.y = player->location->velocity.y;
 				moveVec.z = moveVec2d.y * speedFriction;
 				player->lerpMotion(moveVec);
 			}
 		}
 	} else {
-		if (player->isOnGround() && pressed)
+		if (player->getMovementProxy()->isOnGround() && pressed)
 			player->jumpFromGround();
 		moveVec.x = moveVec2d.x * speed;
-		moveVec.y = player->entityLocation->velocity.y;
+		moveVec.y = player->location->velocity.y;
 		moveVec.z = moveVec2d.y * speed;
 		if (pressed) player->lerpMotion(moveVec);
 	}

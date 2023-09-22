@@ -19,7 +19,7 @@ void Waypoints::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	LocalPlayer* localPlayer = Game.getLocalPlayer();
 	if (localPlayer == nullptr || !GameData::canUseMoveKeys())
 		return;
-	int currentDimension = localPlayer->dimension->dimensionId;
+	int currentDimension = localPlayer->getDimension()->dimensionId;
 
 	for (auto it = waypoints->begin(); it != waypoints->end(); it++) {
 		Vec3 pos = it->second.pos;

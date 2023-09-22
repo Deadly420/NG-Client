@@ -44,7 +44,7 @@ void NameTags::drawNameTags(Entity* ent, float textSize) {
 	float textHeight = DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() * textSize;
 
 	if (Game.isInGame()) {
-		ent->getRenderPos().add(0, 1.f, 0);
+		ent->getRenderPositionComponent()->renderPos.add(0, 1.f, 0);
 		textPos.y -= textHeight;
 		textPos.x -= textWidth / 2.f;
 		rectPos.x = textPos.x - 1.f * textSize;

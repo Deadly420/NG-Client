@@ -16,8 +16,8 @@ public:
 			LocalPlayer* player = Game.getLocalPlayer();
 
 			if (!input->isPressed()) {
-				player->entityLocation->velocity.x = 0.0f;
-				player->entityLocation->velocity.z = 0.0f;
+				player->location->velocity.x = 0.0f;
+				player->location->velocity.z = 0.0f;
 			}
 		}
 	}

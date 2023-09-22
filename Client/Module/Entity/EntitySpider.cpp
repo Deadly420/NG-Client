@@ -73,14 +73,14 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 				Vec3i side = pPosI.add(0, yOff, 0).add(current);
 				if (side.y < 0 || side.y >= 256)
 					break;
-				Block* block = player->getRegion()->getBlock(side);
+				Block* block = player->region->getBlock(side);
 				if (block == nullptr || block->blockLegacy == nullptr)
 					continue;
 				BlockLegacy* blockLegacy = block->toLegacy();
 				if (blockLegacy == nullptr)
 					continue;
 				AABB collisionVec;
-				if (!blockLegacy->getCollisionShape(&collisionVec, block, player->getRegion(), &side, player))
+				if (!blockLegacy->getCollisionShape(&collisionVec, block, player->region, &side, player))
 					continue;
 				bool intersects = ignoreYcoll ? collisionVec.intersectsXZ(player->aabb->expandedXZ(0.1f)) : collisionVec.intersects(player->aabb->expandedXZ(0.1f));
 
@@ -136,16 +136,16 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 			if (targetDist <= 0)
 				return;
 
-			auto [curDist, curYVel, curT] = distanceError(player->entityLocation->velocity.y, targetDist);
+			auto [curDist, curYVel, curT] = distanceError(player->location->velocity.y, targetDist);
 
 			if (curDist <= 0.01f)
 				return;
 
-			if (player->entityLocation->velocity.y < speed) {
+			if (player->location->velocity.y < speed) {
 				auto secondTrajectory = distanceError(speed, targetDist);
 				if (std::get<0>(secondTrajectory) <= 0) {
 					float error = curDist;
-					float startSpeed = player->entityLocation->velocity.y;
+					float startSpeed = player->location->velocity.y;
 
 					float error2 = std::get<0>(secondTrajectory);
 					float startSpeed2 = speed;
@@ -167,8 +167,8 @@ void EntitySpider::onMove(MoveInputHandler* input) {
 		}
 
 		if (upperObstructed || lowerObstructed) {
-			if (player->entityLocation->velocity.y < targetSpeed)
-				player->entityLocation->velocity.y = targetSpeed;
+			if (player->location->velocity.y < targetSpeed)
+				player->location->velocity.y = targetSpeed;
 		}
 	}
 }

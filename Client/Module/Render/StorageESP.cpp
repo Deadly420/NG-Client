@@ -31,7 +31,7 @@ void StorageESP::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		Vec3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
-		auto storageID = Game.getLocalPlayer()->getRegion()->getBlock(blockPos)->toLegacy()->blockId;
+		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;
 
 		if (storageID == 54) flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);                     // Normal Chest
 		if (storageID == 146) flushColor = Mc_Color(.92f, .14f, .14f, opacity);                 // Trapped Chest
@@ -67,7 +67,7 @@ void StorageESP::onLevelRender() {
 		Vec3 blockPos = chest.lower;
 		if (blockPos.x < 0) blockPos.x -= 1;
 		if (blockPos.z < 0) blockPos.z -= 1;
-		auto storageID = Game.getLocalPlayer()->getRegion()->getBlock(blockPos)->toLegacy()->blockId;
+		auto storageID = Game.getLocalPlayer()->region->getBlock(blockPos)->toLegacy()->blockId;
 
 		if (storageID == 54) flushColor = Mc_Color(1.f, 1.f, 1.f, opacity);                     // Normal Chest
 		if (storageID == 146) flushColor = Mc_Color(.92f, .14f, .14f, opacity);                 // Trapped Chest

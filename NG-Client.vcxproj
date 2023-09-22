@@ -418,6 +418,7 @@
     <ClInclude Include="SDK\Components.h" />
     <ClInclude Include="SDK\GameType.h" />
     <ClInclude Include="SDK\PlayerMovementProxy.h" />
+    <ClInclude Include="SDK\RakNetConnector.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\FriendList\FriendsManager.h" />

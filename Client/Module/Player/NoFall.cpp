@@ -26,11 +26,11 @@ void NoFall::onSendPacket(Packet* packet) {
 		}
 	}
 	if (mode.selected == 4) {
-		if (packet->isInstanceOf<PlayerAuthInputPacket>() && !Game.getLocalPlayer()->isOnGround()) {
+		if (packet->isInstanceOf<PlayerAuthInputPacket>() && !Game.getLocalPlayer()->getMovementProxy()->isOnGround()) {
 			PlayerAuthInputPacket* authInput = reinterpret_cast<PlayerAuthInputPacket*>(packet);
 			authInput->pos = closestGround;
 		}
-		/*if (packet->isInstanceOf<MovePlayerPacket>() && !Game.getLocalPlayer()->isOnGround()) { I don't know if this is better to have or not
+		/*if (packet->isInstanceOf<MovePlayerPacket>() && !Game.getLocalPlayer()->getMovementProxy()->isOnGround()) { I don't know if this is better to have or not
 			MovePlayerPacket* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			movePacket->Position = closestGround;
 		}*/
@@ -39,7 +39,7 @@ void NoFall::onSendPacket(Packet* packet) {
 
 bool NoFall::isOverVoid() {
 	for (float posY = Game.getLocalPlayer()->getPos()->y; posY > 0.0f; --posY) {
-		if (!(Game.getLocalPlayer()->getRegion()->getBlock(Vec3(Game.getLocalPlayer()->getPos()->x, posY, Game.getLocalPlayer()->getPos()->z))->blockLegacy->blockId == 0)) {
+		if (!(Game.getLocalPlayer()->region->getBlock(Vec3(Game.getLocalPlayer()->getPos()->x, posY, Game.getLocalPlayer()->getPos()->z))->blockLegacy->blockId == 0)) {
 			return false;
 		}
 	}
@@ -59,21 +59,21 @@ void NoFall::onTick(GameMode* gm) {
 				break;
 			}
 			case 2: {
-				localPlayer->entityLocation->velocity.y = 0.f;
+				localPlayer->location->velocity.y = 0.f;
 				localPlayer->setPos((*localPlayer->getPos()).add(0, (float)0.2, 0.f));
 				break;
 			}
 			case 3: {
 				PlayerActionPacket actionPacket;
 				actionPacket.action = 15;  // Open Elytra
-				actionPacket.entityRuntimeId = localPlayer->dimension->dimensionId;
+				actionPacket.entityRuntimeId = localPlayer->getRuntimeIDComponent()->runtimeID;
 				Game.getClientInstance()->loopbackPacketSender->sendToServer(&actionPacket);
 			}
 			case 4: {
 				Vec3 blockBelow = *localPlayer->getPos();
 				blockBelow.y -= localPlayer->aabb->height;
 				blockBelow.y -= 0.17999f;
-				while (localPlayer->getRegion()->getBlock(blockBelow)->blockLegacy->blockId == 0 && !localPlayer->getRegion()->getBlock(blockBelow)->blockLegacy->isSolid) {
+				while (localPlayer->region->getBlock(blockBelow)->blockLegacy->blockId == 0 && !localPlayer->region->getBlock(blockBelow)->blockLegacy->material->isSolid) {
 					blockBelow.y -= 1.f;
 					if (isOverVoid()) {
 						return;

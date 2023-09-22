@@ -48,7 +48,7 @@ void Tracer::onPreRender(MinecraftUIRenderContext* renderCtx) {
 				Vec2 screenSize;
 				screenSize.x = Game.getGuiData()->widthGame;
 				screenSize.y = Game.getGuiData()->heightGame;
-				refdef2->OWorldToScreen(Game.getClientInstance()->levelRenderer->getOrigin(), ent->getRenderPos(), target, Game.getClientInstance()->getFov(), screenSize);
+				refdef2->OWorldToScreen(Game.getClientInstance()->levelRenderer->getOrigin(), ent->getRenderPositionComponent()->renderPos, target, Game.getClientInstance()->getFov(), screenSize);
 				Vec2 mid(((Game.getClientInstance()->getGuiData()->widthGame) / 2), ((Game.getClientInstance()->getGuiData()->heightGame) / 2));
 				if (target != Vec2(0, 0)) {
 					DrawUtils::setColor(255, 255, 255, 1);

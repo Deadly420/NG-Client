@@ -25,11 +25,9 @@ void Derp::onTick(GameMode* gm) {
 		Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);
 	} else {
 		if (epicStroke) {
-			gm->player->getActorHeadRotationComponent()->rot.x = (float)(rand() % 360);
-			gm->player->getMobBodyRotationComponent()->bodyRot = (float)(rand() % 360);
+			gm->player->getMovementProxy()->setRot(Vec2((float)(rand() % 360), (float)(rand() % 360)));
 		} else {
-			gm->player->getActorHeadRotationComponent()->rot.x = (float)(counter % 360);
-			gm->player->getMobBodyRotationComponent()->bodyRot = (float)(counter % 360);
+			gm->player->getMovementProxy()->setRot(Vec2((float)(counter % 360), (float)(counter % 360)));
 		}
 	}
 

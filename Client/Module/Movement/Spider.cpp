@@ -57,14 +57,14 @@ void Spider::onMove(MoveInputHandler* input) {
 			Vec3i side = pPosI.add(0, yOff, 0).add(current);
 			if (side.y < 0 || side.y >= 256)
 				break;
-			auto block = player->getRegion()->getBlock(side);
+			auto block = player->region->getBlock(side);
 			if (block == nullptr || block->blockLegacy == nullptr)
 				continue;
 			BlockLegacy* blockLegacy = block->toLegacy();
 			if (blockLegacy == nullptr)
 				continue;
 			AABB collisionVec;
-			if (!blockLegacy->getCollisionShape(&collisionVec, block, player->getRegion(), &side, player))
+			if (!blockLegacy->getCollisionShape(&collisionVec, block, player->region, &side, player))
 				continue;
 			bool intersects = ignoreYcoll ? collisionVec.intersectsXZ(player->aabb->expandedXZ(0.1f)) : collisionVec.intersects(player->aabb->expandedXZ(0.1f));
 			
@@ -125,13 +125,13 @@ void Spider::onMove(MoveInputHandler* input) {
 		if (targetDist <= 0)
 			return;
 
-		auto [curDist, curYVel, curT] = distanceError(player->entityLocation->velocity.y, targetDist);
+		auto [curDist, curYVel, curT] = distanceError(player->location->velocity.y, targetDist);
 		
 		//clientMessageF("current trajectory error=%.3f t=%i vel=%.3f total=%.2f", curDist, curT, curYVel, targetDist);
 		if (curDist <= 0.01f) 
 			return;  // We will already get on top of the block
 
-		if (player->entityLocation->velocity.y < speed) {
+		if (player->location->velocity.y < speed) {
 			// do another simulation to determine whether we would overshoot on the next iteration
 			auto secondTrajectory = distanceError(speed, targetDist);
 			//clientMessageF("secondTrajectory: error=%.3f t=%i vel=%.2f", std::get<0>(secondTrajectory), std::get<2>(secondTrajectory), std::get<1>(secondTrajectory));
@@ -139,7 +139,7 @@ void Spider::onMove(MoveInputHandler* input) {
 				
 				// use secant method to approximate perfect start speed
 				float error = curDist;
-				float startSpeed = player->entityLocation->velocity.y;
+				float startSpeed = player->location->velocity.y;
 
 				float error2 = std::get<0>(secondTrajectory);
 				float startSpeed2 = speed;
@@ -161,7 +161,7 @@ void Spider::onMove(MoveInputHandler* input) {
 		}
 	}
 	if (upperObstructed || lowerObstructed) {
-		if (player->entityLocation->velocity.y < targetSpeed)
-			player->entityLocation->velocity.y = targetSpeed;
+		if (player->location->velocity.y < targetSpeed)
+			player->location->velocity.y = targetSpeed;
 	}
 }

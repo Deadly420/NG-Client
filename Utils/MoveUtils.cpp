@@ -17,9 +17,9 @@ void MoveUtil::fullStop(bool damageTime) {
 	auto player = Game.getLocalPlayer();
 	if (player != nullptr) {
 		if (!(player->damageTime > 1 && damageTime)) {
-			player->entityLocation->velocity.x = 0.f;
-			player->entityLocation->velocity.y = 0.f;
-			player->entityLocation->velocity.z = 0.f;
+			player->location->velocity.x = 0.f;
+			player->location->velocity.y = 0.f;
+			player->location->velocity.z = 0.f;
 		}
 	}
 }
@@ -28,8 +28,8 @@ void MoveUtil::stop(bool damageTime) {
 	auto player = Game.getLocalPlayer();
 	if (player != nullptr) {
 		if (!(player->damageTime > 1 && damageTime)) {
-			player->entityLocation->velocity.x = 0.f;
-			player->entityLocation->velocity.z = 0.f;
+			player->location->velocity.x = 0.f;
+			player->location->velocity.z = 0.f;
 		}
 	}
 }
@@ -46,7 +46,7 @@ void MoveUtil::setSpeed(float speed) {
 	Vec3 moveVec;
 
 	moveVec.x = moveVec2D.x * speed;
-	moveVec.y = player->entityLocation->velocity.y;
+	moveVec.y = player->location->velocity.y;
 	moveVec.z = moveVec2D.y * speed;
 	player->lerpMotion(moveVec);
 }
@@ -58,7 +58,7 @@ bool MoveUtil::keyPressed() {
 }
 
 bool MoveUtil::isMoving() {
-	return Game.getLocalPlayer()->entityLocation->velocity.magnitudexz() > 0.05f;
+	return Game.getLocalPlayer()->location->velocity.magnitudexz() > 0.05f;
 }
 float getTicksPerSecond() {
 	if (Game.getLocalPlayer() != nullptr) {

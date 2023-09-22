@@ -37,7 +37,7 @@ void AutoClicker::onTick(GameMode* gm) {
 				bool isDestroyed = false;
 				gm->startDestroyBlock(level->block, level->blockSide, isDestroyed);
 				gm->stopDestroyBlock(level->block);
-				if (isDestroyed && player->getRegion()->getBlock(level->block)->blockLegacy->blockId != 0)
+				if (isDestroyed && player->region->getBlock(level->block)->blockLegacy->blockId != 0)
 					gm->destroyBlock(&level->block, 0);
 			}
 			delay = 0;

@@ -20,10 +20,10 @@ void GuiData::displayClientMessage(std::string *a2) {
 void GuiData::displayClientMessageF(const char *fmt, ...) {
 	va_list arg;
 	va_start(arg, fmt);
-	displayClientMessageVA(fmt, arg, true);
+	displayClientMessageVA(fmt, arg);
 	va_end(arg);
 }
-void GuiData::displayClientMessageVA(const char *fmt, va_list lis, bool sendToInjector) {
+void GuiData::displayClientMessageVA(const char *fmt, va_list lis) {
 	auto lengthNeeded = _vscprintf(fmt, lis) + 1;
 	if (lengthNeeded >= 300) {
 		logF("A message that was %i characters long could not be fitted into the buffer", lengthNeeded);
@@ -33,18 +33,43 @@ void GuiData::displayClientMessageVA(const char *fmt, va_list lis, bool sendToIn
 	char message[300];
 	vsprintf_s(message, 300, fmt, lis);
 	std::string msg(message);
-	if (sendToInjector)
-		Logger::SendToConsoleF(message);
 	displayClientMessage(&msg);
 }
 void GuiData::displayClientMessageNoSendF(const char *fmt, ...) {
 	va_list arg;
 	va_start(arg, fmt);
-	displayClientMessageVA(fmt, arg, false);
+	displayClientMessageVA(fmt, arg);
 	va_end(arg);
 }
 
-mce::MaterialPtr *mce::MaterialPtr::createMaterial(HashedString materialName) {
+// Use mce::MaterialPtr::createMaterial
+mce::MaterialPtr::MaterialPtr(HashedString materialName, bool switchable) {
+	using materialPtrConst_t = void(__fastcall *)(mce::MaterialPtr *, __int64, const HashedString *);
+	static materialPtrConst_t materialPtrConst = reinterpret_cast<materialPtrConst_t>(FindSignature("48 89 4C 24 ? ? 48 83 EC ? 4C 8B CA 48 8B D9 ? ? 48 89 01 48 89 41 ? 48 8B 02 49 8B D0 49 8B C9 48 8B 40 ? ? ? ? ? ? ? 4C 8B C0"));
+
+	static __int64 renderGroupBase = 0, switchableRenderGroupBase = 0;
+
+	if (renderGroupBase == 0) {
+		auto sig = FindSignature("48 8D 0D ? ? ? ? 48 8B 40 ? ? ? ? ? ? ? 48 8B F8 48 8B 50 ? 48 85 D2") + 3;
+
+		auto off = *reinterpret_cast<int *>(sig);
+		renderGroupBase = sig + 4 + off;
+	}
+
+	if (switchableRenderGroupBase == 0) {
+		auto sig = FindSignature("48 8D 0D ? ? ? ? 48 8B 40 ? ? ? ? ? ? ? 48 8B D8 48 8B 50 ? 48 85 D2 74") + 3;
+
+		auto off = *reinterpret_cast<int *>(sig);
+		renderGroupBase = sig + 4 + off;
+	}
+
+	__int64 useRenderGroupBase = switchable ? switchableRenderGroupBase : renderGroupBase;
+
+	//HashedString hashedStr(materialName);
+	materialPtrConst(this, useRenderGroupBase, &materialName);
+}
+
+mce::MaterialPtr* mce::MaterialPtr::createMaterial(HashedString materialName) {
 	static __int64 *materialCreator = nullptr;
 
 	if (materialCreator == nullptr) {

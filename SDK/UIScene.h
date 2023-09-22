@@ -1,7 +1,5 @@
 #pragma once
-
 #include "TextHolder.h"
-#include "../Utils/Utils.h"
 
 class UIScene {
 public:

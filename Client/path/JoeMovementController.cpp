@@ -47,7 +47,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 	// we should probably make seperate classes for each segment type at some point, but im just doing it here for now for faster prototyping
 	switch(curSeg.getSegmentType()){
 	case JUMP: {
-		if(player->isOnGround()){
+		if (player->getMovementProxy()->isOnGround()) {
 			if(fabsf(pPos.y - end.y) < 0.1f && pPos.dist(end) < 0.5f) {  // Check for end condition
 				stateInfo.nextSegment();
 				break;
@@ -57,7 +57,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 			tangent = tangent.normalize();
 			auto crossTangent = tangent.cross({0, 1, 0});
 
-			if ((player->getTicksUsingItem() > 0 || fabsf(player->entityLocation->velocity.dot(crossTangent)) > 0.02f) && fabsf(pPos.y - end.y) > 0.1f) {
+			if ((player->getTicksUsingItem() > 0 || fabsf(player->location->velocity.dot(crossTangent)) > 0.02f) && fabsf(pPos.y - end.y) > 0.1f) {
 				walkTarget = start;
 				goto WALK;
 			}
@@ -83,13 +83,13 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 	} break;
 	case DROP: {
 		bool inWater = player->isInWater();
-		if(player->isOnGround() || inWater){
+		if (player->getMovementProxy()->isOnGround() || inWater) {
 			dComp = 1;
-			if(fabsf(pPos.y - end.y) < (inWater ? 0.2f : 0.1f) && pPos.sub(end).magnitudexz() < 0.5f && player->entityLocation->velocity.y > -0.1f){// Check for end condition
+			if(fabsf(pPos.y - end.y) < (inWater ? 0.2f : 0.1f) && pPos.sub(end).magnitudexz() < 0.5f && player->location->velocity.y > -0.1f){// Check for end condition
 				stateInfo.nextSegment();
 				break;
 			}else if(inWater){
-				if(pPos.y < end.y || player->entityLocation->velocity.y < 0.12f)
+				if(pPos.y < end.y || player->location->velocity.y < 0.12f)
 					movementHandler->isJumping = 1;
 			}
 		}else{
@@ -106,7 +106,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 		goto WALK;
 	} break;
 	case PARKOUR_JUMP_SINGLE: {
-		if(player->isOnGround()){
+		if (player->getMovementProxy()->isOnGround()) {
 			if(fabsf(pPos.y - end.y) < 0.1f && pPos.dist(end) < 0.5f){// Check for end condition
 				stateInfo.nextSegment();
 				break;
@@ -134,7 +134,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 			float maxJumpDist = 0.3f;
 			if(start.sub(end).magnitudexz() <= 1.1f)
 				maxJumpDist = 0.7f;
-			if(posToJumpTarg < maxJumpDist && posToJumpTarg > 0 && player->entityLocation->velocity.dot(tangent) > 0.07f){
+			if(posToJumpTarg < maxJumpDist && posToJumpTarg > 0 && player->location->velocity.dot(tangent) > 0.07f){
 				// jump
 				curSeg.setAllowSprint(true);
 				player->setSprinting(true);
@@ -188,15 +188,15 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 
 			Vec3 flow{};
 
-			auto block = player->getRegion()->getBlock(playerNode);
+			auto block = player->region->getBlock(playerNode);
 			if(!block->toLegacy()->material->isLiquid){
 				auto mod = playerNode.add(0, -1, 0);
-				block = player->getRegion()->getBlock(mod);
+				block = player->region->getBlock(mod);
 
 				if(block->toLegacy()->material->isLiquid)
-					block->toLegacy()->liquidGetFlow(&flow, player->getRegion(), &mod);
+					block->toLegacy()->liquidGetFlow(&flow, player->region, &mod);
 			}else{
-				block->toLegacy()->liquidGetFlow(&flow, player->getRegion(), &playerNode);
+				block->toLegacy()->liquidGetFlow(&flow, player->region, &playerNode);
 			}
 
 			flow = flow.mul(-1 * 0.07f * 10);
@@ -210,13 +210,13 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 
 		auto pPosD = pPos; // p
 
-		if(!player->isOnGround() && dComp < 2){
+		if (!player->getMovementProxy()->isOnGround() && dComp < 2) {
 			dComp = 2;
 		}
 
-		pPosD = pPosD.add(player->entityLocation->velocity.mul(dComp, 0, dComp));  // d
+		pPosD = pPosD.add(player->location->velocity.mul(dComp, 0, dComp));  // d
 
-		if(player->isOnGround() && end.y < start.y && fabsf(start.y - pPosD.y) < 0.1f && player->getTicksUsingItem() > 0 && end.sub(start).magnitudexz() > 1.5f){
+		if (player->getMovementProxy()->isOnGround() && end.y < start.y && fabsf(start.y - pPosD.y) < 0.1f && player->getTicksUsingItem() > 0 && end.sub(start).magnitudexz() > 1.5f) {
 			// drop with a gap
 			// player is using item, walk back to start pos
 			walkTarget = start;
@@ -249,7 +249,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 		//logF("%.2f %.2f %.2f %i", diff2d.x, diff2d.y, pPos.y, player->isOnGround());
 
 		if(pPos.dist(end) < 0.2f){
-			if(hasNextSeg || player->entityLocation->velocity.magnitudexz() < 0.02f /*slow down for last segment*/){
+			if(hasNextSeg || player->location->velocity.magnitudexz() < 0.02f /*slow down for last segment*/){
 				stateInfo.nextSegment();
 				break;
 			}

@@ -1,77 +1,129 @@
 #pragma once
+
+#include "BlockLegacy.h"
+#include "../Utils/HMath.h"
+
+class Entity;
 class HashedString;
+class Packet;
+class Player;
+class Weather;
 
 class Dimension {
-private:
-	char pad_0x0[0x5A];  //0x0
 public:
-	__int16 maxHeight;  //0x5A
+	BUILD_ACCESS(this, TextHolder, dimensionName, 0x20);
+	BUILD_ACCESS(this, int16_t, minHeight, 0xC8);
+	BUILD_ACCESS(this, int16_t, maxHeight, 0xCA);
+	//BUILD_ACCESS(this, class BrightnessRamp*, brightnessRamp, 0x128);
+	BUILD_ACCESS(this, int, dimensionId, 0x160);
+	BUILD_ACCESS(this, bool, hasCeiling, 0x165);
+	BUILD_ACCESS(this, bool, hasSkylight, 0x167);
+	BUILD_ACCESS(this, Weather *, weather, 0x1A8);
+	//BUILD_ACCESS(this, __int64, seasons, 0x1B0);
+
 private:
-	char pad_0x5E[0x5A];  //0x5E
+	virtual void unknown1(); // 1
+
 public:
-	class BrightnessRamp *brightnessRamp;  //0xB8
+	virtual int getDimensionId(void); // 2
+	virtual void sendPacketForPosition(Vec3i const &, Packet const &, Player const *); // 3
+	virtual void flushLevelChunkGarbageCollector(void); // 4
+	virtual void init(void); // 5
+	virtual void tick(void); // 6
+	virtual void tickRedstone(void); // 7
+
 private:
-	char pad_0xC0[0x20];  //0xC0
+	virtual void unknown2(); // 8
+	virtual void unknown3(); // 9
+	virtual void unknown4(); // 10
+	virtual void unknown5(); // 11
+	virtual void unknown6(); // 12
+
 public:
-	int dimensionId;  //0xE0
+	virtual float getBrightnessDependentFogColor(__int64 const &, float); // 13
+
 private:
-	char pad_0xE4[0x1];  //0xE4
+	virtual void unknown7(); // 14
+	virtual void unknown8(); // 15
+
 public:
-	bool hasCeiling;  //0xE5
+	virtual int getCloudHeight(void); // 16
+	virtual int getDefaultBiome(void); // 17
+
 private:
-	char pad_0xE6[0x2];  //0xE6
+	virtual void unknown9(); // 18
+	virtual void unknown10(); // 19
+
 public:
-	int timeThingy;  //0xE8
+	virtual int getSize(__int64); // 20
+
 private:
-	char pad_0xEC[0x34];  //0xEC
+	virtual void unknown11(); // 21
+	virtual void unknown12(); // 22
+
 public:
-	class Weather *weather;  //0x120
+	virtual int getClearColorScale(void); // 23
+
+private:
+	virtual void unknown13(); // 24
+public:
+	virtual bool isDay(void); // 25
+	virtual float getTimeOfDay(int, float); // 26
+	virtual float getSunIntensity(float, Vec3 const &, float); // 27
+
+private:
+	virtual void unknown14(); // 28
+	virtual void unknown15(); // 29
+
+public:
+	virtual void sendBroadcast(Packet const &, Player *); // 30
+	virtual bool is2DPositionRelevantForPlayer(Vec3i const &, Player &); // 31
+	virtual bool isActorRelevantForPlayer(Player &, Entity const &); // 32
+	virtual int getLightTextureImageBuilder(void); // 33
+	virtual int getBrightnessRamp(void); // 34
+	virtual void startLeaveGame(void); // 35
+	virtual void _createChunkBuildOrderPolicy(void); // 36
+
+private:
+	virtual void unknown16(); // 37
+	virtual void unknown17(); // 38
 };
 
-class BlockSource;
-class CompoundTag;
-class Entity;
-class Block;
-
 class Weather {
-private:
-	char pad_0x8[0x44];  //0x8
 public:
-	float fogLevel;  //0x4C
+	BUILD_ACCESS(this, float, rainVar1, 0x34);
+	BUILD_ACCESS(this, float, rainLevel, 0x38);
+	BUILD_ACCESS(this, float, lightningVar1, 0x40);
+	BUILD_ACCESS(this, float, lightningLevel, 0x44);
+	BUILD_ACCESS(this, float, fogLevel, 0x4C);
 
-	virtual ~Weather();
-	virtual void onSourceCreated(BlockSource &);
-	virtual void onSourceDestroyed(BlockSource &);
-	virtual void onAreaChanged(BlockSource &, Vec3i const &, Vec3i const &);
-	virtual void onBlockChanged(BlockSource &, Vec3i const &, unsigned int, Block const &, Block const &, int, class ActorBlockSyncMessage const *, class BlockChangedEventTarget);
-	virtual void onBrightnessChanged(BlockSource &, Vec3i const &);
-	virtual void onBlockEntityChanged(BlockSource &, class BlockActor &);
-	virtual void onBlockEntityAboutToBeRemoved(BlockSource &, std::shared_ptr<BlockActor>);
-	virtual void onEntityChanged(BlockSource &, Entity &);
-	virtual void onBlockEvent(BlockSource &, int, int, int, int, int);
-	virtual void allChanged(void);
-	virtual void addParticle(class ParticleType, Vec3 const &, Vec3 const &, int, CompoundTag const *, bool);
-	virtual void sendServerLegacyParticle(ParticleType, Vec3 const &, Vec3 const &, int);
-	virtual void addParticleEffect(HashedString const &, Vec3 const &, class MolangVariableMap const &);
-	virtual void addParticleEffect2(HashedString const &, Entity const &, HashedString const &, Vec3 const &, MolangVariableMap const &);
-	virtual void addTerrainParticleEffect(Vec3i const &, Block const &, Vec3 const &, float, float, float);
-	virtual void addTerrainSlideEffect(Vec3i const &, Block const &, Vec3 const &, float, float, float);
-	virtual void addBreakingItemParticleEffect(Vec3 const &, ParticleType, struct TextureUVCoordinateSet const &, bool);
-	virtual void playMusic(std::string const &, Vec3 const &, float, float);
-	virtual void playStreamingMusic(std::string const &, int, int, int);
-	virtual void onEntityAdded(Entity &);
-	virtual void onEntityRemoved(Entity &);
-	virtual void onChunkLoaded(class ChunkSource &, class LevelChunk &);
-	virtual void onChunkReloaded(ChunkSource &, LevelChunk &);
-	virtual void onSubChunkLoaded(ChunkSource &, LevelChunk &, short);
-	virtual void onChunkUnloaded(LevelChunk &);
-	virtual void onLevelDestruction(std::string const &);
-	virtual void levelEvent(class LevelEvent, Vec3 const &, int);
-	virtual void levelEvent(LevelEvent, CompoundTag const &);
-	virtual void levelSoundEvent(class LevelSoundEvent, Vec3 const &, int, class ActorDefinitionIdentifier const &, bool, bool);
-	virtual void levelSoundEvent(std::string const &, Vec3 const &, float, float);
-	virtual void stopSoundEvent(std::string const &);
-	virtual void stopAllSounds(void);
-	virtual void takePicture(__int64 &, Entity *, Entity *, struct ScreenshotOptions &);
-	virtual void playerListChanged(void);
+	float getRainLevel(float a1) {
+		return (rainLevel - rainVar1) * a1 + rainVar1;
+	}
+
+	float getLightningLevel(float a1) {
+		return (lightningLevel - lightningVar1) * a1 + lightningVar1;
+	}
+
+	bool isRaining() {
+		return rainLevel > 0.2f;
+	}
+
+	bool isLightning() {
+		return lightningLevel * rainLevel > 0.89999998f;
+	}
+
+	bool isRainingAt(BlockSource* source, Vec3i pos) {
+		using isRainingAt = void(__thiscall *)(Weather *, BlockSource *, Vec3i *);
+		static isRainingAt isRainingAtFunc = reinterpret_cast<isRainingAt>(FindSignature("48 89 5C 24 ? 57 48 83 EC 20 49 8B D8 48 8B FA E8 ? ? ? ? 84 C0 74 2E 48 8B D3 48 8B CF E8 ? ? ? ? 4C 8B C3 48 8B D7 48 8B C8 E8 ? ? ? ? 0F 2F 05 ? ? ? ? 0F 97"));
+		isRainingAtFunc(this, source, &Vec3i(pos));
+	}
+
+	bool isSnowingAt(BlockSource* source, Vec3i pos) {
+		using isSnowingAt = void(__thiscall *)(Weather *, BlockSource *, Vec3i *);
+		static isSnowingAt isSnowingAtFunc = reinterpret_cast<isSnowingAt>(FindSignature("48 89 5C 24 ? 57 48 83 EC 20 49 8B D8 48 8B FA E8 ? ? ? ? 84 C0 74 2E 48 8B D3 48 8B CF E8 ? ? ? ? 4C 8B C3 48 8B D7 48 8B C8 E8 ? ? ? ? 0F 2F 05 ? ? ? ? 0F 96"));
+		isSnowingAtFunc(this, source, &Vec3i(pos));
+	}
+
+	// Removed Vtable because it's filled with unknown shit pointing to nowhere
 };

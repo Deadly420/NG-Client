@@ -46,69 +46,69 @@ void EntityJesus::onTick(GameMode* gm) {
 		pos.z = targetBo[0]->aabb->upper.z;
 		pos.x = targetBo[0]->aabb->upper.x;  // upper upper
 
-		Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->lower.x;
 		pos.z = targetBo[0]->aabb->lower.z;  // lower lower
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->lower.x;
 		pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		if (targetBo[0]->isInWater()) {
-			targetBo[0]->entityLocation->velocity.y = 0.1f;
-			targetBo[0]->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.1f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
 
 			if (targetBo[0]->isSneaking()) return;
 			if (targetBo[0]->isOnFire()) return;
@@ -119,69 +119,69 @@ void EntityJesus::onTick(GameMode* gm) {
 			pos.z = targetBo[0]->aabb->upper.z;
 			pos.x = targetBo[0]->aabb->upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->lower.x;
 			pos.z = targetBo[0]->aabb->lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.01f;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->lower.x;
 			pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			if (targetBo[0]->isOnHotBlock() || targetBo[0]->isOnHotBlock()) {
-				targetBo[0]->entityLocation->velocity.y = 0.1f;
-				targetBo[0]->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.1f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
 			}
 		}
 	}
@@ -201,69 +201,69 @@ void EntityJesus::onLevelRender() {
 		pos.z = targetBo[0]->aabb->upper.z;
 		pos.x = targetBo[0]->aabb->upper.x;  // upper upper
 
-		Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->lower.x;
 		pos.z = targetBo[0]->aabb->lower.z;  // lower lower
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		pos.x = targetBo[0]->aabb->lower.x;
 		pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
 
-		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
-		if (blockLegacy->material->isLiquid && targetBo[0]->entityLocation->velocity.y <= 0) {
+		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 			pos.y = ceilf(pos.y);
 			pos.y += upness;
 			targetBo[0]->setPos(pos);
-			targetBo[0]->setOnGround(true);
-			targetBo[0]->entityLocation->velocity.y = 0.f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.f;
 		}
 
 		if (targetBo[0]->isInWater()) {
-			targetBo[0]->entityLocation->velocity.y = 0.1f;
-			targetBo[0]->setOnGround(true);
+			targetBo[0]->location->velocity.y = 0.1f;
+			targetBo[0]->getMovementProxy()->setOnGround(true);
 
 			if (targetBo[0]->isSneaking()) return;
 			if (targetBo[0]->isOnFire()) return;
@@ -274,69 +274,69 @@ void EntityJesus::onLevelRender() {
 			pos.z = targetBo[0]->aabb->upper.z;
 			pos.x = targetBo[0]->aabb->upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->lower.x;
 			pos.z = targetBo[0]->aabb->lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += 0.01f;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			pos.x = targetBo[0]->aabb->lower.x;
 			pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
-			if (blockLegacy->material->isSuperHot && targetBo[0]->entityLocation->velocity.y <= 0) {
+			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
 				Vec3 pos = *targetBo[0]->getPos();
 				pos.y -= upness;
 				pos.y = ceilf(pos.y);
 				pos.y += upness;
 				targetBo[0]->setPos(pos);
-				targetBo[0]->setOnGround(true);
-				targetBo[0]->entityLocation->velocity.y = 0.f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.f;
 			}
 
 			if (targetBo[0]->isOnHotBlock() || targetBo[0]->isOnHotBlock()) {
-				targetBo[0]->entityLocation->velocity.y = 0.1f;
-				targetBo[0]->setOnGround(true);
+				targetBo[0]->location->velocity.y = 0.1f;
+				targetBo[0]->getMovementProxy()->setOnGround(true);
 			}
 		}
 	}
