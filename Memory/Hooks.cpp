@@ -206,10 +206,10 @@ void Hooks::Init() {
 
 		//The reason im using a sig is that injecting on the menu causes LocalPlayer to be null, so I cant get the vtable from just doing Game.getLocalPlayer(). Same with Game mode bc I get that from local player.
 		// LocalPlayer::vtable
-		{
-			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8d 05 ? ? ? ? 48 89 01 48 8b 89 ? ? ? ? 48 8b 01 ff 90 ? ? ? ? 48 8b 10", 3);
+		if (Game.isInGame() || Game.canUseMoveKeys()) {
+			uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getLocalPlayer());
 			if (localPlayerVtable == 0x0)
-				logF("LocalPlayer signature not working!!!");
+				logF("LocalPlayer not working!!!");
 			else {
 				g_Hooks.Actor_startSwimmingHook = std::make_unique<FuncHook>(localPlayerVtable[200], Hooks::Actor_startSwimming);
 
