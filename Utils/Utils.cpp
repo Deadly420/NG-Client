@@ -242,7 +242,7 @@ uintptr_t Utils::FindSignatureModule(const char* szModule, const char* szSignatu
 }
 
 uintptr_t Utils::getOffsetFromSignature(const char* szSignature, int offset) {
-	static uintptr_t signatureOffset = 0x0;
+	uintptr_t signatureOffset = 0x0;
 	if (signatureOffset == 0x0) {
 		uintptr_t sigOffset = FindSignature(szSignature);
 		if (sigOffset != 0x0) {
@@ -255,7 +255,7 @@ uintptr_t Utils::getOffsetFromSignature(const char* szSignature, int offset) {
 }
 
 uintptr_t** Utils::getVtableFromSignature(const char* szSignature, int offset) {
-	static uintptr_t** signatureOffset = 0x0;
+	uintptr_t** signatureOffset = 0x0;
 	if (signatureOffset == 0x0) {
 		uintptr_t sigOffset = FindSignature(szSignature);
 		if (sigOffset != 0x0) {
