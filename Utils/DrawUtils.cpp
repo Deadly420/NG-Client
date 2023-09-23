@@ -2,7 +2,7 @@
 
 #include "../Client/Module/ModuleManager.h"
 #include <Windows.h>
-#include "../Utils/Logger.h"
+#include "../Utils/Logging.h"
 #include <glm/ext/matrix_transform.hpp>
 
 using tess_vertex_t = void(__fastcall*)(Tessellator* _this, float v1, float v2, float v3);

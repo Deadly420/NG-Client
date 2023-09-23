@@ -1,6 +1,6 @@
 #include "TestModule.h"
 #include "../../../include/imgui/imgui.h"
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/VoxelIntersector.h"
 #include "../../../Utils/DrawUtils.h"
 #include "../../../SDK/MatrixStack.h"

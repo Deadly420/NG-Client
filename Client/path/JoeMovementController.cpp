@@ -1,6 +1,6 @@
 #include "JoeMovementController.h"
 
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 #include <utility>
 JoeMovementController::JoeMovementController(std::shared_ptr<JoePath> path) : currentPath(path) {
 }

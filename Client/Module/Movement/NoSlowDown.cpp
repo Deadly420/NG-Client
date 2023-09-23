@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/Utils.h"
 
 NoSlowDown::NoSlowDown() : Module(0x0, Category::MOVEMENT, "Don't get slowed down when blocking or eating.") {

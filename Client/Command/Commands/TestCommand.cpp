@@ -1,5 +1,5 @@
 #include "TestCommand.h"
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/Utils.h"
 #include <sstream>
 #include "../../../SDK/Tag.h"

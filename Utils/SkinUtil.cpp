@@ -6,7 +6,7 @@
 #include <Windows.h>
 
 #include "Utils.h"
-#include "Logger.h"
+#include "Logging.h"
 #include "Json.hpp"
 #include <fstream>
 #include <sstream>

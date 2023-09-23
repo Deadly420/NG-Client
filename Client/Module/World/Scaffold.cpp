@@ -1,6 +1,6 @@
 #include "Scaffold.h"
 
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/DrawUtils.h"
 #include "../../Module/ModuleManager.h"
 

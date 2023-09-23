@@ -2,7 +2,7 @@
 
 #include <cstdarg>
 
-#include "../Utils/Logger.h"
+#include "../Utils/Logging.h"
 #include "../Utils/Utils.h"
 
 __int64 MinecraftGame::getServerEntries() {

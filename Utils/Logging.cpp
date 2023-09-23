@@ -1,4 +1,4 @@
-#include "Logger.h"
+#include "Logging.h"
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -24,11 +24,11 @@ std::mutex injMutex;
 std::vector<TextForPrint> stringPrintVector = std::vector<TextForPrint>();
 std::vector<std::shared_ptr<TextForPrintBig>> stringSendToInjector;
 
-bool Logger::isActive() {
+bool Logging::isActive() {
 	return loggerActive && initializedLogger;
 }
 
-std::wstring Logger::GetRoamingFolderPath() {
+std::wstring Logging::GetRoamingFolderPath() {
 	ComPtr<IApplicationDataStatics> appDataStatics;
 	auto hr = RoGetActivationFactory(HStringReference(L"Windows.Storage.ApplicationData").Get(), __uuidof(appDataStatics), &appDataStatics);
 	if (FAILED(hr)) throw std::runtime_error("Failed to retrieve application data statics");
@@ -54,7 +54,7 @@ std::wstring Logger::GetRoamingFolderPath() {
 	return std::wstring(roamingPathCStr, pathLength);
 }
 
-void Logger::WriteLogs(volatile char* fmt, ...) {
+void Logging::WriteLogs(volatile char* fmt, ...) {
 	if (!loggerActive)
 		return;
 	FILE* pFile;
@@ -98,30 +98,30 @@ void Logger::WriteLogs(volatile char* fmt, ...) {
 			TextForPrint textForPrint;
 			strcpy_s(textForPrint.text, 100, logMessage);
 			strcpy_s(textForPrint.time, 20, timeStamp);
-			auto lock = Logger::GetTextToPrintLock();
+			auto lock = Logging::GetTextToPrintLock();
 			stringPrintVector.push_back(textForPrint);
 		}
 	}
 	LeaveCriticalSection(&loggerLock);
 }
 
-std::vector<TextForPrint>* Logger::GetTextToPrint() {
+std::vector<TextForPrint>* Logging::GetTextToPrint() {
 	return &stringPrintVector;
 }
 
-std::vector<std::shared_ptr<TextForPrintBig>>* Logger::GetTextToSend() {
+std::vector<std::shared_ptr<TextForPrintBig>>* Logging::GetTextToSend() {
 	return &stringSendToInjector;
 }
 
-std::lock_guard<std::mutex> Logger::GetTextToPrintLock() {
+std::lock_guard<std::mutex> Logging::GetTextToPrintLock() {
 	return std::lock_guard<std::mutex>(vecMutex);
 }
 
-void Logger::Disable() {
+void Logging::Disable() {
 	loggerActive = false;
 #ifdef _DEBUG
 	EnterCriticalSection(&loggerLock);
-	auto lock = Logger::GetTextToPrintLock();
+	auto lock = Logging::GetTextToPrintLock();
 	LeaveCriticalSection(&loggerLock);
 	Sleep(50);
 

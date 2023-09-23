@@ -16,7 +16,7 @@
 #pragma comment(lib, "runtimeobject")
 
 #ifndef Log
-#define Log(x, ...) Logger::WriteLogs(XorString(x), __VA_ARGS__)
+#define Log(x, ...) Logging::WriteLogs(XorString(x), __VA_ARGS__)
 #endif
 
 struct TextForPrint {
@@ -29,7 +29,7 @@ struct TextForPrintBig {
 	char text[2900];
 };
 
-class Logger {
+class Logging {
 
 public:
 	static bool isActive();

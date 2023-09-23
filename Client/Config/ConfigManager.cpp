@@ -2,7 +2,7 @@
 
 #include <windows.storage.h>
 #include <wrl.h>
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 
 using namespace ABI::Windows::Storage;
 using namespace Microsoft::WRL;

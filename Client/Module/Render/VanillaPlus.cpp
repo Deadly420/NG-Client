@@ -2,7 +2,7 @@
 #include "../../../Utils/Utils.h"
 #include <Windows.h>
 
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 
 unsigned char flyingItemsPrevCodeBuf[26];
 unsigned char* flyingItemsFuncPtr = 0;

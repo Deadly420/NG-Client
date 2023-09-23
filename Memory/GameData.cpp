@@ -4,7 +4,7 @@
 
 #include <set>
 
-#include "../Utils/Logger.h"
+#include "../Utils/Logging.h"
 #include "../Utils/Utils.h"
 #include "Hooks.h"
 
@@ -104,8 +104,8 @@ void GameData::updateGameData(GameMode* gameMode) {
 }
 
 void GameData::displayMessages(GuiData* guiData) {
-	auto vecLock = Logger::GetTextToPrintLock();
-	auto* stringPrintVector = Logger::GetTextToPrint();
+	auto vecLock = Logging::GetTextToPrintLock();
+	auto* stringPrintVector = Logging::GetTextToPrint();
 #ifdef _DEBUG
 	int numPrinted = 0;
 	std::vector<TextForPrint>::iterator it;

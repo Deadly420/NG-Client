@@ -1,7 +1,7 @@
 #include "Tag.h"
 
 #include "../Memory/GameData.h"
-#include "../Utils/Logger.h"
+#include "../Utils/Logging.h"
 #include "../Utils/Utils.h"
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN

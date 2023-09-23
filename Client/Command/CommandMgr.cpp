@@ -1,5 +1,5 @@
 #include "CommandMgr.h"
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 
 CommandMgr::CommandMgr(GameData* gm) {
 	gameData = gm;

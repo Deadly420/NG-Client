@@ -1,5 +1,5 @@
 #include "ModuleManager.h"
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 
 using json = nlohmann::json;
 

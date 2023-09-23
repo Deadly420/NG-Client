@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "../../Memory/GameData.h"
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 #include "../../Utils/Utils.h"
 
 JoePathFinder::JoePathFinder(Vec3i start, BlockSource* reg, std::shared_ptr<JoeGoal> goal) : startPos(start), region(reg), goal(goal) {

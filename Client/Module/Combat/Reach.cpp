@@ -1,7 +1,7 @@
 #include "Reach.h"
 
 #include <Windows.h>
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/Utils.h"
 
 Reach::Reach() : Module(0x0, Category::COMBAT, "Increases your reach.") {

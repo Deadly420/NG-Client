@@ -1,6 +1,6 @@
 #include "FollowPathModule.h"
 
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 
 FollowPathModule::FollowPathModule() : Module(0, Category::MOVEMENT, "Follows joe paths.") {}
 

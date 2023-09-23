@@ -1,6 +1,5 @@
 #include "AutoArmor.h"
 #include "../../../Utils/Utils.h"
-#include "../../../Utils/Logger.h"
 
 class ArmorStruct {
 public:

@@ -1,6 +1,6 @@
 #include "NbtCommand.h"
 #include "../../../Utils/Utils.h"
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../SDK/Tag.h"
 
 NbtCommand::NbtCommand() : IMCCommand("nbt", "read and write NBT tags to/from your clipboard (You have to point at an entity/block entity)", "<read/write>") {

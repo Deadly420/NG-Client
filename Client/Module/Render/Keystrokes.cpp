@@ -1,6 +1,6 @@
 #include "KeyStrokes.h"
 
-#include "../../../Utils/Logger.h"
+#include "../../../Utils/Logging.h"
 #include "../../../Utils/ColorUtil.h"
 #include "../../../Utils/DrawUtils.h"
 #include "../ModuleManager.h"

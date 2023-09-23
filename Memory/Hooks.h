@@ -41,7 +41,7 @@
 #include "../SDK/RakNetConnector.h"
 #include "../SDK/TextHolder.h"
 #include "../SDK/UIScene.h"
-#include "../Utils/Logger.h"
+#include "../Utils/Logging.h"
 #include "../Utils/SkinUtil.h"
 #include "../Utils/TextFormat.h"
 #include "../resource.h"

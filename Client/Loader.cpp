@@ -131,7 +131,7 @@ BOOL __stdcall DllMain(HMODULE hModule,
 		Hooks::Restore();
 
 		Log("Removing logger");
-		Logger::Disable();
+		Logging::Disable();
 
 		MH_Uninitialize();
 		delete moduleMgr;

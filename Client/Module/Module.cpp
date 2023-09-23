@@ -1,7 +1,7 @@
 #include "Module.h"
 #include "ModuleManager.h"
 #include "../../Utils/Json.hpp"
-#include "../../Utils/Logger.h"
+#include "../../Utils/Logging.h"
 #include <cstdarg>
 
 using json = nlohmann::json;

@@ -41,7 +41,7 @@
 #include "Utils/ChakraHelper.h"
 #include "Utils/TextFormat.h"
 #include "Utils/DllHelper.h"
-#include "Utils/Logger.h"
+#include "Utils/Logging.h"
 #include "Utils/Json.hpp"
 #include "Utils/Base64.h"
 #include "Utils/HMath.h"
