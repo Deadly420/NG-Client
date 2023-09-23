@@ -10,7 +10,7 @@ const char *FollowPathModule::getModuleName() {
 
 void FollowPathModule::startSearch(Vec3i startNode, BlockSource *region, float searchTimeout, std::function<void(bool, JoePath)> callback) {
 	if (pathFinder) {
-		logF("Already searching!");
+		Log("Already searching!");
 		return;
 	}
 	pathFinder = std::make_shared<JoePathFinder>(startNode, region, goal);
@@ -35,7 +35,7 @@ void FollowPathModule::onEnable() {
 	}
 
 	if (!goal) {
-		logF("goal not set");
+		Log("goal not set");
 		setEnabled(false);
 		return;
 	}

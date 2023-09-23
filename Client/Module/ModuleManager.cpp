@@ -13,7 +13,7 @@ ModuleManager::~ModuleManager() {
 }
 
 void ModuleManager::initModules() {
-	logF("Initializing modules.");
+	Log("Initializing modules.");
 	{
 		moduleList.emplace_back(new FollowPathModule());
 		// moduleList.emplace_back(new InventoryCleaner());

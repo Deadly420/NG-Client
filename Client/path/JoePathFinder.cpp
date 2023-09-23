@@ -460,7 +460,7 @@ JoePath JoePathFinder::findPath() {
 			if (goal->isInGoal(cur.pos)) {
 				auto now = std::chrono::high_resolution_clock::now();
 				std::chrono::duration<float> diff = now - pathSearchStart;
-				logF("Found path! Traversal: %.2f Segments: %i Time: %.2fs Total Nodes: %i NodesVisited: %i Edges: %i", cur.gScore, segments.size(), diff.count(), allNodes.size(), numNodes, numEdges);
+				Log("Found path! Traversal: %.2f Segments: %i Time: %.2fs Total Nodes: %i NodesVisited: %i Edges: %i", cur.gScore, segments.size(), diff.count(), allNodes.size(), numNodes, numEdges);
 				return JoePath(segments, false);
 			}
 
@@ -480,7 +480,7 @@ JoePath JoePathFinder::findPath() {
 		numEdges += (int)edges.size();
 		for (const auto& edge : edges) {
 			auto& edgeEndNode = allNodes.at(edge.endNode.hash);
-			// logF("(%i %i %i) %i -> (%i %i %i)", cur.pos.x, cur.pos.y, cur.pos.z, edge.type, edgeEndNode.pos.x, edgeEndNode.pos.y, edgeEndNode.pos.z);
+			// Log("(%i %i %i) %i -> (%i %i %i)", cur.pos.x, cur.pos.y, cur.pos.z, edge.type, edgeEndNode.pos.x, edgeEndNode.pos.y, edgeEndNode.pos.z);
 			if (edgeEndNode.isClosed)
 				continue;
 			float tentativeScore = cur.gScore + edge.cost;

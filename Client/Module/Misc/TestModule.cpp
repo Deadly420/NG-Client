@@ -96,7 +96,7 @@ void TestModule::onSendPacket(Packet* p) {
 	//if (p->isInstanceOf<PlayerHotbarPacket>()) {
 	//	PlayerHotbarPacket* packet = reinterpret_cast<PlayerHotbarPacket*>(p);
 		//packet->dimension = 1;
-		//logF("%i", packet->numTransactions);
+		//Log("%i", packet->numTransactions);
 	//}
 }
 
@@ -104,7 +104,7 @@ void TestModule::onSendClientPacket(Packet* p) {
 	//if (p->isInstanceOf<PlayerHotbarPacket>()) {
 	//	PlayerHotbarPacket* packet = reinterpret_cast<PlayerHotbarPacket*>(p);
 		//packet->dimension = 1;
-		//logF("%s", packet->name);
+		//Log("%s", packet->name);
 	//}
 }
 

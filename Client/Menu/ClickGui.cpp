@@ -869,7 +869,7 @@ void ClickGui::onLoadConfig(void* confVoid) {
 					}
 					savedWindowSettings[Utils::getCrcHash(catName)] = windowSettings;
 				} catch (std::exception e) {
-					logF("Config Load Error (ClickGuiMenu): %s", e.what());
+					Log("Config Load Error (ClickGuiMenu): %s", e.what());
 				}
 			}
 		}

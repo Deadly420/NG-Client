@@ -19,7 +19,7 @@ void GameData::retrieveClientInstance() {
 	static uintptr_t clientInstanceOffset = 0x0;
 	if (clientInstanceOffset == 0x0) {
 		clientInstanceOffset = GetOffsetFromSig("48 89 0D ? ? ? ? 48 89 0D ? ? ? ? 48 85 C0 74 ? 48 8B C8 E8 ? ? ? ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 48 83 C4 28 E9 ? ? ? ? 48 83 C4 28 C3 CC CC CC CC CC CC CC CC CC CC CC CC CC CC 48 83 EC 28 48 8D 0D ? ? ? ? FF 15 ? ? ? ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 48 83 C4 28 E9 ? ? ? ? 48 83 C4 28 C3 CC CC CC CC CC 48 83 EC 28 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? 48 83 C4 28 E9 ? ? ? ? 48 8D 0D", 3);
-		logF("Client: %llX", clientInstanceOffset);
+		Log("Client: %llX", clientInstanceOffset);
 	}
 	Game.clientInstance = reinterpret_cast<ClientInstance*>(Utils::readPointer<uintptr_t*>(clientInstanceOffset, {0x0, 0x0, 0x48, 0x0}));
 #ifdef _DEBUG
@@ -190,12 +190,12 @@ void GameData::initGameData(const SlimUtils::SlimModule* gameModule, SlimUtils::
 	retrieveClientInstance();
 
 #ifdef _DEBUG
-	logF("Base: %llX", Game.getModule()->ptrBase);
+	Log("Base: %llX", Game.getModule()->ptrBase);
 	if (Game.clientInstance != nullptr) {
-		logF("ClientInstance: %llX", Game.clientInstance);
-		logF("LocalPlayer: %llX", Game.getLocalPlayer());
-		logF("MinecraftGame: %llX", Game.clientInstance->minecraftGame);
-		logF("LevelRenderer: %llX", Game.clientInstance->levelRenderer);
+		Log("ClientInstance: %llX", Game.clientInstance);
+		Log("LocalPlayer: %llX", Game.getLocalPlayer());
+		Log("MinecraftGame: %llX", Game.clientInstance->minecraftGame);
+		Log("LevelRenderer: %llX", Game.clientInstance->levelRenderer);
 	}
 #endif
 }

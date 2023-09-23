@@ -38,7 +38,7 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 				currentConfigObj.clear();
 				confFile >> currentConfigObj;
 			} catch (json::parse_error& e) {
-				logF("Config Load Exception!: %s", e.what());
+				Log("Config Load Exception!: %s", e.what());
 			}
 			currentConfigObj["from"] = "NG";
 		}
@@ -75,7 +75,7 @@ void ConfigManager::loadConfig(std::string name, bool create) {
 }
 
 void ConfigManager::saveConfig() {
-	logF("Saving config %s", currentConfig.c_str());
+	Log("Saving config %s", currentConfig.c_str());
 	size_t allocSize = currentConfig.size() + roamingFolder.size() + 20;  // std::wstring::size() can be weird so lets make sure this actually fits
 	char* fullPath = new char[allocSize];
 	sprintf_s(fullPath, allocSize, "%S\\%s.h", roamingFolder.c_str(), currentConfig.c_str());
@@ -96,7 +96,7 @@ void ConfigManager::saveConfig() {
 }
 
 void ConfigManager::init() {
-	logF("Initializing config");
+	Log("Initializing config");
 	loadConfig(currentConfig, true);
 }
 

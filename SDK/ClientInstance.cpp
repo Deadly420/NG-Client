@@ -26,7 +26,7 @@ void GuiData::displayClientMessageF(const char *fmt, ...) {
 void GuiData::displayClientMessageVA(const char *fmt, va_list lis) {
 	auto lengthNeeded = _vscprintf(fmt, lis) + 1;
 	if (lengthNeeded >= 300) {
-		logF("A message that was %i characters long could not be fitted into the buffer", lengthNeeded);
+		Log("A message that was %i characters long could not be fitted into the buffer", lengthNeeded);
 		return;
 	}
 

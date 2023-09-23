@@ -35,12 +35,12 @@ void SkinUtil::importGeo(std::wstring filePath) {
 	auto hMemoryGeometry = LoadResource((HMODULE)Game.getDllModule(), hResourceGeometry);
 
 	auto ptrGeometry = LockResource(hMemoryGeometry);
-	logF("Starting geometry import");
+	Log("Starting geometry import");
 	auto mesh = SkinUtil::objToMesh(contents.c_str());
-	logF("Mesh created (verts: %i, uvs: %i, normals: %i, faces: %i)", mesh.vertices.size(), mesh.uvs.size(), mesh.normals.size(), mesh.faces.size());
+	Log("Mesh created (verts: %i, uvs: %i, normals: %i, faces: %i)", mesh.vertices.size(), mesh.uvs.size(), mesh.normals.size(), mesh.faces.size());
 	std::string moddedGeo = SkinUtil::modGeometry(reinterpret_cast<char*>(ptrGeometry), mesh);
 	Game.setCustomGeometryOverride(true, std::make_shared<std::string>(moddedGeo));
-	logF("Geometry import done");
+	Log("Geometry import done");
 
 	if (hMemoryGeometry)
 		FreeResource(hMemoryGeometry);
@@ -122,13 +122,13 @@ MeshStructs::meshData SkinUtil::objToMesh(const char* str, bool doWierdMogangStu
 
 		if (strcmp(cmd, "vt") == 0) {  // uv
 			if (args.size() != 3) {
-				logF("Faulty uv, 2 args expected: %s", line.c_str());
+				Log("Faulty uv, 2 args expected: %s", line.c_str());
 				continue;
 			}
 			uvs.push_back({std::stof(args[1]), std::stof(args[2])});
 		} else if (strcmp(cmd, "v") == 0) {  // vertex
 			if (args.size() != 4) {
-				logF("Faulty vertex, 3 args expected: %s", line.c_str());
+				Log("Faulty vertex, 3 args expected: %s", line.c_str());
 				continue;
 			}
 			if (doWierdMogangStuff) // flip x axis
@@ -137,7 +137,7 @@ MeshStructs::meshData SkinUtil::objToMesh(const char* str, bool doWierdMogangStu
 				vertices.push_back({std::stof(args[1]), std::stof(args[2]), std::stof(args[3])});
 		} else if (strcmp(cmd, "f") == 0) {  // face
 			if (args.size() != 5 && args.size() != 4) {
-				logF("Faulty face, only quads or tris allowed: %i", args.size() - 1);
+				Log("Faulty face, only quads or tris allowed: %i", args.size() - 1);
 				continue;
 			}
 
@@ -193,17 +193,17 @@ MeshStructs::meshData SkinUtil::objToMesh(const char* str, bool doWierdMogangStu
 
 		} else if (strcmp(cmd, "vn") == 0) {  // normal
 			if (args.size() != 4) {
-				logF("Faulty normal, 3 args expected: %s", line.c_str());
+				Log("Faulty normal, 3 args expected: %s", line.c_str());
 				continue;
 			}
 			normals.push_back({std::stof(args[1]), std::stof(args[2]), std::stof(args[3])});
 		} else
-			logF("Unknown command: %s", cmd);
+			Log("Unknown command: %s", cmd);
 	}
 
 	if (faceFixList.size() > 0) { // Fix faces without uv's
 		uvs.push_back({0, 0});
-		logF("Fixed %i (%i%% of faces) missing uvs (texture mappings) in mesh, please fix them yourself next time", faceFixList.size(), faceFixList.size() * 100 / faces.size());
+		Log("Fixed %i (%i%% of faces) missing uvs (texture mappings) in mesh, please fix them yourself next time", faceFixList.size(), faceFixList.size() * 100 / faces.size());
 		for (auto it = faceFixList.begin(); it != faceFixList.end(); it++) {
 			auto fac = &faces[*it];
 			for (int i = 0; i < fac->facesPresent; i++) {

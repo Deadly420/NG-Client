@@ -13,7 +13,7 @@ CommandMgr::~CommandMgr() {
 }
 
 void CommandMgr::initCommands() {
-	logF("Initializing commands");
+	Log("Initializing commands");
 
 	commandList.push_back(new CommandBlockExploitCommand());
 	commandList.push_back(new RelativeTeleportCommand());

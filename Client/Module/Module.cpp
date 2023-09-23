@@ -306,14 +306,14 @@ void Module::onLoadConfig(void* confVoid) {
 						try {
 							sett->value->_int = value.get<int>();
 						} catch (const std::exception& e) {
-							logF("Config Load Error(Enum) (%s): %s ", this->getRawModuleName(), e.what());
+							Log("Config Load Error(Enum) (%s): %s ", this->getRawModuleName(), e.what());
 						}
 						break;
 					}
 					sett->makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt();
 					continue;
 				} catch (std::exception e) {
-					logF("Config Load Error (%s): %s", this->getRawModuleName(), e.what());
+					Log("Config Load Error (%s): %s", this->getRawModuleName(), e.what());
 				}
 			}
 		}
@@ -373,7 +373,7 @@ void Module::setEnabled(bool enabled) {
 #ifndef _DEBUG
 		if (!isFlashMode())  // Only print jetpack stuff in debug mode
 #endif
-			logF("%s %s", enabled ? "Enabled" : "Disabled", this->getModuleName());
+			Log("%s %s", enabled ? "Enabled" : "Disabled", this->getModuleName());
 
 		static auto ToggleSound = moduleMgr->getModule<ToggleSounds>();
 
@@ -448,7 +448,7 @@ void SettingEntry::makeSureTheValueIsAGoodBoiAndTheUserHasntScrewedWithIt() {
 		case ValueType::TEXT:
 			//break;
 		default:
-			logF("unrecognized value %i", valueType);
+			Log("unrecognized value %i", valueType);
 			break;
 	}
 }

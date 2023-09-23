@@ -224,7 +224,7 @@ public:
 
 		// Check if the function pointer is valid
 		if (IsBadReadPtr(funcPtr, sizeof(funcPtr))) {
-			logF("Invalid function pointer!");
+			Log("Invalid function pointer!");
 			return;
 		}
 
@@ -232,7 +232,7 @@ public:
 		if (ret == MH_OK && (__int64)func > 10) {
 			// Hook created successfully
 		} else {
-			logF("MH_CreateHook = %i", ret);
+			Log("MH_CreateHook = %i", ret);
 		}
 	};
 
@@ -241,14 +241,14 @@ public:
 
 		// Check if the function pointer is valid
 		if (IsBadReadPtr(funcPtr, sizeof(funcPtr))) {
-			logF("Invalid function pointer!");
+			Log("Invalid function pointer!");
 			return;
 		}
 
 		MH_STATUS ret = MH_CreateHook(funcPtr, hooked, &funcReal);
 		if (ret == MH_OK && (__int64)funcPtr > 10) {
 		} else {
-			logF("MH_CreateHook = %i", ret);
+			Log("MH_CreateHook = %i", ret);
 		}
 	};
 
@@ -256,10 +256,10 @@ public:
 		if (funcPtr != nullptr) {
 			int ret = enable ? MH_EnableHook(funcPtr) : MH_DisableHook(funcPtr);
 			if (ret != MH_OK) {
-				logF("MH_EnableHook = %i", ret);
+				Log("MH_EnableHook = %i", ret);
 			}
 		} else {
-			logF("enableHook() called with nullptr func!");
+			Log("enableHook() called with nullptr func!");
 		}
 	}
 	~FuncHook() { Restore(); }
@@ -268,7 +268,7 @@ public:
 		if (funcPtr != nullptr) {
 			MH_STATUS ret = MH_DisableHook(funcPtr);
 			if (ret != MH_OK) {
-				logF("MH_DisableHook = %i", ret);
+				Log("MH_DisableHook = %i", ret);
 			}
 		}
 	}

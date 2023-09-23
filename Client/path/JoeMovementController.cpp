@@ -23,7 +23,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 	auto curSeg = currentPath->getSegment(stateInfo.currentPathSegment);
 
 	if (!curSeg.isInValidPosition(playerNode) && curSeg.getSegmentType() != PARKOUR_JUMP_SINGLE) {
-		logF("invalid position %i %i %i, %i %i %i", curSeg.getSegmentType(), stateInfo.currentPathSegment, stateInfo.currentPathSegment > 0 ? currentPath->getSegment(stateInfo.currentPathSegment - 1).getSegmentType() : 0, playerNode.x, playerNode.y, playerNode.z);
+		Log("invalid position %i %i %i, %i %i %i", curSeg.getSegmentType(), stateInfo.currentPathSegment, stateInfo.currentPathSegment > 0 ? currentPath->getSegment(stateInfo.currentPathSegment - 1).getSegmentType() : 0, playerNode.x, playerNode.y, playerNode.z);
 		stateInfo.recoverToStartPos = true;
 		return;
 	}
@@ -246,7 +246,7 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 		movementHandler->forwardMovement = forward.dot(diff2d);
 		movementHandler->sideMovement = -right.dot(diff2d);
 
-		//logF("%.2f %.2f %.2f %i", diff2d.x, diff2d.y, pPos.y, player->isOnGround());
+		//Log("%.2f %.2f %.2f %i", diff2d.x, diff2d.y, pPos.y, player->isOnGround());
 
 		if(pPos.dist(end) < 0.2f){
 			if(hasNextSeg || player->location->velocity.magnitudexz() < 0.02f /*slow down for last segment*/){

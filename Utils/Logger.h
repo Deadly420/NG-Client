@@ -15,9 +15,8 @@
 
 #pragma comment(lib, "runtimeobject")
 
-#ifndef logF
-//#define logF(x) Logger::WriteLogFileF(XorString(x))
-#define logF(x, ...) Logger::WriteLogFileF(XorString(x), __VA_ARGS__)
+#ifndef Log
+#define Log(x, ...) Logger::WriteLogs(XorString(x), __VA_ARGS__)
 #endif
 
 struct TextForPrint {
@@ -35,13 +34,10 @@ class Logger {
 public:
 	static bool isActive();
 	static std::wstring GetRoamingFolderPath();
-	static void WriteLogFileF(volatile char* fmt, ...);
-	static void WriteBigLogFileF(size_t maxSize, const char* fmt, ...);
-	static void SendToConsoleF(const char* msg);
+	static void WriteLogs(volatile char* fmt, ...);
 	static std::vector<TextForPrint>* GetTextToPrint();
 	static std::vector<std::shared_ptr<TextForPrintBig>>* GetTextToSend();
 	static std::lock_guard<std::mutex> GetTextToPrintLock();
-	static std::lock_guard<std::mutex> GetTextToInjectorLock();
 	//static std::vector<TextForPrint*> stringPrintVector;
 	static void Disable();
 };

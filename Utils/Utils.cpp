@@ -228,7 +228,7 @@ uintptr_t Utils::FindSignatureModule(const char* szModule, const char* szSignatu
 	const char* sig = szSignature;  // Put sig in here to access it in debugger
 	// This will not get optimized away because we are in debug
 	// Leave this in here to quickly find bad signatures in case of updates
-	logF("Signature dead: %s", szSignature);
+	Log("Signature dead: %s", szSignature);
 	if (false) {
 		const char* msgToTheOverwhelmedDebugger = "SIGNATURE NOT FOUND";
 		__debugbreak();

@@ -30,7 +30,7 @@ void blockRotate(glm::mat4& matrix, float upper) {
 }
 
 void Hooks::Init() {
-	logF("Setting up Hooks...");
+	Log("Setting up Hooks...");
 	// clang-format off
 
 	// Signatures
@@ -188,7 +188,7 @@ void Hooks::Init() {
 
 		#undef lambda_counter
 
-		logF("Hooks initialized");
+		Log("Hooks initialized");
 	}
 
 	// Vtables
@@ -197,19 +197,19 @@ void Hooks::Init() {
 		if (Game.getClientInstance()->loopbackPacketSender != nullptr) {
 			uintptr_t** packetSenderVtable = reinterpret_cast<uintptr_t**>(*(uintptr_t*)Game.getClientInstance()->loopbackPacketSender);
 			if (packetSenderVtable == nullptr)
-				logF("LoopbackPacketSenderVtable is invalid");
+				Log("LoopbackPacketSenderVtable is invalid");
 			else {
 				g_Hooks.LoopbackPacketSender_sendToServerHook = std::make_unique<FuncHook>(packetSenderVtable[2], Hooks::LoopbackPacketSender_sendToServer);
 
 				g_Hooks.LoopbackPacketSender_sendToClientHook = std::make_unique<FuncHook>(packetSenderVtable[4], Hooks::LoopbackPacketSender_sendToClient); //I use the second sendToClient
 			}
-		} else logF("LoopbackPacketSender is null");
+		} else Log("LoopbackPacketSender is null");
 
 		// LocalPlayer::vtable
 		{
 			uintptr_t** localPlayerVtable = GetVtableFromSig("48 8D 05 ? ? ? ? 48 89 01 B8 ? ? ? ? 8D 50 FA 44 8D 48 ? 44 8D 40 ? 66 89 44 ? ? E8 ? ? ? ? 48 8B 8B", 3);
 			if (localPlayerVtable == 0x0)
-				logF("LocalPlayer signature not working!!!");
+				Log("LocalPlayer signature not working!!!");
 			else {
 				g_Hooks.Actor_startSwimmingHook = std::make_unique<FuncHook>(localPlayerVtable[195], Hooks::Actor_startSwimming);
 
@@ -243,7 +243,7 @@ void Hooks::Init() {
 			int offset = *reinterpret_cast<int*>(sigOffset + 3);
 			uintptr_t** gameModeVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 			if (gameModeVtable == 0x0 || sigOffset == 0x0)
-				logF("GameMode signature not working!!!");
+				Log("GameMode signature not working!!!");
 			else {
 				g_Hooks.GameMode_startDestroyBlockHook = std::make_unique<FuncHook>(gameModeVtable[1], Hooks::GameMode_startDestroyBlock);
 
@@ -260,7 +260,7 @@ void Hooks::Init() {
 			uintptr_t** directoryPackVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + 7);
 			//uintptr_t** directoryPackVtable = GetVtableFromSig("48 8D 05 ? ? ? ? 49 89 06 49 8D 76 ? 45 33 E4", 3);
 			if (directoryPackVtable == 0x0)
-				logF("directoryPackVtable signature not working!!!");
+				Log("directoryPackVtable signature not working!!!");
 			else g_Hooks.DirectoryPackAccessStrategy__isTrustedHook = std::make_unique<FuncHook>(directoryPackVtable[6], Hooks::DirectoryPackAccessStrategy__isTrusted);
 
 			uintptr_t sigOffset2 = FindSignature("48 8D 05 ? ? ? ? 48 89 03 48 83 3E ? ? ? ? ? ? ? 45 33 E4");
@@ -268,12 +268,12 @@ void Hooks::Init() {
 			uintptr_t** directoryPackVtable2 = reinterpret_cast<uintptr_t**>(sigOffset2 + offset2 + 7);
 			//uintptr_t** directoryPackVtable2 = GetVtableFromSig("48 8D 05 ? ? ? ? 48 89 03 48 83 3E ? 0F 84 ? ? ? ? 33 ED", 3);
 			if (directoryPackVtable2 == 0x0)
-				logF("directoryPackVtable2 signature not working!!!");
+				Log("directoryPackVtable2 signature not working!!!");
 			else g_Hooks.ZipPackAccessStrategy__isTrustedHook = std::make_unique<FuncHook>(directoryPackVtable2[6], Hooks::ReturnTrue);
 			
 			g_Hooks.SkinRepository___checkSignatureFileInPack = std::make_unique<FuncHook>(FindSignature("48 89 5C 24 ? 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B 79"), Hooks::ReturnTrue);
 		}
-		logF("Vtables initialized");
+		Log("Vtables initialized");
 	}
 
 	// clang-format on
@@ -285,7 +285,7 @@ void Hooks::Restore() {
 }
 
 void Hooks::Enable() {
-	logF("Hooks enabled");
+	Log("Hooks enabled");
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -833,7 +833,7 @@ void Hooks::LoopbackPacketSender_sendToServer(LoopbackPacketSender* a, Packet* p
 		auto varInt = reinterpret_cast<__int64*>(reinterpret_cast<__int64>(packet) + 0x28);
 		auto text = reinterpret_cast<TextHolder*>(reinterpret_cast<__int64>(packet) + 0x30);
 		auto bet = reinterpret_cast<unsigned char*>(reinterpret_cast<__int64>(packet) + 0x50);
-		logF("emote %llX %s %i", *varInt, text->getText(), *bet);
+		Log("emote %llX %s %i", *varInt, text->getText(), *bet);
 	} fix emote crashing*/
 
 	oFunc(a, packet);
@@ -1205,7 +1205,7 @@ __int64 Hooks::SkinRepository___loadSkinPack(__int64 _this, __int64 pack, __int6
 	static auto func = g_Hooks.SkinRepository___loadSkinPackHook->GetFastcall<__int64, __int64, __int64, __int64>();
 
 	// auto res = (*(unsigned __int8 (**)(void))(**(__int64**)(pack + 8) + 48i64))();
-	// logF("SkinRepository___loadSkinPack: origin %i, is Trusted: %i", *(int*)((*(__int64*)pack) + 888i64), res);
+	// Log("SkinRepository___loadSkinPack: origin %i, is Trusted: %i", *(int*)((*(__int64*)pack) + 888i64), res);
 	*(int*)((*(__int64*)pack) + 888i64) = 2;  // Set pack origin to "2"
 
 	return func(_this, pack, a3);
@@ -1634,15 +1634,15 @@ void Hooks::InitImGui() {
 		// D2D
 		// kiero::bind(140, (void**)&original_present, PresentD3D);
 		// kiero::bind(145, (void**)&original_resize_buffers, ResizeBuffersD3D);
-		logF("Created hook for SwapChain::Present (DX12)!");
+		Log("Created hook for SwapChain::Present (DX12)!");
 	} else if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
 		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
 		// D2D
 		// kiero::bind(8, (void**)&original_present, PresentD3D);
 		// kiero::bind(13, (void**)&original_resize_buffers, ResizeBuffersD3D);
 		// kiero::bind(73, (void**)&original_draw_indexed, DrawIndexedD3D11);
-		logF("Created hook for SwapChain::Present (DX11)!");
+		Log("Created hook for SwapChain::Present (DX11)!");
 	} else {
-		logF("uhhhhh, fuck... didnt make one for anything :)");
+		Log("uhhhhh, fuck... didnt make one for anything :)");
 	}
 }

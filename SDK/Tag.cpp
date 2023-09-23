@@ -15,7 +15,7 @@ Int64Tag::Int64Tag(__int64 value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		Int64TagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (Int64TagVtable == 0x0 || sigOffset == 0x0)
-			logF("Int64TagVtable signature not working!!!");
+			Log("Int64TagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(Int64Tag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -33,7 +33,7 @@ void Int64Tag::read(std::string& string)  //throws MojangsonParseException
 	try {
 		value = std::stoull(string);
 	} catch (...) {
-		logF(" Unhandled exception for Int64Tag : %s", string.c_str());
+		Log(" Unhandled exception for Int64Tag : %s", string.c_str());
 	}
 }
 IntTag::IntTag(int value) {
@@ -43,7 +43,7 @@ IntTag::IntTag(int value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		IntTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (IntTagVtable == 0x0 || sigOffset == 0x0)
-			logF("IntTagVtable signature not working!!!");
+			Log("IntTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(IntTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -55,7 +55,7 @@ void IntTag::read(std::string& string)  //throws MojangsonParseException
 	try {
 		value = static_cast<int>(std::stoi(string));
 	} catch (...) {
-		logF(" Unhandled exception for IntTag : %s", string.c_str());
+		Log(" Unhandled exception for IntTag : %s", string.c_str());
 	}
 }
 StringTag::StringTag(std::string value) {
@@ -65,7 +65,7 @@ StringTag::StringTag(std::string value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		StringTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (StringTagVtable == 0x0 || sigOffset == 0x0)
-			logF("StringTagVtable signature not working!!!");
+			Log("StringTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(StringTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -79,7 +79,7 @@ ShortTag::ShortTag(short value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		ShortTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (ShortTagVtable == 0x0 || sigOffset == 0x0)
-			logF("ShortTagVtable signature not working!!!");
+			Log("ShortTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(ShortTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -97,7 +97,7 @@ void ShortTag::read(std::string& string)  //throws MojangsonParseException
 	try {
 		value = static_cast<short>(std::stoi(string));
 	} catch (...) {
-		logF(" Unhandled exception for ShortTag : %s", string.c_str());
+		Log(" Unhandled exception for ShortTag : %s", string.c_str());
 	}
 }
 FloatTag::FloatTag(float value) {
@@ -107,7 +107,7 @@ FloatTag::FloatTag(float value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		FloatTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (FloatTagVtable == 0x0 || sigOffset == 0x0)
-			logF("FloatTagVtable signature not working!!!");
+			Log("FloatTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(FloatTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -125,7 +125,7 @@ void FloatTag::read(std::string& string)  // MojangsonParseException
 	try {
 		value = static_cast<float>(std::stof(string));
 	} catch (...) {
-		logF(" Unhandled exception for FloatTag : %s", string.c_str());
+		Log(" Unhandled exception for FloatTag : %s", string.c_str());
 	}
 }
 DoubleTag::DoubleTag(double value) {
@@ -135,7 +135,7 @@ DoubleTag::DoubleTag(double value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		DoubleTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (DoubleTagVtable == 0x0 || sigOffset == 0x0)
-			logF("DoubleTagVtable signature not working!!!");
+			Log("DoubleTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(DoubleTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -152,7 +152,7 @@ void DoubleTag::read(std::string& string)  //throws MojangsonParseException
 	try {
 		value = static_cast<double>(std::stod(string));
 	} catch (...) {
-		logF(" Unhandled exception for DoubleTag : %s", string.c_str());
+		Log(" Unhandled exception for DoubleTag : %s", string.c_str());
 	}
 }
 ByteTag::ByteTag(char value) {
@@ -162,7 +162,7 @@ ByteTag::ByteTag(char value) {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		ByteTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (ByteTagVtable == 0x0 || sigOffset == 0x0)
-			logF("ByteTagVtable signature not working!!!");
+			Log("ByteTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(ByteTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -180,7 +180,7 @@ void ByteTag::read(std::string& string)  //throws MojangsonParseException
 	try {
 		value = static_cast<char>(std::stoi(string));
 	} catch (...) {
-		logF(" Unhandled exception for ByteTag : %s", string.c_str());
+		Log(" Unhandled exception for ByteTag : %s", string.c_str());
 	}
 }
 ListTag::ListTag() {
@@ -190,7 +190,7 @@ ListTag::ListTag() {
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
 		ListTagVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
 		if (ListTagVtable == 0x0 || sigOffset == 0x0)
-			logF("ListTagVtable signature not working!!!");
+			Log("ListTagVtable signature not working!!!");
 	}
 	memset(this, 0, sizeof(ListTag));  // Avoid overwriting vtable
 	uintptr_t* _this = reinterpret_cast<uintptr_t*>(this);
@@ -300,10 +300,10 @@ void Handler::handleWrite(Tag* value, std::stringstream& builder) {
 		reinterpret_cast<StringTag*>(value)->write(builder);
 		break;
 	case TagType::BYTE_ARRAY:
-		logF("BYTE ARRAY CANNOT HANDLE");
+		Log("BYTE ARRAY CANNOT HANDLE");
 		break;
 	case TagType::INT_ARRAY:
-		logF("INT ARRAY CANNOT HANDLE");
+		Log("INT ARRAY CANNOT HANDLE");
 		break;
 	default:
 		break;
