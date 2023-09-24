@@ -471,9 +471,6 @@ __int64 Hooks::RenderText(__int64 a1, MinecraftUIRenderContext* renderCtx) {
 					DrawUtils::drawText(text, &string, white, 1.0f, 1.0f);
 					text.y += 15.0f;
 					string =
-						// Changelogs
-						// "Changelogs:\n\n"
-						// Credits
 						"Credits:\n"
 						"DeadtrosGaming\n"
 						"User0092\n"
@@ -576,7 +573,7 @@ float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, 
 				rcolors[3] = 1;
 			}
 
-			Utils::ColorConvertRGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);  // perfect code, don't question this
+			Utils::RGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);  // perfect code, don't question this
 
 			rcolors[0] += rainbowSkyMod->intensity;
 			if (rcolors[0] >= 1) {
@@ -594,7 +591,7 @@ float* Hooks::Dimension_getFogColor(Dimension* _this, float* color, __int64 a3, 
 				currColor[3] = 1;
 			}
 
-			Utils::ColorConvertRGBtoHSV(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);  // perfect code, don't question this
+			Utils::RGBtoHSV(currColor[0], currColor[1], currColor[2], currColor[0], currColor[1], currColor[2]);  // perfect code, don't question this
 
 			currColor[0] += rainbowSkyMod->intensity;
 			if (currColor[0] >= 1) {

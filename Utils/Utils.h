@@ -287,7 +287,7 @@ public:
 	};
 	// Convert rgb floats ([0-1],[0-1],[0-1]) to hsv floats ([0-1],[0-1],[0-1]), from Foley & van Dam p592
 	// Optimized http://lolengine.net/blog/2013/01/13/fast-rgb-to-hsv
-	static inline void ColorConvertRGBtoHSV(float r, float g, float b, float& out_h, float& out_s, float& out_v) {
+	static inline void RGBtoHSV(float r, float g, float b, float& out_h, float& out_s, float& out_v) {
 		float K = 0.f;
 		if (g < b) {
 			ImSwap(g, b);
@@ -417,9 +417,9 @@ public:
 
 	static void systemPlay(std::string name);
 
-	static void makeRoamingFoldr(std::string file);
+	static void MakeRoamingFolder(std::string file);
 
-	static void makeNGFoldr(std::string file);
+	static void MakeFolder(std::string file);
 
 	static void setClipboardText(std::string& text);
 
@@ -488,7 +488,7 @@ public:
 			rcolors[3] = 1;
 		}
 
-		Utils::ColorConvertRGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);
+		Utils::RGBtoHSV(rcolors[0], rcolors[1], rcolors[2], rcolors[0], rcolors[1], rcolors[2]);
 
 		rcolors[0] += modifier;
 		if (rcolors[0] >= 1)

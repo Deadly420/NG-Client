@@ -28,7 +28,6 @@ void Utils::ApplySystemTime(std::stringstream* ss) {
 }
 
 uintptr_t cachedBase = 0;
-
 uintptr_t Utils::getBase() {
 	if (cachedBase == 0) cachedBase = (uintptr_t)GetModuleHandleA("Minecraft.Windows.exe");
 	return cachedBase;
@@ -39,7 +38,7 @@ void Utils::systemPlay(std::string name) {
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 }
 
-void Utils::makeRoamingFoldr(std::string file) {
+void Utils::MakeRoamingFolder(std::string file) {
 	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\") + std::string(file);
 	// Creating File
 	if (mkdir(path.c_str()) == -1)
@@ -48,7 +47,7 @@ void Utils::makeRoamingFoldr(std::string file) {
 		return;
 }
 
-void Utils::makeNGFoldr(std::string file) {
+void Utils::MakeFolder(std::string file) {
 	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\") + std::string(file);
 	// Creating File
 	if (mkdir(path.c_str()) == -1)
