@@ -242,8 +242,7 @@ void ClickGui::renderCategory(Category category) {
 			}
 
 			std::string textStr = mod->getRawModuleName();
-
-			Vec2 textPos = Vec2(currentXOffset + textPaddingX,currentYOffset + textPaddingY);
+			Vec2 textPos = Vec2(currentXOffset + textPaddingX, currentYOffset + textPaddingY + 1);
 			Vec4 rectPos = Vec4(currentXOffset, currentYOffset, xEnd, currentYOffset + textHeight + (textPaddingY * 2));
 
 			bool allowRender = currentYOffset >= categoryHeaderYOffset;
@@ -300,7 +299,8 @@ void ClickGui::renderCategory(Category category) {
 							else
 								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
 						} else {
-							GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, currentYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !clickMod->isExtended);
+							std::string pp = clickMod->isExtended ? "-" : "+";
+							DrawUtils::drawText(Vec2(currentXOffset + windowSize->x + paddingRight - 6.5f, currentYOffset + textPaddingY - 0.5), &pp, whiteColor, 1.0f);
 						}
 					}
 
@@ -731,15 +731,7 @@ void ClickGui::renderCategory(Category category) {
 			DrawUtils::fillRectangle(rectPos, moduleColor, 0.40f);
 			DrawUtils::fillRectangle(Vec4(rectPos.x, rectPos.w - 1, rectPos.z, rectPos.w), Mc_Color(184, 0, 255), 1 - ourWindow->animation);
 
-			// Draw Dash
-			if (clickguiMod->mode.selected == 0) {
-				if (!ourWindow->isExtended)
-					GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
-				else
-					GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, categoryHeaderYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
-			} else {
-				GuiUtils::drawCrossLine(Vec2(currentXOffset + windowSize->x + paddingRight - (crossSize / 2) - 1.f, categoryHeaderYOffset + textPaddingY + (textHeight / 2)), whiteColor, 0.3f, crossSize, !ourWindow->isExtended);
-			}
+
 		}
 	}
 
