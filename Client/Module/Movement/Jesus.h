@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Client/Module/Module.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 class Jesus : public Module {
 public:
 	bool wasInWater = false;

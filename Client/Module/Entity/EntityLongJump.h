@@ -1,6 +1,6 @@
 #pragma once
-#include "../../../Client/Module/Module.h"
-#include "..\ModuleManager.h"
+#include "../Module.h"
+#include "../../Manager/ModuleManager.h"
 
 class EntityLongJump : public Module {
 private:

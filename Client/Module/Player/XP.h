@@ -1,6 +1,6 @@
 #pragma once
 #include "../Module.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 class XP : public Module {
 public:
 	int amount = 1;

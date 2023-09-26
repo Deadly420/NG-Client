@@ -1,6 +1,6 @@
 #include "PanicCommand.h"
 
-#include "../../Module/ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 PanicCommand::PanicCommand() : IMCCommand("panic", "Disables all Modules", "") {
 }

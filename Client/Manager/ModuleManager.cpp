@@ -86,7 +86,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new NewUI());
 		moduleList.emplace_back(new Twerk());
 		moduleList.emplace_back(new Radar());
-		// moduleList.emplace_back(new Teams());
+		moduleList.emplace_back(new Teams());
 		moduleList.emplace_back(new Timer());
 		// moduleList.emplace_back(new Tower());
 		moduleList.emplace_back(new Jesus());

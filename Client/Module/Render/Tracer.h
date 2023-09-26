@@ -9,6 +9,5 @@ public:
 
 	// Inherited via Module
 	virtual const char* getModuleName() override;
-	void onLevelRender() override;
 	void onPreRender(MinecraftUIRenderContext* renderCtx) override;
 };

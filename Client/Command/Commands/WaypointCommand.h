@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ICommand.h"
-#include "../../Module/ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 #include "../../Module/Render/Waypoints.h"
 
 class WaypointCommand : public IMCCommand {

@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Client/Module/Module.h"
 #include "../../../Utils/Target.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 class TargetHUD : public Module {
 public:

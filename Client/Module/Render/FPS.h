@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Module.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 #include "../../../include/imgui/imgui.h"
 
 class FPS : public Module {

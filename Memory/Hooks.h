@@ -27,11 +27,11 @@
 #pragma comment(lib, "dwrite.lib")
 
 #include "../Client/Command/CommandMgr.h"
-#include "../Client/Config/ConfigManager.h"
+#include "../Client/Manager/ConfigManager.h"
 #include "../Utils/DrawUtils.h"
 #include "../Client/ImmediateGui.h"
 #include "../Client/Menu/ClickGui.h"
-#include "../Client/Module/ModuleManager.h"
+#include "../Client/Manager/ModuleManager.h"
 #include "../SDK/BlockLegacy.h"
 #include "../SDK/Camera.h"
 #include "../SDK/ChestBlockActor.h"
@@ -106,6 +106,7 @@ private:
 	static void ChestBlockActor_tick(ChestBlockActor*, BlockSource* source);
 	static void Actor_lerpMotion(Entity* _this, Vec3);
 	static int AppPlatform_getGameEdition(__int64 _this);
+	static int MobgetSwingDuration(void* a1);
 	static void PleaseAutoComplete(__int64 _this, __int64 a2, TextHolder* text, int a4);
 	static void LoopbackPacketSender_sendToServer(LoopbackPacketSender* a, Packet* packet);
 	static void LoopbackPacketSender_sendToClient(class networkhandler* _this, const void* networkIdentifier, Packet* packet, int a4);
@@ -162,6 +163,7 @@ private:
 	std::unique_ptr<FuncHook> Actor_lerpMotionHook;
 	std::unique_ptr<FuncHook> Actor_intersectsHook;
 	std::unique_ptr<FuncHook> AppPlatform_getGameEditionHook;
+	std::unique_ptr<FuncHook> MobgetSwingDurationHook;
 	std::unique_ptr<FuncHook> PleaseAutoCompleteHook;
 	std::unique_ptr<FuncHook> LoopbackPacketSender_sendToServerHook;
 	std::unique_ptr<FuncHook> LoopbackPacketSender_sendToClientHook;

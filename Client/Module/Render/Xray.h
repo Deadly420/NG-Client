@@ -1,6 +1,6 @@
 #pragma once
 #include "../Module.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 class Xray : public Module {
 public:
 	bool* smoothLightningSetting = nullptr;

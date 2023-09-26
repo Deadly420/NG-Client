@@ -1,5 +1,5 @@
 #include "ChestStealer.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 ChestStealer::ChestStealer() : Module(0x0, Category::PLAYER, "Automatically takes all items out of a chest.") {
 	registerIntSetting("Closing Delay", &setDelay, setDelay, 0, 20, "Closing Delay: Adjust the delay from 0 to 20 before closing");

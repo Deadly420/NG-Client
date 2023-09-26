@@ -1,6 +1,6 @@
 #include "Newui.h"
 #include "../../../include/imgui/imgui.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 NewUI::NewUI() : Module(VK_INSERT, Category::HUD, "New UI (Dx12)") {
 }

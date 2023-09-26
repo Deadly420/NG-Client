@@ -2,7 +2,7 @@
 
 #include "../../../Utils/Logging.h"
 #include "../../../Utils/DrawUtils.h"
-#include "../../Module/ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
 	registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");

@@ -1,6 +1,6 @@
 #include "PathCommand.h"
 
-#include "../../Module/ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 #include "../../path/goals/JoeGoalY.h"
 #include "../../path/goals/JoeGoalXZ.h"
 #include "../../path/goals/JoeGoalXYZ.h"

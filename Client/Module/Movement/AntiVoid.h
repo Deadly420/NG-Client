@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 #include "../Module.h"
 
 class AntiVoid : public Module {

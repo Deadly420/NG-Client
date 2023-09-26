@@ -3,7 +3,7 @@
 #include "../../../Utils/Logging.h"
 #include "../../../Utils/ColorUtil.h"
 #include "../../../Utils/DrawUtils.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 KeyStrokes::KeyStrokes() : Module(0x0, Category::RENDER, "Renders Keystrokes on your screen") {
 	registerBoolSetting("Keystrokes RGB", &keybindsRGB, keybindsRGB, "Keystrokes RGB: Enable or disable RGB coloring for keystrokes");

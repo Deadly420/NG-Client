@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../Utils/Target.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 #include "../Module.h"
 
 class Hitbox : public Module {

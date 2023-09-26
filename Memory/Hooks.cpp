@@ -68,6 +68,9 @@ void Hooks::Init() {
 
 		void* getGameEdition = reinterpret_cast<void*>(FindSignature("8B 91 ?? ?? ?? ?? 85 D2 74 1C 83 EA 01"));
 		g_Hooks.AppPlatform_getGameEditionHook = std::make_unique<FuncHook>(getGameEdition, Hooks::AppPlatform_getGameEdition);
+		
+		void* getMobSwing = reinterpret_cast<void*>(FindSignature("48 89 5C 24 ? 57 48 83 EC 20 48 8B 15"));
+		g_Hooks.MobgetSwingDurationHook = std::make_unique<FuncHook>(getMobSwing, Hooks::MobgetSwingDuration);
 
 		void* tick_entityList = reinterpret_cast<void*>(FindSignature("48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 FF 15 ? ? ? ? 48 8B F8 FF 15 ? ? ? ? 48 81 FF ? ? ? ? 75 ? 48 6B C0 ? EB ? 48 99 48 F7 FF 48 8B C8 48 69 C2 ? ? ? ? 48 69 C9 ? ? ? ? 48 99 48 F7 FF 48 03 C1 48 2B 83 ? ? ? ? 48 B9 ? ? ? ? ? ? ? ? 48 3B C1 7C"));
 		g_Hooks.MultiLevelPlayer_tickHook = std::make_unique<FuncHook>(tick_entityList, Hooks::MultiLevelPlayer_tick);
@@ -75,7 +78,7 @@ void Hooks::Init() {
 		void* keyMouseFunc = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 55 56 57 41 54 41 55 41 56 41 57 48 8B EC 48 81 EC ? ? ? ? ? ? 74 24 ? ? ? 7C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 49 8B F8"));
 		g_Hooks.HIDController_keyMouseHook = std::make_unique<FuncHook>(keyMouseFunc, Hooks::HIDController_keyMouse);
 
-		void* renderLevel = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 55 56 57 48 8D AC ? ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B F0 48 8B DA"));
+		void* renderLevel = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 55 56 57 48 8D AC ? ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B F8 48 8B DA 48 8B F1 ? ? C0"));
 		g_Hooks.LevelRenderer_renderLevelHook = std::make_unique<FuncHook>(renderLevel, Hooks::LevelRenderer_renderLevel);
 
 		void* Actor_intersectsAddr = reinterpret_cast<void*>(FindSignature("48 83 EC ? 48 8B 81 ? ? ? ? 48 85 C0 74 50 F3"));
@@ -112,7 +115,7 @@ void Hooks::Init() {
 
 		void* renderNameTags = reinterpret_cast<void*>(FindSignature("48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 44 0F 29 40 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B F1"));
 		g_Hooks.LevelRendererPlayer__renderNameTagsHook = std::make_unique<FuncHook>(renderNameTags, Hooks::LevelRendererPlayer__renderNameTags);
-
+		
 		void* destroySpeed = reinterpret_cast<void*>(FindSignature("48 89 5C ? ? 57 48 83 EC ? 48 8B FA ? ? 74 24 ? 48 8B 91"));
 		g_Hooks.getDestroySpeedHook = std::make_unique<FuncHook>(destroySpeed, Hooks::getDestroySpeed);
 
@@ -669,6 +672,13 @@ int Hooks::AppPlatform_getGameEdition(__int64 _this) {
 	}
 
 	return oGetEditon(_this);
+}
+
+int Hooks::MobgetSwingDuration(void* a1) {
+	static auto oGetSwingDuration = g_Hooks.MobgetSwingDurationHook->GetFastcall<int, void*>();
+	static auto swing = moduleMgr->getModule<ViewModel>();
+	if (swing->isEnabled() && swing->SlowSwing) return swing->SwingSpeed;
+	return oGetSwingDuration(a1);
 }
 
 void Hooks::PleaseAutoComplete(__int64 a1, __int64 a2, TextHolder* text, int a4) {

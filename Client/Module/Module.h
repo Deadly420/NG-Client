@@ -1,9 +1,8 @@
 #pragma once
 
 #include "../../Memory/GameData.h"
-#include "../FriendList/FriendsManager.h"
+#include "../Manager/FriendsManager.h"
 #include "../../Utils/keys.h"
-//#include "../../DrawUtils.h"
 
 class Module;
 

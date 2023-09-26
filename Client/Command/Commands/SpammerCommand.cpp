@@ -1,6 +1,6 @@
 #include "SpammerCommand.h"
 
-#include "../../Module/ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 SpammerCommand::SpammerCommand() : IMCCommand("spammer", "Edit spammer delay/text", "<message/delay/bypass/length/manual> <string/int/bool>") {
 	registerAlias("spam");

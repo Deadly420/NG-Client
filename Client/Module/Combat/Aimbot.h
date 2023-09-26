@@ -1,7 +1,7 @@
 #pragma once
 #include "../Module.h"
 #include "../../../Utils/Target.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 class Aimbot : public Module {
 private:

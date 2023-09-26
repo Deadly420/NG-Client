@@ -1,5 +1,5 @@
 #include "Module.h"
-#include "ModuleManager.h"
+#include "../Manager/ModuleManager.h"
 #include "../../Utils/Json.hpp"
 #include "../../Utils/Logging.h"
 #include <cstdarg>

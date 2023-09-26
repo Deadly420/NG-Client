@@ -32,7 +32,6 @@ bool Target::isValidTarget(Entity* ent) {
 
 	if (antibot->isEntityIdCheckEnabled() && entityTypeId <= 130 && !ent->isPlayer())
 		return false;
-
 	if (ent->isPlayer()) {
 		if (Game.isInGame() && teams->isColorCheckEnabled()) {
 			std::string targetName = ent->getNameTag()->getText();

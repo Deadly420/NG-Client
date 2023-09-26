@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 #include "../Module.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 class MinecraftRGB : public Module {
 public:

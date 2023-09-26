@@ -1,6 +1,6 @@
 #include "InventoryCleaner.h"
 
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 InventoryCleaner::InventoryCleaner() : Module(0x0, Category::PLAYER, "Automatically throws not needed stuff out of your inventory.") {
 	registerBoolSetting("Tools", &keepTools, keepTools, "Tools: Enable or disable keeping tools");

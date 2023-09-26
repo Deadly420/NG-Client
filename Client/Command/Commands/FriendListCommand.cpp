@@ -1,6 +1,6 @@
 #include "FriendListCommand.h"
 
-#include "../../FriendList/FriendsManager.h"
+#include "../../Manager/FriendsManager.h"
 FriendListCommand::FriendListCommand() : IMCCommand("friend", "Add/Remove friendly players", "<add/remove>") {
 	registerAlias("friendlist");
 }

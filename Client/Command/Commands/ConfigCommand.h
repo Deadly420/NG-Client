@@ -1,6 +1,6 @@
 #pragma once
 #include "ICommand.h"
-#include "..\..\Config\ConfigManager.h"
+#include "../../Manager/ConfigManager.h"
 
 class ConfigCommand : public IMCCommand {
 public:

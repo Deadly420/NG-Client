@@ -26,9 +26,9 @@
 #include "../Utils/Utils.h"
 #include "../include/WinHttpClient.h"
 #include "Command/CommandMgr.h"
-#include "Config/ConfigManager.h"
+#include "Manager/ConfigManager.h"
 #include "Menu/ClickGui.h"
-#include "Module/ModuleManager.h"
+#include "Manager/ModuleManager.h"
 #include "ImmediateGui.h"
 
 class Loader {

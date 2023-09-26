@@ -12,7 +12,7 @@
 
 #include "../../Utils/Json.hpp"
 #include "../Command/CommandMgr.h"
-#include "../Module/ModuleManager.h"
+#include "../Manager/ModuleManager.h"
 
 using json = nlohmann::json;
 

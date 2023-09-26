@@ -6,7 +6,7 @@
 #include "../../Memory/GameData.h"
 #include "../../Utils/DrawUtils.h"
 #include "../GuiUtils.h"
-#include "../Module/ModuleManager.h"
+#include "../Manager/ModuleManager.h"
 
 struct ClickModule {
 	bool isExtended = false;

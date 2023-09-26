@@ -1,7 +1,7 @@
 #include "NameTags.h"
 
 #include "../../../Utils/Target.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 NameTags::NameTags() : Module(0x0, Category::RENDER, "Shows better nametags.") {
 	registerBoolSetting("Underline", &underline, underline, "Underline: Enable or disable text underlining");

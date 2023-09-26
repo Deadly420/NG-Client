@@ -2,7 +2,7 @@
 
 #include "../../../Utils/DrawUtils.h"
 #include "../../../Utils/ColorUtil.h"
-#include "../ModuleManager.h"
+#include "../../Manager/ModuleManager.h"
 
 Watermark::Watermark() : Module(0x0, Category::RENDER, "Show Watermark") {
 	registerFloatSetting("Opacity", &opacity, opacity, 0.f, 1.f, "Adjust the watermark opacity");
