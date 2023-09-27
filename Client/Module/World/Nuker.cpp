@@ -21,7 +21,7 @@ void Nuker::onTick(GameMode* gm) {
 				tempPos.x = (int)gm->player->getPos()->x + x;
 				tempPos.y = (int)gm->player->getPos()->y + y;
 				tempPos.z = (int)gm->player->getPos()->z + z;
-				if (tempPos.y > -64 && gm->player->region->getBlock(tempPos)->toLegacy()->material->isSolid) {
+				if (tempPos.y > -64 && gm->player->getRegion()->getBlock(tempPos)->toLegacy()->isSolid) {
 					gm->destroyBlock(&tempPos, 1);
 				}
 			}

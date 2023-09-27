@@ -57,7 +57,7 @@ void BowAimbot::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		std::sort(targetList.begin(), targetList.end(), CompareTargetEnArray());
 		Vec3 origin = Game.getClientInstance()->levelRenderer->getOrigin();  // TODO: sort list
 		Entity* entity = targetList[0];
-		Vec3 pos = entity->aabb->centerPoint();
+		Vec3 pos = entity->getAABBShapeComponent()->aabb.centerPoint();
 		if (predict) {
 			Vec3 velocity = entity->getPos()->sub(*entity->getPosOld());
 			velocity.x *= origin.dist(pos) / 2.f;

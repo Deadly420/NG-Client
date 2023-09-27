@@ -1,9 +1,8 @@
 ﻿#include "Target.h"
 
 #include <regex>
-#include "../Client/FriendList/FriendsManager.h"
-
-#include "../Client/Module/ModuleManager.h"
+#include "../Client/Manager/FriendsManager.h"
+#include "../Client/Manager/ModuleManager.h"
 
 LocalPlayer** localPlayer;
 
@@ -80,7 +79,7 @@ bool Target::isValidTarget(Entity* ent) {
 		return false;
 
 	if (!hitboxMod->isEnabled() && antibot->isHitboxCheckEnabled())
-		if ((ent->aabb->height < 1.5f || ent->aabb->width < 0.49f || ent->aabb->height > 2.1f || ent->aabb->width > 0.9f))
+		if ((ent->getAABBShapeComponent()->aabb.height < 1.5f || ent->getAABBShapeComponent()->aabb.width < 0.49f || ent->getAABBShapeComponent()->aabb.height > 2.1f || ent->getAABBShapeComponent()->aabb.width > 0.9f))
 			return false;
 
 	if (!localPlayer->canAttack(ent, false))

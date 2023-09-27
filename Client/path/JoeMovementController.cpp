@@ -188,15 +188,15 @@ void JoeMovementController::step(LocalPlayer *player, MoveInputHandler *movement
 
 			Vec3 flow{};
 
-			auto block = player->region->getBlock(playerNode);
+			auto block = player->getRegion()->getBlock(playerNode);
 			if(!block->toLegacy()->material->isLiquid){
 				auto mod = playerNode.add(0, -1, 0);
-				block = player->region->getBlock(mod);
+				block = player->getRegion()->getBlock(mod);
 
 				if(block->toLegacy()->material->isLiquid)
-					block->toLegacy()->liquidGetFlow(&flow, player->region, &mod);
+					block->toLegacy()->liquidGetFlow(&flow, player->getRegion(), &mod);
 			}else{
-				block->toLegacy()->liquidGetFlow(&flow, player->region, &playerNode);
+				block->toLegacy()->liquidGetFlow(&flow, player->getRegion(), &playerNode);
 			}
 
 			flow = flow.mul(-1 * 0.07f * 10);

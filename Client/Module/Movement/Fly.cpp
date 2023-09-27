@@ -33,7 +33,7 @@ void Fly::onTick(GameMode *gm) {
 
 	switch (mode.selected) {
 	case 0:
-		gm->player->getAbilitiesComponent()->canFly = true;
+		gm->player->setStatusFlag(CAN_FLY, true);
 		break;
 	case 1: {
 		float calcYaw = (gm->player->getActorHeadRotationComponent()->rot.y + 90) * (PI / 180);
@@ -122,9 +122,8 @@ void Fly::onDisable() {
 
 	switch (mode.selected) {
 	case 0:
-		if (Game.getLocalPlayer()->getActorGameTypeComponent()->gameType != 1)
-			Game.getLocalPlayer()->getAbilitiesComponent()->canFly = false;
-			Game.getLocalPlayer()->getAbilitiesComponent()->isFlying = false;
+		if (Game.getLocalPlayer()->getActorGameTypeComponent()->gameType != GameType::Creative)
+			Game.getLocalPlayer()->setStatusFlag(CAN_FLY, false);
 		break;
 	case 1:
 		Game.getLocalPlayer()->location->velocity = Vec3(0, 0, 0);

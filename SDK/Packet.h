@@ -66,14 +66,14 @@ public:
 	__int64 entityRuntimeId;  // 0x40
 };
 
-class C_SubChunkRequestPacket : public Packet {
+class SubChunkRequestPacket : public Packet {
 public:
-	C_SubChunkRequestPacket();
+	SubChunkRequestPacket();
 };
 
-class C_EmotePacket : public Packet {
+class EmotePacket : public Packet {
 public:
-	C_EmotePacket();
+	EmotePacket();
 
 private:
 	char padding[0x28];
@@ -94,9 +94,9 @@ public:
 	float rowingTime;
 };
 
-class C_NPCRequestPacket : public Packet {
+class NPCRequestPacket : public Packet {
 public:
-	C_NPCRequestPacket();
+	NPCRequestPacket();
 	
 	long entityRuntimeId;  //Test
 	__int64 Unknown0;      //Test
@@ -148,9 +148,9 @@ public:
 	char shit[0x256];
 };
 
-class C_InteractPacket : public Packet {
+class InteractPacket : public Packet {
 public:
-	C_InteractPacket(/**enum InteractPacket::Action, class ActorRuntimeID, Vec3 const&*/);
+	InteractPacket(/**enum InteractPacket::Action, class ActorRuntimeID, Vec3 const&*/);
 	
 public:
 	int action;
@@ -211,9 +211,9 @@ public:
 	unsigned char numTransactions;                      // 0x50
 };
 
-class C_TextPacket : public Packet {
+class TextPacket : public Packet {
 public:
-	C_TextPacket();
+	TextPacket();
 
 	unsigned __int8 messageType;  // 0x28
 
@@ -291,8 +291,6 @@ public:
 };
 
 #pragma pack(push, 8)
-
-class LocalPlayer;
 
 __declspec(align(8)) class MovePlayerPacket : public Packet {
 public:

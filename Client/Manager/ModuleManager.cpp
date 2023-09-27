@@ -42,7 +42,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new TriggerBot());
 		moduleList.emplace_back(new KeyStrokes());
 		moduleList.emplace_back(new ViewModel());
-		// moduleList.emplace_back(new ArmourHud());
+		moduleList.emplace_back(new ArmourHud());
 		moduleList.emplace_back(new Waypoints());
 		moduleList.emplace_back(new Arraylist());
 		moduleList.emplace_back(new NoHurtcam());
@@ -64,7 +64,7 @@ void ModuleManager::initModules() {
 		// moduleList.emplace_back(new NameTags());
 		// moduleList.emplace_back(new HighJump());
 		moduleList.emplace_back(new NoPacket());
-		// moduleList.emplace_back(new Scaffold());
+		moduleList.emplace_back(new Scaffold());
 		moduleList.emplace_back(new Velocity());
 		moduleList.emplace_back(new Killaura());
 		moduleList.emplace_back(new FastUse());

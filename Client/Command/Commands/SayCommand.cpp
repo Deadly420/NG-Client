@@ -40,7 +40,7 @@ bool SayCommand::execute(std::vector<std::string>* args) {
 			os << " ";
 		os << args->at(i);
 	}
-	C_TextPacket textPacket;
+	TextPacket textPacket;
 	textPacket.message.setText(parse(os.str()));
 	textPacket.sourceName.setText(Game.getLocalPlayer()->getNameTag()->getText());
 	textPacket.xboxUserId = std::to_string(Game.getLocalPlayer()->getUserId());

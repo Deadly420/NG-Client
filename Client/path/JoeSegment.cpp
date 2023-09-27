@@ -65,7 +65,7 @@ void JoeSegment::init() {
 	std::vector<Vec3i> positions = {start, end};
 
 	auto player = Game.getLocalPlayer();
-	auto reg = player->region;
+	auto reg = player->getRegion();
 
 	switch(segmentType){
 		case JoeSegmentType::WALK: {

@@ -43,10 +43,10 @@ void EntityJesus::onTick(GameMode* gm) {
 		Vec3 pos = *targetBo[0]->getPos();
 		pos.y -= upness;
 
-		pos.z = targetBo[0]->aabb->upper.z;
-		pos.x = targetBo[0]->aabb->upper.x;  // upper upper
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper upper
 
-		Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -59,10 +59,10 @@ void EntityJesus::onTick(GameMode* gm) {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->lower.x;
-		pos.z = targetBo[0]->aabb->lower.z;  // lower lower
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.lower.z;  // lower lower
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -75,9 +75,9 @@ void EntityJesus::onTick(GameMode* gm) {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper x and lower z
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -90,10 +90,10 @@ void EntityJesus::onTick(GameMode* gm) {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->lower.x;
-		pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;  // lower x and upper z
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -116,10 +116,10 @@ void EntityJesus::onTick(GameMode* gm) {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 
-			pos.z = targetBo[0]->aabb->upper.z;
-			pos.x = targetBo[0]->aabb->upper.x;  // upper upper
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -132,10 +132,10 @@ void EntityJesus::onTick(GameMode* gm) {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->lower.x;
-			pos.z = targetBo[0]->aabb->lower.z;  // lower lower
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -148,9 +148,9 @@ void EntityJesus::onTick(GameMode* gm) {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper x and lower z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -163,10 +163,10 @@ void EntityJesus::onTick(GameMode* gm) {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->lower.x;
-			pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -198,10 +198,10 @@ void EntityJesus::onLevelRender() {
 		Vec3 pos = *targetBo[0]->getPos();
 		pos.y -= upness;
 
-		pos.z = targetBo[0]->aabb->upper.z;
-		pos.x = targetBo[0]->aabb->upper.x;  // upper upper
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper upper
 
-		Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -214,10 +214,10 @@ void EntityJesus::onLevelRender() {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->lower.x;
-		pos.z = targetBo[0]->aabb->lower.z;  // lower lower
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.lower.z;  // lower lower
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -230,9 +230,9 @@ void EntityJesus::onLevelRender() {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper x and lower z
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -245,10 +245,10 @@ void EntityJesus::onLevelRender() {
 			targetBo[0]->location->velocity.y = 0.f;
 		}
 
-		pos.x = targetBo[0]->aabb->lower.x;
-		pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
+		pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+		pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;  // lower x and upper z
 
-		block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+		block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 		blockLegacy = (block->blockLegacy);
 
 		if (blockLegacy->material->isLiquid && targetBo[0]->location->velocity.y <= 0) {
@@ -271,10 +271,10 @@ void EntityJesus::onLevelRender() {
 			Vec3 pos = *targetBo[0]->getPos();
 			pos.y -= upness;
 
-			pos.z = targetBo[0]->aabb->upper.z;
-			pos.x = targetBo[0]->aabb->upper.x;  // upper upper
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -287,10 +287,10 @@ void EntityJesus::onLevelRender() {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->lower.x;
-			pos.z = targetBo[0]->aabb->lower.z;  // lower lower
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -303,9 +303,9 @@ void EntityJesus::onLevelRender() {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->upper.x;  // upper x and lower z
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.upper.x;  // upper x and lower z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {
@@ -318,10 +318,10 @@ void EntityJesus::onLevelRender() {
 				targetBo[0]->location->velocity.y = 0.f;
 			}
 
-			pos.x = targetBo[0]->aabb->lower.x;
-			pos.z = targetBo[0]->aabb->upper.z;  // lower x and upper z
+			pos.x = targetBo[0]->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = targetBo[0]->getAABBShapeComponent()->aabb.upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isSuperHot && targetBo[0]->location->velocity.y <= 0) {

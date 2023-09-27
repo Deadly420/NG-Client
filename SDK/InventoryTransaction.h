@@ -9,14 +9,14 @@ enum InventorySourceType : int32_t {
 	GlobalInventory = 1,
 	WorldInteraction = 2,
 	CreativeInventory = 3,
-	// UntrackedInteractionUI = 100,
+	//UntrackedInteractionUI = 100,
 	NonImplementedFeatureTODO = 99999,
 	EnchantStuff = 32766,
 };
 
 enum ContainerID : uint8_t {
 	Invalid = 0xFF,
-	inventory = 0,  // needs to be lower case bec stupidness
+	inventory = 0, //needs to be lower case bec stupidness
 	First = 1,
 	Last = 100,
 	Offhand = 119,
@@ -59,29 +59,29 @@ public:
 		}
 		this->sourceItemDescriptor.fromStack(&this->sourceItem);
 		this->targetItemDescriptor.fromStack(&this->targetItem);
-		fixInventoryStuff(reinterpret_cast<ItemDescriptor*>(reinterpret_cast<__int64>(this) + 0x10), reinterpret_cast<ItemStack*>(reinterpret_cast<__int64>(this) + 0xD0));  // these may be wrong but have changed a lot since
-		fixInventoryStuff(reinterpret_cast<ItemDescriptor*>(reinterpret_cast<__int64>(this) + 0x70), reinterpret_cast<ItemStack*>(reinterpret_cast<__int64>(this) + 0x170));
+		fixInventoryStuff(reinterpret_cast<ItemDescriptor*>(reinterpret_cast<__int64>(this) + 0x10), reinterpret_cast<ItemStack*>(reinterpret_cast<__int64>(this) + 0x140));
+		fixInventoryStuff(reinterpret_cast<ItemDescriptor*>(reinterpret_cast<__int64>(this) + 0xA8), reinterpret_cast<ItemStack*>(reinterpret_cast<__int64>(this) + 0x1E0));
 		this->inventorySource = invSource;
 	}
 
 public:
 	InventorySource inventorySource;
-	int slot;                             // 0xC
-	ItemDescriptor sourceItemDescriptor;  // 0x10
-	ItemDescriptor targetItemDescriptor;  // 0x70
-	ItemStack sourceItem;                 // 0xD0
-	ItemStack targetItem;                 // 0x170
+	int slot;                             //0xC
+	ItemDescriptor sourceItemDescriptor;  //0x10
+	ItemDescriptor targetItemDescriptor;  //0x90
+	ItemStack sourceItem;  //0x110
+	ItemStack targetItem;  //0x1A0
 };
 
 class InventoryTransaction {};
 
 class InventoryTransactionManager {
 public:
-	uintptr_t* player;             // 0x0
-	InventoryTransaction transac;  // 0x8
+	uintptr_t* player;               //0x0
+	InventoryTransaction transac;  //0x8
 private:
-	int unknown;  // 0x60
-				  //  Total size: 0x68
+	int unknown;  //0x60
+				  // Total size: 0x68
 public:
 	void addInventoryAction(InventoryAction const& action, bool forceBalanced = false);
 };

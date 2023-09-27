@@ -42,34 +42,7 @@ void GuiData::displayClientMessageNoSendF(const char *fmt, ...) {
 	va_end(arg);
 }
 
-// Use mce::MaterialPtr::createMaterial
-mce::MaterialPtr::MaterialPtr(HashedString materialName, bool switchable) {
-	using materialPtrConst_t = void(__fastcall *)(mce::MaterialPtr *, __int64, const HashedString *);
-	static materialPtrConst_t materialPtrConst = reinterpret_cast<materialPtrConst_t>(FindSignature("48 89 4C 24 ? ? 48 83 EC ? 4C 8B CA 48 8B D9 ? ? 48 89 01 48 89 41 ? 48 8B 02 49 8B D0 49 8B C9 48 8B 40 ? ? ? ? ? ? ? 4C 8B C0"));
-
-	static __int64 renderGroupBase = 0, switchableRenderGroupBase = 0;
-
-	if (renderGroupBase == 0) {
-		auto sig = FindSignature("48 8D 0D ? ? ? ? 48 8B 40 ? ? ? ? ? ? ? 48 8B F8 48 8B 50 ? 48 85 D2") + 3;
-
-		auto off = *reinterpret_cast<int *>(sig);
-		renderGroupBase = sig + 4 + off;
-	}
-
-	if (switchableRenderGroupBase == 0) {
-		auto sig = FindSignature("48 8D 0D ? ? ? ? 48 8B 40 ? ? ? ? ? ? ? 48 8B D8 48 8B 50 ? 48 85 D2 74") + 3;
-
-		auto off = *reinterpret_cast<int *>(sig);
-		renderGroupBase = sig + 4 + off;
-	}
-
-	__int64 useRenderGroupBase = switchable ? switchableRenderGroupBase : renderGroupBase;
-
-	//HashedString hashedStr(materialName);
-	materialPtrConst(this, useRenderGroupBase, &materialName);
-}
-
-mce::MaterialPtr* mce::MaterialPtr::createMaterial(HashedString materialName) {
+mce::MaterialPtr *mce::MaterialPtr::createMaterial(HashedString materialName) {
 	static __int64 *materialCreator = nullptr;
 
 	if (materialCreator == nullptr) {

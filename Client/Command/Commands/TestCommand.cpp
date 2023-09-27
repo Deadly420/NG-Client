@@ -51,7 +51,7 @@ void listEnts() {
 void showAimedBlockInfo() {
 	LocalPlayer* player = Game.getLocalPlayer();
 	Level* level = player->getlevel();
-	Block* block = player->region->getBlock(level->block);
+	Block* block = player->getRegion()->getBlock(level->block);
 	if (block != nullptr && level != nullptr && block->blockLegacy != nullptr && block->blockLegacy->blockId != 7 && block->blockLegacy->blockId != 720) {
 		const char* name = block->toLegacy()->name.getText();
 		int64_t id = block->toLegacy()->blockId;

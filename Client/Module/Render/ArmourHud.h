@@ -29,15 +29,15 @@ public:
 			float xVal = armorX;
 			for (int i = 0; i < 4; i++) {
 				ItemStack* stack = player->getArmor(i);
-				if (stack->item != nullptr) {
+				if (stack->isValid()) {
 					DrawUtils::drawItem(stack, Vec2(xVal, yVal), opacity, scale, stack->isEnchanted());
 					xVal += (scale + spacing);
 				}
 			}
 			PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
-			ItemStack* item = supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
-			if (item->item != nullptr)
-				DrawUtils::drawItem(item, Vec2(xVal, yVal), opacity, scale, item->isEnchanted());
+			// ItemStack* item = supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
+			// if (item->isValid())
+			// DrawUtils::drawItem(item, Vec2(x, y), opacity, scale, item->isEnchanted());
 		}
 	}
 

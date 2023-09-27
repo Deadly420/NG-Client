@@ -10,12 +10,12 @@ class Minecraft {
 private:
 	char pad_0x0000[0xD8];  //0x0000
 public:
-	float* timer;       //0x00D8
-	float* otherTimer;  //0x00E0
+	float* simTimer;   // 0x00D8
+	float* realTimer;  // 0x00E0
 
 	void setTimerSpeed(float tps) {
-		*this->timer = tps;
-		*this->otherTimer = tps;
+		*this->simTimer = tps;
+		*this->realTimer = tps;
 	}
 };
 
@@ -50,7 +50,7 @@ public:
 		auto c = *textP;
 
 		do {
-			hash = hash * 0x100000001B3i64 ^ c;
+			hash = c ^ 0x100000001B3i64 * hash;
 			c = *++textP;
 		} while (*textP);
 	}
@@ -88,53 +88,31 @@ private:
 	std::shared_ptr<void> materialPtr;
 
 public:
-	MaterialPtr(HashedString materialName, bool switchable = false);
-
 	static MaterialPtr* createMaterial(HashedString materialName);
 };
 }  // namespace mce
 
-class MaterialPtr {
-private:
-	char padding[0x138];
-
-	BUILD_ACCESS(this, TextHolder, materialName, 0x18);
-	BUILD_ACCESS(this, TextHolder*, materialNamePtr, 0x18);
-	BUILD_ACCESS(this, __int64, testValue, 0x20);
-
-public:
-	BUILD_ACCESS(this, MaterialPtr*, ptrToSelf, 0x0);
-	BUILD_ACCESS(this, __int64*, ptrToSelfClass, 0x8);
-
-	// I have no fucking idea why there's sometimes a ptr and sometimes not
-	TextHolder getMaterialName() {
-		if (testValue == 0)
-			return *this->materialNamePtr;
-		else
-			return this->materialName;
-	}
-};
-
 class LevelRendererPlayer {
 public:
-	BUILD_ACCESS(this, MaterialPtr*, shadowBack, 0x238);
-	BUILD_ACCESS(this, MaterialPtr*, shadowFront, 0x248);
-	BUILD_ACCESS(this, MaterialPtr*, shadowOverlay, 0x258);
-	BUILD_ACCESS(this, MaterialPtr*, stars, 0x268);
-	BUILD_ACCESS(this, MaterialPtr*, skyplane, 0x278);
-	BUILD_ACCESS(this, MaterialPtr*, sunMoon, 0x288);
-	BUILD_ACCESS(this, MaterialPtr*, endSky, 0x298);
-	BUILD_ACCESS(this, MaterialPtr*, clouds, 0x2A8);
-	BUILD_ACCESS(this, MaterialPtr*, wireframe, 0x2B8);
-	BUILD_ACCESS(this, MaterialPtr*, cubemap, 0x2C8);
-	BUILD_ACCESS(this, Vec3, cameraPos, 0x514);
+	BUILD_ACCESS(this, Vec3, origin, 0x514);
 };
 
 class LevelRenderer {
 public:
 	BUILD_ACCESS(this, LevelRendererPlayer*, levelRendererPlayer, 0x2F8);
-	Vec3& getOrigin() {
-		return levelRendererPlayer->cameraPos;
+	BUILD_ACCESS(this, unsigned long long*, renderChunkCoordinator, 0x20);
+
+	Vec3 getOrigin() {
+		return levelRendererPlayer->origin;
+	}
+
+	void rebuildAllRenderChunkGeometry() {
+		using ChunkPtr = unsigned long long*;
+		using ReloadFunction = void(__fastcall*)(__int64, ChunkPtr, char);
+		static ReloadFunction reloadChunk = reinterpret_cast<ReloadFunction>(FindSignature("48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 45 0F B6 F0"));
+		
+		for (ChunkPtr chunk = reinterpret_cast<ChunkPtr>(*renderChunkCoordinator); chunk != renderChunkCoordinator; chunk = reinterpret_cast<ChunkPtr>(*chunk))
+			reloadChunk(chunk[3], renderChunkCoordinator, 1);
 	}
 };
 
@@ -160,14 +138,15 @@ private:
 	void* ptrToSelf;                    // 0x0010
 	void* ptrToSelfSharedPtr;           // 0x0018
 public:
-	FontRepository_FontList* fontList;  //0x0020
+	FontRepository_FontList* fontList;  // 0x0020
+	//FontRepository_FontList* fontList1;  //0x0028
 };
 
 class MinecraftGame {
 public:
+	BUILD_ACCESS(this, bool, canUseKeys, 0x130);
 	BUILD_ACCESS(this, FontRepository**, fontRepository, 0xEC8);
 	BUILD_ACCESS(this, Font*, mcFont, 0xED8);
-	BUILD_ACCESS(this, bool, canUseKeys, 0x130);
 
 	Font* getTheGoodFontThankYou() {
 		return (*fontRepository)->fontList->fontEntries[7].font;
@@ -202,20 +181,20 @@ private:
 public:
 	union {
 		struct {
-			float widthReal;   //0x0030
-			float heightReal;  //0x0034
+			float widthReal;   //0x0018
+			float heightReal;  //0x001C
 		};
-		Vec2 windowSizeReal;  //0x0030
+		Vec2 windowSizeReal;  //0x0018
 	};
 
-	float widthReal2;   //0x0038
-	float heightReal2;  //0x003C
+	float widthReal2;   //0x0020
+	float heightReal2;  //0x0024
 	union {
 		struct {
-			float widthGame;   //0x0040
-			float heightGame;  //0x0044
+			float widthGame;   //0x0028
+			float heightGame;  //0x002C
 		};
-		Vec2 windowSize;  //0x0040
+		Vec2 windowSize;  //0x0028
 	};
 
 	void displayClientMessageVA(const char* fmt, va_list lis);
@@ -248,22 +227,6 @@ public:
 
 class MoveInputHandler;
 class CameraManager;
-
-class ItemInHandRenderer {
-public:
-	BUILD_ACCESS(this, MaterialPtr*, opaqueBlock, 0x1A8);
-	BUILD_ACCESS(this, MaterialPtr*, opaqueBlockColor, 0x1B8);
-	BUILD_ACCESS(this, MaterialPtr*, entityAlphatest, 0x1C8);
-	BUILD_ACCESS(this, MaterialPtr*, itemInHand, 0x1D8);
-	BUILD_ACCESS(this, MaterialPtr*, entityAlphablend, 0x1E8);
-	BUILD_ACCESS(this, MaterialPtr*, entityAlphablendNoColor, 0x1F8);
-	BUILD_ACCESS(this, MaterialPtr*, itemInHandEntityAlphatestColor, 0x208);
-	BUILD_ACCESS(this, MaterialPtr*, itemInHandMulticolorTint, 0x218);
-	BUILD_ACCESS(this, MaterialPtr*, entityGlint, 0x228);
-	BUILD_ACCESS(this, MaterialPtr*, entityAlphatestGlint, 0x238);
-	BUILD_ACCESS(this, MaterialPtr*, itemInHandGlint, 0x248);
-	BUILD_ACCESS(this, MaterialPtr*, entityFlatColorLine, 0x258);
-};
 
 class ClientInstance {
 private:
@@ -315,7 +278,7 @@ public:
 
 	Font* getRuneFont() {
 		using getRuneFont_t = Font*(__fastcall*)(ClientInstance*);
-		static getRuneFont_t getRuneFontFunc = reinterpret_cast<getRuneFont_t>(FindSignature("48 89 5C 24 ? 57 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 90 48 8B 10 48 85 D2 74 65 48 8B 48 08 48 85 C9 74 0B F0 FF 41 08 48 8B 10 48 8B 48 08 48 8B 3A 48 85 C9 74 05 E8 ? ? ? ? 48 8B D7 48 8B CB E8 ? ? ? ? 90 33 C0 48 89 44 24 ? 48 8B 4C 24 ? 48 89 44 24 ? 48 85 C9 74 14 E8 ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 05 E8 ? ? ? ? 48 8B C3 48 8B 5C 24 ? 48 83 C4 30 5F C3 E8 ? ? ? ? 90 CC CC CC 48 89 5C 24 ?"));
+		static getRuneFont_t getRuneFontFunc = reinterpret_cast<getRuneFont_t>(FindSignature("48 89 5C 24 ? 57 48 83 EC 30 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 48 8D 54 24 ? 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 90 48 8B 10 48 85 D2 74 65 48 8B 48 08 48 85 C9 74 0B F0 FF 41 08 48 8B 10 48 8B 48 08 48 8B 3A 48 85 C9 74 05 E8 ? ? ? ? 48 8B D7 48 8B CB E8 ? ? ? ? 90 33 C0 48 89 44 24 ? 48 8B 4C 24 ? 48 89 44 24 ? 48 85 C9 74 14 E8 ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 05 E8 ? ? ? ? 48 8B C3 48 8B 5C 24 ? 48 83 C4 30 5F C3 E8 ? ? ? ? 90 CC CC CC 48 89 5C 24"));
 		return getRuneFontFunc(this);
 	}
 
@@ -358,13 +321,12 @@ public:
 	}
 
 	MoveInputHandler* getMoveTurnInput() {
-		uint32_t id = this->getCILocalPlayer()->entityIdentifier;
-		LocalPlayer* player = this->getCILocalPlayer();
+		auto player = getCILocalPlayer();
 
-		using MoveInputComponent_try_get = MoveInputHandler*(__cdecl *)(void *, EntityId *);
-		static MoveInputComponent_try_get MoveInputComponent_try_getFunc = reinterpret_cast<MoveInputComponent_try_get>(FindSignature("40 53 48 83 EC 20 48 8B DA BA 2E CD 8B 46"));
-		auto registryBase = *reinterpret_cast<void**>(player->ctx.registry);
-		return MoveInputComponent_try_getFunc(registryBase, &player->ctx.id);
+		using getMoveInputHandler = MoveInputHandler*(__cdecl*)(__int64*, uint32_t*);
+		static auto func = reinterpret_cast<getMoveInputHandler>(FindSignature("40 53 48 83 EC 20 48 8B DA BA 2E CD 8B 46"));
+		uint32_t id = player->entityId;
+		return func(*player->entityRegistryBase, &id);
 	}
 
 	inline GameSettingsInput* getGameSettingsInput() { return this->ptr->ptr->ptr->settingsInput; };

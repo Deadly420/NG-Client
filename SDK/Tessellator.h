@@ -4,6 +4,7 @@
 #include "../Utils/Utils.h"
 #include "BlockLegacy.h"
 #include "ClientInstance.h"
+#include "ScreenContext.h"
 
 class MaterialPtr;
 	

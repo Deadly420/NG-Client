@@ -64,7 +64,7 @@ void FollowPathModule::onTick(GameMode *mode) {
 	auto pPos = *player->getPos();
 	Vec3i startNode((int)floorf(pPos.x), (int)roundf(pPos.y - 1.62f), (int)floorf(pPos.z));
 
-	startSearch(startNode, player->region, 0.5f, [&](bool succeeded, JoePath tempPath) {
+	startSearch(startNode, player->getRegion(), 0.5f, [&](bool succeeded, JoePath tempPath) {
 		if (!succeeded) {
 			clientMessageF("%sCould not find a path!", RED);
 			path.reset();
@@ -136,7 +136,7 @@ void FollowPathModule::onMove(MoveInputHandler *handler) {
 			float timeForSearch = std::clamp(timeSpent - 0.5f, 1.f, 3.f);
 			auto lastSeg = curPath->getSegment(curPath->getNumSegments() - 1);
 			nextPath.reset();
-			startSearch(lastSeg.getEnd(), Game.getLocalPlayer()->region, timeForSearch, [&](bool succeeded, JoePath tempPath) {
+			startSearch(lastSeg.getEnd(), Game.getLocalPlayer()->getRegion(), timeForSearch, [&](bool succeeded, JoePath tempPath) {
 				if (!succeeded) {
 					clientMessageF("%sCould not find subsequent path!", RED);
 

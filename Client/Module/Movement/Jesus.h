@@ -40,10 +40,10 @@ public:
 			Vec3 pos = *gm->player->getPos();
 			pos.y -= 1.62f;
 
-			pos.z = gm->player->aabb->upper.z;
-			pos.x = gm->player->aabb->upper.x;  // upper upper
+			pos.z = gm->player->getAABBShapeComponent()->aabb.upper.z;
+			pos.x = gm->player->getAABBShapeComponent()->aabb.upper.x;  // upper upper
 
-			Block* block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			Block* block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			BlockLegacy* blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->location->velocity.y <= 0) {
@@ -55,10 +55,10 @@ public:
 				gm->player->location->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb->lower.x;
-			pos.z = gm->player->aabb->lower.z;  // lower lower
+			pos.x = gm->player->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = gm->player->getAABBShapeComponent()->aabb.lower.z;  // lower lower
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->location->velocity.y <= 0) {
@@ -70,8 +70,8 @@ public:
 				gm->player->location->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb->upper.x;  // upper x and lower z
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			pos.x = gm->player->getAABBShapeComponent()->aabb.upper.x;  // upper x and lower z
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->location->velocity.y <= 0) {
@@ -83,10 +83,10 @@ public:
 				gm->player->location->velocity.y = 0.f;
 			}
 
-			pos.x = gm->player->aabb->lower.x;
-			pos.z = gm->player->aabb->upper.z;  // lower x and upper z
+			pos.x = gm->player->getAABBShapeComponent()->aabb.lower.x;
+			pos.z = gm->player->getAABBShapeComponent()->aabb.upper.z;  // lower x and upper z
 
-			block = Game.getLocalPlayer()->region->getBlock(Vec3i(pos));
+			block = Game.getLocalPlayer()->getRegion()->getBlock(Vec3i(pos));
 			blockLegacy = (block->blockLegacy);
 
 			if (blockLegacy->material->isLiquid && gm->player->location->velocity.y <= 0) {

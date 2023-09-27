@@ -63,7 +63,7 @@ bool SpammerCommand::execute(std::vector<std::string>* args) {
 		}
 		std::string text = os.str().substr(1);
 		for (int i = 0; i < times; i++) {
-			C_TextPacket textPacket;
+			TextPacket textPacket;
 			textPacket.message.setText(text + (spamMod->getBypass() ? (" | " + Utils::randomString(spamMod->getLength())) : ""));
 			textPacket.sourceName = *Game.getLocalPlayer()->getNameTag();
 			textPacket.xboxUserId = TextHolder(std::to_string(Game.getLocalPlayer()->getUserId()));

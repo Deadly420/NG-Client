@@ -32,7 +32,7 @@ void Teleport::onTick(GameMode* gm) {
 	if (!GameData::isRightClickDown()) hasClicked = false;
 
 	if (shouldTP && GameData::isKeyDown(*Game.getClientInstance()->getGameSettingsInput()->sneakKey)) {
-		tpPos.y += (gm->player->getPos()->y - gm->player->getAABB()->lower.y) + 1;  // eye height + 1
+		tpPos.y += (gm->player->getPos()->y - gm->player->getAABBShapeComponent()->aabb.lower.y) + 1;  // eye height + 1
 		if (lerp) {
 			Game.getLocalPlayer()->lerpTo(tpPos, Vec2(1, 1), (int)std::fmax((int)(gm->player->getPos()->dist(tpPos) * lerpSpeed), 1));
 		} else {

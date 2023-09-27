@@ -1,7 +1,7 @@
 #include "Scaffold.h"
 
-#include "../../../Utils/Logging.h"
 #include "../../../Utils/DrawUtils.h"
+#include "../../../Utils/Logging.h"
 #include "../../Manager/ModuleManager.h"
 
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
@@ -20,13 +20,15 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
-	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f);                                       // white when placing all the time
+	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f);                            // white when placing all the time
+
 	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
 
-	BlockSource* region = Game.getLocalPlayer()->region;
+	BlockSource* region = Game.getLocalPlayer()->getRegion();
 	Block* block = region->getBlock(Vec3i(blockBelow));
 	BlockLegacy* blockLegacy = (block->blockLegacy);
-	if (blockLegacy->material->isSolid) {
+
+	if (!blockLegacy->isSolid) {
 		Vec3i blok(blockBelow);
 
 		// Find neighbour
@@ -45,19 +47,24 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 
 		bool foundCandidate = false;
 		int i = 0;
+
 		for (auto current : checklist) {
 			Vec3i calc = blok.sub(*current);
-			bool Y = ((region->getBlock(calc)->blockLegacy))->material->isSolid;
-			if (!((region->getBlock(calc)->blockLegacy))->material->isSolid) {
+
+			if (((region->getBlock(calc)->blockLegacy))->isSolid) {
 				// Found a solid block to click
 				foundCandidate = true;
 				blok = calc;
 				break;
 			}
+
 			i++;
 		}
+
 		if (foundCandidate) {
-			if (autoSelect) findBlock();
+			if (autoSelect)
+				findBlock();
+
 			Game.getGameMode()->buildBlock(&blok, i, false);
 			return true;
 		}
@@ -70,8 +77,10 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
-	DrawUtils::setColor(0.f, 0.f, 1.f, 1.f);                                       // blue when predicting
-	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
+	DrawUtils::setColor(0.f, 0.f, 1.f, 1.f);  // blue when predicting
+
+	if (highlight)
+		DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
 
 	static std::vector<Vec3i> checkBlocks;
 	if (checkBlocks.empty()) {  // Only re sort if its empty
@@ -82,6 +91,7 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 				}
 			}
 		}
+
 		// https://www.mathsisfun.com/geometry/pythagoras-3d.html c2 = x2 + y2 + z2 funny
 		std::sort(checkBlocks.begin(), checkBlocks.end(), [](Vec3i first, Vec3i last) {
 			return sqrtf((float)(first.x * first.x) + (float)(first.y * first.y) + (float)(first.z * first.z)) < sqrtf((float)(last.x * last.x) + (float)(last.y * last.y) + (float)(last.z * last.z));
@@ -92,14 +102,16 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 		Vec3i currentBlock = Vec3i(blockBelow).add(blockOffset);
 
 		// Normal tryScaffold after it sorts
-		BlockSource* region = Game.getLocalPlayer()->region;
+		BlockSource* region = Game.getLocalPlayer()->getRegion();
 		Block* block = region->getBlock(Vec3i(currentBlock));
 		BlockLegacy* blockLegacy = (block->blockLegacy);
-		if (blockLegacy->material->isSolid) {
+
+		if (!blockLegacy->isSolid) {
 			Vec3i blok(currentBlock);
 
 			// Find neighbour
 			static std::vector<Vec3i*> checklist;
+
 			if (checklist.empty()) {
 				checklist.push_back(new Vec3i(0, -1, 0));
 				checklist.push_back(new Vec3i(0, 1, 0));
@@ -113,19 +125,24 @@ bool Scaffold::tryClutchScaffold(Vec3 blockBelow) {
 
 			bool foundCandidate = false;
 			int i = 0;
+
 			for (auto current : checklist) {
 				Vec3i calc = blok.sub(*current);
-				bool Y = ((region->getBlock(calc)->blockLegacy))->material->isSolid;
-				if (!((region->getBlock(calc)->blockLegacy))->material->isSolid) {
+
+				if (((region->getBlock(calc)->blockLegacy))->isSolid) {
 					// Found a solid block to click
 					foundCandidate = true;
 					blok = calc;
 					break;
 				}
+
 				i++;
 			}
+
 			if (foundCandidate) {
-				if (autoSelect) findBlock();
+				if (autoSelect)
+					findBlock();
+
 				Game.getGameMode()->buildBlock(&blok, i, false);
 				return true;
 			}
@@ -138,12 +155,15 @@ bool Scaffold::findBlock() {
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
 	Inventory* inv = supplies->inventory;
 	auto prevSlot = supplies->selectedHotbarSlot;
-	for (int i = 0; i < 8; i++) {
+
+	for (int i = 0; i < 9; i++) {
 		ItemStack* stack = inv->getItemStack(i);
+
 		if (stack->item != nullptr) {
 			if (stack->getItem()->isBlock()) {
 				if (prevSlot != i)
 					supplies->selectedHotbarSlot = i;
+
 				return true;
 			}
 		}
@@ -152,50 +172,23 @@ bool Scaffold::findBlock() {
 }
 
 void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
-	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 	auto player = Game.getLocalPlayer();
-	if (player == nullptr || !Game.canUseMoveKeys()) {
+
+	if (player == nullptr || !Game.canUseMoveKeys())
 		return;
-	}
 
-	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3));
+	// auto selectedItem = player->getSelectedItem();
 
-	if (Count) {
-		PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
-		Inventory* inv = supplies->inventory;
-		int totalCount = 0;
-
-		for (int s = 0; s < 9; s++) {
-			ItemStack* stack = inv->getItemStack(s);
-			if (stack->item != nullptr && stack->getItem()->isBlock()) {
-				totalCount += stack->count;
-			}
-		}
-
-		std::string count = "Blocks Left: " + std::to_string(totalCount);
-		Mc_Color color = Mc_Color();
-		if (totalCount > 64) color = Mc_Color(255, 255, 255);
-		if (totalCount < 64) color = Mc_Color(255, 255, 20);
-		if (totalCount < 32) color = Mc_Color(255, 196, 0);
-		if (totalCount < 16) color = Mc_Color(252, 62, 62);
-		if (totalCount < 1) color = Mc_Color(255, 0, 0);
-		DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
-	}
-
-
-	auto selectedItem = player->getSelectedItem();
-	if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect) {
-		return;
-	}
+	// if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect)
+	// return;
 
 	float speed = player->location->velocity.magnitudexz();
 	Vec3 velocity = player->location->velocity.normalize();
 
-	if (down) {
+	if (down)
 		handleScaffoldDown(player, speed, velocity);
-	} else {
+	else
 		handleScaffoldUp(player, speed, velocity);
-	}
 }
 
 void Scaffold::handleScaffoldDown(Player* player, float speed, const Vec3& velocity) {
@@ -203,9 +196,8 @@ void Scaffold::handleScaffoldDown(Player* player, float speed, const Vec3& veloc
 	Vec3 blockBelowBelow = getBlockBelow(player, 2.0f);
 
 	if (!tryScaffold(blockBelow) && !tryScaffold(blockBelowBelow)) {
-		if (speed > 0.05f) {
+		if (speed > 0.05f)
 			attemptScaffoldWhileMoving(player, speed, velocity, blockBelow, blockBelowBelow);
-		}
 	}
 }
 
@@ -213,30 +205,28 @@ void Scaffold::handleScaffoldUp(Player* player, float speed, const Vec3& velocit
 	Vec3 blockBelowReal = getBlockBelow(player, 0.5f);
 	Vec3 blockBelow = blockBelowReal;
 
-	if (Ylock) {
+	if (Ylock)
 		adjustYCoordinate(blockBelow, blockBelowReal);
-	}
 
 	extendBlock(player, velocity, blockBelow);
 
-	if (player->region->getBlock(Vec3i(blockBelow.floor()))->blockLegacy->material->isReplaceable) {
+	if (!player->getRegion()->getBlock(Vec3i(blockBelow.floor()))->blockLegacy->isSolid)
 		handleReplaceableBlock(player, speed, velocity, blockBelow);
-	} else {
+	else
 		handleNonReplaceableBlock(player, speed, velocity, blockBelow);
-	}
 }
 
 Vec3 Scaffold::getBlockBelow(Player* player, float yOffset) {
 	Vec3 blockBelow = player->getRenderPositionComponent()->renderPos;
-	blockBelow.y -= player->aabb->height + yOffset;
+	blockBelow.y -= player->getAABBShapeComponent()->aabb.height + yOffset;
 	return blockBelow;
 }
 
 void Scaffold::adjustYCoordinate(Vec3& blockBelow, const Vec3& blockBelowReal) {
 	blockBelow.y = YCoord;
-	if (blockBelowReal.y < YCoord) {
+
+	if (blockBelowReal.y < YCoord)
 		YCoord = blockBelowReal.y;
-	}
 }
 
 void Scaffold::extendBlock(Player* player, const Vec3& velocity, Vec3& blockBelow) {
@@ -296,11 +286,11 @@ void Scaffold::handleNonReplaceableBlock(Player* player, float speed, const Vec3
 
 Vec3 Scaffold::getNextBlock(Player* player, const Vec3& velocity, const Vec3& blockBelow) {
 	Vec3 nextBlock = blockBelow;
-	if (abs(velocity.x) > abs(velocity.z)) {
+
+	if (abs(velocity.x) > abs(velocity.z))
 		nextBlock.x += (velocity.x > 0 ? 1 : (velocity.x < 0 ? -1 : 0));
-	} else {
+	else
 		nextBlock.z += (velocity.z > 0 ? 1 : (velocity.z < 0 ? -1 : 0));
-	}
 	return nextBlock;
 }
 
@@ -310,7 +300,7 @@ void Scaffold::onSendPacket(Packet* packet) {
 	if (hive || rotations) {
 		float speed = player->location->velocity.magnitudexz();
 		Vec3 blockBelow = player->getRenderPositionComponent()->renderPos;  // Block 1 block below the player
-		blockBelow.y -= player->aabb->height;
+		blockBelow.y -= player->getAABBShapeComponent()->aabb.height;
 		blockBelow.y -= 0.5f;
 
 		if (packet->isInstanceOf<MovePlayerPacket>()) {
@@ -330,12 +320,15 @@ void Scaffold::onPlayerTick(Player* player) {
 	if (hive || rotations) {
 		float speed = player->location->velocity.magnitudexz();
 		Vec3 blockBelow = player->getRenderPositionComponent()->renderPos;  // Block 1 block below the player
-		blockBelow.y -= player->aabb->height;
+		blockBelow.y -= player->getAABBShapeComponent()->aabb.height;
 		blockBelow.y -= 0.5f;
 
 		if (speed > 0.05f) {
-			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-			player->setRot(angle);
+			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow).normAngles();
+			player->getMovementProxy()->setRot(angle);
+			// player->getActorHeadRotationComponent()->rot.x = angle.x;
+			// player->getActorRotationComponent()->rot.y = angle.y;
+			// player->getMobBodyRotationComponent()->bodyRot = angle.y;
 		}
 	}
 }
