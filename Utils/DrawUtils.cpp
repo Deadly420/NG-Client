@@ -118,14 +118,25 @@ void D2DUI::drawText(const wchar_t* text, Vec2 pos, D2D1::ColorF color, bool sha
 
 	if (shadow) {
 		context->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF(0, 0, 0, 0.5f)), &brush);
+#ifdef _DEBUG
 		context->DrawTextA(text, wcslen(text), text_format,
 						   D2D1::RectF(pos.x + 2, pos.y + 2, pos.x + 10000, pos.y + 10000), brush);
+#else
+	context->DrawTextW(text, wcslen(text), text_format,
+						D2D1::RectF(pos.x + 2, pos.y + 2, pos.x + 10000, pos.y + 10000), brush);
+#endif
+
 		brush->Release();
 	}
 
 	context->CreateSolidColorBrush(color, &brush);
+#ifdef _DEBUG
 	context->DrawTextA(text, wcslen(text), text_format,
 					   D2D1::RectF(pos.x, pos.y, pos.x + 10000, pos.y + 10000), brush);
+#else
+	context->DrawTextW(text, wcslen(text), text_format,
+					   D2D1::RectF(pos.x, pos.y, pos.x + 10000, pos.y + 10000), brush);
+#endif
 
 	brush->Release();
 	text_format->Release();

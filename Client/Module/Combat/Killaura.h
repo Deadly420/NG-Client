@@ -30,6 +30,7 @@ public:
 	// Inherited via Module
 	virtual const char* getModuleName() override;
 	virtual void onTick(GameMode* gm) override;
+	virtual void onPlayerTick(Player* player) override;
 	virtual void onEnable() override;
 	virtual void onSendPacket(Packet* packet) override;
 };

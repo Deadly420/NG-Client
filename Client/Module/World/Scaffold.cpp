@@ -11,7 +11,7 @@ Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks 
 	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable hive functionality");
 	registerBoolSetting("Rotations", &rotations, rotations, "Rotations: Enable or disable rotations");
 	registerBoolSetting("Y Lock", &Ylock, Ylock, "Y Lock: Enable or disable Y-axis lock");
-	registerBoolSetting("Block Count", &Count, Count, "Block Count: Enable or disable block counting");
+	// registerBoolSetting("Block Count", &Count, Count, "Block Count: Enable or disable block counting");
 	registerIntSetting("Extend", &extend, extend, 0, 8, "Extend: Set the extend value from 0 to 8");
 }
 
@@ -324,11 +324,11 @@ void Scaffold::onPlayerTick(Player* player) {
 		blockBelow.y -= 0.5f;
 
 		if (speed > 0.05f) {
-			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow).normAngles();
-			player->getMovementProxy()->setRot(angle);
-			// player->getActorHeadRotationComponent()->rot.x = angle.x;
+			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
+			// player->getMovementProxy()->setRot(angle);
+			player->getActorHeadRotationComponent()->rot.x = angle.y;
 			// player->getActorRotationComponent()->rot.y = angle.y;
-			// player->getMobBodyRotationComponent()->bodyRot = angle.y;
+			player->getMobBodyRotationComponent()->bodyRot = angle.y;
 		}
 	}
 }

@@ -27,7 +27,7 @@ void Tracer::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	refdef2 = std::shared_ptr<glmatrixf>(badrefdef->correct());
 
 	Game.forEachEntity([&](Entity* ent, bool valid) {
-		if (ent != Game.getLocalPlayer() && Target::isValidTarget(ent) && Game.canUseMoveKeys()) {
+		if (ent != Game.getLocalPlayer() && Target::isValidTarget(ent) && Game.canUseMoveKeys() && Game.isInGame()) {
 			static auto tracerMod = moduleMgr->getModule<Tracer>();
 			Vec2 target;
 			Vec2 screenSize{

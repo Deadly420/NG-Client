@@ -45,14 +45,14 @@ public:
 	}
 
 	// Credits to hacker hansen for this
-	std::vector<Entity *> getMiscEntityList() {  // Level::getRuntimeActorList
-		static uintptr_t sig = 0x0;
+	std::vector<Entity *> getMiscEntityList() {
+		static uintptr_t entityListAddr = 0x0;
 
-		if (sig == 0)
-			sig = FindSignature("40 53 48 83 EC ? 48 81 C1 ? ? ? ? 48 8B DA E8 ? ? ? ? 48 8B C3 48 83 C4 ? 5B C3 CC CC 48 8B 81");
+		if (entityListAddr == 0)
+			entityListAddr = (Utils::getBase() + 0x2E1CE60); // 40 53 48 83 EC ? 48 81 C1 ? ? ? ? 48 8B DA E8 ? ? ? ? 48 8B C3 48 83 C4 ? 5B C3 CC CC 48 8B 81
 
 		using entityList_t = std::int64_t *(__fastcall *)(Level *, void *);
-		static entityList_t func = reinterpret_cast<entityList_t>(sig);
+		static entityList_t func = reinterpret_cast<entityList_t>(entityListAddr);
 		if (func != nullptr) {
 			std::unique_ptr<char[]> alloc = std::make_unique<char[]>(0x18);
 			std::int64_t *listStart = func(this, alloc.get());

@@ -41,9 +41,9 @@ void AutoArmor::onTick(GameMode* gm) {
 	static ItemStack* emptyItemStack = nullptr;
 
 	if (emptyItemStack == 0x0) {
-		uintptr_t sigOffset = FindSignature("48 8D 3D ? ? ? ? 80 B8 ? ? ? ? ? 75 19 48 8B 88 ? ? ? ? 48 8B 11 4C 8B 42 28 8B 50 10");
+		uintptr_t sigOffset = FindSignature("48 8D 1D ? ? ? ? 80 BA ? ? ? ? ? 75 ? 48 8B 8A ? ? ? ? 48 8B 01");
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
-		emptyItemStack = reinterpret_cast<ItemStack*>(sigOffset + offset + /*length of instruction*/ 7);
+		emptyItemStack = reinterpret_cast<ItemStack*>(sigOffset + offset + 7 /*length of instruction*/);
 	}
 
 	std::vector<ArmorStruct> armorList;

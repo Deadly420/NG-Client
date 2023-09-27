@@ -10,7 +10,7 @@ Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around yo
 	registerBoolSetting("AutoWeapon", &autoweapon, autoweapon, "Toggle auto-weapon");
 
 	// Registering Float Settings with Tooltips
-	registerFloatSetting("Range", &range, range, 2.f, 20.f, "Range: Adjust the range from 2.0 to 20.0");
+	registerFloatSetting("Range", &range, range, 2.f, 7.f, "Range: Adjust the range from 2.0 to 7.0");
 
 	// Registering Integer Settings
 	registerIntSetting("MinDelay", &minD, minD, 0, 20, "MinDelay: Adjust the minimum delay from 0 to 20");
@@ -121,11 +121,18 @@ void Killaura::onTick(GameMode* gm) {
 				Game.getGameMode()->attack(targetList[0]);
 			}
 		}
-		if (rotations) {
-			angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
-		}
 		delay = 0;
 		}
+	}
+}
+
+void Killaura::onPlayerTick(Player* player) {
+	if (!targetList.empty() && rotations) {
+		Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
+		// player->getMovementProxy()->setRot(angle);
+		player->getActorHeadRotationComponent()->rot.x = angle.y;
+		// player->getActorRotationComponent()->rot.y = angle.y; // straf
+		player->getMobBodyRotationComponent()->bodyRot = angle.y;
 	}
 }
 
