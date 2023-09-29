@@ -219,6 +219,7 @@
     <ClCompile Include="Client\Module\Render\FPS.h" />
     <ClCompile Include="Client\Module\Render\Keystrokes.cpp" />
     <ClCompile Include="Client\Module\Render\TargetHUD.cpp" />
+    <ClCompile Include="Client\Module\Render\Trail.cpp" />
     <ClCompile Include="Client\Module\Render\Watermark.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -410,6 +411,7 @@
     <ClInclude Include="Client\Module\Render\Keystrokes.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
     <ClInclude Include="Client\Module\Render\TargetHUD.h" />
+    <ClInclude Include="Client\Module\Render\Trail.h" />
     <ClInclude Include="Client\Module\Render\Watermark.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="include\kiero\kiero.h" />

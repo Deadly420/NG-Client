@@ -2,14 +2,14 @@
 #include "../../../include/imgui/imgui.h"
 #include "../../Manager/ModuleManager.h"
 
-NewUI::NewUI() : Module(VK_INSERT, Category::HUD, "New UI (Dx12)") {
+NewUI::NewUI() : Module(VK_INSERT, Category::HUD, "ImGui (Dx12-DX11)") {
 }
 
 NewUI::~NewUI() {
 }
 
 const char* NewUI::getModuleName() {
-	return "NewUI";
+	return "ImGui";
 }
 
 void NewUI::onEnable() {

@@ -113,6 +113,7 @@
 #include "../Module/Render/NoSwing.h"
 #include "../Module/Render/Tracer.h"
 #include "../Module/Render/Radar.h"
+#include "../Module/Render/Trail.h"
 #include "../Module/Render/Zoom.h"
 #include "../Module/Render/Xray.h"
 #include "../Module/Render/ESP.h"

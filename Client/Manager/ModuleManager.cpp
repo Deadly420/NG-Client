@@ -98,6 +98,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Phase());
 		moduleList.emplace_back(new Glide());
 		// moduleList.emplace_back(new Zoom());
+		moduleList.emplace_back(new Trail());
 		moduleList.emplace_back(new Derp());
 		moduleList.emplace_back(new Bhop());
 		moduleList.emplace_back(new Xray());
