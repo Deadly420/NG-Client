@@ -22,8 +22,8 @@ public:
 			oldPos = Game.getLocalPlayer()->getActorHeadRotationComponent()->rot;
 	}
 
-	void onDisable() override { 
-		Game.getLocalPlayer()->getActorHeadRotationComponent()->rot = oldPos; 
+	void onDisable() override {
+		Game.getLocalPlayer()->applyTurnDelta(&oldPos); 
 	}
 
 	virtual bool isFlashMode() override {

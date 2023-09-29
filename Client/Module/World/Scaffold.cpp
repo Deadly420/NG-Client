@@ -172,15 +172,40 @@ bool Scaffold::findBlock() {
 }
 
 void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
+	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 	auto player = Game.getLocalPlayer();
-
-	if (player == nullptr || !Game.canUseMoveKeys())
+	if (player == nullptr || !Game.canUseMoveKeys()) {
 		return;
+	}
+
+	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3));
+
+	// if (Count) {
+	// PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
+	// Inventory* inv = supplies->inventory;
+	// int totalCount = 0;
+
+		// for (int s = 0; s < 9; s++) {
+	// 	ItemStack* stack = inv->getItemStack(s);
+	// 	if (stack->item != nullptr && stack->getItem()->isBlock()) {
+	// 		totalCount += stack->count;
+	// 	}
+	// }
+
+		// std::string count = "Blocks Left: " + std::to_string(totalCount);
+		// 	Mc_Color color = Mc_Color();
+		// 	if (totalCount > 64) color = Mc_Color(255, 255, 255);
+		// 	if (totalCount < 64) color = Mc_Color(255, 255, 20);
+		// 	if (totalCount < 32) color = Mc_Color(255, 196, 0);
+		// 	if (totalCount < 16) color = Mc_Color(252, 62, 62);
+		// 	if (totalCount < 1) color = Mc_Color(255, 0, 0);
+		// 	DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
+		// }
 
 	// auto selectedItem = player->getSelectedItem();
-
-	// if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect)
-	// return;
+	// if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect) {
+	// 	return;
+	// }
 
 	float speed = player->location->velocity.magnitudexz();
 	Vec3 velocity = player->location->velocity.normalize();

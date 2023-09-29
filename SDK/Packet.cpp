@@ -257,7 +257,7 @@ NetworkLatencyPacket::NetworkLatencyPacket() {
 	if (networkLatencyPacketVtable == 0x0) {
 		uintptr_t sigOffset = FindSignature("48 8D 05 ? ? ? ? 48 89 44 24 ? 49 8B 40");
 		int offset = *reinterpret_cast<int*>(sigOffset + 3);
-		networkLatencyPacketVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + /*length of instruction*/ 7);
+		networkLatencyPacketVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + 7 /*length of instruction*/);
 #ifdef _DEBUG
 		if (networkLatencyPacketVtable == 0x0 || sigOffset == 0x0)
 			__debugbreak();

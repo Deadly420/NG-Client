@@ -89,17 +89,16 @@ void Breaker::onTick(GameMode* gm) {
 }
 
 void Breaker::onPlayerTick(Player* player) {
-	if (Game.isInGame() && Game.canUseMoveKeys() && Game.getClientInstance()->getCILocalPlayer()->isAlive()) {
-		if (destroy && rots) {
-			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(Vec3(blockPos.x, blockPos.y, blockPos.z));
-			player->getMovementProxy()->setRot(angle);
-		}
+	if (destroy && rots && Game.isInGame() && Game.canUseMoveKeys() && Game.getClientInstance()->getCILocalPlayer()->isAlive()) {
+		Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(Vec3(blockPos.x, blockPos.y, blockPos.z));
+		player->getActorHeadRotationComponent()->rot.x = angle.y;  // Update pitch instead of yaw
+		player->getMobBodyRotationComponent()->bodyRot = angle.y;
 	}
 }
 
 void Breaker::onSendPacket(Packet* packet) {
-	if (packet->isInstanceOf<MovePlayerPacket>() || packet->isInstanceOf<PlayerAuthInputPacket>() && Game.getLocalPlayer() != nullptr && bypass) {
-		if (destroy && Game.isInGame() && packet != nullptr) {
+	if (destroy && rots && Game.isInGame() && packet != nullptr) {
+		if (packet->isInstanceOf<MovePlayerPacket>()) {
 			auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(Vec3(blockPos.x, blockPos.y, blockPos.z));
 			movePacket->pitch = angle.x;

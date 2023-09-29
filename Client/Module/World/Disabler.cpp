@@ -16,7 +16,7 @@ std::queue<std::pair<NetworkLatencyPacket, unsigned __int64> > emptyPacketQueue;
 bool sendingEpicThingy = false;
 
 const char* Disabler::getModuleName() {
-	return ("Disabler");
+	return "Disabler";
 }
 std::string Disabler::getModSettings() {
 	return disablerMode.GetSelectedEntry().GetName();

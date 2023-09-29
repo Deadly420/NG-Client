@@ -259,14 +259,14 @@ public:
 
 class ItemStack {
 private:
-	uintptr_t **vTable;  //0x0000
+	uintptr_t **vTable;  // 0x0000
 public:
-	Item **item;     //0x08
-	CompoundTag *tag;  //0x10
+	Item **item;       // 0x08
+	CompoundTag *tag;  // 0x10
 private:
-	char pad_0x18[0xA];  //0x18
+	char pad_0x18[0xA];  // 0x18
 public:
-	char count;  //0x22
+	char count;  // 0x22
 private:
 	char pad_0x1B[0x7D];  //0x23
 public:

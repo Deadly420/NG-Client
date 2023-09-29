@@ -597,6 +597,11 @@ class Player : public Entity {
 public:
 	PlayerInventoryProxy *getSupplies();
 
+	ItemStack *getSelectedItem() {
+		auto supplies = this->getSupplies();
+		return supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
+	}
+
 	int getDeviceID();
 
 	const char* getDeviceName() {
@@ -638,11 +643,6 @@ public:
 		default:
 			return "Unknown";
 		}
-	}
-
-	ItemStack *getSelectedItem() {
-		auto supplies = this->getSupplies();
-		return supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
 	}
 
 	int getSelectedItemId() {
