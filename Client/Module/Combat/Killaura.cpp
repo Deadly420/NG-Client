@@ -100,28 +100,28 @@ void Killaura::onTick(GameMode* gm) {
 	delay++;
 	if (minD <= maxD) {
 		if (!targetList.empty() && delay >= random(minD, maxD)) {
-		if (autoweapon) findWeapon();
+			if (autoweapon) findWeapon();
 
-		if (Game.getLocalPlayer()->location->velocity.squaredxzlen() < 0.01) {
-			MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
-			Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
-		}
+			if (Game.getLocalPlayer()->location->velocity.squaredxzlen() < 0.01) {
+				MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+				Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
+			}
 
-		// Attack all entitys in targetList
-		if (isMulti) {
-			for (auto& i : targetList) {
-				if (!(i->damageTime > 1 && hurttime)) {
+			// Attack all entitys in targetList
+			if (isMulti) {
+				for (auto& i : targetList) {
+					if (!(i->damageTime > 1 && hurttime)) {
+						Game.getLocalPlayer()->swing();
+						Game.getGameMode()->attack(i);
+					}
+				}
+			} else {
+				if (!(targetList[0]->damageTime > 1 && hurttime)) {
 					Game.getLocalPlayer()->swing();
-					Game.getGameMode()->attack(i);
+					Game.getGameMode()->attack(targetList[0]);
 				}
 			}
-		} else {
-			if (!(targetList[0]->damageTime > 1 && hurttime)) {
-				Game.getLocalPlayer()->swing();
-				Game.getGameMode()->attack(targetList[0]);
-			}
-		}
-		delay = 0;
+			delay = 0;
 		}
 	}
 }
@@ -129,7 +129,7 @@ void Killaura::onTick(GameMode* gm) {
 void Killaura::onPlayerTick(Player* player) {
 	if (!targetList.empty() && rotations) {
 		Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
-		// player->getMovementProxy()->setRot(angle);
+		player->getMovementProxy()->setRot(angle);
 		player->getActorHeadRotationComponent()->rot.x = angle.y;
 		// player->getActorRotationComponent()->rot.y = angle.y; // straf
 		player->getMobBodyRotationComponent()->bodyRot = angle.y;

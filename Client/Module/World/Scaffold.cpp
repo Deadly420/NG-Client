@@ -327,12 +327,11 @@ void Scaffold::onSendPacket(Packet* packet) {
 		Vec3 blockBelow = player->getRenderPositionComponent()->renderPos;  // Block 1 block below the player
 		blockBelow.y -= player->getAABBShapeComponent()->aabb.height;
 		blockBelow.y -= 0.5f;
-
 		if (packet->isInstanceOf<MovePlayerPacket>()) {
 			if (speed > 0.05f) {
 				auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 				Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-				movePacket->pitch = 83;
+				movePacket->pitch = angle.x;
 				movePacket->headYaw = angle.y;
 				movePacket->yaw = angle.y;
 			}
@@ -350,7 +349,6 @@ void Scaffold::onPlayerTick(Player* player) {
 
 		if (speed > 0.05f) {
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-			// player->getMovementProxy()->setRot(angle);
 			player->getActorHeadRotationComponent()->rot.x = angle.y;
 			// player->getActorRotationComponent()->rot.y = angle.y;
 			player->getMobBodyRotationComponent()->bodyRot = angle.y;

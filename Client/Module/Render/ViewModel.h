@@ -61,9 +61,9 @@ public:
 		auto player = Game.getLocalPlayer();
 		if (player == nullptr) return;
 
-		auto slot = player->getSupplies()->inventory->getItemStack(player->getSupplies()->selectedHotbarSlot);
-		shouldBlock = slot != nullptr && slot->item != nullptr && slot->getItem()->isWeapon() && Game.isRightClickDown() || slot != nullptr && slot->item != nullptr && slot->getItem()->isWeapon();
-		isAttacking = Game.isLeftClickDown();
+		// auto slot = player->getSupplies()->inventory->getItemStack(player->getSupplies()->selectedHotbarSlot);
+		// shouldBlock = slot != nullptr && slot->item != nullptr && slot->getItem()->isWeapon() && Game.isRightClickDown() || slot != nullptr && slot->item != nullptr && slot->getItem()->isWeapon();
+		// isAttacking = Game.isLeftClickDown();
 
 		if (Reset) {
 			xTrans = 0.f;
