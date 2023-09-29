@@ -17,6 +17,7 @@
 
 Hooks g_Hooks;
 bool isTicked = false;
+bool sent = false;
 bool overrideStyledReturn = false;
 TextHolder styledReturnText;
 // #define TEST_DEBUG
@@ -30,6 +31,7 @@ void blockRotate(glm::mat4& matrix, float upper) {
 }
 
 void Hooks::Init() {
+	auto startTime = std::chrono::high_resolution_clock::now();
 	Log("Setting up Hooks...");
 	// clang-format off
 
@@ -278,6 +280,16 @@ void Hooks::Init() {
 		}
 		Log("Vtables initialized");
 	}
+	auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    if (!sent) {
+        Log("Injection took %lld milliseconds", duration);
+        if (Game.getLocalPlayer() != nullptr) {
+            GuiData* guiData = Game.getGuiData();
+            if (guiData != nullptr && !GameData::shouldHide()) guiData->displayClientMessageF("%sWelcome %s!", GREEN, Game.getLocalPlayer()->getNameTag()->getText());
+        }
+        sent = true;
+    }
 
 	// clang-format on
 }

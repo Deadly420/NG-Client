@@ -6,7 +6,7 @@
 
 class FPS : public Module {
 public:
-	bool ImGui = true;
+	bool ImGui = false;
 	float scale = 1.0f;
 	float fpsX = 0.0f;
 	float fpsY = 280.5f;

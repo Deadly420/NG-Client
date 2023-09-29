@@ -171,6 +171,7 @@ void Utils::setClipboardText(std::string& text) {
 	CloseClipboard();
 	GlobalFree(hg);
 }
+
 uintptr_t Utils::FindSignatureModule(const char* szModule, const char* szSignature) {
 	const char* pattern = szSignature;
 	uintptr_t firstMatch = 0;
@@ -209,10 +210,10 @@ uintptr_t Utils::FindSignatureModule(const char* szModule, const char* szSignatu
 			if (!pattern[2] || !pattern[1])
 				return firstMatch;
 
-			//if (*(PWORD)pattern == '\?\?' || *(PBYTE)pattern != '\?')
-			//pattern += 3;
+			// if (*(PWORD)pattern == '\?\?' || *(PBYTE)pattern != '\?')
+			// pattern += 3;
 
-			//else
+			// else
 			pattern += 2;
 		} else {
 			pattern = szSignature;
