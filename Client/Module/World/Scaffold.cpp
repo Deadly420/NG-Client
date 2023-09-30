@@ -5,8 +5,8 @@
 #include "../../Manager/ModuleManager.h"
 
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
-	registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
-	registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
+	// registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
+	// registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
 	registerBoolSetting("Highlight", &highlight, highlight, "Highlight: Enable or disable highlighting");
 	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable hive functionality");
 	registerBoolSetting("Rotations", &rotations, rotations, "Rotations: Enable or disable rotations");
@@ -180,27 +180,27 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 
 	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3));
 
-	// if (Count) {
-	// PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
-	// Inventory* inv = supplies->inventory;
-	// int totalCount = 0;
+	if (Count) {
+	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
+	Inventory* inv = supplies->inventory;
+	int totalCount = 0;
 
-		// for (int s = 0; s < 9; s++) {
-	// 	ItemStack* stack = inv->getItemStack(s);
-	// 	if (stack->item != nullptr && stack->getItem()->isBlock()) {
-	// 		totalCount += stack->count;
-	// 	}
-	// }
+		for (int s = 0; s < 9; s++) {
+	 	ItemStack* stack = inv->getItemStack(s);
+	 	if (stack->item != nullptr && stack->getItem()->isBlock()) {
+	 		totalCount += stack->count;
+	 	}
+	}
 
-		// std::string count = "Blocks Left: " + std::to_string(totalCount);
-		// 	Mc_Color color = Mc_Color();
-		// 	if (totalCount > 64) color = Mc_Color(255, 255, 255);
-		// 	if (totalCount < 64) color = Mc_Color(255, 255, 20);
-		// 	if (totalCount < 32) color = Mc_Color(255, 196, 0);
-		// 	if (totalCount < 16) color = Mc_Color(252, 62, 62);
-		// 	if (totalCount < 1) color = Mc_Color(255, 0, 0);
-		// 	DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
-		// }
+		std::string count = "Blocks Left: " + std::to_string(totalCount);
+		 	Mc_Color color = Mc_Color();
+		 	if (totalCount > 64) color = Mc_Color(255, 255, 255);
+		 	if (totalCount < 64) color = Mc_Color(255, 255, 20);
+		 	if (totalCount < 32) color = Mc_Color(255, 196, 0);
+		 	if (totalCount < 16) color = Mc_Color(252, 62, 62);
+		 	if (totalCount < 1) color = Mc_Color(255, 0, 0);
+		 	DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
+		 }
 
 	// auto selectedItem = player->getSelectedItem();
 	// if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect) {

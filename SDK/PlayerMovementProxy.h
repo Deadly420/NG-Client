@@ -12,6 +12,18 @@ class BlockLegacy;
 class Block;
 class PlayerActionPacket;
 
+enum class ActorLocation : int32_t {
+	Feet = 0x0,
+	Body = 0x1,
+	WeaponAttachPoint = 0x2,
+	Head = 0x3,
+	DropAttachPoint = 0x4,
+	ExplosionPoint = 0x5,
+	Eyes = 0x6,
+	BreathingPoint = 0x7,
+	Mouth = 0x8,
+};
+
 class PlayerMovementProxy {
 public:
 	BUILD_ACCESS(this, Entity*, owningEntity, 0x10);
@@ -99,7 +111,7 @@ public:
 	virtual void setAABB(AABB const &);
 	virtual AABB getAABB(void);
 	virtual Vec2 getAABBDim(void);
-	virtual float getAttachPos(Vec3, float);
+	virtual Vec3 getAttachPos(ActorLocation, float);
 	virtual Vec2 getRot(void);
 	virtual void setRot(Vec2 const &);
 	virtual Vec2 getRotPrev(void);

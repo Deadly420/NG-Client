@@ -3,6 +3,11 @@
 #include "../../../Utils/ColorUtil.h"
 
 Trail::Trail() : Module(0x0, Category::RENDER, "Display movement trails") {
+
+	registerEnumSetting("Mode", &mode, 0, "Changes The Trail Type");
+	mode.addEntry("Circles", 0);
+	mode.addEntry("Bubbles", 1);
+
 	registerBoolSetting("Rainbow", &Rainbow, Rainbow, "Rainbow");
 	registerIntSetting("Duration", &trailDuration, trailDuration, 5, 200, "Duration");
 	registerIntSetting("Delay", &trailDelay, trailDelay, 1, 200, "Delay");
@@ -13,6 +18,10 @@ Trail::~Trail() {
 
 const char* Trail::getModuleName() {
 	return "Trail";
+}
+
+std::string Trail::getModSettings() {
+	return mode.GetSelectedEntry().GetName();
 }
 
 void Trail::onTick(GameMode* gm) {
@@ -44,25 +53,28 @@ void Trail::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		Circles.clear();
 		return;
 	}
-	if (!Game.canUseMoveKeys()) 
+	if (!Game.canUseMoveKeys())
 		return;
 
-	int separation = 50;  // Adjust this to change the separation of the colors
 	int index = 0;
 
 	for (auto& currentCircle : Circles) {
 		Vec2 renderPos = DrawUtils::worldToScreen(currentCircle.pos);
 		float distance = currentCircle.pos.dist(Game.getClientInstance()->levelRenderer->getOrigin());
-		float size = 10 / fmax(1.0f, distance);
+		float size = 8 / fmax(1.0f, distance);
 
 		if (renderPos.x > 0 && renderPos.y > 0) {
-			float alpha = currentCircle.duration * 0.003f;
-			auto Pos = Vec4(renderPos.x, renderPos.y, size, size);
-			auto GlowPos = Vec4(Pos.x + 7, Pos.y + 7, Pos.z - 7, Pos.w - 7);
-			if (Rainbow)
-				DrawUtils::drawCircleFilled(Vec2(renderPos.x, renderPos.y), Vec2(size, size), ColorUtil::getRainbowColor(3, 1, 1, index * 2), 1);
-			else
-				DrawUtils::drawCircleFilled(Vec2(renderPos.x, renderPos.y), Vec2(size, size), Mc_Color(255, 255, 255), 1);
+			if (mode.selected == 0) {
+				if (Rainbow)
+					DrawUtils::drawCircleFilled(Vec2(renderPos.x, renderPos.y), Vec2(size, size), ColorUtil::getRainbowColor(3, 1, 1, index * 2), 1);
+				else
+					DrawUtils::drawCircleFilled(Vec2(renderPos.x, renderPos.y), Vec2(size, size), Mc_Color(255, 255, 255), 1);
+			} else {
+				if (Rainbow)
+					DrawUtils::drawCircle(Vec2(renderPos.x, renderPos.y), Vec2(size, size), ColorUtil::getRainbowColor(3, 1, 1, index * 2), 1);
+				else
+					DrawUtils::drawCircle(Vec2(renderPos.x, renderPos.y), Vec2(size, size), Mc_Color(255, 255, 255), 1);
+			}
 			++index;
 		}
 	}

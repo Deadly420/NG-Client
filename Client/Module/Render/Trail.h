@@ -3,6 +3,7 @@
 
 class Trail : public Module {
 public:
+	SettingEnum mode = SettingEnum(this);
 	int trailDuration = 45;
 	int trailDelay = 1;
 	int countDelay = 0;
@@ -18,6 +19,7 @@ public:
 	std::vector<CircleStatus> Circles;
 
 	virtual const char* getModuleName() override;
+	virtual std::string getModSettings() override;
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override;
 	virtual void onTick(GameMode* gm) override;
 };

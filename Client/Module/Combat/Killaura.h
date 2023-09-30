@@ -4,19 +4,17 @@
 #include "../../Manager/ModuleManager.h"
 #include "../../../Utils/Target.h"
 
-class Killaura : public Module
-{
+class Killaura : public Module {
 private:
-	bool isMulti = true;
 	int delay = 0;
 	int minD = 0;
 	int maxD = 20;
 	bool autoweapon = false;
 	void findWeapon();
-	bool silent = true;
+	SettingEnum mode{this};
+	SettingEnum rotationMode{this};
 
 public:
-	bool rotations = false;
 	bool targetListEmpty = false;
 	Vec2 angle;
 	bool targetMobs = false;

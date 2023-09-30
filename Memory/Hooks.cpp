@@ -1279,16 +1279,14 @@ bool Hooks::Mob__isImmobile(Entity* ent) {
 
 void Hooks::Actor__setRot(Entity* _this, Vec2& angle) {
 	static auto func = g_Hooks.Actor__setRotHook->GetFastcall<void, Entity*, Vec2&>();
-	static auto killauraMod = moduleMgr->getModule<Killaura>();
-	//static auto freelookMod = moduleMgr->getModule<Freelook>();
-	//static auto freecamMod = moduleMgr->getModule<Freecam>();
+	static auto freelookMod = moduleMgr->getModule<Freelook>();
+	static auto freecamMod = moduleMgr->getModule<Freecam>();
 	if (_this == Game.getLocalPlayer()) {
-		//if (freecamMod->isEnabled()) {
-		//	freecamMod->yaw = angle.y;
-		//	angle = {freecamMod->initialViewAngles.x, freecamMod->initialViewAngles.y};
-		//}
-		if (killauraMod->isEnabled() && !killauraMod->targetListEmpty && killauraMod->rotations) angle = killauraMod->angle;
-		//if (freelookMod->isEnabled()) angle = freelookMod->oldPos;
+		if (freecamMod->isEnabled()) {
+			freecamMod->yaw = angle.y;
+			angle = {freecamMod->initialViewAngles.x, freecamMod->initialViewAngles.y};
+		}
+		if (freelookMod->isEnabled()) angle = freelookMod->oldPos;
 	}
 	func(_this, angle);
 }
@@ -1650,18 +1648,18 @@ void Hooks::InitImGui() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success) {
 		kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
 		kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);
-		// D2D
-		// kiero::bind(140, (void**)&original_present, PresentD3D);
-		// kiero::bind(145, (void**)&original_resize_buffers, ResizeBuffersD3D);
 		Log("Created hook for SwapChain::Present (DX12)!");
+		// D2D
+		kiero::bind(140, (void**)&original_present, PresentD3D);
+		kiero::bind(145, (void**)&original_resize_buffers, ResizeBuffersD3D);
 	} else if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
 		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
-		// D2D
-		// kiero::bind(8, (void**)&original_present, PresentD3D);
-		// kiero::bind(13, (void**)&original_resize_buffers, ResizeBuffersD3D);
-		// kiero::bind(73, (void**)&original_draw_indexed, DrawIndexedD3D11);
 		Log("Created hook for SwapChain::Present (DX11)!");
+		// D2D
+		kiero::bind(8, (void**)&original_present, PresentD3D);
+		kiero::bind(13, (void**)&original_resize_buffers, ResizeBuffersD3D);
+		kiero::bind(73, (void**)&original_draw_indexed, DrawIndexedD3D11);
 	} else {
-		Log("uhhhhh, fuck... didnt make one for anything :)");
+		Log("Failed to initialize hooks for DX11, DX12 and D2D");
 	}
 }

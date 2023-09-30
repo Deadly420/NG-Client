@@ -48,7 +48,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
@@ -419,6 +419,7 @@
     <ClInclude Include="SDK\ActorFlags.h" />
     <ClInclude Include="SDK\Components.h" />
     <ClInclude Include="SDK\GameType.h" />
+    <ClInclude Include="SDK\Level.h" />
     <ClInclude Include="SDK\PlayerMovementProxy.h" />
     <ClInclude Include="SDK\RakNetConnector.h" />
     <ClInclude Include="Utils\Base64.h" />
