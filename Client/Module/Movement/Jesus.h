@@ -99,6 +99,7 @@ public:
 			}
 
 			if (gm->player->isInWater()) {
+				gm->player->setOnGround(true);
 				gm->player->location->velocity.y = 0.1f;
 			}
 		}

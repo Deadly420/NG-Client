@@ -157,7 +157,7 @@ void Killaura::onEnable() {
 }
 
 void Killaura::onSendPacket(Packet* packet) {
-	if (Game.getLocalPlayer() != nullptr && rotationMode.selected == 1 || rotationMode.selected == 2 || rotationMode.selected == 2 && !targetList.empty()) {
+	if (Game.getLocalPlayer() != nullptr && rotationMode.selected >= 1 && !targetList.empty() && Game.isInGame()) {
 		if (targetList[0] == nullptr)
 			return;
 
@@ -168,5 +168,42 @@ void Killaura::onSendPacket(Packet* packet) {
 			movePacket->headYaw = angle.y;
 			movePacket->yaw = angle.y;
 		}
+	}
+}
+
+void Killaura::onLevelRender() {
+	auto player = Game.getLocalPlayer();
+	if (player == nullptr) return;
+
+	static float n = 0;
+	static float anim = 0;
+	if (Game.canUseMoveKeys() && !targetList.empty()) {
+		anim++;
+		DrawUtils::setColor(1, 0, 0, 1);
+
+		Vec3 permutations[56];
+		for (int i = 0; i < 56; i++) {
+			permutations[i] = {sinf((i * 10.f) / (180 / PI)), 0.f, cosf((i * 10.f) / (180 / PI))};
+		}
+
+		const float animation = 0.9f + 0.9f * sin((anim / 20) * PI * 1);
+
+		Vec3* start = targetList[0]->getPosOld();
+		Vec3* end = targetList[0]->getPos();
+
+		auto te = DrawUtils::getLerpTime();
+		Vec3 pos = start->lerp(end, te);
+
+		auto yPos = pos.y;
+		yPos == 2.0f;  // Increase this value to raise the rendering above the player
+		yPos += animation;
+
+		std::vector<Vec3> posList;
+		posList.reserve(54);
+		for (auto& perm : permutations) {
+			Vec3 curPos(pos.x, yPos, pos.z);
+			posList.push_back(curPos.add(perm));
+		}
+		DrawUtils::drawLinestrip3d(posList);
 	}
 }

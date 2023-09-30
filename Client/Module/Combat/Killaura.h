@@ -31,4 +31,5 @@ public:
 	virtual void onPlayerTick(Player* player) override;
 	virtual void onEnable() override;
 	virtual void onSendPacket(Packet* packet) override;
+	virtual void onLevelRender() override;
 };

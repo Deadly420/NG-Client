@@ -3,12 +3,12 @@
 #include "../../../Utils/DrawUtils.h"
 
 StorageESP::StorageESP() : Module(0x0, Category::RENDER, "ESP for but storage blocks.") {
-	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1.f, "Opacity: Adjust the opacity from 0.1 to 1.0");
+	registerEnumSetting("Mode", &mode, 2, "Select the mode for this setting");
 	mode.addEntry("2D", 0);
 	mode.addEntry("3D", 1);
 	mode.addEntry("Outline", 2);
 	mode.addEntry("Corners", 3);
-	registerEnumSetting("Mode", &mode, 2, "Select the mode for this setting");
+	registerFloatSetting("Opacity", &opacity, opacity, 0.1f, 1.f, "Opacity: Adjust the opacity from 0.1 to 1.0");
 	registerBoolSetting("Fill", &fill, fill, "Toggle fill mode on/off");
 }
 
@@ -16,7 +16,7 @@ StorageESP::~StorageESP() {
 }
 
 const char* StorageESP::getModuleName() {
-	return ("StorageESP");
+	return "StorageESP";
 }
 
 void StorageESP::onPreRender(MinecraftUIRenderContext* renderCtx) {
