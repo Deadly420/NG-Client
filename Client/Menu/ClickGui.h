@@ -1,12 +1,11 @@
 #pragma once
 
-#include <map>
 #include <vector>
+#include <map>
 
+#include "../Manager/ModuleManager.h"
 #include "../../Memory/GameData.h"
 #include "../../Utils/DrawUtils.h"
-#include "../GuiUtils.h"
-#include "../Manager/ModuleManager.h"
 
 struct ClickModule {
 	bool isExtended = false;
