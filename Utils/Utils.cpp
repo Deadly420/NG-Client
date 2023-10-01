@@ -11,7 +11,7 @@
 #pragma comment(lib, "winmm.lib")
 #include <urlmon.h>
 
-#include "../Memory/Hooks.h"
+#include "../Hooks/Hooks.h"
 #pragma comment(lib, "urlmon.lib")
 #pragma comment(lib, "wininet.lib")
 

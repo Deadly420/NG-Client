@@ -23,7 +23,9 @@
 #include "../../ImmediateGui.h"
 #include <chrono>  // for std::this_thread::sleep_for()
 #include <thread>
-#include "../../../Memory/Hooks.h"
+#include "../../../Hooks/Hooks.h"
+#include "../../../Hooks/D2DHooks.h"
+#include "../../../Hooks/ImGuiHooks.h"
 //#include "../../../Memory/SlimMem.h"
 //#include "../../../Memory/GameData.cpp"
 using json = nlohmann::json;

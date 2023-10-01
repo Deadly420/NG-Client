@@ -12,7 +12,9 @@
 #include <vector>
 
 #include "../Memory/GameData.h"
-#include "../Memory/Hooks.h"
+#include "../Hooks/Hooks.h"
+#include "../Hooks/ImGuiHooks.h"
+#include "../Hooks/D2DHooks.h"
 #include "../Memory/MinHook.h"
 #include "../SDK/ChestBlockActor.h"
 #include "../SDK/ClientInstance.h"

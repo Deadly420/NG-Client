@@ -6,7 +6,7 @@
 
 #include "../Utils/Logging.h"
 #include "../Utils/Utils.h"
-#include "Hooks.h"
+#include "../Hooks/Hooks.h"
 
 GameData Game;
 bool GameData::keys[0x256];

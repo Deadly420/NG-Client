@@ -10,22 +10,6 @@
 #include <thread>
 #include <unordered_map>
 
-#include "../include/imgui/imgui.h"
-#include "../include/imgui/imgui_impl_win32.h"
-#include "../include/imgui/imgui_impl_dx12.h"
-#include "../include/imgui/imgui_impl_dx11.h"
-#include <initguid.h>
-#include <dxgi.h>
-#include <d3d11.h>
-#include <d3d12.h>
-#include <d2d1_1.h>
-#include <dxgi1_4.h>
-#include <dwrite_1.h>
-#include "../include/kiero/kiero.h"
-#pragma comment(lib, "d2d1.lib")
-#pragma comment(lib, "d3d12.lib")
-#pragma comment(lib, "dwrite.lib")
-
 #include "../Client/Command/CommandMgr.h"
 #include "../Client/Manager/ConfigManager.h"
 #include "../Utils/DrawUtils.h"
@@ -45,8 +29,8 @@
 #include "../Utils/SkinUtil.h"
 #include "../Utils/TextFormat.h"
 #include "../resource.h"
-#include "GameData.h"
-#include "MinHook.h"
+#include "../Memory/GameData.h"
+#include "../Memory/MinHook.h"
 
 class VMTHook;
 class FuncHook;
@@ -90,7 +74,6 @@ public:
 	bool shouldLocalPlayerBeImmobile = false;
 
 	static void Init();
-	static void InitImGui();
 	static void Restore();
 	static void Enable();
 

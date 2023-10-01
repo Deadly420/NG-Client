@@ -78,8 +78,11 @@ DWORD WINAPI start(LPVOID lpParam) {
 
 	Log("Count Thread started");
 
-	Hooks::InitImGui();
+	ImGuiHooks::InitImGui();
 	Log("Initialized ImGui");
+
+	D2DHooks::InitD2D();
+	Log("Initialized D2D");
 
 	ExitThread(0);
 }

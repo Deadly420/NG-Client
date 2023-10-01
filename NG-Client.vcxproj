@@ -222,6 +222,8 @@
     <ClCompile Include="Client\Module\Render\Trail.cpp" />
     <ClCompile Include="Client\Module\Render\Watermark.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
+    <ClCompile Include="Hooks\D2DHooks.cpp" />
+    <ClCompile Include="Hooks\ImGuiHooks.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
     <ClCompile Include="include\imgui\imgui_demo.cpp" />
     <ClCompile Include="include\imgui\imgui_draw.cpp" />
@@ -330,7 +332,7 @@
     <ClCompile Include="Client\path\JoePathFinder.cpp" />
     <ClCompile Include="Client\path\JoeSegment.cpp" />
     <ClCompile Include="Memory\GameData.cpp" />
-    <ClCompile Include="Memory\Hooks.cpp" />
+    <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="Memory\SlimMem.cpp" />
     <ClCompile Include="SDK\Attribute.h" />
     <ClCompile Include="SDK\BlockLegacy.cpp" />
@@ -415,6 +417,8 @@
     <ClInclude Include="Client\Module\Render\Trail.h" />
     <ClInclude Include="Client\Module\Render\Watermark.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
+    <ClInclude Include="Hooks\D2DHooks.h" />
+    <ClInclude Include="Hooks\ImGuiHooks.h" />
     <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="SDK\ActorFlags.h" />
@@ -549,7 +553,7 @@
     <ClInclude Include="include\StringProcess.h" />
     <ClInclude Include="include\WinHttpClient.h" />
     <ClInclude Include="Memory\GameData.h" />
-    <ClInclude Include="Memory\Hooks.h" />
+    <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Memory\MinHook.h" />
     <ClInclude Include="Memory\SlimMem.h" />
     <ClInclude Include="SDK\BlockLegacy.h" />
