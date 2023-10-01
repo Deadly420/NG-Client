@@ -399,7 +399,7 @@ public:
 	InventoryTransactionManager *getTransactionManager();
 
 	__int64 *getUniqueId() {
-		using getUniqueId_t = __int64*(__thiscall *)(Entity*);
+		using getUniqueId_t = __int64 *(__thiscall *)(Entity *);
 		static auto getUniqueIdFunc = reinterpret_cast<getUniqueId_t>(FindSignature("40 53 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B 51 ? 48 8B D9 8B 41"));
 		return getUniqueIdFunc(this);
 	}
@@ -465,7 +465,7 @@ public:
 		getMovementProxy()->setPos(vec);
 	}
 
-	BlockSource* getRegion() {
+	BlockSource *getRegion() {
 		return getBlockSourceComponent()->region;
 	}
 
@@ -556,26 +556,26 @@ public:
 
 class MobEffect {
 public:
-	int id; // 0x8
-	bool isHarmful; // 0xC
+	int id;          // 0x8
+	bool isHarmful;  // 0xC
 
 private:
-	char pad_0xD[0x13]; // 0xD
+	char pad_0xD[0x13];  // 0xD
 
 public:
-	TextHolder* internalName; // 0x20
+	TextHolder *internalName;  // 0x20
 
 private:
-	char pad_0x28[0x28]; // 0x28
+	char pad_0x28[0x28];  // 0x28
 
 public:
-	TextHolder name; // 0x50
+	TextHolder name;  // 0x50
 
 private:
-	char pad_0x70[0x30]; // 0x70
+	char pad_0x70[0x30];  // 0x70
 
 public:
-	TextHolder* minecraftName; // 0xA0
+	TextHolder *minecraftName;  // 0xA0
 
 private:
 	char pad_0xA8[0xD0];  // 0xA8
@@ -604,7 +604,7 @@ public:
 
 	int getDeviceID();
 
-	const char* getDeviceName() {
+	const char *getDeviceName() {
 		int deviceID = this->getDeviceID();
 
 		switch (deviceID) {
@@ -772,7 +772,7 @@ class LocalPlayer : public Player {
 public:
 	void unlockAchievements();
 
-	const char* getDeviceNameLocal() {
+	const char *getDeviceNameLocal() {
 		int deviceID = this->deviceIdentifier;
 
 		switch (deviceID) {

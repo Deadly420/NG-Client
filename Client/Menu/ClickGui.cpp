@@ -295,12 +295,12 @@ void ClickGui::renderCategory(Category category) {
 					if (!resizeOccurred) {
 						if (clickguiMod->mode.selected == 0) {
 							if (!clickMod->isExtended)
-								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3)), whiteColor, 0.3f, ArrowSize, false);
+								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 3.f)), whiteColor, 0.3f, ArrowSize, false);
 							else
-								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5)), whiteColor, 0.3f, ArrowSize, true);
+								GuiUtils::drawArrow(Vec2(currentXOffset + windowSize->x + paddingRight - 5.5f, currentYOffset + textPaddingY + (textHeight / 1.5f)), whiteColor, 0.3f, ArrowSize, true);
 						} else {
 							std::string pp = clickMod->isExtended ? "-" : "+";
-							DrawUtils::drawText(Vec2(currentXOffset + windowSize->x + paddingRight - 6.5f, currentYOffset + textPaddingY - 0.5), &pp, whiteColor, 1.0f);
+							DrawUtils::drawText(Vec2(currentXOffset + windowSize->x + paddingRight - 6.5f, currentYOffset + textPaddingY - 0.5f), &pp, whiteColor, 1.0f);
 						}
 					}
 
@@ -343,7 +343,7 @@ void ClickGui::renderCategory(Category category) {
 								}
 
 								// Checkbox
-								float boxHeight = textHeight - textPaddingY / 0.90;
+								float boxHeight = textHeight - textPaddingY / 0.90f;
 								Vec4 boxPos = Vec4(
 									textPos.x + textPaddingX,
 									textPos.y + textPaddingY,
@@ -356,7 +356,7 @@ void ClickGui::renderCategory(Category category) {
 									DrawUtils::fillRectangle(boxPos, Mc_Color(255, 255, 255), isFocused ? 1 : 0.8f);
 								}
 
-								textPos.x += textHeight + (textPaddingX * 1.50);
+								textPos.x += textHeight + (textPaddingX * 1.50f);
 
 								// Text
 								char name[0x21];

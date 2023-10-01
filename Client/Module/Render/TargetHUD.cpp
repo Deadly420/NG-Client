@@ -110,10 +110,10 @@ void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 			// The text
 			{
 				// DrawUtils::drawSteve(Vec4(positionX + 2.f, positionY + 1.f, positionX, positionY));
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 17 + (res.y / 35.f)), &targetName, Mc_Color(255, 255, 255), 1.f, counter / 100.f);            // name
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 8.5 + (res.y / 35.f)), &distance, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);            // distance
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5 + (res.y / 35.f)), &healthDisplay, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);       // health
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5 + (res.y / 35.f)), &absorptionDisplay, Mc_Color(255, 255, 85), 0.7f, counter / 100.f);    // absorbtion
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 17.f + (res.y / 35.f)), &targetName, Mc_Color(255, 255, 255), 1.f, counter / 100.f);            // name
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 8.5f + (res.y / 35.f)), &distance, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);            // distance
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &healthDisplay, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);       // health
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &absorptionDisplay, Mc_Color(255, 255, 85), 0.7f, counter / 100.f);    // absorbtion
 			}
 			DrawUtils::flush();
 

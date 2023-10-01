@@ -85,9 +85,9 @@ void Tower::onPostRender(MinecraftUIRenderContext* renderCtx) {
 		return;
 	if (!Game.canUseMoveKeys())
 		return;
-	auto selectedItem = Game.getLocalPlayer()->getSelectedItem();
-	if (!selectedItem->isValid() || !(*selectedItem->item)->isBlock())  // Block in hand?
-		return;
+	// auto selectedItem = Game.getLocalPlayer()->getSelectedItem();
+	// if (!selectedItem->isValid() || !(*selectedItem->item)->isBlock())  // Block in hand?
+	//	return;
 
 	Vec3 blockBelow = Game.getLocalPlayer()->getRenderPositionComponent()->renderPos;  // Block below the player
 	blockBelow.y -= Game.getLocalPlayer()->getAABBShapeComponent()->aabb.height;

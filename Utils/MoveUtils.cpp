@@ -60,6 +60,7 @@ bool MoveUtil::keyPressed() {
 bool MoveUtil::isMoving() {
 	return Game.getLocalPlayer()->location->velocity.magnitudexz() > 0.05f;
 }
+
 float getTicksPerSecond() {
 	if (Game.getLocalPlayer() != nullptr) {
 		Vec3 targetPos = *Game.getLocalPlayer()->getPos();

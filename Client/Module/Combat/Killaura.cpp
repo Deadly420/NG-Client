@@ -101,7 +101,7 @@ void Killaura::onTick(GameMode* gm) {
 	targetListEmpty = targetList.empty();
 	// Loop through all our players and retrieve their information
 	targetList.clear();
-	if (Game.canUseMoveKeys || Game.canUseMoveKeys)
+	if (Game.canUseMoveKeys() || Game.isInGame())
 		Game.forEachEntity(findEntity);
 
 	delay++;
@@ -195,7 +195,7 @@ void Killaura::onLevelRender() {
 		Vec3 pos = start->lerp(end, te);
 
 		auto yPos = pos.y;
-		yPos == 2.0f;  // Increase this value to raise the rendering above the player
+		yPos = 2.0f;  // Increase this value to raise the rendering above the player
 		yPos += animation;
 
 		std::vector<Vec3> posList;

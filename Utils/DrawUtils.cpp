@@ -718,6 +718,55 @@ void DrawUtils::drawZephyr(Entity* ent, float lineWidth) {
 	}
 }
 
+void DrawUtils::drawNameTags(Entity* ent, float textSize, bool drawHealth, bool useUnicodeFont) {
+	Vec2 textPos;
+	Vec4 rectPos;
+	std::string text = ent->getNameTag()->getText();
+	text = Utils::sanitize(text);
+
+	float textWidth = DrawUtils::getTextWidth(&text, textSize);
+	float textHeight = DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight() * textSize;
+
+	if (refdef->OWorldToScreen(origin, ent->getRenderPositionComponent()->renderPos.add(0, 0.5f, 0), textPos, fov, screenSize)) {
+		textPos.y -= textHeight;
+		textPos.x -= textWidth / 2.f;
+		rectPos.x = textPos.x - 1.f * textSize;
+		rectPos.y = textPos.y - 1.f * textSize;
+		rectPos.z = textPos.x + textWidth + 1.f * textSize;
+		rectPos.w = textPos.y + textHeight + 2.f * textSize;
+		Vec4 subRectPos = rectPos;
+		subRectPos.y = subRectPos.w - 1.f * textSize;
+		static auto nametagsMod = moduleMgr->getModule<NameTags>();
+		DrawUtils::fillRectangle(rectPos, Mc_Color(0, 0, 0), nametagsMod->opacity);
+		if (nametagsMod->underline) {
+			fillRectangle(subRectPos, Mc_Color(0, 246, 255), 0.9f);
+		}
+		DrawUtils::drawText(textPos, &text, Mc_Color(255, 255, 255), textSize);
+
+		if (ent->isPlayer() && nametagsMod->displayArmor) {  // is player, show armor
+			auto* player = reinterpret_cast<Player*>(ent);
+			float scale = textSize * 0.6f;
+			float spacing = scale + 15.f;
+			float x = rectPos.x + 1.f * textSize;
+			float y = rectPos.y - 20.f * scale;
+			// armor
+			for (int i = 0; i < 4; i++) {
+				ItemStack* stack = player->getArmor(i);
+				if (stack->item != nullptr) {
+					DrawUtils::drawItem(stack, Vec2(x, y), 1.f, scale, stack->isEnchanted());
+					x += scale * spacing;
+				}
+			}
+			// item
+			/*{
+				ItemStack* stack = player->getSelectedItem();
+				if (stack->item != nullptr) {
+					DrawUtils::drawItem(stack, Vec2(rectPos.z - 1.f - 15.f * scale, y), 1.f, scale, stack->isEnchanted());
+				}
+			}*/
+		}
+	}
+}
 
 void DrawUtils::drawItem(ItemStack* item, const Vec2& itemPos, float opacity, float scale, bool isEnchanted) {
 	__int64 scnCtx = reinterpret_cast<__int64*>(renderCtx)[2];

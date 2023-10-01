@@ -166,6 +166,7 @@ public:
 	static void drawBetterESP(Entity* ent, float lineWidth);
 	static void draw2D(Entity* ent, float lineWidth);
 	static void drawZephyr(Entity* ent, float lineWidth);
+	static void drawNameTags(Entity* ent, float textSize, bool drawHealth = false, bool useUnicodeFont = false);
 	static void drawItem(ItemStack* item, const Vec2& ItemPos, float opacity, float scale, bool isEnchanted);
 	static float getLerpTime();
 	static Vec3 getOrigin();

@@ -61,7 +61,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Teleport());
 		moduleList.emplace_back(new MidClick());
 		moduleList.emplace_back(new AntiVoid());
-		// moduleList.emplace_back(new NameTags());
+		moduleList.emplace_back(new NameTags());
 		// moduleList.emplace_back(new HighJump());
 		moduleList.emplace_back(new NoPacket());
 		moduleList.emplace_back(new Scaffold());

@@ -178,7 +178,7 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 		return;
 	}
 
-	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3));
+	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3f));
 
 	if (Count) {
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();

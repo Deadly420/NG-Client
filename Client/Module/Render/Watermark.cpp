@@ -26,7 +26,7 @@ void Watermark::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	const float textHeight = 1.22f * DrawUtils::getFont(Fonts::SMOOTH)->getLineHeight();
 
 	// Check if the local player is valid and can use move keys
-	if (Game.isInGame() && Game.canUseMoveKeys) {
+	if (Game.isInGame() && Game.canUseMoveKeys()) {
 		// Get the player's name
 		std::string playername = Game.getLocalPlayer()->getNameTag()->getText();
 

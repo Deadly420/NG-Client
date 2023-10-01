@@ -422,6 +422,7 @@
     <ClInclude Include="SDK\Level.h" />
     <ClInclude Include="SDK\PlayerMovementProxy.h" />
     <ClInclude Include="SDK\RakNetConnector.h" />
+    <ClInclude Include="SDK\ScreenContext.h" />
     <ClInclude Include="Utils\Base64.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\Manager\FriendsManager.h" />

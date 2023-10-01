@@ -1310,10 +1310,10 @@ void Hooks::InventoryTransactionManager__addAction(Player* _this, InventoryActio
 
 void Hooks::LevelRendererPlayer__renderNameTags(__int64 a1, __int64 a2, TextHolder* a3, __int64 a4) {
 	static auto func = g_Hooks.LevelRendererPlayer__renderNameTagsHook->GetFastcall<void, __int64, __int64, TextHolder*, __int64>();
-	// static auto nameTagsMod = moduleMgr->getModule<NameTags>();
+	static auto nameTagsMod = moduleMgr->getModule<NameTags>();
 
-	// if (!nameTagsMod || !nameTagsMod->isEnabled())
-	// 	return func(a1, a2, a3, a4);
+	if (!nameTagsMod || !nameTagsMod->isEnabled())
+		return func(a1, a2, a3, a4);
 
 	std::string text = Utils::sanitize(a3->getText());
 	std::size_t found = text.find('\n');
@@ -1321,8 +1321,8 @@ void Hooks::LevelRendererPlayer__renderNameTags(__int64 a1, __int64 a2, TextHold
 	if (found != std::string::npos)
 		text = text.substr(0, found);
 
-	// if (nameTagsMod->nameTags.find(text) != nameTagsMod->nameTags.end())
-	// 	return;
+	if (nameTagsMod->nameTags.find(text) != nameTagsMod->nameTags.end())
+	 	return;
 
 	return func(a1, a2, a3, a4);
 }
