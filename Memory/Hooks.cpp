@@ -1,19 +1,19 @@
 ﻿#include "Hooks.h"
 
-#include <algorithm>
-#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_relational.hpp>
-#include <glm/ext/matrix_transform.hpp>  // perspective, translate, rotate
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp> // perspective, translate, rotate
+#include <glm/trigonometric.hpp> // radians
 #include <glm/gtc/constants.hpp>
-#include <glm/mat4x4.hpp>         // mat4
-#include <glm/trigonometric.hpp>  // radians
-
-#include "../Client/Loader.h"
-#include "../SDK/Tag.h"
-#include "../Utils/ColorUtil.h"
+#include <glm/mat4x4.hpp> // mat4
+#include <Shellapi.h>
+#include <algorithm>
 
 #include "../include/WinHttpClient.h"
-#include <Shellapi.h>
+#include "../Utils/ColorUtil.h"
+#include "../Utils/D2DUtils.h"
+#include "../Client/Loader.h"
+#include "../SDK/Tag.h"
 
 Hooks g_Hooks;
 bool isTicked = false;

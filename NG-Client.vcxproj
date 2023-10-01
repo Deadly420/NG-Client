@@ -236,9 +236,9 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Utils\D2DUtils.cpp" />
     <ClCompile Include="Utils\DrawUtils.cpp" />
     <ClCompile Include="Client\Manager\FriendsManager.cpp" />
-    <ClCompile Include="Client\GuiUtils.cpp" />
     <ClCompile Include="Client\ImmediateGui.cpp" />
     <ClCompile Include="Client\Loader.cpp" />
     <ClCompile Include="Client\Menu\ClickGui.cpp" />
@@ -425,9 +425,9 @@
     <ClInclude Include="SDK\RakNetConnector.h" />
     <ClInclude Include="SDK\ScreenContext.h" />
     <ClInclude Include="Utils\Base64.h" />
+    <ClInclude Include="Utils\D2DUtils.h" />
     <ClInclude Include="Utils\DrawUtils.h" />
     <ClInclude Include="Client\Manager\FriendsManager.h" />
-    <ClInclude Include="Client\GuiUtils.h" />
     <ClInclude Include="Client\ImmediateGui.h" />
     <ClInclude Include="Client\Loader.h" />
     <ClInclude Include="Client\Menu\ClickGui.h" />
