@@ -1,5 +1,5 @@
 #pragma once
-constexpr auto PI = (3.14159265358979323846f);
+constexpr auto PI = (3.141592653589793238462643383279502884197f);
 
 #include <math.h>
 #include <stdlib.h>
