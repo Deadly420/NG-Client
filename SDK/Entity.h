@@ -597,7 +597,7 @@ class Player : public Entity {
 public:
 	PlayerInventoryProxy *getSupplies();
 
-	ItemStack *getSelectedItem() {
+	ItemStack *getSelectedItem() { // Fucked
 		auto supplies = this->getSupplies();
 		return supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
 	}

@@ -13,7 +13,7 @@ NameTags::~NameTags() {
 }
 
 const char* NameTags::getModuleName() {
-	return ("NameTags");
+	return "NameTags";
 }
 
 void drawNameTags(Entity* ent, bool) {
