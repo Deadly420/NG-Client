@@ -100,6 +100,7 @@
 #include "../Module/Render/FullBright.h"
 #include "../Module/Render/StorageESP.h"
 #include "../Module/Render/KeyStrokes.h"
+#include "../Module/Render/ServerInfo.h"
 #include "../Module/Render/TargetHUD.h"
 #include "../Module/Render/ViewModel.h"
 #include "../Module/Render/Waypoints.h"

@@ -178,7 +178,7 @@ public:
 	GameMode* getGameMode() { return gameMode; };
 	EntityList* getEntityList() { return entityList; };
 	HIDController** getHIDController() { return &hidController; };
-	RakNetConnector* getRakNetConnector() { return raknetConnector; };
+	RakNetConnector* getRakNetConnector() { return this->getClientInstance()->loopbackPacketSender->networkSystem->remoteConnectorComposite->rakNetConnector; };
 	std::unordered_set<AABB, AABBHasher>& getChestList() { return chestList; };
 	auto lockChestList() { return std::lock_guard<std::mutex>(chestListMutex); }
 	void setFakeName(TextHolder* name) { fakeName = name; };

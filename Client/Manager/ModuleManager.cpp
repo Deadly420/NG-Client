@@ -38,6 +38,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new InstaBreak());
 		moduleList.emplace_back(new AutoSprint());
 		moduleList.emplace_back(new RainbowSky());
+		moduleList.emplace_back(new ServerInfo());
 		moduleList.emplace_back(new StorageESP());
 		moduleList.emplace_back(new TriggerBot());
 		moduleList.emplace_back(new KeyStrokes());

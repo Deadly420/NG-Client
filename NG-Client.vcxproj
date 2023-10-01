@@ -410,6 +410,7 @@
     <ClInclude Include="Client\Module\Render\CPS.h" />
     <ClInclude Include="Client\Module\Render\Keystrokes.h" />
     <ClInclude Include="Client\Module\Render\MinecraftRGB.h" />
+    <ClInclude Include="Client\Module\Render\ServerInfo.h" />
     <ClInclude Include="Client\Module\Render\TargetHUD.h" />
     <ClInclude Include="Client\Module\Render\Trail.h" />
     <ClInclude Include="Client\Module\Render\Watermark.h" />
@@ -569,7 +570,6 @@
     <ClInclude Include="SDK\MinecraftUIRenderContext.h" />
     <ClInclude Include="SDK\MoveInputHandler.h" />
     <ClInclude Include="SDK\Packet.h" />
-    <ClInclude Include="SDK\RakNetInstance.h" />
     <ClInclude Include="SDK\UIScene.h" />
     <ClInclude Include="SDK\Dimension.h" />
     <ClInclude Include="SDK\MatrixStack.h" />
