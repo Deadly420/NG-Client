@@ -12,13 +12,40 @@ public:
 	float fpsY = 280.5f;
 
 	FPS() : Module(0x0, Category::RENDER, "Frames Per Second") {
-		// registerBoolSetting("ImGui", &ImGui, ImGui, "Renders With ImGui");
+		registerBoolSetting("ImGui", &ImGui, ImGui, "Renders With ImGui");
 		registerFloatSetting("Pos-X", &fpsX, fpsX, 0.0f, Game.getClientInstance()->getGuiData()->windowSize.x, "Pos-X: Set the horizontal position from 0 to the window width");
 		registerFloatSetting("Pos-Y", &fpsY, fpsY, 0.0f, Game.getClientInstance()->getGuiData()->windowSize.y, "Pos-Y: Set the vertical position from 0 to the window height");
 		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "Size: Adjust the size from 0.1 to 1.5");
 	}
-
 	~FPS() {}
+
+	void onImGuiRender() {
+		// Main Window
+		ImGuiStyle* style = &ImGui::GetStyle();
+
+		style->WindowTitleAlign = ImVec2(0.5, 0.5);
+		style->ItemInnerSpacing = ImVec2(8, 6);
+		style->WindowPadding = ImVec2(15, 15);
+		style->ItemSpacing = ImVec2(12, 8);
+		style->FramePadding = ImVec2(5, 5);
+		style->ScrollbarRounding = 9.0f;
+		style->ScrollbarSize = 15.0f;
+		style->IndentSpacing = 25.0f;
+		style->WindowRounding = 10.f;
+		style->GrabRounding = 3.0f;
+		style->FrameRounding = 6.f;
+		style->GrabMinSize = 5.0f;
+		if (ImGui) {
+			if (ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
+				ImGui::SetWindowPos(ImVec2(fpsX, fpsY));
+				ImGui::SetWindowSize(ImVec2(85, 45));
+				std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
+				ImGui::Text("%s", fpsText.c_str());
+				ImGui::End();
+			}
+		}
+	}
+
 	void onPostRender(MinecraftUIRenderContext* renderCtx) override {
 		if (Game.getLocalPlayer() == nullptr) {
 			return;

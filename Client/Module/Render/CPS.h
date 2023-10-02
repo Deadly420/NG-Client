@@ -14,6 +14,8 @@ public:
 	};
 	~CPS(){};
 
+	void onImGuiRender() {}
+
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
 		// CPS
 		float f = 10.f * this->scale;

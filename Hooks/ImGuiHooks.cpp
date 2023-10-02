@@ -232,6 +232,6 @@ void ImGuiHooks::InitImGui() {
 		kiero::bind(8, (void**)&oPresentD3D12, hookPresentD3D12);
 		Log("Created hook for SwapChain::Present (DX11)!");
 	} else {
-		Log("Failed to initialize hooks for DX11 and DX12");
+		Log("Failed to initialize hook for DX11 and DX12");
 	}
 }

@@ -14,6 +14,8 @@ public:
 	};
 	~ServerInfo(){};
 
+	void onImGuiRender() {}
+
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
 		if (!(Game.getLocalPlayer() == nullptr || !GameData::canUseMoveKeys())) {
 			if (Game.getLocalPlayer() != nullptr || Game.getRakNetConnector()->isonaServer()) {
@@ -30,11 +32,12 @@ public:
 				Vec2 textPos = Vec2(xVal, yVal);
 
 				if (Server->serverIp.getTextLength() < 1) {
-					serverIp = "Local World", Port = "Local World";
+					std::string ServerText = "Local World";
+					DrawUtils::drawText(Vec2{textPos}, &ServerText, Mc_Color(255, 255, 255), scale);
+				} else {
+					std::string ServerText = "IP: " + serverIp + " \nPort: " + Port;
+					DrawUtils::drawText(Vec2{textPos}, &ServerText, Mc_Color(255, 255, 255), scale);
 				}
-				std::string ServerText = "IP: " + serverIp + " \nPort: " + Port;
-
-				DrawUtils::drawText(Vec2{textPos}, &ServerText, Mc_Color(255, 255, 255), scale);
 			}
 		}
 	}

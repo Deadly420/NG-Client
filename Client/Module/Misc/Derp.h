@@ -13,6 +13,6 @@ public:
 	~Derp();
 
 	// Inherited via Module
-	virtual void onTick(GameMode* gm) override;
+	virtual void onPlayerTick(Player* player) override;
 	virtual const char* getModuleName() override;
 };

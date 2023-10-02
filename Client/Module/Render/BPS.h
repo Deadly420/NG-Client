@@ -14,6 +14,8 @@ public:
 	};
 	~BPS(){};
 
+	void onImGuiRender() {}
+
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
 		// bps
 		float f = 10.f * this->scale;
