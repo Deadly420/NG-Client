@@ -3,18 +3,48 @@
 #include "../Module.h"
 class CPS : public Module {
 public:
+	bool ImGui = false;
 	float scale = 1.f;
 	float cpsX = 0.f;
 	float cpsY = 290.5f;
 
 	CPS() : Module(0x0, Category::RENDER, "Clicks Per Second") {
+		registerBoolSetting("ImGui", &ImGui, ImGui, "Renders With ImGui");
 		registerFloatSetting("Pos-X", &cpsX, cpsX, 0.f, Game.getClientInstance()->getGuiData()->windowSize.x, "Pos-X: Set the horizontal position from 0 to the window width");
 		registerFloatSetting("Pos-Y", &cpsY, cpsY, 0.f, Game.getClientInstance()->getGuiData()->windowSize.y, "Pos-Y: Set the vertical position from 0 to the window height");
 		registerFloatSetting("Size", &scale, scale, 0.1f, 1.5f, "Size: Adjust the size from 0.1 to 1.5");
 	};
 	~CPS(){};
 
-	void onImGuiRender() {}
+	void onImGuiRender() {
+		// Main Window
+		ImGuiStyle* style = &ImGui::GetStyle();
+
+		style->WindowTitleAlign = ImVec2(0.5, 0.5);
+		style->ItemInnerSpacing = ImVec2(8, 6);
+		style->WindowPadding = ImVec2(15, 15);
+		style->ItemSpacing = ImVec2(12, 8);
+		style->FramePadding = ImVec2(5, 5);
+		style->ScrollbarRounding = 9.0f;
+		style->ScrollbarSize = 15.0f;
+		style->IndentSpacing = 25.0f;
+		style->WindowRounding = 10.f;
+		style->GrabRounding = 3.0f;
+		style->FrameRounding = 6.f;
+		style->GrabMinSize = 5.0f;
+		if (ImGui) {
+			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
+				ImGui::SetWindowPos(ImVec2(cpsX, cpsY));
+				std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
+				// Calculate the size of the text
+				ImVec2 textSize = ImGui::CalcTextSize(cpsText.c_str());
+				// Set the window size to fit the text
+				ImGui::SetWindowSize(textSize);
+				ImGui::Text("%s", cpsText.c_str());
+				ImGui::End();
+			}
+		}
+	}
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
 		// CPS

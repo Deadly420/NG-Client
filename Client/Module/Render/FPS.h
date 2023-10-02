@@ -38,8 +38,11 @@ public:
 		if (ImGui) {
 			if (ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
 				ImGui::SetWindowPos(ImVec2(fpsX, fpsY));
-				ImGui::SetWindowSize(ImVec2(85, 45));
 				std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
+				// Calculate the size of the text
+				ImVec2 textSize = ImGui::CalcTextSize(fpsText.c_str());
+				// Set the window size to fit the text
+				ImGui::SetWindowSize(textSize);
 				ImGui::Text("%s", fpsText.c_str());
 				ImGui::End();
 			}
