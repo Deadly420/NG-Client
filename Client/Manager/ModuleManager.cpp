@@ -55,7 +55,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new AutoTotem());
 		// moduleList.emplace_back(new BowAimbot());
 		moduleList.emplace_back(new Criticals());
-		// moduleList.emplace_back(new TargetHUD());
+		moduleList.emplace_back(new TargetHUD()); // Recode this
 		// moduleList.emplace_back(new Disabler());
 		moduleList.emplace_back(new FastStop());
 		moduleList.emplace_back(new Freelook());

@@ -1,6 +1,8 @@
 #pragma once
 #include "../Module.h"
 #include "../../Manager/ModuleManager.h"
+#include "../../../include/imgui/imgui.h"
+
 class ServerInfo : public Module {
 public:
 	bool ImGui = false;
@@ -17,21 +19,6 @@ public:
 	~ServerInfo(){};
 
 	void onImGuiRender() {
-		// Main Window
-		ImGuiStyle* style = &ImGui::GetStyle();
-
-		style->WindowTitleAlign = ImVec2(0.5, 0.5);
-		style->ItemInnerSpacing = ImVec2(8, 6);
-		style->WindowPadding = ImVec2(15, 15);
-		style->ItemSpacing = ImVec2(12, 8);
-		style->FramePadding = ImVec2(5, 5);
-		style->ScrollbarRounding = 9.0f;
-		style->ScrollbarSize = 15.0f;
-		style->IndentSpacing = 25.0f;
-		style->WindowRounding = 10.f;
-		style->GrabRounding = 3.0f;
-		style->FrameRounding = 6.f;
-		style->GrabMinSize = 5.0f;
 		if (ImGui) {
 			if (ImGui::Begin("ServerInfo", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
 				ImGui::SetWindowPos(ImVec2(serverInfoX, serverInfoY));

@@ -55,22 +55,31 @@ void TargetHUD::onTick(GameMode* gm) {
 }
 
 void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
+	// Sort the target list
 	std::sort(targetList3.begin(), targetList3.end(), CompareTargetEnArray());
-	if (Game.getLocalPlayer() != nullptr && !targetList3.empty()) {	
-		// Atributes
+
+	// Check if the local player is not null and the target list is not empty
+	if (Game.getLocalPlayer() != nullptr && !targetList3.empty()) {
+		// Attributes
 		AbsorptionAttribute attribute = AbsorptionAttribute();
 		HealthAttribute attribute2 = HealthAttribute();
-		float Absorbtion = ((int)targetList3[0]->getAttribute(&attribute)->currentValue);
-		float Health = ((int)targetList3[0]->getAttribute(&attribute2)->currentValue);
-		float HealthMax = ((int)targetList3[0]->getAttribute(&attribute2)->maximumValue);
+
+		// Extract attribute values
+		float Absorption = static_cast<int>(targetList3[0]->getAttribute(&attribute)->currentValue);
+		float Health = static_cast<int>(targetList3[0]->getAttribute(&attribute2)->currentValue);
+		float HealthMax = static_cast<int>(targetList3[0]->getAttribute(&attribute2)->maximumValue);
+
+		// Get window size and local player
 		Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
 		Vec2 res = Game.getClientInstance()->getGuiData()->windowSize;
 		LocalPlayer* player = Game.getClientInstance()->getCILocalPlayer();
+
 		if (player != nullptr) {
-			Vec4 rectPos((res.x / 2.f) + (res.x / 20.f), (res.y / 2.f) + (res.y / 24.f), (res.x / 2.f) + (res.x / 6.f), (res.y / 2.f) + (res.y / 8.f));  // Vec4 rectPos((res.x / 2.f) + (res.x / 20.f), (res.y / 2.f) - (res.y / 24.f), (res.x / 2.f) + (res.x / 6.f), (res.y / 2.f) + (res.y / 24.f));
+			// Calculate the position and width of the target box
+			Vec4 rectPos((res.x / 2.f) + (res.x / 20.f), (res.y / 2.f) + (res.y / 24.f), (res.x / 2.f) + (res.x / 6.f), (res.y / 2.f) + (res.y / 8.f));
 			float rectWidth = rectPos.z - rectPos.x;
 
-			// counter for fade
+			// Counter for fade
 			counter++;
 			if (counter == 100)
 				counter--;
@@ -82,39 +91,41 @@ void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 				positionX = rectPos.x - 1;
 				positionY = rectPos.y - 8;
 			}
-			// The actual box
+
+			// Draw the background box
 			{
 				DrawUtils::fillRectangle(Vec4{positionX + 2.f, positionY + 1.f, rectPos.z + 1, rectPos.w + 1}, Mc_Color(0, 0, 0), counter / 340.33333f);
 			}
-			// Gets the targets name, then makes it not go to next line
-			std::string targetName;
-			targetName = Utils::sanitize(targetList3[0]->getNameTag()->getText());
+
+			// Get the target's name, then remove line breaks
+			std::string targetName = Utils::sanitize(targetList3[0]->getNameTag()->getText());
 			targetName = targetName.substr(0, targetName.find('\n'));
-			std::string HealthString = std::to_string(((int)Health));
-			std::string HealthMaxString = std::to_string(((int)HealthMax));
+			std::string HealthString = std::to_string(static_cast<int>(Health));
+			std::string HealthMaxString = std::to_string(static_cast<int>(HealthMax));
 			std::string distance = "Distance: " + std::to_string((int)(*targetList3[0]->getPos()).dist(*Game.getLocalPlayer()->getPos()));
 			std::string healthDisplay = "Health: " + HealthString + "/" + HealthMaxString;
 			std::string armor = "Armor: ";
 			std::string absorptionDisplay;
-			// Absorbtion Bar
-			if (Absorbtion > 0) {
-				std::string absorptionString = std::to_string((int)(Absorbtion));
+
+			// Absorption Bar
+			if (Absorption > 0) {
+				std::string absorptionString = std::to_string(static_cast<int>(Absorption));
 				absorptionDisplay = " Absorption: " + absorptionString;
-				float absorptionBarWidth = (Absorbtion / HealthMax) * rectWidth;
+				float absorptionBarWidth = (Absorption / HealthMax) * rectWidth;
 				if (!(targetList3[0]->damageTime > 1))
 					DrawUtils::fillRectangle(Vec4(positionX + 3.f, rectPos.y + (res.y / 18.f), rectPos.x + absorptionBarWidth, rectPos.y + (res.y / 18.f) + ((rectPos.w - (rectPos.y + (res.y / 18.f))) / 2)), Mc_Color(255, 255, 85), counter / 100.f);
 				else
 					DrawUtils::fillRectangle(Vec4(positionX + 3.f, rectPos.y + (res.y / 18.f), rectPos.x + absorptionBarWidth, rectPos.y + (res.y / 18.f) + ((rectPos.w - (rectPos.y + (res.y / 18.f))) / 2)), Mc_Color(255, 255, 0), counter / 100.f);
 			}
 
-			// The text
+			// Draw the text
 			{
-				// DrawUtils::drawSteve(Vec4(positionX + 2.f, positionY + 1.f, positionX, positionY));
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 17.f + (res.y / 35.f)), &targetName, Mc_Color(255, 255, 255), 1.f, counter / 100.f);            // name
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 8.5f + (res.y / 35.f)), &distance, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);            // distance
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &healthDisplay, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);       // health
-				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &absorptionDisplay, Mc_Color(255, 255, 85), 0.7f, counter / 100.f);    // absorbtion
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 17.f + (res.y / 35.f)), &targetName, Mc_Color(255, 255, 255), 1.f, counter / 100.f);         // name
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 8.5f + (res.y / 35.f)), &distance, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);          // distance
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &healthDisplay, Mc_Color(255, 255, 255), 0.7f, counter / 100.f);     // health
+				DrawUtils::drawText(Vec2(positionX + 3.f, rectPos.y - 3.5f + (res.y / 35.f)), &absorptionDisplay, Mc_Color(255, 255, 85), 0.7f, counter / 100.f);  // absorption
 			}
+
 			DrawUtils::flush();
 
 			// Health Bar
@@ -125,6 +136,7 @@ void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 				else
 					DrawUtils::fillRectangle(Vec4(positionX + 3.f, rectPos.y + (res.y / 18.f) + ((rectPos.w - (rectPos.y + (res.y / 18.f))) / 2), rectPos.x + healthBarWidth, rectPos.w), Mc_Color(255, 0, 0), counter / 100.f);
 			}
+
 			rectPos.y += res.y / 12.f;
 			rectPos.w += res.y / 12.f;
 		}

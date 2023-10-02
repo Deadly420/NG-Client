@@ -1,6 +1,8 @@
 #pragma once
-#include "../../Manager/ModuleManager.h"
 #include "../Module.h"
+#include "../../Manager/ModuleManager.h"
+#include "../../../include/imgui/imgui.h"
+
 class CPS : public Module {
 public:
 	bool ImGui = false;
@@ -17,29 +19,14 @@ public:
 	~CPS(){};
 
 	void onImGuiRender() {
-		// Main Window
-		ImGuiStyle* style = &ImGui::GetStyle();
-
-		style->WindowTitleAlign = ImVec2(0.5, 0.5);
-		style->ItemInnerSpacing = ImVec2(8, 6);
-		style->WindowPadding = ImVec2(15, 15);
-		style->ItemSpacing = ImVec2(12, 8);
-		style->FramePadding = ImVec2(5, 5);
-		style->ScrollbarRounding = 9.0f;
-		style->ScrollbarSize = 15.0f;
-		style->IndentSpacing = 25.0f;
-		style->WindowRounding = 10.f;
-		style->GrabRounding = 3.0f;
-		style->FrameRounding = 6.f;
-		style->GrabMinSize = 5.0f;
 		if (ImGui) {
 			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
 				ImGui::SetWindowPos(ImVec2(cpsX, cpsY));
 				std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
 				// Calculate the size of the text
-				ImVec2 textSize = ImGui::CalcTextSize(cpsText.c_str());
+				ImVec2 TextSize = ImGui::CalcTextSize(cpsText.c_str());
 				// Set the window size to fit the text
-				ImGui::SetWindowSize(textSize);
+				ImGui::SetWindowSize(TextSize);
 				ImGui::Text("%s", cpsText.c_str());
 				ImGui::End();
 			}
