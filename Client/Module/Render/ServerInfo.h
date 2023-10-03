@@ -19,9 +19,11 @@ public:
 	~ServerInfo(){};
 
 	void onImGuiRender() {
-		if (ImGui) {
-			if (ImGui::Begin("ServerInfo", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
-				ImGui::SetWindowPos(ImVec2(serverInfoX, serverInfoY));
+		if (ImGui && Game.getLocalPlayer() != nullptr || GameData::canUseMoveKeys() || Game.getRakNetConnector()->isonaServer()) {
+			static ImVec2 windowPos = ImVec2(0, 300);
+			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+
+			if (ImGui::Begin("ServerInfo", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				auto Server = Game.getRakNetConnector();
 				if (Server == nullptr) return;
 
@@ -32,13 +34,14 @@ public:
 				if (Server->serverIp.getTextLength() < 1) {
 					std::string ServerText = "Local World";
 					ImVec2 textSize = ImGui::CalcTextSize(ServerText.c_str());
-					ImGui::SetWindowSize(textSize);
+					ImGui::SetWindowSize(ImVec2(150, 40));
 					ImGui::Text("%s", ServerText.c_str());
 					ImGui::End();
 				} else {
 					std::string ServerText = "IP: " + serverIp + " \nPort: " + Port;
 					ImVec2 textSize = ImGui::CalcTextSize(ServerText.c_str());
-					ImGui::SetWindowSize(textSize);
+					ImGui::SetWindowSize(ImVec2(240, 60));
+					ImGui::SetWindowFontScale(1.0);
 					ImGui::Text("%s", ServerText.c_str());
 					ImGui::End();
 				}
@@ -47,8 +50,8 @@ public:
 	}
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
-		if (!(Game.getLocalPlayer() == nullptr || !GameData::canUseMoveKeys())) {
-			if (Game.getLocalPlayer() != nullptr || Game.getRakNetConnector()->isonaServer()) {
+		if (!ImGui) {
+			if (Game.getLocalPlayer() != nullptr || GameData::canUseMoveKeys() || Game.getRakNetConnector()->isonaServer()) {
 				auto Server = Game.getRakNetConnector();
 				if (Server == nullptr) return;
 

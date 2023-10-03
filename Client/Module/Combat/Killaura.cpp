@@ -101,34 +101,35 @@ void Killaura::onTick(GameMode* gm) {
 	targetListEmpty = targetList.empty();
 	// Loop through all our players and retrieve their information
 	targetList.clear();
-	if (Game.canUseMoveKeys() || Game.isInGame())
+	if (Game.canUseMoveKeys() || Game.isInGame()) {
 		Game.forEachEntity(findEntity);
 
-	delay++;
-	if (minD <= maxD) {
-		if (!targetList.empty() && delay >= random(minD, maxD)) {
-			if (autoweapon) findWeapon();
+		delay++;
+		if (minD <= maxD) {
+			if (!targetList.empty() && delay >= random(minD, maxD)) {
+				if (autoweapon) findWeapon();
 
-			if (Game.getLocalPlayer()->location->velocity.squaredxzlen() < 0.01) {
-				MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
-				Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
-			}
+				if (Game.getLocalPlayer()->location->velocity.squaredxzlen() < 0.01) {
+					MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());
+					Game.getClientInstance()->loopbackPacketSender->sendToServer(&p);  // make sure to update rotation if player is standing still
+				}
 
-			// Attack all entitys in targetList
-			if (mode.selected == 1) {
-				for (auto& i : targetList) {
-					if (!(i->damageTime > 1 && hurttime)) {
+				// Attack all entitys in targetList
+				if (mode.selected == 1) {
+					for (auto& i : targetList) {
+						if (!(i->damageTime > 1 && hurttime)) {
+							Game.getLocalPlayer()->swing();
+							Game.getGameMode()->attack(i);
+						}
+					}
+				} else {
+					if (!(targetList[0]->damageTime > 1 && hurttime)) {
 						Game.getLocalPlayer()->swing();
-						Game.getGameMode()->attack(i);
+						Game.getGameMode()->attack(targetList[0]);
 					}
 				}
-			} else {
-				if (!(targetList[0]->damageTime > 1 && hurttime)) {
-					Game.getLocalPlayer()->swing();
-					Game.getGameMode()->attack(targetList[0]);
-				}
+				delay = 0;
 			}
-			delay = 0;
 		}
 	}
 }
@@ -164,7 +165,7 @@ void Killaura::onSendPacket(Packet* packet) {
 		if (packet->isInstanceOf<MovePlayerPacket>()) {
 			auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(targetList[0]->getMovementProxy()->getAttachPos(ActorLocation::Eyes, 1.f));
-			movePacket->pitch = angle.x;
+			movePacket->pitch = angle.y;
 			movePacket->headYaw = angle.y;
 			movePacket->yaw = angle.y;
 		}

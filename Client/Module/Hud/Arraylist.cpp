@@ -7,7 +7,7 @@
 
 using namespace std;
 Arraylist::Arraylist() : Module(0x0, Category::HUD, "Displays the arraylist") {
-	registerFloatSetting("Padding", &padding, padding, 0.0f, 10.0f, "Padding: Adjust text padding from 0 to 1");
+	registerFloatSetting("Padding", &padding, padding, 0.0f, 100.0f, "Padding: Adjust text padding from 0 to 1");
 	// registerFloatSetting("Scale", &scale, scale, 0.5f, 2.0f, "Scale: Adjust text scale from 0.5 to 2.0"); // TODO
 
 	registerEnumSetting("Mode", &mode, 0, "Changes The Arraylist Type");

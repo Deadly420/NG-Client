@@ -403,6 +403,7 @@
     <ClInclude Include="Client\Module\Entity\EntityLongJump.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpeed.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
+    <ClInclude Include="Client\Module\Font.h" />
     <ClInclude Include="Client\Module\Hud\Newui.h" />
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Movement\BoatFly.h" />

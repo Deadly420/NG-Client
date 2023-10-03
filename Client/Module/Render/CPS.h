@@ -19,14 +19,14 @@ public:
 	~CPS(){};
 
 	void onImGuiRender() {
-		if (ImGui) {
-			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
-				ImGui::SetWindowPos(ImVec2(cpsX, cpsY));
+		if (ImGui && Game.getLocalPlayer() != nullptr) {
+			static ImVec2 windowPos = ImVec2(0, 280);
+			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+
+			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
-				// Calculate the size of the text
-				ImVec2 TextSize = ImGui::CalcTextSize(cpsText.c_str());
 				// Set the window size to fit the text
-				ImGui::SetWindowSize(TextSize);
+				ImGui::SetWindowSize(ImVec2(95, 45));
 				ImGui::Text("%s", cpsText.c_str());
 				ImGui::End();
 			}
@@ -34,21 +34,21 @@ public:
 	}
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
-		// CPS
-		float f = 10.f * this->scale;
-		std::string tempStr("Movement");
-		float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
+		if (!ImGui && Game.getLocalPlayer() != nullptr) {
+			// CPS
+			float f = 10.f * this->scale;
+			std::string tempStr("Movement");
+			float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
 
-		float yVal = cpsY;
-		float xVal = cpsX;
+			float yVal = cpsY;
+			float xVal = cpsX;
 
-		if (!(Game.getLocalPlayer() == nullptr)) {
 			std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
 			Vec4 rectPos = Vec4(0.5f, yVal + 20.5f * scale, len - 1.5f, yVal + 30.5f * scale);
 			Vec2 textPos = Vec2(xVal, yVal);
 			DrawUtils::drawText(Vec2{textPos}, &cpsText, Mc_Color(255, 255, 255), scale);
+			yVal += f;
 		}
-		yVal += f;
 	}
 
 	virtual const char* getModuleName() override {

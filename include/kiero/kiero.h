@@ -1,5 +1,5 @@
-#ifndef INCLUDES_KIERO_KIERO
-#define INCLUDES_KIERO_KIERO
+#ifndef __KIERO_H__
+#define __KIERO_H__
 
 #include <stdint.h>
 
@@ -7,7 +7,7 @@
 
 #define KIERO_INCLUDE_D3D9 0    // 1 if you need D3D9 hook
 #define KIERO_INCLUDE_D3D10 0   // 1 if you need D3D10 hook
-#define KIERO_INCLUDE_D3D11 0   // 1 if you need D3D11 hook
+#define KIERO_INCLUDE_D3D11 1   // 1 if you need D3D11 hook
 #define KIERO_INCLUDE_D3D12 1   // 1 if you need D3D12 hook
 #define KIERO_INCLUDE_OPENGL 0  // 1 if you need OpenGL hook
 #define KIERO_INCLUDE_VULKAN 0  // 1 if you need Vulkan hook
@@ -70,4 +70,4 @@ RenderType::Enum getRenderType();
 uint150_t* getMethodsTable();
 }  // namespace kiero
 
-#endif /* INCLUDES_KIERO_KIERO */
+#endif  // __KIERO_H__

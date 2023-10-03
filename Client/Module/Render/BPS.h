@@ -19,15 +19,14 @@ public:
 	~BPS(){};
 
 	void onImGuiRender() {
-		if (ImGui) {
-			if (ImGui::Begin("BPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
+		if (ImGui && Game.getLocalPlayer() != nullptr) {
+			static ImVec2 windowPos = ImVec2(0, 260);
+			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+
+			if (ImGui::Begin("BPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				auto player = Game.getLocalPlayer();
-				ImGui::SetWindowPos(ImVec2(bpsX, bpsY));
 				std::string bpsText = "BPS: " + std::to_string((int)player->getBlocksPerSecond()) + std::string(".") + std::to_string((int)(player->getBlocksPerSecond() * 10) - ((int)player->getBlocksPerSecond() * 10));
-				// Calculate the size of the text
-				ImVec2 TextSize = ImGui::CalcTextSize(bpsText.c_str());
 				// Set the window size to fit the text
-				ImGui::SetWindowSize(TextSize);
 				ImGui::Text("%s", bpsText.c_str());
 				ImGui::End();
 			}
@@ -35,22 +34,22 @@ public:
 	}
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) {
-		// bps
-		float f = 10.f * this->scale;
-		std::string tempStr("Movement");
-		float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
+		if (!ImGui && Game.getLocalPlayer() != nullptr) {
+			// bps
+			float f = 10.f * this->scale;
+			std::string tempStr("Movement");
+			float len = DrawUtils::getTextWidth(&tempStr, scale) + 7.f;
 
-		float yVal = bpsY;
-		float xVal = bpsX;
+			float yVal = bpsY;
+			float xVal = bpsX;
 
-		if (!(Game.getLocalPlayer() == nullptr)) {
 			auto player = Game.getLocalPlayer();
 			std::string bpsText = "BPS: " + std::to_string((int)player->getBlocksPerSecond()) + std::string(".") + std::to_string((int)(player->getBlocksPerSecond() * 10) - ((int)player->getBlocksPerSecond() * 10));
 			Vec4 rectPos = Vec4(0.5f, yVal + 20.5f * scale, len - 1.5f, yVal + 30.5f * scale);
 			Vec2 textPos = Vec2(xVal, yVal);
 			DrawUtils::drawText(Vec2{textPos}, &bpsText, Mc_Color(255, 255, 255), scale);
+			yVal += f;
 		}
-		yVal += f;
 	}
 
 	virtual const char* getModuleName() override {

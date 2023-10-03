@@ -20,29 +20,18 @@ public:
 	~FPS() {}
 
 	void onImGuiRender() {
-		// Main Window
-		ImGuiStyle* style = &ImGui::GetStyle();
+		if (ImGui && Game.getLocalPlayer() != nullptr) {
+			int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		style->WindowTitleAlign = ImVec2(0.5, 0.5);
-		style->ItemInnerSpacing = ImVec2(8, 6);
-		style->WindowPadding = ImVec2(15, 15);
-		style->ItemSpacing = ImVec2(12, 8);
-		style->FramePadding = ImVec2(5, 5);
-		style->ScrollbarRounding = 9.0f;
-		style->ScrollbarSize = 15.0f;
-		style->IndentSpacing = 25.0f;
-		style->WindowRounding = 10.f;
-		style->GrabRounding = 3.0f;
-		style->FrameRounding = 6.f;
-		style->GrabMinSize = 5.0f;
-		if (ImGui) {
-			if (ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
-				ImGui::SetWindowPos(ImVec2(fpsX, fpsY));
+			static ImVec2 windowPos = ImVec2(0, 280);
+			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+
+			if (ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
-				// Calculate the size of the text
-				ImVec2 textSize = ImGui::CalcTextSize(fpsText.c_str());
 				// Set the window size to fit the text
-				ImGui::SetWindowSize(textSize);
+				ImGui::SetWindowSize(ImVec2(85, 45));
+				ImGui::SetWindowFontScale(1.5);
 				ImGui::Text("%s", fpsText.c_str());
 				ImGui::End();
 			}
@@ -50,9 +39,8 @@ public:
 	}
 
 	void onPostRender(MinecraftUIRenderContext* renderCtx) override {
-		if (Game.getLocalPlayer() == nullptr) {
-			return;
-		}
+		if (Game.getLocalPlayer() == nullptr) return;
+
 		if (!ImGui) {
 			float f = 10.0f * scale;
 			std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
