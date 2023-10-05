@@ -6,7 +6,7 @@
 #include <Windows.h>
 
 #include "Utils.h"
-
+#include <ctime>
 #include <sstream>
 #include <windows.storage.h>
 #include <wrl.h>
@@ -78,12 +78,9 @@ void Logging::WriteLogs(volatile char* fmt, ...) {
 
 	pFile = _fsopen(logPath, "a", _SH_DENYWR);  // Open File with DENY_WRITE so other programs can only read stuff from log
 	if (pFile != nullptr) {
-		std::stringstream ssTime;
-		Utils::ApplySystemTime(&ssTime);
-
 		char logMessage[500];
 		char timeStamp[20];
-		sprintf_s(timeStamp, 20, "%s", ssTime.str().c_str());
+		sprintf_s(timeStamp, 20, "[%s] ", __TIME__);
 
 		va_list arg;
 		va_start(arg, fmt);

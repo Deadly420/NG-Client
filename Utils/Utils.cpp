@@ -144,6 +144,14 @@ std::string Utils::getRttiBaseClassName(void* ptr) {
 size_t Utils::posToHash(const Vec3i& pos) {
 	return rotBy(pos.x, 0) | rotBy(pos.z, 24) | (static_cast<unsigned __int64>(pos.y) << 48u);
 }
+
+ImVec2 Utils::getScreenResolution() {
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	return ImVec2(desktop.right, desktop.bottom);
+}
+
 std::string Utils::getClipboardText() {
 	if (!OpenClipboard(nullptr)) {
 		return "";

@@ -26,7 +26,7 @@ public:
 			if (ImGui::Begin("BPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				auto player = Game.getLocalPlayer();
 				std::string bpsText = "BPS: " + std::to_string((int)player->getBlocksPerSecond()) + std::string(".") + std::to_string((int)(player->getBlocksPerSecond() * 10) - ((int)player->getBlocksPerSecond() * 10));
-				// Set the window size to fit the text
+				ImGui::SetWindowFontScale(1.5);
 				ImGui::Text("%s", bpsText.c_str());
 				ImGui::End();
 			}

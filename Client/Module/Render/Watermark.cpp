@@ -3,7 +3,6 @@
 #include "../../../Utils/DrawUtils.h"
 #include "../../../Utils/ColorUtil.h"
 #include "../../Manager/ModuleManager.h"
-#include "../Font.h"
 
 Watermark::Watermark() : Module(0x0, Category::RENDER, "Show Watermark") {
 	registerBoolSetting("ImGui", &ImGui, ImGui, "Renders With ImGui");
@@ -26,19 +25,11 @@ void Watermark::onImGuiRender() {
 
 		ImVec4 textColor = ImVec4(color.r, color.g, color.b, 1.0f);  // Red color, adjust as needed
 
-		ImGuiIO& io = ImGui::GetIO();
-
-		ImFontConfig font;
-		font.FontDataOwnedByAtlas = false;
-
-		io.Fonts->AddFontFromMemoryTTF((void*)rawData, sizeof(rawData), 18.5f, &font);
-
 		// Draw the watermark text directly
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(0, 0));
 		ImGui::Begin("Watermark", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 		ImGui::SetWindowFontScale(2.0);
-
 		// Set the text color and then display the text
 		ImGui::TextColored(textColor, "%s", watermarkText.c_str());
 

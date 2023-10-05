@@ -299,8 +299,8 @@ void Hooks::Restore() {
 }
 
 void Hooks::Enable() {
-	Log("Hooks enabled");
 	MH_EnableHook(MH_ALL_HOOKS);
+	Log("Hooks Enabled");
 }
 
 bool Hooks::Actor_intersects(Entity* _this, Vec3 lower, Vec3 upper) {

@@ -1,6 +1,7 @@
 #include "Trail.h"
 #include "../../Manager/ModuleManager.h"
 #include "../../../Utils/ColorUtil.h"
+#include "../../../include/imgui/imgui.h"
 
 Trail::Trail() : Module(0x0, Category::RENDER, "Display movement trails") {
 

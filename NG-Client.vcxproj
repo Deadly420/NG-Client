@@ -224,6 +224,9 @@
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
     <ClCompile Include="Hooks\D2DHooks.cpp" />
     <ClCompile Include="Hooks\ImGuiHooks.cpp" />
+    <ClCompile Include="include\animations\dotMatrix.cpp" />
+    <ClCompile Include="include\animations\fade.cpp" />
+    <ClCompile Include="include\animations\snowflake.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
     <ClCompile Include="include\imgui\imgui_demo.cpp" />
     <ClCompile Include="include\imgui\imgui_draw.cpp" />
@@ -403,7 +406,6 @@
     <ClInclude Include="Client\Module\Entity\EntityLongJump.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpeed.h" />
     <ClInclude Include="Client\Module\Entity\EntitySpider.h" />
-    <ClInclude Include="Client\Module\Font.h" />
     <ClInclude Include="Client\Module\Hud\Newui.h" />
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Movement\BoatFly.h" />
@@ -420,6 +422,9 @@
     <ClInclude Include="Client\Module\World\Disabler.h" />
     <ClInclude Include="Hooks\D2DHooks.h" />
     <ClInclude Include="Hooks\ImGuiHooks.h" />
+    <ClInclude Include="include\animations\dotMatrix.h" />
+    <ClInclude Include="include\animations\fade.hpp" />
+    <ClInclude Include="include\animations\snowflake.hpp" />
     <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="SDK\ActorFlags.h" />

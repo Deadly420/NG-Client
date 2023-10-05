@@ -11,6 +11,8 @@
 #include <sstream>
 #include <vector>
 
+#include "../include/imgui/imgui.h"
+
 //#include "xorstr.h"
 
 static const char* const KeyNames[] = {
@@ -414,6 +416,8 @@ public:
 	}
 
 	static std::string getClipboardText();
+
+	static ImVec2 getScreenResolution();
 
 	static void systemPlay(std::string name);
 

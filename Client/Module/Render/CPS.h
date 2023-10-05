@@ -25,8 +25,7 @@ public:
 
 			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
-				// Set the window size to fit the text
-				ImGui::SetWindowSize(ImVec2(95, 45));
+				ImGui::SetWindowFontScale(1.5);
 				ImGui::Text("%s", cpsText.c_str());
 				ImGui::End();
 			}
