@@ -38,7 +38,7 @@ void Watermark::onImGuiRender() {
 }
 
 void Watermark::onPostRender(MinecraftUIRenderContext * renderCtx) {
-	if (!ImGui) {
+	if (!ImGui && Game.isInGame()) {
 		int index = 1;
 		int curIndex = -index * 90;
 		auto color = ColorUtil::getRainbowColor(3.0f, 1.0f, 1, curIndex * 2);

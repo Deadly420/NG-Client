@@ -105,6 +105,7 @@
 #include "../Module/Render/ViewModel.h"
 #include "../Module/Render/Waypoints.h"
 #include "../Module/Render/NoHurtcam.h"
+#include "../Module/Render/AntiInvis.h"
 #include "../Module/Render/ArmourHud.h"
 #include "../Module/Render/NightMode.h"
 #include "../Module/Render/Watermark.h"

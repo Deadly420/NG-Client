@@ -154,6 +154,7 @@ void NewUI::onImGuiRender() {
 		}
 		return currentState;
 	};
+
 	if (ImGui::Begin("Combat", 0, TargetFlags)) {
 		ImGui::SetWindowSize(ImVec2(200.f, 410.f));
 		ImGui::SetWindowPos(ImVec2(100, 100));

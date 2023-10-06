@@ -376,8 +376,7 @@ void Module::setEnabled(bool enabled) {
 			Log("%s %s", enabled ? "Enabled" : "Disabled", this->getModuleName());
 
 		static auto ToggleSound = moduleMgr->getModule<ToggleSounds>();
-
-
+		// Game.getClientInstance()->getGuiData()->displayClientMessageF("[%sNG%s] %s%s %s%s%s", DARK_PURPLE, WHITE, GRAY, enabled ? "Enabled" : "Disabled", BOLD, WHITE, this->getModuleName());
 		if (enabled) {
 			this->onEnable();
 			if (ToggleSound->isEnabled() && !((GameData::isKeyDown('L') && GameData::isKeyDown(VK_CONTROL)) || GameData::isKeyDown(VK_END) || GameData::shouldTerminate()) && Game.isInGame() && Game.getLocalPlayer() != nullptr && !isFlashMode())

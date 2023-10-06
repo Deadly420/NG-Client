@@ -1,5 +1,5 @@
 #pragma once
-#include "../CommandMgr.h"
+#include "../../Manager/CommandMgr.h"
 
 #include "ICommand.h"
 class SetPrefixCommand : public IMCCommand {

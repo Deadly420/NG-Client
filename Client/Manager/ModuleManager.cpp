@@ -42,6 +42,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new StorageESP());
 		moduleList.emplace_back(new TriggerBot());
 		moduleList.emplace_back(new KeyStrokes());
+		moduleList.emplace_back(new AntiInvis());
 		moduleList.emplace_back(new ViewModel());
 		moduleList.emplace_back(new ArmourHud());
 		moduleList.emplace_back(new Waypoints());

@@ -10,12 +10,12 @@
 #include <thread>
 #include <unordered_map>
 
-#include "../Client/Command/CommandMgr.h"
+// Managers
+#include "../Client/Manager/CommandMgr.h"
 #include "../Client/Manager/ConfigManager.h"
-#include "../Utils/DrawUtils.h"
-#include "../Client/ImmediateGui.h"
-#include "../Client/Menu/ClickGui.h"
 #include "../Client/Manager/ModuleManager.h"
+
+// SDK
 #include "../SDK/BlockLegacy.h"
 #include "../SDK/Camera.h"
 #include "../SDK/ChestBlockActor.h"
@@ -25,12 +25,20 @@
 #include "../SDK/RakNetConnector.h"
 #include "../SDK/TextHolder.h"
 #include "../SDK/UIScene.h"
+
+// Utils
+#include "../Utils/DrawUtils.h"
 #include "../Utils/Logging.h"
 #include "../Utils/SkinUtil.h"
 #include "../Utils/TextFormat.h"
-#include "../resource.h"
+
+// Memory
 #include "../Memory/GameData.h"
 #include "../Memory/MinHook.h"
+
+// Client
+#include "../Client/ImmediateGui.h"
+#include "../Client/Menu/ClickGui.h"
 
 class VMTHook;
 class FuncHook;

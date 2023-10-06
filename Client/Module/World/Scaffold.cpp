@@ -6,7 +6,7 @@
 
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
 	// registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
-	// registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
+	registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
 	registerBoolSetting("Highlight", &highlight, highlight, "Highlight: Enable or disable highlighting");
 	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable hive functionality");
 	registerBoolSetting("Rotations", &rotations, rotations, "Rotations: Enable or disable rotations");
@@ -20,7 +20,7 @@ bool Scaffold::tryScaffold(Vec3 blockBelow) {
 	vel = vel.normalize();  // Only use values from 0 - 1
 	blockBelow = blockBelow.floor();
 
-	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f);                            // white when placing all the time
+	DrawUtils::setColor(1.f, 1.f, 1.f, 1.f);  // white when placing all the time
 
 	if (highlight) DrawUtils::drawBox(blockBelow, Vec3(blockBelow).add(1), 0.4f);  // Draw a box around the block about to be placed
 
@@ -155,15 +155,12 @@ bool Scaffold::findBlock() {
 	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
 	Inventory* inv = supplies->inventory;
 	auto prevSlot = supplies->selectedHotbarSlot;
-
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 8; i++) {
 		ItemStack* stack = inv->getItemStack(i);
-
 		if (stack->item != nullptr) {
 			if (stack->getItem()->isBlock()) {
 				if (prevSlot != i)
 					supplies->selectedHotbarSlot = i;
-
 				return true;
 			}
 		}
@@ -181,32 +178,32 @@ void Scaffold::onPostRender(MinecraftUIRenderContext* ctx) {
 	Vec2 textPos(Vec2(windowSize.x / 2 - 25, windowSize.y / 1.3f));
 
 	if (Count) {
-	PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
-	Inventory* inv = supplies->inventory;
-	int totalCount = 0;
+		PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
+		Inventory* inv = supplies->inventory;
+		int totalCount = 0;
 
 		for (int s = 0; s < 9; s++) {
-	 	ItemStack* stack = inv->getItemStack(s);
-	 	if (stack->item != nullptr && stack->getItem()->isBlock()) {
-	 		totalCount += stack->count;
-	 	}
-	}
+			ItemStack* stack = inv->getItemStack(s);
+			if (stack->item != nullptr && stack->getItem()->isBlock()) {
+				totalCount += stack->count;
+			}
+		}
 
 		std::string count = "Blocks Left: " + std::to_string(totalCount);
-		 	Mc_Color color = Mc_Color();
-		 	if (totalCount > 64) color = Mc_Color(255, 255, 255);
-		 	if (totalCount < 64) color = Mc_Color(255, 255, 20);
-		 	if (totalCount < 32) color = Mc_Color(255, 196, 0);
-		 	if (totalCount < 16) color = Mc_Color(252, 62, 62);
-		 	if (totalCount < 1) color = Mc_Color(255, 0, 0);
-		 	DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
-		 }
+		Mc_Color color = Mc_Color();
+		if (totalCount > 64) color = Mc_Color(255, 255, 255);
+		if (totalCount < 64) color = Mc_Color(255, 255, 20);
+		if (totalCount < 32) color = Mc_Color(255, 196, 0);
+		if (totalCount < 16) color = Mc_Color(252, 62, 62);
+		if (totalCount < 1) color = Mc_Color(255, 0, 0);
+		DrawUtils::drawText(Vec2(textPos), &count, color, 1.f, true);
+	}
 
 	// auto selectedItem = player->getSelectedItem();
 	// if ((selectedItem == nullptr || selectedItem->count == 0 || selectedItem->item == nullptr || !selectedItem->getItem()->isBlock()) && !autoSelect) {
 	// 	return;
 	// }
-
+	
 	float speed = player->location->velocity.magnitudexz();
 	Vec3 velocity = player->location->velocity.normalize();
 
@@ -331,7 +328,7 @@ void Scaffold::onSendPacket(Packet* packet) {
 			if (speed > 0.05f) {
 				auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 				Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-				movePacket->pitch = angle.x;
+				movePacket->pitch = 50;
 				movePacket->headYaw = angle.y;
 				movePacket->yaw = angle.y;
 			}
@@ -349,9 +346,9 @@ void Scaffold::onPlayerTick(Player* player) {
 
 		if (speed > 0.05f) {
 			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-			player->getActorHeadRotationComponent()->rot.x = angle.y;
-			// player->getActorRotationComponent()->rot.y = angle.y;
-			player->getMobBodyRotationComponent()->bodyRot = angle.y;
+			player->getActorRotationComponent()->rot.x = 50;
+			player->getActorHeadRotationComponent()->rot.x = angle.y - 180;
+			player->getMobBodyRotationComponent()->bodyRot = angle.y - 180;
 		}
 	}
 }
