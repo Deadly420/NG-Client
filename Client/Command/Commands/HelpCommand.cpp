@@ -1,6 +1,6 @@
 #include "HelpCommand.h"
 
-#include "../CommandMgr.h"
+#include "../../Manager/CommandMgr.h"
 
 HelpCommand::HelpCommand() : IMCCommand("help", "Lists all commands", "") {
 	registerAlias("h");

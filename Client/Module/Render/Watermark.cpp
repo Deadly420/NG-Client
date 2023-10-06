@@ -17,13 +17,14 @@ const char* Watermark::getModuleName() {
 
 void Watermark::onImGuiRender() {
 	if (ImGui && Game.isInGame()) {
-		std::string watermarkText = "NG Client";
+		//std::string watermarkText = "NG Client";
+		std::string watermarkText = "NG Client|" + std::to_string(Game.getFPS()) + "fps|" + Utils::GetCurrentSystemTimeString();
 
 		int index = 1;
 		int curIndex = -index * 90;
 		auto color = ColorUtil::getRainbowColor(3.0f, 1.0f, 1, curIndex * 2);
 
-		ImVec4 textColor = ImVec4(color.r, color.g, color.b, 1.0f);  // Red color, adjust as needed
+		ImVec4 textColor = ImVec4(color.r, color.g, color.b, 1.0f);
 
 		// Draw the watermark text directly
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
@@ -31,7 +32,7 @@ void Watermark::onImGuiRender() {
 		ImGui::Begin("Watermark", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
 		ImGui::SetWindowFontScale(2.0);
 		// Set the text color and then display the text
-		ImGui::TextColored(textColor, "%s", watermarkText.c_str());
+		ImGui::Text("%s", watermarkText.c_str());
 
 		ImGui::End();
 	}

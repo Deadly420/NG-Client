@@ -468,6 +468,8 @@ public:
 
 	static void GetCurrentSystemTime(tm& timeInfo);
 
+	static std::string GetCurrentSystemTimeString();
+
 	static void ApplySystemTime(std::stringstream* ss);
 
 	static uintptr_t getBase();

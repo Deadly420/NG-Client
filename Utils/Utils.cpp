@@ -62,6 +62,18 @@ void Utils::GetCurrentSystemTime(tm& timeInfo) {
 	localtime_s(&timeInfo, &now_c);  // using localtime_s as std::localtime is not thread-safe.
 }
 
+std::string Utils::GetCurrentSystemTimeString() {
+	std::tm timeInfo;
+	Utils::GetCurrentSystemTime(timeInfo);
+
+	// Format the time into a string
+	char buffer[80];
+	// std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeInfo);
+	std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &timeInfo);
+
+	return std::string(buffer);
+}
+
 bool invalidChar(char c) {
 	return !(c >= 0 && *reinterpret_cast<unsigned char*>(&c) < 128);
 }
