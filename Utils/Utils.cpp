@@ -39,21 +39,25 @@ void Utils::systemPlay(std::string name) {
 }
 
 void Utils::MakeRoamingFolder(std::string file) {
-	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\") + std::string(file);
-	// Creating File
-	if (mkdir(path.c_str()) == -1)
-		return;
-	else
-		return;
+	char* appdata;
+	if (_dupenv_s(&appdata, NULL, "APPDATA") == 0 && appdata != nullptr) {
+		std::string path = std::string(appdata) + "\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\" + std::string(file);
+		free(appdata);
+		// Creating File
+		if (_mkdir(path.c_str()) == -1) {
+		}
+	}
 }
 
 void Utils::MakeFolder(std::string file) {
-	std::string path = getenv("APPDATA") + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\") + std::string(file);
-	// Creating File
-	if (mkdir(path.c_str()) == -1)
-		return;
-	else
-		return;
+	char* appdata;
+	if (_dupenv_s(&appdata, NULL, "APPDATA") == 0 && appdata != nullptr) {
+		std::string path = std::string(appdata) + "\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\" + std::string(file);
+		free(appdata);
+		// Creating File
+		if (_mkdir(path.c_str()) == -1) {
+		}
+	}
 }
 
 void Utils::GetCurrentSystemTime(tm& timeInfo) {

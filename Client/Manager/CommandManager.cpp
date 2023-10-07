@@ -57,7 +57,7 @@ void CommandManager::initCommands() {
 void CommandManager::disable() {
 }
 
-std::vector<IMCCommand*>* CommandManager::getCommandList() {
+std::vector<Command*>* CommandManager::getCommandList() {
 	return &commandList;
 }
 
@@ -98,7 +98,7 @@ void CommandManager::execute(char* message) {
 	Game.getGuiData()->displayClientMessageF("%s[%sNG%s] %sCommand '%s' could not be found!", BOLD, AQUA, WHITE, RED, cmd.c_str());
 	// Loop through all commands
 	for (auto it = this->commandList.begin(); it != this->commandList.end(); ++it) {
-		IMCCommand* c = *it;
+		Command* c = *it;
 		std::string commandCopy = c->getCommand();
 
 		// Put them both in lowercase so they can be compared

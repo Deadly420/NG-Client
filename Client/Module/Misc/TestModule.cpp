@@ -87,7 +87,7 @@ void TestModule::onPreRender(MinecraftUIRenderContext* renderCtx) {
 		}
 	}
 	if (HorionGui.Button("Test Button", Vec2(200, 200), true)) {  // Check if button is pressed. When it gets pressed it sends the message.
-		clientMessageF("Test Button Was Clicked");
+		clientMessage("Test Button Was Clicked");
 	}*/
 }
 

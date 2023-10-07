@@ -66,7 +66,7 @@ void FollowPathModule::onTick(GameMode *mode) {
 
 	startSearch(startNode, player->getRegion(), 0.5f, [&](bool succeeded, JoePath tempPath) {
 		if (!succeeded) {
-			clientMessageF("%sCould not find a path!", RED);
+			clientMessage("%sCould not find a path!", RED);
 			path.reset();
 			movementController.reset();
 			setEnabled(false);
@@ -74,7 +74,7 @@ void FollowPathModule::onTick(GameMode *mode) {
 			return;
 		}
 
-		clientMessageF("%sFound %s path!", tempPath.isIncomplete1() ? YELLOW : GREEN, tempPath.isIncomplete1() ? "incomplete" : "complete");
+		clientMessage("%sFound %s path!", tempPath.isIncomplete1() ? YELLOW : GREEN, tempPath.isIncomplete1() ? "incomplete" : "complete");
 
 		if (tempPath.isIncomplete1()) {
 			tempPath.cutoff(0.9f);
@@ -96,7 +96,7 @@ void FollowPathModule::onMove(MoveInputHandler *handler) {
 			if (movementController->getCurrentPath()->isIncomplete1()) {
 				// Replace with next path if it exists
 				if (nextPath && !pathFinder) {
-					clientMessageF("%sContinuing on next path...", GREEN);
+					clientMessage("%sContinuing on next path...", GREEN);
 
 					path = nextPath;
 					nextPath.reset();
@@ -107,7 +107,7 @@ void FollowPathModule::onMove(MoveInputHandler *handler) {
 					handler->isJumping = true;
 				}
 			} else {
-				clientMessageF("%sDone!", GREEN);
+				clientMessage("%sDone!", GREEN);
 				setEnabled(false);
 				return;
 			}
@@ -131,20 +131,20 @@ void FollowPathModule::onMove(MoveInputHandler *handler) {
 			if (timeSpent > 11)
 				return;
 
-			clientMessageF("%sCalculating next path...", YELLOW);
+			clientMessage("%sCalculating next path...", YELLOW);
 
 			float timeForSearch = std::clamp(timeSpent - 0.5f, 1.f, 3.f);
 			auto lastSeg = curPath->getSegment(curPath->getNumSegments() - 1);
 			nextPath.reset();
 			startSearch(lastSeg.getEnd(), Game.getLocalPlayer()->getRegion(), timeForSearch, [&](bool succeeded, JoePath tempPath) {
 				if (!succeeded) {
-					clientMessageF("%sCould not find subsequent path!", RED);
+					clientMessage("%sCould not find subsequent path!", RED);
 
 					engageDelay = -1;
 					return;
 				}
 
-				clientMessageF("%sFound subsequent %s path!", tempPath.isIncomplete1() ? YELLOW : GREEN, tempPath.isIncomplete1() ? "incomplete" : "complete");
+				clientMessage("%sFound subsequent %s path!", tempPath.isIncomplete1() ? YELLOW : GREEN, tempPath.isIncomplete1() ? "incomplete" : "complete");
 
 				if (tempPath.isIncomplete1()) {
 					tempPath.cutoff(0.9f);

@@ -109,7 +109,7 @@ protected:
 	void registerEnumSetting(std::string name, SettingEnum* intPtr, int defaultValue, const char* tooltip);
 	void registerBoolSetting(std::string name, bool* boolPtr, bool defaultValue, const char* tooltip);
 
-	void clientMessageF(const char* fmt, ...);
+	void clientMessage(const char* fmt, ...);
 
 public:
 	virtual ~Module();

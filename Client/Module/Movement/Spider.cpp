@@ -127,14 +127,14 @@ void Spider::onMove(MoveInputHandler* input) {
 
 		auto [curDist, curYVel, curT] = distanceError(player->location->velocity.y, targetDist);
 		
-		//clientMessageF("current trajectory error=%.3f t=%i vel=%.3f total=%.2f", curDist, curT, curYVel, targetDist);
+		//clientMessage("current trajectory error=%.3f t=%i vel=%.3f total=%.2f", curDist, curT, curYVel, targetDist);
 		if (curDist <= 0.01f) 
 			return;  // We will already get on top of the block
 
 		if (player->location->velocity.y < speed) {
 			// do another simulation to determine whether we would overshoot on the next iteration
 			auto secondTrajectory = distanceError(speed, targetDist);
-			//clientMessageF("secondTrajectory: error=%.3f t=%i vel=%.2f", std::get<0>(secondTrajectory), std::get<2>(secondTrajectory), std::get<1>(secondTrajectory));
+			//clientMessage("secondTrajectory: error=%.3f t=%i vel=%.2f", std::get<0>(secondTrajectory), std::get<2>(secondTrajectory), std::get<1>(secondTrajectory));
 			if (std::get<0>(secondTrajectory) <= 0) {// we are overshooting if we give the player our target speed
 				
 				// use secant method to approximate perfect start speed
@@ -155,7 +155,7 @@ void Spider::onMove(MoveInputHandler* input) {
 					error2 = error;
 					error = std::get<0>(distanceError(newSpeed, targetDist));
 				}
-				//clientMessageF("Secant method finished with error=%.3f speed=%.3f at t=%i", error, startSpeed, i);
+				//clientMessage("Secant method finished with error=%.3f speed=%.3f at t=%i", error, startSpeed, i);
 				targetSpeed = startSpeed;
 			}
 		}

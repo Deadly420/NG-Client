@@ -2,43 +2,43 @@
 
 #include "../../Memory/GameData.h"
 
-#include "../Command/Commands/BindCommand.h"
-#include "../Command/Commands/BruhCommand.h"
-#include "../Command/Commands/CoordsCommand.h"
-#include "../Command/Commands/DamageCommand.h"
-#include "../Command/Commands/DupeCommand.h"
-#include "../Command/Commands/EjectCommand.h"
-#include "../Command/Commands/EnchantCommand.h"
-#include "../Command/Commands/FriendListCommand.h"
-#include "../Command/Commands/GameModeCommand.h"
-#include "../Command/Commands/GiveCommand.h"
-#include "../Command/Commands/HelpCommand.h"
-#include "../Command/Commands/HideCommand.h"
-#include "../Command/Commands/ICommand.h"
-#include "../Command/Commands/ModulesCommand.h"
-#include "../Command/Commands/PanicCommand.h"
-#include "../Command/Commands/PlayerTeleportCommand.h"
-#include "../Command/Commands/RelativeTeleportCommand.h"
-#include "../Command/Commands/SayCommand.h"
-#include "../Command/Commands/ServerCommand.h"
-#include "../Command/Commands/SpammerCommand.h"
-#include "../Command/Commands/TeleportCommand.h"
-#include "../Command/Commands/ToggleCommand.h"
-#include "../Command/Commands/TopCommand.h"
-#include "../Command/Commands/UnbindCommand.h"
-#include "../Command/Commands/setoffhandCommand.h"
-#include "../Command/Commands/CommandBlockExploitCommand.h"
-#include "../Command/Commands/ConfigCommand.h"
-#include "../Command/Commands/NameSpoofCommand.h"
-#include "../Command/Commands/SetPrefixCommand.h"
-#include "../Command/Commands/NbtCommand.h"
-#include "../Command/Commands/WaypointCommand.h"
-#include "../Command/Commands/XpCommand.h"
-#include "../Command/Commands/PathCommand.h"
-#include "../Command/Commands/SetLoreCommand.h"
+#include "../Commands/BindCommand.h"
+#include "../Commands/BruhCommand.h"
+#include "../Commands/CoordsCommand.h"
+#include "../Commands/DamageCommand.h"
+#include "../Commands/DupeCommand.h"
+#include "../Commands/EjectCommand.h"
+#include "../Commands/EnchantCommand.h"
+#include "../Commands/FriendListCommand.h"
+#include "../Commands/GameModeCommand.h"
+#include "../Commands/GiveCommand.h"
+#include "../Commands/HelpCommand.h"
+#include "../Commands/HideCommand.h"
+#include "../Commands/ICommand.h"
+#include "../Commands/ModulesCommand.h"
+#include "../Commands/PanicCommand.h"
+#include "../Commands/PlayerTeleportCommand.h"
+#include "../Commands/RelativeTeleportCommand.h"
+#include "../Commands/SayCommand.h"
+#include "../Commands/ServerCommand.h"
+#include "../Commands/SpammerCommand.h"
+#include "../Commands/TeleportCommand.h"
+#include "../Commands/ToggleCommand.h"
+#include "../Commands/TopCommand.h"
+#include "../Commands/UnbindCommand.h"
+#include "../Commands/setoffhandCommand.h"
+#include "../Commands/CommandBlockExploitCommand.h"
+#include "../Commands/ConfigCommand.h"
+#include "../Commands/NameSpoofCommand.h"
+#include "../Commands/SetPrefixCommand.h"
+#include "../Commands/NbtCommand.h"
+#include "../Commands/WaypointCommand.h"
+#include "../Commands/XpCommand.h"
+#include "../Commands/PathCommand.h"
+#include "../Commands/SetLoreCommand.h"
 
 #ifdef _DEBUG
-#include "../Command/Commands/TestCommand.h"
+#include "../Commands/TestCommand.h"
 #endif
 
 #include <algorithm>
@@ -48,7 +48,7 @@
 class CommandManager {
 private:
 	GameData* gameData;
-	std::vector<IMCCommand*> commandList;
+	std::vector<Command*> commandList;
 
 public:
 	CommandManager(GameData* gm);
@@ -58,7 +58,7 @@ public:
 
 	void initCommands();
 	void disable();
-	std::vector<IMCCommand*>* getCommandList();
+	std::vector<Command*>* getCommandList();
 
 	void execute(char* message);
 };

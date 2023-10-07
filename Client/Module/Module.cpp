@@ -18,6 +18,7 @@ unsigned char EnumEntry::GetValue() {
 	return val;
 }
 #pragma endregion
+
 #pragma region SettingEnum
 SettingEnum::SettingEnum(std::vector<EnumEntry> entr, Module* mod) {
 	Entrys = entr;
@@ -26,6 +27,7 @@ SettingEnum::SettingEnum(std::vector<EnumEntry> entr, Module* mod) {
 		return rhs.GetValue() < lhs.GetValue();
 	});
 }
+
 SettingEnum::SettingEnum(Module* mod) {
 	owner = mod;
 }
@@ -63,16 +65,18 @@ SettingEnum& SettingEnum::addEntry(const char* name, int value) {
 EnumEntry& SettingEnum::GetEntry(int ind) {
 	return Entrys.at(ind);
 }
+
 EnumEntry& SettingEnum::GetSelectedEntry() {
 	return GetEntry(selected);
 }
+
 int SettingEnum::getSelectedValue() {
 	return GetEntry(selected).GetValue();
 }
+
 int SettingEnum::GetCount() {
 	return (int)Entrys.size();
-} 
-
+}
 #pragma endregion
 Module::Module(int key, Category cat, const char* tooltip) {
 	this->keybind = key;
@@ -413,7 +417,7 @@ void Module::onImGuiRender() {
 }
 void Module::onLevelRender() {
 }
-void Module::clientMessageF(const char* fmt, ...) {
+void Module::clientMessage(const char* fmt, ...) {
 	va_list arg;
 	va_start(arg, fmt);
 
