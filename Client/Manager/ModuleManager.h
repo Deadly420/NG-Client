@@ -62,6 +62,7 @@
 #include "../Module/Misc/Freecam.h"
 #include "../Module/Misc/Crasher.h"
 #include "../Module/Misc/Breaker.h"
+#include "../Module/Misc/Desync.h"
 #include "../Module/Misc/Timer.h"
 #include "../Module/Misc/Blink.h"
 #include "../Module/Misc/Derp.h"

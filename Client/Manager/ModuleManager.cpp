@@ -84,6 +84,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new Hitbox());
 		// moduleList.emplace_back(new NoFall());
 		moduleList.emplace_back(new Tracer());
+		moduleList.emplace_back(new Desync());
 		// moduleList.emplace_back(new Aimbot());
 		moduleList.emplace_back(new NewUI());
 		moduleList.emplace_back(new Twerk());

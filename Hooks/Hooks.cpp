@@ -1,18 +1,20 @@
 ﻿#include "Hooks.h"
 
-#include <glm/ext/matrix_relational.hpp>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/ext/matrix_transform.hpp> // perspective, translate, rotate
-#include <glm/trigonometric.hpp> // radians
-#include <glm/gtc/constants.hpp>
-#include <glm/mat4x4.hpp> // mat4
 #include <Shellapi.h>
-#include <algorithm>
 
-#include "../include/WinHttpClient.h"
-#include "../Utils/ColorUtil.h"
+#include <algorithm>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_relational.hpp>
+#include <glm/ext/matrix_transform.hpp>  // perspective, translate, rotate
+#include <glm/gtc/constants.hpp>
+#include <glm/mat4x4.hpp>         // mat4
+#include <glm/trigonometric.hpp>  // radians
+
 #include "../Client/Loader.h"
 #include "../SDK/Tag.h"
+#include "../Utils/ColorUtil.h"
+#include "../Utils/TimerUtil.h"
+#include "../include/WinHttpClient.h"
 
 Hooks g_Hooks;
 bool isTicked = false;
@@ -151,9 +153,9 @@ void Hooks::Init() {
 			degrees *= 180 / 2.5f;
 
 			auto pos = Game.getClientInstance()->levelRenderer->getOrigin();
-			
+
 			glm::mat4 View = matrix;
-			
+
 			matrix = View;
 			if (animations->isEnabled()) {
 				if (animations->doTranslate) {
@@ -229,7 +231,7 @@ void Hooks::Init() {
 
 				g_Hooks.Actor_swingHook = std::make_unique<FuncHook>(localPlayerVtable[213], Hooks::Actor_swing);
 
-				// g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); // jump from ground with movement proxy
+				// g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); //jump from ground with movement proxy
 
 				// g_Hooks.setPosHook = std::make_unique<FuncHook>(localPlayerVtable[19], Hooks::setPos); // Removed from vtable
 
@@ -306,7 +308,6 @@ void Hooks::Restore() {
 
 void Hooks::Enable() {
 	MH_EnableHook(MH_ALL_HOOKS);
-	Log("Hooks Enabled");
 }
 
 bool Hooks::Actor_intersects(Entity* _this, Vec3 lower, Vec3 upper) {
@@ -435,7 +436,7 @@ __int64 Hooks::UIScene_render(UIScene* uiscene, __int64 screencontext) {
 	alloc.alignedTextLength = 0;
 
 	if (!g_Hooks.shouldRender) {
-			g_Hooks.shouldRender = (!strcmp(g_Hooks.currentScreenName, "hud_screen") || !strcmp(g_Hooks.currentScreenName, "start_screen"));
+		g_Hooks.shouldRender = (!strcmp(g_Hooks.currentScreenName, "hud_screen") || !strcmp(g_Hooks.currentScreenName, "start_screen"));
 	}
 
 	return oRender(uiscene, screencontext);
@@ -801,6 +802,8 @@ void Hooks::LoopbackPacketSender_sendToServer(LoopbackPacketSender* a, Packet* p
 	static auto oFunc = g_Hooks.LoopbackPacketSender_sendToServerHook->GetFastcall<void, LoopbackPacketSender*, Packet*>();
 
 	static auto autoSneakMod = moduleMgr->getModule<AutoSneak>();
+	static auto desync = moduleMgr->getModule<Desync>();
+	static auto bhop = moduleMgr->getModule<Speed>();
 	static auto blinkMod = moduleMgr->getModule<Blink>();
 	static auto noPacketMod = moduleMgr->getModule<NoPacket>();
 	static auto noSwingMod = moduleMgr->getModule<NoSwing>();
@@ -841,6 +844,35 @@ void Hooks::LoopbackPacketSender_sendToServer(LoopbackPacketSender* a, Packet* p
 			}
 			blinkMod->getPlayerAuthInputPacketHolder()->clear();
 			return;
+		}
+	}
+	// Desync
+	if (desync->doDesync || desync->getPlayerAuthInputPacketHolder()->size() > 0) {
+		if (TimerUtil::getCurrentMs() - desync->desyncLastMS > desync->desyncMs) {
+			desync->desyncLastMS = TimerUtil::getCurrentMs();
+			// Send Authinput
+			for (auto it : *desync->getPlayerAuthInputPacketHolder()) {
+				oFunc(a, (it));
+				delete it;
+				it = nullptr;
+			}
+			desync->getPlayerAuthInputPacketHolder()->clear();
+		} else {
+			if (packet->isInstanceOf<PlayerAuthInputPacket>()) {
+				moduleMgr->onSendPacket(packet);
+				PlayerAuthInputPacket* meme = reinterpret_cast<PlayerAuthInputPacket*>(packet);
+				desync->getPlayerAuthInputPacketHolder()->push_back(new PlayerAuthInputPacket(*meme));  // Saving the packets
+				return;
+			}
+		}
+	} else {
+		if (desync->getPlayerAuthInputPacketHolder()->size() > 0) {
+			for (auto it : *desync->getPlayerAuthInputPacketHolder()) {
+				oFunc(a, (it));
+				delete it;
+				it = nullptr;
+			}
+			desync->getPlayerAuthInputPacketHolder()->clear();
 		}
 	}
 
@@ -1002,7 +1034,6 @@ void Hooks::ClickFunc(__int64 a1, char mouseButton, char isDown, __int16 mouseX,
 	static auto oFunc = g_Hooks.ClickFuncHook->GetFastcall<void, __int64, char, char, __int16, __int16, __int16, __int16, char>();
 	static auto clickGuiModule = moduleMgr->getModule<ClickGuiMod>();
 	static auto imgui = moduleMgr->getModule<NewUI>();
-
 
 	// MouseButtons
 	// 0 = mouse move
@@ -1323,11 +1354,11 @@ void Hooks::LevelRendererPlayer__renderNameTags(__int64 a1, __int64 a2, TextHold
 	std::string text = Utils::sanitize(a3->getText());
 	std::size_t found = text.find('\n');
 
-	if (found != std::string::npos)
-		text = text.substr(0, found);
+		if (found != std::string::npos)
+			text = text.substr(0, found);
 
-	if (nameTagsMod->nameTags.find(text) != nameTagsMod->nameTags.end())
-	 	return;
+		if (nameTagsMod->nameTags.find(text) != nameTagsMod->nameTags.end())
+			return;
 
 	return func(a1, a2, a3, a4);
 }
