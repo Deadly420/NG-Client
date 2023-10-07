@@ -76,7 +76,7 @@ public:
 	}
 
 	class TextHolder getPlayerName() {
-		return *reinterpret_cast<class TextHolder*>(reinterpret_cast<__int64>(this) + 0x319);
+		return *reinterpret_cast<class TextHolder *>(reinterpret_cast<__int64>(this) + 0xC);
 	}
 };
 

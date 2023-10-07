@@ -22,6 +22,11 @@ Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around yo
 	// Registering Integer Settings
 	registerIntSetting("MinDelay", &minD, minD, 0, 20, "MinDelay: Adjust the minimum delay from 0 to 20");
 	registerIntSetting("MaxDelay", &maxD, maxD, 0, 20, "MaxDelay: Adjust the maximum delay from 0 to 20");
+
+	registerEnumSetting("Visualize", &visualizeMode, 0, "RenderMode");
+	visualizeMode.addEntry("None", 0);
+	visualizeMode.addEntry("Circle", 1);
+	visualizeMode.addEntry("Box", 2);
 }
 
 Killaura::~Killaura() {
@@ -98,10 +103,10 @@ void Killaura::findWeapon() {
 }
 
 void Killaura::onTick(GameMode* gm) {
-	targetListEmpty = targetList.empty();
-	// Loop through all our players and retrieve their information
-	targetList.clear();
 	if (Game.canUseMoveKeys() || Game.isInGame()) {
+		targetListEmpty = targetList.empty();
+		// Loop through all our players and retrieve their information
+		targetList.clear();
 		Game.forEachEntity(findEntity);
 
 		delay++;
@@ -152,59 +157,69 @@ void Killaura::onPlayerTick(Player* player) {
 	}
 }
 
-void Killaura::onEnable() {
-	if (Game.getLocalPlayer() == nullptr)
-		setEnabled(false);
-}
-
-void Killaura::onSendPacket(Packet* packet) {
-	if (Game.getLocalPlayer() != nullptr && rotationMode.selected >= 1 && !targetList.empty() && Game.isInGame()) {
-		if (targetList[0] == nullptr)
-			return;
-
-		if (packet->isInstanceOf<MovePlayerPacket>()) {
-			auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
-			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(targetList[0]->getMovementProxy()->getAttachPos(ActorLocation::Eyes, 1.f));
-			movePacket->pitch = angle.y;
-			movePacket->headYaw = angle.y;
-			movePacket->yaw = angle.y;
-		}
-	}
-}
-
 void Killaura::onLevelRender() {
 	auto player = Game.getLocalPlayer();
 	if (player == nullptr) return;
 
 	static float n = 0;
 	static float anim = 0;
-	if (Game.canUseMoveKeys() && !targetList.empty()) {
+	if (!targetList.empty() && visualizeMode.selected == 1) {
 		anim++;
-		DrawUtils::setColor(1, 0, 0, 1);
-
+		float range = 0.8f;
 		Vec3 permutations[56];
 		for (int i = 0; i < 56; i++) {
-			permutations[i] = {sinf((i * 10.f) / (180 / PI)), 0.f, cosf((i * 10.f) / (180 / PI))};
+			permutations[i] = {sinf((i * 10.f) / (180 / PI)) * range, 0.f, cosf((i * 10.f) / (180 / PI)) * range};
 		}
 
-		const float animation = 0.9f + 0.9f * sin((anim / 20) * PI * 1);
-
-		Vec3* start = targetList[0]->getPosOld();
-		Vec3* end = targetList[0]->getPos();
-
-		auto te = DrawUtils::getLerpTime();
-		Vec3 pos = start->lerp(end, te);
+		const float coolAnim = 0.9f + 0.9f * sin((anim / 60) * PI);
+		Vec3 pos = targetList[0]->getRenderPositionComponent()->renderPos;
 
 		auto yPos = pos.y;
-		yPos = 2.0f;  // Increase this value to raise the rendering above the player
-		yPos += animation;
+		yPos -= 1.6f;
+		yPos += coolAnim;
 
 		std::vector<Vec3> posList;
-		posList.reserve(54);
+		posList.reserve(56);
 		for (auto& perm : permutations) {
 			Vec3 curPos(pos.x, yPos, pos.z);
 			posList.push_back(curPos.add(perm));
 		}
+		DrawUtils::setColor(1.f, 1.f, 1.f, 1.f);
+		// DrawUtils::drawCircleFilled(Vec2(posList, renderPos.y), Vec2(size, size), Mc_Color(255.f, 255.f, 255.f, alpha), 1);
 		DrawUtils::drawLinestrip3d(posList);
+	}
+}
+
+void Killaura::onPreRender(MinecraftUIRenderContext* renderCtx) {
+	auto player = Game.getLocalPlayer();
+	if (player == nullptr) return;
+
+	if (!targetList.empty() && visualizeMode.selected == 2) {
+		for (auto& i : targetList) {
+			Vec3 position = i->getRenderPositionComponent()->renderPos;
+			DrawUtils::setColor(0, 1, 0, 0.1);
+			DrawUtils::drawBox(position.add(-0.5, -1.7, -0.5), position.add(0.5, 0.3, 0.5), 0.3f, true);
+		}
+	}
+}
+
+void Killaura::onEnable() {
+	if (Game.getLocalPlayer() == nullptr)
+		setEnabled(false);
+}
+
+void Killaura::onSendPacket(Packet* packet) {
+	auto player = Game.getLocalPlayer();
+	if (player == nullptr) return;
+	if (packet->isInstanceOf<MovePlayerPacket>() && Game.getLocalPlayer() != nullptr && silent) {
+		if (!targetList.empty()) {
+			auto* movePacket = reinterpret_cast<PlayerAuthInputPacket*>(packet);
+			Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(*targetList[0]->getPos());
+			movePacket->pitch = angle.x;
+			// movePacket->yawUnused = angle.y;
+			movePacket->yaw = angle.y;
+			player->getActorRotationComponent()->rot.x = angle.x;
+			player->getActorHeadRotationComponent()->rot.x = angle.y;
+		}
 	}
 }

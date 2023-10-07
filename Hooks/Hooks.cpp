@@ -229,7 +229,7 @@ void Hooks::Init() {
 
 				g_Hooks.Actor_swingHook = std::make_unique<FuncHook>(localPlayerVtable[213], Hooks::Actor_swing);
 
-				// g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); //jump from ground with movement proxy
+				// g_Hooks.JumpPowerHook = std::make_unique<FuncHook>(localPlayerVtable[352], Hooks::JumpPower); // jump from ground with movement proxy
 
 				// g_Hooks.setPosHook = std::make_unique<FuncHook>(localPlayerVtable[19], Hooks::setPos); // Removed from vtable
 

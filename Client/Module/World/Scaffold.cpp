@@ -328,7 +328,7 @@ void Scaffold::onSendPacket(Packet* packet) {
 			if (speed > 0.05f) {
 				auto* movePacket = reinterpret_cast<MovePlayerPacket*>(packet);
 				Vec2 angle = Game.getLocalPlayer()->getPos()->CalcAngle(blockBelow);
-				movePacket->pitch = 50;
+				movePacket->pitch = 85;
 				movePacket->headYaw = angle.y;
 				movePacket->yaw = angle.y;
 			}
