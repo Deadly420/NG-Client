@@ -45,14 +45,14 @@
 #include <string>
 #include <vector>
 
-class CommandMgr {
+class CommandManager {
 private:
 	GameData* gameData;
 	std::vector<IMCCommand*> commandList;
 
 public:
-	CommandMgr(GameData* gm);
-	~CommandMgr();
+	CommandManager(GameData* gm);
+	~CommandManager();
 
 	char prefix = '.';
 
@@ -63,4 +63,4 @@ public:
 	void execute(char* message);
 };
 
-extern CommandMgr* cmdMgr;
+extern CommandManager* cmdMgr;

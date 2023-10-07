@@ -27,7 +27,7 @@
 #include "../Utils/TextFormat.h"
 #include "../Utils/Utils.h"
 #include "../include/WinHttpClient.h"
-#include "Manager/CommandMgr.h"
+#include "Manager/CommandManager.h"
 #include "Manager/ConfigManager.h"
 #include "Menu/ClickGui.h"
 #include "Manager/ModuleManager.h"

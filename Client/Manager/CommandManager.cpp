@@ -1,18 +1,18 @@
-#include "CommandMgr.h"
+#include "CommandManager.h"
 #include "../../Utils/Logging.h"
 
-CommandMgr::CommandMgr(GameData* gm) {
+CommandManager::CommandManager(GameData* gm) {
 	gameData = gm;
 }
 
-CommandMgr::~CommandMgr() {
+CommandManager::~CommandManager() {
 	for (int i = 0; i < commandList.size(); i++) {
 		delete commandList[i];
 		commandList[i] = nullptr;
 	}
 }
 
-void CommandMgr::initCommands() {
+void CommandManager::initCommands() {
 	Log("Initializing commands");
 
 	commandList.push_back(new CommandBlockExploitCommand());
@@ -54,14 +54,14 @@ void CommandMgr::initCommands() {
 #endif
 }
 
-void CommandMgr::disable() {
+void CommandManager::disable() {
 }
 
-std::vector<IMCCommand*>* CommandMgr::getCommandList() {
+std::vector<IMCCommand*>* CommandManager::getCommandList() {
 	return &commandList;
 }
 
-void CommandMgr::execute(char* message) {
+void CommandManager::execute(char* message) {
 	if (message == nullptr) {
 		return;
 	}
@@ -110,4 +110,4 @@ void CommandMgr::execute(char* message) {
 	}
 }
 
-CommandMgr* cmdMgr = new CommandMgr(&Game);
+CommandManager* cmdMgr = new CommandManager(&Game);

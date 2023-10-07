@@ -170,7 +170,7 @@
     <ResourceCompile Include="NG-Client.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client\Manager\CommandMgr.cpp" />
+    <ClCompile Include="Client\Manager\CommandManager.cpp" />
     <ClCompile Include="Client\Command\Commands\BindCommand.cpp" />
     <ClCompile Include="Client\Command\Commands\BruhCommand.cpp" />
     <ClCompile Include="Client\Command\Commands\CommandBlockExploitCommand.cpp" />
@@ -362,7 +362,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\imconfig.h" />
-    <ClInclude Include="Client\Manager\CommandMgr.h" />
+    <ClInclude Include="Client\Manager\CommandManager.h" />
     <ClInclude Include="Client\Command\Commands\BindCommand.h" />
     <ClInclude Include="Client\Command\Commands\BruhCommand.h" />
     <ClInclude Include="Client\Command\Commands\CommandBlockExploitCommand.h" />

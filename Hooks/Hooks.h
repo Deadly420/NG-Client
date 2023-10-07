@@ -11,7 +11,7 @@
 #include <unordered_map>
 
 // Managers
-#include "../Client/Manager/CommandMgr.h"
+#include "../Client/Manager/CommandManager.h"
 #include "../Client/Manager/ConfigManager.h"
 #include "../Client/Manager/ModuleManager.h"
 

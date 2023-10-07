@@ -11,7 +11,7 @@
 #pragma comment(lib, "runtimeobject")
 
 #include "../../Utils/Json.hpp"
-#include "../Manager/CommandMgr.h"
+#include "../Manager/CommandManager.h"
 #include "../Manager/ModuleManager.h"
 
 using json = nlohmann::json;
