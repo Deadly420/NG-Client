@@ -1,4 +1,4 @@
-#include "ImGuiHooks.h"
+#include "DXHook.h"
 
 // ImGui Shit
 bool initContext = false;
@@ -52,9 +52,11 @@ auto hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT flag
 	if (deviceType == SwapChain_DeviceType::D3D11) {
 		if (!initContext) {
 			ImGui::CreateContext();
-			// auto& io = ImGui::GetIO();
-			// io.Fonts->AddFontFromMemoryCompressedTTF(mojangles_compressed_data, mojangles_compressed_size, 22);  // Mojangles font
-			// io.Fonts->Build();
+			auto& io = ImGui::GetIO();
+			const char* appData = getenv("AppData");
+			std::string FontPath = appData ? std::string(appData) + "\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\Fonts\\NotoSans.ttf" : "";
+			io.Fonts->AddFontFromFileTTF(FontPath.c_str(), 16);
+			io.Fonts->Build();
 			initContext = true;
 		};
 
@@ -90,9 +92,11 @@ auto hookPresentD3D12(IDXGISwapChain3* ppSwapChain, UINT syncInterval, UINT flag
 	} else if (deviceType == SwapChain_DeviceType::D3D12) {
 		if (!initContext) {
 			ImGui::CreateContext();
-			// auto& io = ImGui::GetIO();
-			// io.Fonts->AddFontFromMemoryCompressedTTF(mojangles_compressed_data, mojangles_compressed_size, 22);  // Mojangles font
-			// io.Fonts->Build();
+			auto& io = ImGui::GetIO();
+			const char* appData = getenv("AppData");
+			std::string FontPath = appData ? std::string(appData) + "\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\NG\\Fonts\\NotoSans.ttf" : "";
+			io.Fonts->AddFontFromFileTTF(FontPath.c_str(), 16);
+			io.Fonts->Build();
 		};
 
 		DXGI_SWAP_CHAIN_DESC sdesc;
@@ -223,7 +227,7 @@ auto hookExecuteCommandListsD3D12(ID3D12CommandQueue* queue, UINT NumCommandList
 	oExecuteCommandListsD3D12(queue, NumCommandLists, ppCommandLists);
 };
 
-void ImGuiHooks::InitImGui() {
+void DXHook::InitImGui() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success) {
 		kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
 		kiero::bind(140, (void**)&oPresentD3D12, hookPresentD3D12);

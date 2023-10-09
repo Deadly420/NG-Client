@@ -20,14 +20,15 @@ public:
 
 	void onImGuiRender() {
 		if (ImGui && Game.getLocalPlayer() != nullptr) {
-			static ImVec2 windowPos = ImVec2(0, 260);
-			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+			ImGui::SetWindowSize(ImVec2(245, 135));
+			ImGui::SetWindowPos(ImVec2(0, 260));
+			//static ImVec2 windowPos = ImVec2(0, 260);
+			//ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
 
 			if (ImGui::Begin("BPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				auto player = Game.getLocalPlayer();
-				std::string bpsText = "BPS: " + std::to_string((int)player->getBlocksPerSecond()) + std::string(".") + std::to_string((int)(player->getBlocksPerSecond() * 10) - ((int)player->getBlocksPerSecond() * 10));
-				ImGui::SetWindowFontScale(1.5);
-				ImGui::Text("%s", bpsText.c_str());
+				float BPS = static_cast<float>(player->getBlocksPerSecond());
+				ImGui::Text("BPS: %.1f", static_cast<float>(BPS));
 				ImGui::End();
 			}
 		}

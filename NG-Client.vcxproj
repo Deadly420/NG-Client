@@ -224,8 +224,7 @@
     <ClCompile Include="Client\Module\Render\Trail.cpp" />
     <ClCompile Include="Client\Module\Render\Watermark.cpp" />
     <ClCompile Include="Client\Module\World\Disabler.cpp" />
-    <ClCompile Include="Hooks\D2DHooks.cpp" />
-    <ClCompile Include="Hooks\ImGuiHooks.cpp" />
+    <ClCompile Include="Hooks\DXHook.cpp" />
     <ClCompile Include="include\animations\dotMatrix.cpp" />
     <ClCompile Include="include\animations\fade.cpp" />
     <ClCompile Include="include\animations\snowflake.cpp" />
@@ -401,7 +400,6 @@
     <ClInclude Include="Client\Commands\WaypointCommand.h" />
     <ClInclude Include="Client\Commands\XpCommand.h" />
     <ClInclude Include="Client\Manager\ConfigManager.h" />
-    <ClInclude Include="Client\Module\Combat\AutoPot.h" />
     <ClInclude Include="Client\Module\Combat\FastUse.h" />
     <ClInclude Include="Client\Module\Entity\EntityBhop.h" />
     <ClInclude Include="Client\Module\Entity\EntityFly.h" />
@@ -425,8 +423,7 @@
     <ClInclude Include="Client\Module\Render\Trail.h" />
     <ClInclude Include="Client\Module\Render\Watermark.h" />
     <ClInclude Include="Client\Module\World\Disabler.h" />
-    <ClInclude Include="Hooks\D2DHooks.h" />
-    <ClInclude Include="Hooks\ImGuiHooks.h" />
+    <ClInclude Include="Hooks\DXHook.h" />
     <ClInclude Include="include\animations\dotMatrix.h" />
     <ClInclude Include="include\animations\fade.hpp" />
     <ClInclude Include="include\animations\Fonts.hpp" />

@@ -21,15 +21,10 @@ public:
 
 	void onImGuiRender() {
 		if (ImGui && Game.getLocalPlayer() != nullptr) {
-			int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-			int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-			static ImVec2 windowPos = ImVec2(0, 280);
-			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
-
+			ImGui::SetWindowSize(ImVec2(245, 135));
+			ImGui::SetWindowPos(ImVec2(0, 280));
 			if (ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				std::string fpsText = "FPS: " + std::to_string(Game.getFPS());
-				ImGui::SetWindowFontScale(1.5);
 				ImGui::Text("%s", fpsText.c_str());
 				ImGui::End();
 			}

@@ -14,7 +14,7 @@ Killaura::Killaura() : Module(0x0, Category::COMBAT, "Attacks entities around yo
 	// Registering Boolean Settings with Tooltips
 	registerBoolSetting("Target Mobs", &targetMobs, targetMobs, "Toggle targeting mobs");
 	registerBoolSetting("Hurttime", &hurttime, hurttime, "Toggle hurttime");
-	// registerBoolSetting("AutoWeapon", &autoweapon, autoweapon, "Toggle auto-weapon");
+	registerBoolSetting("AutoWeapon", &autoweapon, autoweapon, "Toggle auto-weapon");
 
 	// Registering Float Settings with Tooltips
 	registerFloatSetting("Range", &range, range, 2.f, 7.f, "Range: Adjust the range from 2.0 to 7.0");
@@ -112,7 +112,8 @@ void Killaura::onTick(GameMode* gm) {
 		delay++;
 		if (minD <= maxD) {
 			if (!targetList.empty() && delay >= random(minD, maxD)) {
-				if (autoweapon) findWeapon();
+				if (autoweapon) 
+					findWeapon();
 
 				if (Game.getLocalPlayer()->location->velocity.squaredxzlen() < 0.01) {
 					MovePlayerPacket p(Game.getLocalPlayer(), *Game.getLocalPlayer()->getPos());

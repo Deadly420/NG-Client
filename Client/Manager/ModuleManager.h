@@ -31,7 +31,6 @@
 #include "../Module/Combat/BowAimbot.h"
 #include "../Module/Combat/AutoTotem.h"
 #include "../Module/Combat/Killaura.h"
-#include "../Module/Combat/AutoPot.h"
 #include "../Module/Combat/FastUse.h"
 #include "../Module/Combat/Hitbox.h"
 #include "../Module/Combat/Aimbot.h"

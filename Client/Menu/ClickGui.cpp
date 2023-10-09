@@ -1,6 +1,7 @@
 #include "ClickGui.h"
 
 #include "../../Utils/Logging.h"
+#include "../../include/imgui/imgui.h"
 #include <Windows.h>
 
 bool initialised = false;

@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <thread>
 
-class ImGuiHooks {
+class DXHook {
 public:
 	static void InitImGui();
 };

@@ -11,10 +11,10 @@ void Inventory::dropSlot(int slot) {
 }
 void Inventory::dropAll() {
 	// FillingContainer::dropAll will redo when needed
-	//using dropAll_t = void(__fastcall*)(Inventory*, int, int, char);
-	//static dropAll_t func = reinterpret_cast<dropAll_t>(FindSignature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 41 56 48 83 EC ?? 48 8B 01 41 0F"));
-	//if (func != 0)
-	//func(this, slot, 0, 0);
+	// using dropAll_t = void(__fastcall*)(Inventory*, int, int, char);
+	// static dropAll_t func = reinterpret_cast<dropAll_t>(FindSignature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 41 56 48 83 EC ?? 48 8B 01 41 0F"));
+	// if (func != 0)
+	// func(this, slot, 0, 0);
 	for (int i = 0; i < 36; i++) {
 		dropSlot(i);
 	}
@@ -45,7 +45,6 @@ void Inventory::moveItem(int from, int to) {
 
 	ItemStack emptyItemStack;
 	memset(&emptyItemStack, 0, sizeof(ItemStack));
-
 
 	if (to < 0) {
 		to = getFirstEmptySlot();

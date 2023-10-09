@@ -37,14 +37,19 @@ public:
 		registerFloatSetting("Vertical Range", &verticalrange, verticalrange, 20.f, 180.f, "Vertical Range: Define a range from 20 to 180");
 	}
 	~Aimbot(){};
+
 	struct CompareTargetEnArray {
 		bool operator()(Entity* lhs, Entity* rhs) {
 			LocalPlayer* localPlayer = Game.getLocalPlayer();
 			return (*lhs->getPos()).dist(*localPlayer->getPos()) < (*rhs->getPos()).dist(*localPlayer->getPos());
 		}
 	};
+
 	// Inherited via Module
-	virtual const char* getModuleName() override { return "Aim-bot"; }
+	virtual const char* getModuleName() override { 
+		return "Aimbot"; 
+	}
+
 	virtual void onPostRender(MinecraftUIRenderContext* renderCtx) override {
 		LocalPlayer* localPlayer = Game.getLocalPlayer();
 		if (!localPlayer) return;
@@ -76,8 +81,7 @@ public:
 			Vec2 appl = angle.sub(localPlayer->getActorHeadRotationComponent()->rot).normAngles();
 			appl.x = -appl.x;
 			if ((appl.x < verticalrange && appl.x > -verticalrange) && (appl.y < horizontalrange && appl.y > -horizontalrange) && GameData::canUseMoveKeys()) {
-				PlayerInventoryProxy* supplies = Game.getLocalPlayer()->getSupplies();
-				ItemStack* item = supplies->inventory->getItemStack(supplies->selectedHotbarSlot);
+				ItemStack* item = Game.getLocalPlayer()->getSupplies()->inventory->getItemStack(Game.getLocalPlayer()->getSupplies()->selectedHotbarSlot);
 				if (sword && !(item->getItem()->isWeapon()))
 					return;
 

@@ -1,6 +1,6 @@
 #include "AutoClicker.h"
 
-AutoClicker::AutoClicker() : Module(0, Category::COMBAT, "A simple autoclicker, automatically clicks for you.") {
+AutoClicker::AutoClicker() : Module(0x0, Category::COMBAT, "A simple autoclicker, automatically clicks for you.") {
 	// Registering Boolean Settings with Tooltips
 	registerBoolSetting("RightClick", &rightclick, rightclick, "Toggle right-click feature");
 	registerBoolSetting("Only Weapons", &weapons, weapons, "Toggle only weapons");

@@ -6,7 +6,7 @@
 class Bhop : public Module {
 private:
 	float speed = 0.325f;
-	bool hive = false;
+	bool flareon = false;
 	float speedFriction = 0.65f;
 	float cashedStepHeignt = 0.5f;
 

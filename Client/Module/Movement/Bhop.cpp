@@ -4,14 +4,14 @@
 
 Bhop::Bhop() : Module(0, Category::MOVEMENT, "Hop around like a bunny!") {
 	registerFloatSetting("Speed", &speed, speed, 0.1f, 0.8f, "Speed: Set the speed from 0.1 to 0.8");
-	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable the hive feature");
+	registerBoolSetting("flareon", &flareon, flareon, "flareon: Enable or disable the flareon feature");
 }
 
 Bhop::~Bhop() {
 }
 
 const char* Bhop::getModuleName() {
-	return ("Bhop");
+	return "Bhop";
 }
 
 void Bhop::onMove(MoveInputHandler* input) {
@@ -33,7 +33,7 @@ void Bhop::onMove(MoveInputHandler* input) {
 	float s = sin(calcYaw);
 	moveVec2d = {moveVec2d.x * c - moveVec2d.y * s, moveVec2d.x * s + moveVec2d.y * c};
 
-	if (hive) {
+	if (flareon) {
 		player->getMaxAutoStepComponent()->stepHeight = 0.f;
 		static bool useVelocity = false;
 		if (0.4000000059604645 >= 0.385) {

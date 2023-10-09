@@ -20,12 +20,13 @@ public:
 
 	void onImGuiRender() {
 		if (ImGui && Game.getLocalPlayer() != nullptr) {
+			ImGui::SetWindowSize(ImVec2(245, 135));
+			ImGui::SetWindowPos(ImVec2(0, 280));
 			static ImVec2 windowPos = ImVec2(0, 280);
 			ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
 
 			if (ImGui::Begin("CPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground)) {
 				std::string cpsText = "CPS: " + std::to_string(Game.getLeftCPS()) + " - " + std::to_string(Game.getRightCPS());
-				ImGui::SetWindowFontScale(1.5);
 				ImGui::Text("%s", cpsText.c_str());
 				ImGui::End();
 			}

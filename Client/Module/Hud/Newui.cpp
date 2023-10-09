@@ -38,17 +38,7 @@ void NewUI::onPostRender(MinecraftUIRenderContext* renderCtx) {
 	DrawUtils::fillRectangle(Vec4(0, 0, Game.getGuiData()->widthGame, Game.getGuiData()->heightGame), Mc_Color(0, 0, 0), Opacity / 100.f);
 }
 
-void NewUI::renderTooltip(std::string* text) {
-	Vec2 windowSize = Game.getClientInstance()->getGuiData()->windowSize;
-	Vec2 currentTooltipPos = Vec2(5.f, windowSize.y - 15.f);
-	ImVec2 textPos = ImVec2(currentTooltipPos.x, currentTooltipPos.y);
-	ImVec4 rectPos = ImVec4(currentTooltipPos.x - 2.f, currentTooltipPos.y - 2.f, currentTooltipPos.x + 2.f, currentTooltipPos.y + 2.f);
-	ImVec4 rectPosbottom = ImVec4(currentTooltipPos.x - 2.f, currentTooltipPos.y + 10.f, currentTooltipPos.x + 2.f, currentTooltipPos.y + 2.f);
-
-	// DrawUtils::fillRectangle(rectPos, moduleColor, backgroundAlpha);         // tooltips
-	// DrawUtils::drawBoxBottom(rectPosbottom, Mc_Color(184, 0, 255), 1, 0.5);  // tooltips
-	// DrawUtils::drawText(textPos, text, Mc_Color(0, 246, 255), textSize);     // tooltips
-}
+void NewUI::renderTooltip(std::string* text) { }
 
 void getModuleListByCategoryName(Category category, std::vector<std::shared_ptr<Module>>* modList) {
 	auto lock = moduleMgr->lockModuleList();
@@ -68,15 +58,9 @@ std::vector<Particle> dots;
 void NewUI::onImGuiRender() {
 	// Main Window
 	ImGuiStyle* style = &ImGui::GetStyle();
-  
+	
 	style->Alpha = 1.0f;
 	style->WindowTitleAlign = ImVec2(0.5, 0.5);
-	style->ItemInnerSpacing = ImVec2(8, 6);
-	style->WindowPadding = ImVec2(15, 15);
-	style->ItemSpacing = ImVec2(12, 8);
-	style->FramePadding = ImVec2(5, 5);
-	style->ScrollbarRounding = 9.0f;
-	style->ScrollbarSize = 15.0f;
 	style->IndentSpacing = 25.0f;
 	style->WindowRounding = 10.f;
 	style->GrabRounding = 3.0f;
@@ -108,17 +92,10 @@ void NewUI::onImGuiRender() {
 	style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
 	style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
 	style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-	style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_CheckMark] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
 	style->Colors[ImGuiCol_Separator] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
 	style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
 	style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_Border] = ImVec4(0.80f, 0.80f, 0.83f, 0.88f);
-	style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 	ImGuiWindowFlags TargetFlags;
 	TargetFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 

@@ -13,8 +13,7 @@
 
 #include "../Memory/GameData.h"
 #include "../Hooks/Hooks.h"
-#include "../Hooks/ImGuiHooks.h"
-#include "../Hooks/D2DHooks.h"
+#include "../Hooks/DXHook.h"
 #include "../Memory/MinHook.h"
 #include "../SDK/ChestBlockActor.h"
 #include "../SDK/ClientInstance.h"

@@ -1,7 +1,6 @@
 #include "TargetHUD.h"
 
 TargetHUD::TargetHUD() : Module(0, Category::RENDER, "TargetHUD") {
-	registerBoolSetting("Animation", &animation, animation, "Toggle animation on/off");
 }
 
 TargetHUD::~TargetHUD() {}
@@ -45,16 +44,56 @@ void TargetHUD::onTick(GameMode* gm) {
 	targetList3.clear();
 
 	Game.forEachEntity(findPlayers2);
+}
 
-	for (auto& i : targetList3) {
-		if (!(i->damageTime > 1 && hurttime)) {
-			targethud++;
-		} else
-			targethud = 0;
+void TargetHUD::onImGuiRender() {
+	ImGuiStyle* style = &ImGui::GetStyle();
+	style->WindowRounding = 10.f;
+	style->GrabRounding = 3.0f;
+	style->FrameRounding = 6.f;
+
+	if (Game.isInGame() && Game.canUseMoveKeys() && Game.getLocalPlayer() != nullptr && !targetList3.empty()) {
+		ImGui::SetWindowSize(ImVec2(245, 135));
+		ImGui::SetWindowPos(ImVec2(100, 100));
+		if (ImGui::Begin("TargetHUD", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
+			// Sort the target list
+			std::sort(targetList3.begin(), targetList3.end(), CompareTargetEnArray());
+
+			// Attributes
+			AbsorptionAttribute attribute = AbsorptionAttribute();
+			HealthAttribute attribute2 = HealthAttribute();
+
+			// Extract attribute values
+			float Absorption = static_cast<int>(targetList3[0]->getAttribute(&attribute)->currentValue);
+			float Health = static_cast<int>(targetList3[0]->getAttribute(&attribute2)->currentValue);
+			float HealthMax = static_cast<int>(targetList3[0]->getAttribute(&attribute2)->maximumValue);
+			float distance = static_cast<float>(targetList3[0]->getPos()->dist(*Game.getLocalPlayer()->getPos()));
+			std::string targetName = Utils::sanitize(targetList3[0]->getNameTag()->getText());
+			targetName = targetName.substr(0, targetName.find('\n'));
+
+			// Render the "Name" line unconditionally
+			ImGui::Text("Name: %s", targetName.c_str());
+			ImGui::Text("Distance: %.1f", static_cast<float>(distance));
+			ImGui::Text("Health: %d / %d", static_cast<int>(Health), static_cast<int>(HealthMax));
+
+			// Display Absorption if it's greater than 0
+			if (Absorption > 0) {
+				ImGui::Text("Absorption: %d", static_cast<int>(Absorption));
+			}
+
+			float healthBarWidth = (Health / HealthMax) * 200;
+
+			// Draw the health bar
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));  // Green
+			ImGui::ProgressBar(Health / HealthMax, ImVec2(healthBarWidth, 10), "");
+			ImGui::PopStyleColor();
+
+			ImGui::End();
+		}
 	}
 }
 
-void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
+/*void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 	// Sort the target list
 	std::sort(targetList3.begin(), targetList3.end(), CompareTargetEnArray());
 
@@ -143,4 +182,4 @@ void TargetHUD::onPreRender(MinecraftUIRenderContext* renderCtx) {
 
 		DrawUtils::flush();
 	}
-}
+}*/

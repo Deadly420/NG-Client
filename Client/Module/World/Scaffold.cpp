@@ -5,13 +5,13 @@
 #include "../../Manager/ModuleManager.h"
 
 Scaffold::Scaffold() : Module(0x0, Category::WORLD, "Automatically build blocks beneath you") {
-	// registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
+	registerBoolSetting("AutoSelect", &autoSelect, autoSelect, "AutoSelect: Enable or disable automatic selection");
 	registerBoolSetting("Down", &down, down, "Down: Enable or disable downward movement");
 	registerBoolSetting("Highlight", &highlight, highlight, "Highlight: Enable or disable highlighting");
 	registerBoolSetting("Hive", &hive, hive, "Hive: Enable or disable hive functionality");
 	registerBoolSetting("Rotations", &rotations, rotations, "Rotations: Enable or disable rotations");
 	registerBoolSetting("Y Lock", &Ylock, Ylock, "Y Lock: Enable or disable Y-axis lock");
-	// registerBoolSetting("Block Count", &Count, Count, "Block Count: Enable or disable block counting");
+	registerBoolSetting("Block Count", &Count, Count, "Block Count: Enable or disable block counting");
 	registerIntSetting("Extend", &extend, extend, 0, 8, "Extend: Set the extend value from 0 to 8");
 }
 

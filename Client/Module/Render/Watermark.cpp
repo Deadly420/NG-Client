@@ -16,9 +16,13 @@ const char* Watermark::getModuleName() {
 }
 
 void Watermark::onImGuiRender() {
+	ImGuiStyle* style = &ImGui::GetStyle();
+	style->WindowRounding = 10.f;
+	style->GrabRounding = 3.0f;
+	style->FrameRounding = 6.f;
+
 	if (ImGui && Game.isInGame()) {
-		//std::string watermarkText = "NG Client";
-		std::string watermarkText = "NG Client|" + std::to_string(Game.getFPS()) + "fps|" + Utils::GetCurrentSystemTimeString();
+		std::string watermarkText = "NG Client | " + std::to_string(Game.getFPS()) + "fps | " + Utils::GetCurrentSystemTimeString();
 
 		int index = 1;
 		int curIndex = -index * 90;
@@ -29,10 +33,11 @@ void Watermark::onImGuiRender() {
 		// Draw the watermark text directly
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(0, 0));
-		ImGui::Begin("Watermark", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
-		ImGui::SetWindowFontScale(2.0);
-		// Set the text color and then display the text
-		ImGui::Text("%s", watermarkText.c_str());
+		if (ImGui::Begin("Watermark", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
+			ImGui::SetWindowFontScale(1.5);
+			// Set the text color and then display the text
+			ImGui::Text("%s", watermarkText.c_str());
+		}
 
 		ImGui::End();
 	}
