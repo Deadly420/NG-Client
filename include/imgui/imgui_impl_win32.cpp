@@ -119,13 +119,13 @@ bool ImGui_ImplWin32_Init(void* hwnd) {
 	// Dynamically load XInput library
 #ifndef IMGUI_IMPL_WIN32_DISABLE_GAMEPAD
 	const char* xinput_dll_names[] =
-		{
-			"xinput1_4.dll",    // Windows 8+
-			"xinput1_3.dll",    // DirectX SDK
-			"xinput9_1_0.dll",  // Windows Vista, Windows 7
-			"xinput1_2.dll",    // DirectX SDK
-			"xinput1_1.dll"     // DirectX SDK
-		};
+	{
+		"xinput1_4.dll",    // Windows 8+
+		"xinput1_3.dll",    // DirectX SDK
+		"xinput9_1_0.dll",  // Windows Vista, Windows 7
+		"xinput1_2.dll",    // DirectX SDK
+		"xinput1_1.dll"     // DirectX SDK
+	};
 	for (int n = 0; n < IM_ARRAYSIZE(xinput_dll_names); n++)
 		if (HMODULE dll = ::LoadLibraryA(xinput_dll_names[n])) {
 			g_XInputDLL = dll;
@@ -165,7 +165,8 @@ static bool ImGui_ImplWin32_UpdateMouseCursor() {
 	if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor) {
 		// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
 		::SetCursor(NULL);
-	} else {
+	}
+	else {
 		// Show OS mouse cursor
 		LPTSTR win32_cursor = IDC_ARROW;
 		switch (imgui_cursor) {
@@ -208,18 +209,18 @@ static void ImGui_ImplWin32_UpdateMousePos() {
 
 	// Set OS mouse position if requested (rarely used, only when ImGuiConfigFlags_NavEnableSetMousePos is enabled by user)
 	if (io.WantSetMousePos) {
-		POINT pos = {(int)io.MousePos.x, (int)io.MousePos.y};
+		POINT pos = { (int)io.MousePos.x, (int)io.MousePos.y };
 		if (::ClientToScreen(g_hWnd, &pos))
 			::SetCursorPos(pos.x, pos.y);
 	}
 
 	// Set mouse position
-	//io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
-	//POINT pos;
-	//if (HWND active_window = ::GetForegroundWindow())
-	//	if (active_window == g_hWnd || ::IsChild(active_window, g_hWnd))
-	//		if (::GetCursorPos(&pos) && ::ScreenToClient(g_hWnd, &pos))
-	//			io.MousePos = ImVec2((float)pos.x, (float)pos.y - 30);
+	// io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
+	// POINT pos;
+	// if (HWND active_window = ::GetForegroundWindow())
+	// 	if (active_window == g_hWnd || ::IsChild(active_window, g_hWnd))
+	// 		if (::GetCursorPos(&pos) && ::ScreenToClient(g_hWnd, &pos))
+	// 			io.MousePos = ImVec2((float)pos.x, (float)pos.y - 30);
 }
 
 // Gamepad navigation mapping
@@ -279,7 +280,7 @@ void ImGui_ImplWin32_NewFrame() {
 	IM_ASSERT(io.Fonts->IsBuilt() && "Font atlas not built! It is generally built by the renderer backend. Missing call to renderer _NewFrame() function? e.g. ImGui_ImplOpenGL3_NewFrame().");
 
 	// Setup display size (every frame to accommodate for window resizing)
-	RECT rect = {0, 0, 0, 0};
+	RECT rect = { 0, 0, 0, 0 };
 	::GetClientRect(g_hWnd, &rect);
 	io.DisplaySize = ImVec2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
 
@@ -437,7 +438,7 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARA
 // Implement some of the functions and types normally declared in recent Windows SDK.
 #if !defined(_versionhelpers_H_INCLUDED_) && !defined(_INC_VERSIONHELPERS)
 static BOOL IsWindowsVersionOrGreater(WORD major, WORD minor, WORD sp) {
-	OSVERSIONINFOEXW osvi = {sizeof(osvi), major, minor, 0, 0, {0}, sp, 0, 0, 0, 0};
+	OSVERSIONINFOEXW osvi = { sizeof(osvi), major, minor, 0, 0, {0}, sp, 0, 0, 0, 0 };
 	DWORD mask = VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR;
 	ULONGLONG cond = ::VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL);
 	cond = ::VerSetConditionMask(cond, VER_MINORVERSION, VER_GREATER_EQUAL);
@@ -450,13 +451,17 @@ static BOOL IsWindowsVersionOrGreater(WORD major, WORD minor, WORD sp) {
 #endif
 
 #ifndef DPI_ENUMS_DECLARED
-typedef enum { PROCESS_DPI_UNAWARE = 0,
-			   PROCESS_SYSTEM_DPI_AWARE = 1,
-			   PROCESS_PER_MONITOR_DPI_AWARE = 2 } PROCESS_DPI_AWARENESS;
-typedef enum { MDT_EFFECTIVE_DPI = 0,
-			   MDT_ANGULAR_DPI = 1,
-			   MDT_RAW_DPI = 2,
-			   MDT_DEFAULT = MDT_EFFECTIVE_DPI } MONITOR_DPI_TYPE;
+typedef enum {
+	PROCESS_DPI_UNAWARE = 0,
+	PROCESS_SYSTEM_DPI_AWARE = 1,
+	PROCESS_PER_MONITOR_DPI_AWARE = 2
+} PROCESS_DPI_AWARENESS;
+typedef enum {
+	MDT_EFFECTIVE_DPI = 0,
+	MDT_ANGULAR_DPI = 1,
+	MDT_RAW_DPI = 2,
+	MDT_DEFAULT = MDT_EFFECTIVE_DPI
+} MONITOR_DPI_TYPE;
 #endif
 #ifndef _DPI_AWARENESS_CONTEXTS_
 DECLARE_HANDLE(DPI_AWARENESS_CONTEXT);
@@ -549,7 +554,8 @@ void ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd) {
 		bb.fEnable = TRUE;
 		::DwmEnableBlurBehindWindow((HWND)hwnd, &bb);
 		::DeleteObject(region);
-	} else {
+	}
+	else {
 		DWM_BLURBEHIND bb = {};
 		bb.dwFlags = DWM_BB_ENABLE;
 		::DwmEnableBlurBehindWindow((HWND)hwnd, &bb);

@@ -148,7 +148,7 @@ void NewUI::onImGuiRender() {
 		ImGui::SetWindowSize(ImVec2(200.f, 630.f));
 		ImGui::SetWindowPos(ImVec2(350, 100));
 
-		ImGui::Toggle("Toggle Snow", &ImGui::doSnow);
+		// ImGui::Toggle("Toggle Snow", &ImGui::doSnow);
 
 		std::vector<std::shared_ptr<Module>> moduleList;
 		getModuleListByCategoryName(Category::RENDER, &moduleList);

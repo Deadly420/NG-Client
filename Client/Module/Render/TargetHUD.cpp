@@ -52,7 +52,7 @@ void TargetHUD::onImGuiRender() {
 	style->GrabRounding = 3.0f;
 	style->FrameRounding = 6.f;
 
-	if (Game.isInGame() && Game.canUseMoveKeys() && Game.getLocalPlayer() != nullptr && !targetList3.empty()) {
+	if (Game.isInGame() && Game.getLocalPlayer() != nullptr && !targetList3.empty()) {
 		ImGui::SetWindowSize(ImVec2(245, 135));
 		ImGui::SetWindowPos(ImVec2(100, 100));
 		if (ImGui::Begin("TargetHUD", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
@@ -75,11 +75,7 @@ void TargetHUD::onImGuiRender() {
 			ImGui::Text("Name: %s", targetName.c_str());
 			ImGui::Text("Distance: %.1f", static_cast<float>(distance));
 			ImGui::Text("Health: %d / %d", static_cast<int>(Health), static_cast<int>(HealthMax));
-
-			// Display Absorption if it's greater than 0
-			if (Absorption > 0) {
-				ImGui::Text("Absorption: %d", static_cast<int>(Absorption));
-			}
+			ImGui::Text("Absorption: %d", static_cast<int>(Absorption));
 
 			float healthBarWidth = (Health / HealthMax) * 200;
 

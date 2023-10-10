@@ -83,12 +83,12 @@ static void ImGui_ImplDX12_SetupRenderState(ImDrawData* draw_data, ID3D12Graphic
 		float T = draw_data->DisplayPos.y;
 		float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 		float mvp[4][4] =
-			{
-				{2.0f / (R - L), 0.0f, 0.0f, 0.0f},
-				{0.0f, 2.0f / (T - B), 0.0f, 0.0f},
-				{0.0f, 0.0f, 0.5f, 0.0f},
-				{(R + L) / (L - R), (T + B) / (B - T), 0.5f, 1.0f},
-			};
+		{
+			{2.0f / (R - L), 0.0f, 0.0f, 0.0f},
+			{0.0f, 2.0f / (T - B), 0.0f, 0.0f},
+			{0.0f, 0.0f, 0.5f, 0.0f},
+			{(R + L) / (L - R), (T + B) / (B - T), 0.5f, 1.0f},
+		};
 		memcpy(&vertex_constant_buffer.mvp, mvp, sizeof(mvp));
 	}
 
@@ -123,7 +123,7 @@ static void ImGui_ImplDX12_SetupRenderState(ImDrawData* draw_data, ID3D12Graphic
 	ctx->SetGraphicsRoot32BitConstants(0, 16, &vertex_constant_buffer, 0);
 
 	// Setup blend factor
-	const float blend_factor[4] = {0.f, 0.f, 0.f, 0.f};
+	const float blend_factor[4] = { 0.f, 0.f, 0.f, 0.f };
 	ctx->OMSetBlendFactor(blend_factor);
 }
 
@@ -185,7 +185,7 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
 	}
 
 	// Upload vertex/index data into a single contiguous GPU buffer
-	void *vtx_resource, *idx_resource;
+	void* vtx_resource, * idx_resource;
 	D3D12_RANGE range;
 	memset(&range, 0, sizeof(D3D12_RANGE));
 	if (fr->VertexBuffer->Map(0, &range, &vtx_resource) != S_OK)
@@ -223,9 +223,10 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
 					ImGui_ImplDX12_SetupRenderState(draw_data, ctx, fr);
 				else
 					pcmd->UserCallback(cmd_list, pcmd);
-			} else {
+			}
+			else {
 				// Apply Scissor, Bind texture, Draw
-				const D3D12_RECT r = {(LONG)(pcmd->ClipRect.x - clip_off.x), (LONG)(pcmd->ClipRect.y - clip_off.y), (LONG)(pcmd->ClipRect.z - clip_off.x), (LONG)(pcmd->ClipRect.w - clip_off.y)};
+				const D3D12_RECT r = { (LONG)(pcmd->ClipRect.x - clip_off.x), (LONG)(pcmd->ClipRect.y - clip_off.y), (LONG)(pcmd->ClipRect.z - clip_off.x), (LONG)(pcmd->ClipRect.w - clip_off.y) };
 				if (r.right > r.left && r.bottom > r.top) {
 					D3D12_GPU_DESCRIPTOR_HANDLE texture_handle = {};
 					texture_handle.ptr = (UINT64)(intptr_t)pcmd->GetTexID();
@@ -271,7 +272,7 @@ static void ImGui_ImplDX12_CreateFontsTexture() {
 
 		ID3D12Resource* pTexture = NULL;
 		g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc,
-											  D3D12_RESOURCE_STATE_COPY_DEST, NULL, IID_PPV_ARGS(&pTexture));
+			D3D12_RESOURCE_STATE_COPY_DEST, NULL, IID_PPV_ARGS(&pTexture));
 
 		UINT uploadPitch = (width * 4 + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u) & ~(D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u);
 		UINT uploadSize = height * uploadPitch;
@@ -293,11 +294,11 @@ static void ImGui_ImplDX12_CreateFontsTexture() {
 
 		ID3D12Resource* uploadBuffer = NULL;
 		HRESULT hr = g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc,
-														   D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&uploadBuffer));
+			D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&uploadBuffer));
 		IM_ASSERT(SUCCEEDED(hr));
 
 		void* mapped = NULL;
-		D3D12_RANGE range = {0, uploadSize};
+		D3D12_RANGE range = { 0, uploadSize };
 		hr = uploadBuffer->Map(0, &range, &mapped);
 		IM_ASSERT(SUCCEEDED(hr));
 		for (int y = 0; y < height; y++)
@@ -450,7 +451,7 @@ bool ImGui_ImplDX12_CreateDeviceObjects() {
 			// (1) the current OS is Windows 7, and
 			// (2) there exists a version of d3d12.dll for Windows 7 (D3D12On7) in one of the following directories.
 			// See https://github.com/ocornut/imgui/pull/3696 for details.
-			const char* localD3d12Paths[] = {".\\d3d12.dll", ".\\d3d12on7\\d3d12.dll", ".\\12on7\\d3d12.dll"};  // A. current directory, B. used by some games, C. used in Microsoft D3D12On7 sample
+			const char* localD3d12Paths[] = { ".\\d3d12.dll", ".\\d3d12on7\\d3d12.dll", ".\\12on7\\d3d12.dll" };  // A. current directory, B. used by some games, C. used in Microsoft D3D12On7 sample
 			for (int i = 0; i < IM_ARRAYSIZE(localD3d12Paths); i++)
 				if ((d3d12_dll = ::LoadLibraryA(localD3d12Paths[i])) != NULL)
 					break;
@@ -527,16 +528,16 @@ bool ImGui_ImplDX12_CreateDeviceObjects() {
 
 		if (FAILED(D3DCompile(vertexShader, strlen(vertexShader), NULL, NULL, NULL, "main", "vs_5_0", 0, 0, &vertexShaderBlob, NULL)))
 			return false;  // NB: Pass ID3D10Blob* pErrorBlob to D3DCompile() to get error showing in (const char*)pErrorBlob->GetBufferPointer(). Make sure to Release() the blob!
-		psoDesc.VS = {vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize()};
+		psoDesc.VS = { vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize() };
 
 		// Create the input layout
 		static D3D12_INPUT_ELEMENT_DESC local_layout[] =
-			{
-				{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)IM_OFFSETOF(ImDrawVert, pos), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-				{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)IM_OFFSETOF(ImDrawVert, uv), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-				{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, (UINT)IM_OFFSETOF(ImDrawVert, col), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-			};
-		psoDesc.InputLayout = {local_layout, 3};
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)IM_OFFSETOF(ImDrawVert, pos), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)IM_OFFSETOF(ImDrawVert, uv), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, (UINT)IM_OFFSETOF(ImDrawVert, col), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		};
+		psoDesc.InputLayout = { local_layout, 3 };
 	}
 
 	// Create the pixel shader
@@ -561,7 +562,7 @@ bool ImGui_ImplDX12_CreateDeviceObjects() {
 			vertexShaderBlob->Release();
 			return false;  // NB: Pass ID3D10Blob* pErrorBlob to D3DCompile() to get error showing in (const char*)pErrorBlob->GetBufferPointer(). Make sure to Release() the blob!
 		}
-		psoDesc.PS = {pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize()};
+		psoDesc.PS = { pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize() };
 	}
 
 	// Create the blending setup
@@ -636,7 +637,7 @@ void ImGui_ImplDX12_InvalidateDeviceObjects() {
 }
 
 bool ImGui_ImplDX12_Init(ID3D12Device* device, int num_frames_in_flight, DXGI_FORMAT rtv_format, ID3D12DescriptorHeap* cbv_srv_heap,
-						 D3D12_CPU_DESCRIPTOR_HANDLE font_srv_cpu_desc_handle, D3D12_GPU_DESCRIPTOR_HANDLE font_srv_gpu_desc_handle) {
+	D3D12_CPU_DESCRIPTOR_HANDLE font_srv_cpu_desc_handle, D3D12_GPU_DESCRIPTOR_HANDLE font_srv_gpu_desc_handle) {
 	// Setup backend capabilities flags
 	ImGuiIO& io = ImGui::GetIO();
 	io.BackendRendererName = "imgui_impl_dx12";
