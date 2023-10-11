@@ -50,6 +50,7 @@ void ModuleManager::initModules() {
 		moduleList.emplace_back(new NoHurtcam());
 		moduleList.emplace_back(new AutoSneak());
 		moduleList.emplace_back(new NightMode());
+		moduleList.emplace_back(new Regen()); // Regen
 		// moduleList.emplace_back(new ChestAura());
 		moduleList.emplace_back(new NoFriends());
 		// moduleList.emplace_back(new AutoArmor());

@@ -217,6 +217,7 @@
     <ClCompile Include="Client\Module\Hud\Newui.cpp" />
     <ClCompile Include="Client\Module\Misc\Desync.cpp" />
     <ClCompile Include="Client\Module\Movement\BoatFly.cpp" />
+    <ClCompile Include="Client\Module\Player\Regen.cpp" />
     <ClCompile Include="Client\Module\Render\AntiInvis.cpp" />
     <ClCompile Include="Client\Module\Render\FPS.h" />
     <ClCompile Include="Client\Module\Render\Keystrokes.cpp" />
@@ -411,6 +412,7 @@
     <ClInclude Include="Client\Module\Hud\ToggleSounds.h" />
     <ClInclude Include="Client\Module\Misc\Desync.h" />
     <ClInclude Include="Client\Module\Movement\BoatFly.h" />
+    <ClInclude Include="Client\Module\Player\Regen.h" />
     <ClInclude Include="Client\Module\Player\XP.h" />
     <ClInclude Include="Client\Module\Render\AntiInvis.h" />
     <ClInclude Include="Client\Module\Render\ArmourHud.h" />

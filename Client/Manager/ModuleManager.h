@@ -48,6 +48,7 @@
 #include "../Module/Player/MidClick.h"
 #include "../Module/Player/AntiBot.h"
 #include "../Module/Player/NoFall.h"
+#include "../Module/Player/Regen.h"
 #include "../Module/Player/XP.h"
 
 // Miscellaneous
